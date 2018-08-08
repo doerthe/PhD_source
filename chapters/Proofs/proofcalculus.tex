@@ -1,0 +1,365 @@
+\section{Proof calculus}
+\label{sec:ProofAnatomy}
+The \nthree proof vocabulary created in the context of the Semantic Web Application Platform (SWAP) \cite{SWAP} enables us to formalize proofs in a~machine-readable way.
+This subsection gives a short introduction into the terminology used and the resulting proofs,
+focusing on the aspects relevant to our purposes.
+
+A proof is a conjunction of \nthree formulas describing 
+inference steps
+a reasoner has performed to come to a certain conclusion, so called \textit{proof steps}. 
+
+
+
+
+The vocabulary distinguishes between four different kinds of proof steps. We write them as deduction rules, using ``$\vdash$''.
+
+\begin{definition}[Proof steps]\label{proofsteps}
+Let $F$ be the set of simple formulas over an \nthree alphabet $A$, $\Gamma\subset F$ a set of formulas and
+$f,f_1,f_2, g\in F$. 
+A \textit{proof step} is one of the following inference rules:
+\begin{enumerate}
+ \item \emph{Axiom:} If $f \in \Gamma$ then $\Gamma \vdash f$.%Parsing: The step of reading formulas out of a source file. If we see each soucre file as a formula, this step can be understood as 
+ \item \emph{Conjunction elimination:} If $\Gamma \vdash f_1f_2$ then $\Gamma \vdash f_1$ and $\Gamma \vdash f_2$.
+ \item \emph{Conjunction introduction:} Let $\Gamma\vdash f_1$ and $\Gamma \vdash f_2$ and 
+ let \[\sigma: V_U\rightarrow V_U\setminus(\text{comp}^1(f_1)\cup\text{comp}^2(f_1)) 
+ \text{ and } %$\mu$ be a substitution with
+ \mu:V_E\rightarrow V_E\setminus \text{comp}(f_1)\] be substitutions. Let $f_2'= f_2\sigma^t\mu^c$ 
+ %
+ %$\rho_1, \ldots, \rho_m$ be existential %and $\mu_1,\ldots, \mu_n$ universal 
+ %renamings such that 
+ %$\Gamma \vdash f_1f_2'$ for \[
+ %$f_2'= \rho_1\circ \ldots \circ \rho_m(f_2)$ with % being a renamed version of $f_2$ such that
+ %$\text{comp}(f_1)\cap \text{comp}(f_2') \cap V_E = \emptyset$ %and $\text{comp}^2(f_1)\cap \text{comp}^2(f_2') \cap V_U = \emptyset$
+ %
+%  is a renamed version of $f_2$ such that \[\{\text{comp}(f_1)\cup \text{comp}^2(f_1)\}\cap \{\text{comp}(f_2')\cup \text{comp}^2(f_2')\}\cap V=\emptyset,\] 
+%  then $\Gamma \vdash f_1f_2'$.
+then \[\Gamma \vdash f_1f_2'\]
+ \item \emph{Generalized modus ponens:} If $\Gamma \vdash \verb!{!f_1\verb!}=>{!f_2\verb!}.!$ and $\Gamma \vdash g$ %\mu_{1}\circ\ldots\circ\mu_{n}(f_1)$ then 
+ and there exists a substitution $\sigma:\text{comp}(f_1)\cap V_U \rightarrow E_e$ such that 
+ \[
+  (\verb!{!f_1\verb!}=>{!f_2\verb!}.!)\sigma^t= (\verb!{!f_1'\verb!}=>{!f_2'\verb!}.!)\text{ and }
+ f'_1=g\] 
+ %universal replacements $\mu_{1}, \ldots, \mu_{n}$  %for the variables in  $\verb!{!f_1\verb!}=>{!f_2\verb!}!.$ %$\Gamma \vdash \mu_{1}\circ\ldots\circ\mu_{n}(f_2)$.
+%such that \[\mu_{1}\circ\ldots\circ\mu_{n}(\verb!{!f_1\verb!}=>{!f_2\verb!}.)!=  (\verb!{!f_1'\verb!}=>{!f_2'\verb!}.!) \text{ and } f_1'=g\] 
+then $\Gamma \vdash f_2'$.
+ \end{enumerate}
+\end{definition}
+
+
+\begin{theorem}[Correctness of proof calculus]\label{correctness}
+Let $\Phi$ be a set of \nthree formulas  and $\phi$ a formula over the same \nthree alphabet $A$.  Then the following holds:
+\[ \text{If } \Phi \vdash \phi \text{ then } \Phi \models \phi.\]
+\end{theorem}
+
+%\todo{Dörthe: reference repl~\label{repl} missing}
+
+\begin{proof}
+
+We prove that every proof step is correct.
+%\begin{addmargin}[3cm]{2cm}
+%Inhalt
+%\end{addmargin} 
+\begin{enumerate}
+\leftskip2.5em %this is a quick fix, if you know a better solution, please apply it here
+ \item \emph{Axiom:} For the axiom step the claim is trivial, as it corresponds to Definition~\ref{log_impl}.
+ \item \emph{Conjunction elimination:}
+ Let $\Phi\models f_1 f_2 $ and let  $\mathfrak{I}=(\mathcal{D},\mathfrak{a,p})$ be a model for $\Phi$ and $f_1 f_2$. 
+ If $f_1 f_2$ is universal free and $\text{comp}(f_1f_2)\cap V_E=\emptyset$, the claim follows immediately 
+ from Definition  \ref{sem_n3}.\ref{conj}. \\
+ If $f_1f_2$ universal free and $\text{comp}(f_1f_2)\neq \emptyset$ let $\mu:\text{comp}(f_1f_2)\rightarrow E_g$ be a substitution such that
+ $\mathfrak{I}\models (f_1f_2)\mu^c$. Then $\mathfrak{I}\models (f_1\mu^c) (f_2\mu^c)$, thus  $\mathfrak{I}\models (f_1\mu^c)$ and 
+ $\mathfrak{I}\models (f_2\mu^c)$.\\
+ If $f_1f_2$ are not universal free, then $\mathfrak{I}\models (f_1f_2)\sigma^t$ for all substitutions $\sigma:V_U\rightarrow E_e$. 
+ The claim follows by the same 
+ argument as above.
+%  If $f_1 f_2$ is not ground let $\mu_1,\ldots ,\mu_n$ be universal replacements and $\rho_1,\ldots \rho_m$ existential replacements for all variables 
+%  occurring in $f_1 f_2$ as defined in 
+%  Definition~\ref{sem_n3}.\ref{quant} such that:
+%  \[
+%   \mathfrak{I}\models \rho_1\circ \ldots \circ \rho_m \circ \mu_1 \circ \ldots \circ \mu_n (f_1 f_2)
+%  \]
+% It follows immediately by Definition \ref{repl} and \ref{sem_n3}.\ref{conj}:
+%   \[
+%   \mathfrak{I} \models \rho_1\circ \ldots \circ \rho_m \circ \mu_1 \circ \ldots \circ \mu_n (f_1 )
+%  \] 
+% To prove the claim for $f_2$ we take into account, that according to Definition \ref{repl} the only 
+% substitution of an existential or universal replacement, which changes 
+% variables in both subformulas $f_1$ and $f_2$ from $f_1f_2$ is $\sigma_{11}$.
+% We construct new replacements $\nu'$ for each replacement $\nu = (\sigma_{ij})_{i,j \in \mathbb{N}}$ from above as follows:\\
+% Let $k_1:=0$ and for each level $i$ of $f_1$ let $k_i := |\text{comp}^{(i-1)}(f_1)\cap \text{FE}|$ be the number of formula expressions. % of $f_1$. 
+% We define
+% $\nu' := (\sigma_{i (j+k_i)})_{i,j \in \mathbb{N}}.$ Then the following holds:
+%   \[
+%   \mathfrak{I} \models \rho_1'\circ \ldots \circ \rho_m' \circ \mu_1' \circ \ldots \circ \mu_n' (f_2 )
+%  \]
+ \item \emph{Conjunction introduction:} 
+ Let $\Phi\models f_1$, $\Phi\models f_2$ and let  $\mathfrak{I}=(\mathcal{D},\mathfrak{a,p})$ be a model for $\Phi$, $f_1$ and $f_2$. 
+ %As $f_2'$ is just a renamed version of $f_2$, $\Phi\models f_2'$. The claim follows by Definition \ref{sem_n3}.\ref{conj}.
+%An existential renaming does not change the meaning of a formula.
+As the renaming substitutions $\sigma$ and $\mu$ do not change the meaning of a formula, for  $f_2'= f_2\sigma^t\mu^c$ the following holds:
+%an existential renaming does not change the meaning of a formula, 
+$\mathfrak{I}\models f_2'$. 
+%If $f_1$ or $f_2'$ is universal free 
+It immediately follows that $\mathfrak{I}\models f_1f_2'$. %If $f_1f_2'$ both contain universals
+%for $f_2'= \rho_1\circ \ldots \circ \rho_m(f_2)$, $\rho_1,\ldots,\rho_m
+% Let $\rho^1_1, \ldots, \rho^1_{m_1},\rho^2_1, \ldots, \rho^2_{m_2}$ be existential replacements and $\mu^1_1,\ldots \mu^1_{n_1}, \mu^2_1,\ldots \mu^2_{n_2}$ universal 
+% replacements as in Definition \ref{sem_n3}.\ref{quant} such that:
+%  \[
+%   \mathfrak{I}\models \rho^1_1\circ \ldots \circ \rho^1_{m_1} \circ \mu^1_1 \circ \ldots \circ \mu^1_{n_1} (f_1)
+%  \]
+% \text{ and }
+%  \[
+%   \mathfrak{I}\models \rho^2_1\circ \ldots \circ \rho^2_{m_2} \circ \mu^2_1 \circ \ldots \circ \mu^2_{n_2} (f_2')
+%  \]
+% We construct new replacements for each variable $v$ %\in \text{dom}(\nu^1)\cup \text{dom}(\nu^2)$ 
+% which occurs in $f_1$ or $f_2'$:
+% 
+% %If $v$ only occurs in one of the two formulas, 
+% % If $v$ only occurs in $f_1$ we keep the replacement and rename and renumber it 
+% % to 
+% % $\rho'_l$ resp. $\mu'_l$. 
+% If $v$ only occurs in one of the formulas there is only one replacement $\nu^1$ or $\nu^2$ for $v$, we add an additional arbitrary 
+% replacement $\nu^2$ respectively $\nu^1$ with $\text{dom}(\nu^i)= \{v\}$ to our set of replacements.
+% %If there is no replacement $\nu^1$ or $\nu^2$ for $v$ we add an arbitrary 
+% %If the variable only occurs in $f_2'$ 
+% %we add a new substitution 
+% %Now, we always have two replacements for the same variable. We take these the two replacements
+% Now, there are always two replacements for each variable $v$. We combine those two replacements
+% $\nu^1=(\sigma^1_{ij})_{i,j \in \mathbb{N}}$ and $\nu^2=(\sigma^2_{ij})_{i,j \in \mathbb{N}}$ %for $v$ 
+% and % the same variable, 
+% construct a new replacement $\nu'=(\sigma'_{ij})_{i,j \in \mathbb{N}}$: 
+% Let $k_1:=0$ and for each level $i$ of $f_1$ let $k_i := |\text{comp}^{(i-1)}(f_1)\cap \text{FE}|$ be the number of formula expressions. We define the substitutions 
+% $\sigma_{ij}'$ :
+% \[
+% \sigma_{ij}':= \begin{cases}
+%                \sigma^1_{ij} & \text{ if } j \leq k_i \\
+%                \sigma^2_{i (j+k_i)} & \text{ else.}
+%               \end{cases}
+% \]
+% The new replacements can be combined and ordered, such that
+%  \[
+%   \mathfrak{I}\models \rho'_1\circ \ldots \circ \rho'_{m} \circ \mu'_1 \circ \ldots \circ \mu'_{n} (f_1f_2')
+%  \]
+% As this procedure can be done with every set of replacements \linebreak $\rho^1_1, \ldots, \rho^1_{m_1},\rho^2_1, \ldots, \rho^2_{m_2},\mu^1_1,\ldots \mu^1_{n_1}, \mu^2_1,\ldots \mu^2_{n_2}$, 
+% the claim follows by Definition \ref{sem_n3}.\ref{quant} and \ref{sem_n3}.\ref{conj}.
+\item \emph{Generalized modus ponens:} the claim follows directly from Definitions \ref{sem_n3}.\ref{quant1} %, \ref{sem_n3}.\ref{quant2}   
+and~\ref{sem_n3}.\ref{fal2}.
+\end{enumerate}
+\end{proof}
+
+Applied on a API composition problem, we get the following consequence:
+\begin{corollary}[Correctness of API composition proofs]
+Let $(H,g,R,B)$ be an API composition problem and $g'$ an instance  of $g$ then the following holds:
+\[\text{If }H\cup R \cup B \vdash g' \text{ then }H\cup R \cup B \models g'\]
+\end{corollary}
+
+%The corollary ensures that every proof we get for an API composition problem is actually an evidence for the
+%The corrollary ensures that every proof we get by applying the calculus is actually correct. 
+%Unfortunately, the proof calculus is not complete
+%as the following example shows: 
+
+
+% According to the semantics introduced in chapter \ref{nthree} from \[\texttt{\{\{<a><b><c>.\}=> false.\}=> false.\}.}\] 
+%  follows \[\texttt{<a><b><c>.}\]%although this holds with the definition of the semantics introduced in chapter \ref{nthree}. \\
+%  As there is proof-step similar to $\bot$-elimination in first order logic, this cannot be shown applying the introduced calculus.
+%  
+ 
+
+
+We will examine the generalized modus ponens in more detail,
+as this is the proof step where implication rules, 
+such as \restdesc descriptions, are applied.
+
+\label{sec:Reasoning}
+\begin{lemma}\label{lemma:Reasoning}
+Let $A$ be an \nthree alphabet, %$\Gamma\subset F$ a set of formulas, 
+$f\in F_g$ a simple ground formula and $\verb!{!f_1\verb!}=>{!f_2\verb!}!\in F$ a simple implication formula %of nesting level 2 
+where all 
+universal variables which occur in $f_2$ %do 
+also occur in $f_1$. If the generalized modus ponens is applicable to $f$ and $\verb!{!f_1\verb!}=>{!f_2\verb!}!$ then
+the resulting formula does not contain universal variables.
+\end{lemma}
+
+\begin{proof}
+ %Let  $\mu_{1}, \ldots, \mu_{n}$ be 
+ %universal replacements 
+ Let $\sigma:V_U\rightarrow E_e$ be a substitution %such that 
+ such that  $(\verb!{!f_1\verb!}=>{!f_2\verb!}.!)\sigma^t= \verb!{!f\verb!}=>{!f_2'\verb!}.!$ 
+As $f$ is a ground formula, $\text{range}(\sigma|_{V_U\cap(\text{comp}^1(f_1)\cup \text{comp}^2(f_1))}) \subset E_g$. 
+Due to the condition that every universal variable of $f_2$ 
+is also in $f_1$, i.e. 
+\[((\text{comp}^1(f_2)\cup \text{comp}^2(f_2))\cap V_U )\subset (\text{comp}^1(f_1)\cup \text{comp}^2(f_1))\cap V_U)\]
+the claim follows. 
+%
+ %As the implication
+ %has nesting level 2, by Definition \ref{repl}, from each replacement only the first substitution $\sigma^{\mu_i}_{11}=: \sigma_{\mu_i}$ 
+ %gets totally applied to the whole implication 
+ %and we obtain
+ %there are, by definition \ref{repl}, some substitutions $\sigma_1\ldots\sigma_n$ such that 
+ %\[\mu_{1}\circ\ldots\circ\mu_{n}(\verb!{!f_1\verb!}=>{!f_2\verb!}.!)=(\verb!{!f_1\verb!}=>{!f_2\verb!}.!)\sigma_{\mu_1}^t\ldots\sigma_{\mu_n}^t.\]
+ %Therefore all 
+ %universal variables which are replaced in $f_1$ are also replaced by the same substitution in $f_2$.
+\end{proof}
+
+
+As \http requests in \restdesc descriptions only contain
+one leading existential to represent the \http message, and 
+\restdesc descriptions 
+fulfill the conditions of Lemma~\ref{lemma:Reasoning}
+%have nesting level~2,
+we arrive at the following consequence:
+
+\begin{corollary}
+\label{corollary}
+Every application of a ~restdesc description to a ground formula results in a~sufficiently specified \http request 
+and a postcondition which does not contain any universal variables.
+\end{corollary}
+
+% Additional to the above mentioned steps proof steps themseves, %, the reasoner is able to apply existential renaming. 
+% the substitutions done during the reasoning process %as well as those applied in generalized modus ponens 
+% can be 
+% described by the vocabulary\footnote{The vocabulary's rdf definition can be found at: \url{http://www.w3.org/2000/10/swap/reason\#}.}.
+%Additional to the replacements done during the application of the generalized modus ponens, the proofs shown within this paper will also include existential renaming. 
+%Although this is not expressed as a proof step cannot be expressed as a proof step, the vocabulary provides the opportunity to describe the substitutions made in such a pre-step.
+%The reasoning vocabulary\footnote{The vocabulary's definition can be found at: \url{http://www.w3.org/2000/10/swap/reason\#}.}
+%enables us to name the aforementioned proof steps. 
+%their outcome, and the resources used to come to a conclusion. 
+The first step of Definition \ref{proofsteps} includes from a technical point of view also the parsing of a source.
+In the \nthree proof vocabulary%
+\footnote{The vocabulary's RDF definition can be found at: \url{http://www.w3.org/2000/10/swap/reason\#}.}
+we will discuss next,
+this step is therefore named after this action.
+
+\begin{definition}[Proof vocabulary]
+Let $A$ be an \nthree alphabet and $\mathfrak{I}=(\mathcal{D}, \mathfrak{a}, \mathfrak{p})$ be an 
+interpretation of its formulas. Let $\verb!x!, \verb!y!,  \verb!y!_1, \ldots, \verb!y!_n \in U$ be \nthree representations of 
+proof steps and $\verb!z!_1,\verb!z!_2,\verb!z!_3\in U$.
+\begin{enumerate}
+ \item 
+ Proof step types:
+ \begin{itemize}
+\item $\mathfrak{I}\models \verb!x a r:Proof.!$ iff \verb!x! is the proof step which leads to the proven result.
+\item $\mathfrak{I}\models \verb!x a r:Parsing.!$ iff \verb!x! is a parsed axiom. %This step involves parsing the resources.
+\item $\mathfrak{I}\models \verb!x a r:Conjunction.!$ iff \verb!x! is a conjunction introduction.
+\item $\mathfrak{I}\models \verb!x a r:Inference.!$ iff \verb!x! is a generalized modus ponens.
+\item $\mathfrak{I}\models \verb!x a r:Extraction.!$ iff \verb!x! is a conjunction elimination.
+\end{itemize}
+ \item 
+ Proof predicates:
+\begin{itemize}
+\item $\mathfrak{I}\models \verb!x r:gives {!f\verb!}!$. iff $f\in F$ is the formula obtained by applying \verb!x!.
+\item $\mathfrak{I}\models \verb!x r:source u!$. iff \verb!x! is a parsed axiom and $\verb!u!\in U$ is the \uri of the %parsing's 
+parsed axiom's
+source. 
+\item $\mathfrak{I}\models \verb!x r:component y!$. iff \verb!x! is a conjunction introduction and $\verb!y!$ is a proof step which gives one of its components.
+\item $\mathfrak{I}\models \verb!x r:rule y.!$ iff \verb!x! is a generalized modus ponens and $\verb!y!$ is the proof step which leads to the applied implication.
+\item $\mathfrak{I}\models \verb!x r:evidence (y!_1,\ldots,\verb!y!_n\verb!)!$. iff \verb!x! is a generalized modus ponens and $\verb!y!_1,\ldots, \verb!y!_n$ 
+are the proof steps which lead to the formulas used for the unification with the antecedent of the implication.
+\item $\mathfrak{I}\models \verb!x r:because y!$. iff \verb!x! is a conjunction elimination and $\verb!y!$ is the proof step which yields the to-be-eliminated conjunction.
+\end{itemize}
+\item
+Substitutions:
+\begin{itemize}
+ \item $\mathfrak{I}\models \verb!x r:binding z!_1.$ iff \verb!x! includes a substitution $\verb!z!_1$.
+ \item $\mathfrak{I}\models \verb!z!_1 \verb! r:variable z!_2.$ iff $\verb!z!_1$ is a substitution whose domain is $\{\verb!z!_2\}$.
+ \item $\mathfrak{I}\models \verb!z!_1 \verb! r:boundTo z!_3.$ iff $\verb!z!_1$ is a substitution whose range is $\{\verb!z!_3\}$.
+\end{itemize}
+
+\end{enumerate}
+\end{definition}
+
+To produce a proof for an API composition problem, the reasoner needs to be aware of all formulas at its disposal (in our case $H \cup R \cup B$) and of the goal 
+which it is expected to prove.
+The latter is given to the reasoner as the consequence of a~\textit{filter rule}
+$\verb!{!f\verb!} => {!g\verb!}.!$%, the \textit{filter rule}.
+This triggers the reasoner to prove an instance of~$f$ and in case of success,
+return each provable ground instance of $g$ if possible,
+or a provable instance containing existentials otherwise.
+For brevity, not all reasoners display every proof step in a proof:
+especially conjunction elimination and introduction are often omitted.
+However, to the best of our knowledge,
+all reasoners' proofs contain all applications of $\verb!r:Inference!$ leading to a goal~$g$,
+which allows us to measure a~proof's length by counting applications of the generalized modus ponens.
+
+ \begin{lstlisting}[
+  float=t,
+  caption={The initial knowledge of the agent \emph{(agent\_knowledge.n3)}},
+  label=lst:Knowledge]
+§\textcolor{gray}{@prefix dbpedia: <http://dbpedia.org/resource/>.}§
+
+<lena.jpg> a dbpedia:Image.
+\end{lstlisting}
+
+\begin{lstlisting}[
+  float=t,
+  caption={A filter rule expressing the agent's goal \emph{(agent\_goal.n3)}},
+  label=lst:Goal]
+§\textcolor{gray}{@prefix dbpedia-owl: <http://dbpedia.org/ontology/>.}§
+
+{ <lena.jpg> dbpedia-owl:thumbnail ?thumbnail. }
+=>
+{ <lena.jpg> dbpedia-owl:thumbnail ?thumbnail. }.
+\end{lstlisting}
+
+\begin{lstlisting}[
+  float=p,
+  caption={Example hypermedia API composition proof},
+  label=lst:Proof]
+§\textcolor{gray}{@prefix dbpedia: <http://dbpedia.org/resource/>.}§
+§\textcolor{gray}{@prefix dbpedia-owl: <http://dbpedia.org/ontology/>.}§
+§\textcolor{gray}{@prefix ex: <http://example.org/image\#>.}§
+§\textcolor{gray}{@prefix http: <http://www.w3.org/2011/http\#>.}§
+§\textcolor{gray}{@prefix n3: <http://www.w3.org/2004/06/rei\#>.}§
+§\textcolor{gray}{@prefix r: <http://www.w3.org/2000/10/swap/reason\#>.}§
+
+§\bfseries<\#proof> a r:Proof, r:Conjunction;\label{ln:Proof}§
+  r:component <#lemma1>;
+  r:gives { <lena.jpg> dbpedia-owl:thumbnail _:sk3. }.
+
+§\bfseries<\#lemma1> a r:Inference;\label{ln:Lemma1}§
+  r:gives { <lena.jpg> dbpedia-owl:thumbnail _:sk3. };
+  r:evidence (<#lemma2>);
+  r:binding [ r:variable [ n3:uri "var#x0"]; r:boundTo [ n3:nodeId "_:sk3"]];
+  r:rule <#lemma7>.
+  
+§\bfseries<\#lemma2> a r:Inference;\label{ln:Lemma2}§
+  r:gives { _:sk4 http:methodName "GET".
+            _:sk4 http:requestURI _:sk3.
+            _:sk4 http:resp _:sk5.
+            _:sk5 http:body _:sk3.
+            <lena.jpg> dbpedia-owl:thumbnail _:sk3.
+            _:sk3 a dbpedia:Image.
+            _:sk3 dbpedia-owl:height 80.0. };
+  r:evidence (<#lemma3>);
+  r:binding [ r:variable [ n3:uri "var#x0"]; r:boundTo [ n3:uri "lena.jpg"]];
+  r:binding [ r:variable [ n3:uri "var#x1"]; r:boundTo [ n3:nodeId "_:sk3"]];
+  r:binding [ r:variable [ n3:uri "var#x2"]; r:boundTo [ n3:nodeId "_:sk4"]];
+  r:binding [ r:variable [ n3:uri "var#x3"]; r:boundTo [ n3:nodeId "_:sk5"]];
+  r:rule <#lemma4>.
+  
+§\bfseries<\#lemma3> a r:Inference;\label{ln:Lemma3}§
+  r:gives { _:sk0 http:methodName "POST".
+            _:sk0 http:requestURI "/images/".
+            _:sk0 http:body <lena.jpg>.
+            _:sk0 http:resp _:sk1.
+            _:sk1 http:body <lena.jpg>.
+            <lena.jpg> ex:comments _:sk2.
+            <lena.jpg> ex:smallThumbnail _:sk3. };
+  r:binding [ r:variable [ n3:uri "var#x0"]; r:boundTo [ n3:uri "lena.jpg"]];
+  r:binding [ r:variable [ n3:uri "var#x1"]; r:boundTo [ n3:nodeId "_:sk0"]];
+  r:binding [ r:variable [ n3:uri "var#x2"]; r:boundTo [ n3:nodeId "_:sk1"]];
+  r:binding [ r:variable [ n3:uri "var#x3"]; r:boundTo [ n3:nodeId "_:sk2"]];
+  r:binding [ r:variable [ n3:uri "var#x4"]; r:boundTo [ n3:nodeId "_:sk3"]];   
+  r:evidence (<#lemma6>);
+  r:rule <#lemma5>.
+  
+§\bfseries<\#lemma4> a r:Extraction;§§\label{ln:Lemma4}§ r:because [ a r:Parsing; r:source <desc_thumbnail> ].
+§\bfseries<\#lemma5> a r:Extraction;§§\label{ln:Lemma5}§ r:because [ a r:Parsing; r:source <desc_images> ].
+§\bfseries<\#lemma6> a r:Extraction;§§\label{ln:Lemma6}§ r:because [ a r:Parsing; r:source <agent_knowledge> ].
+§\bfseries<\#lemma7> a r:Extraction;§§\label{ln:Lemma7}§ r:because [ a r:Parsing; r:source <agent_goal> ].
+\end{lstlisting}
+
+\newcommand\lineref[1]{[\textit{line~\ref{#1}}]}
+\newcommand\linesref[2]{[\textit{lines~\ref{#1}--\ref{#2}}]}
+
+%\newpage

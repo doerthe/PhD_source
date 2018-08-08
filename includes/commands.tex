@@ -1,0 +1,72 @@
+\newcommand{\citew}[1]{\citeauthor{#1} \citep{#1}}
+
+\newcommand{\todo}[1]{{\color{red}{\textbf{Todo: #1}}}}
+% to hide the todos, replace line above with:
+%\newcommand{\todo}[1]{}
+\newcommand\citeneeded{\textbf{\color{red}[???]}}
+
+\newcommand\Try[1]{\IfFileExists{simpletex}{}{#1}}
+\newcommand\Catch[1]{\IfFileExists{simpletex}{#1}{}}
+
+% Set epigraph style
+\renewcommand{\epigraph}[2]{%
+ \vspace{\baselineskip}%
+ % Extend epigraph into the margin
+ \begin{adjustwidth}{}{-\marginnotewidth}%
+  % Align the epigraph box to the right
+  \begin{flushright}%
+   % Give the epigraph the width of the preceding chapter title
+   \begin{minipage}[t]{\marginnotewidth}%
+    \sffamily #1\\[-.9\baselineskip]
+    \flushright\itshape\small---~#2%
+   \end{minipage}%
+  \end{flushright}%
+ \end{adjustwidth}%
+ \vspace{2\baselineskip}%
+}
+
+\newcommand{\chapterquote}[2]{
+ \setlength{\epigraphrule}{0pt}
+ \setlength{\epigraphwidth}{\marginnotewidth}
+ \epigraphhead[70]{
+  \epigraph{#1}{#2}
+ }
+}
+
+\usepackage{pgffor} % enable forloops
+\DeclareBibliographyCategory{fullcited}
+\newcommand{\mybibexclude}[1]{\addtocategory{fullcited}{#1}}
+
+\newcommand{\basedpaper}[1]{%0.
+  %\nocite{*}
+  \newpage
+  %\noindent\makebox[\linewidth][r]{\color{PlotThree}\rule{0.75\linewidth}{0.5pt}}
+  This chapter was partly based on the publication:
+  \\\\
+  \fullcite{#1}\mybibexclude{#1}
+}
+
+\newcommand{\basedpapers}[1]{%
+  %\nocite{*}
+  \newpage
+  %\noindent\makebox[\linewidth][r]{\color{PlotThree}\rule{0.75\linewidth}{0.5pt}}
+  This chapter was partly based on the publications:
+  \foreach \entry in {#1} {%
+    \\\\
+    \fullcite{\entry}\mybibexclude{\entry}
+  }
+}
+
+\newcommand{\tabitem}{~~\llap{\textbullet}~~}
+
+\newcommand{\ttlbase}[1]{\textcolor{grey}{@base <#1>.}}
+\newcommand{\ttlprefix}[2]{\textcolor{grey}{@prefix #1:~~<#2>.}}
+
+\newcommand\longvdots[1]{
+%\raisebox{1em}{
+\rotatebox{-90}{\hbox to #1 {\dotfill}}
+%}
+}
+
+%\newcommand{\textsuperscript}[1]{\ensuremath{^{\textrm{#1}}}} % superscript
+%\newcommand{\textsubscript}[1]{\ensuremath{_{\textrm{#1}}}}   % subscript

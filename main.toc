@@ -1,0 +1,41 @@
+\select@language {english}
+\contentsline {chapter}{Preface}{v}{chapter*.6}
+\contentsline {chapter}{Samenvatting}{ix}{chapter*.8}
+\select@language {dutch}
+\select@language {english}
+\contentsline {chapter}{Abstract}{xi}{chapter*.9}
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.0.1}
+\contentsline {chapter}{\numberline {2}A unifying logic for the Semantic Web}{3}{chapter.0.2}
+\contentsline {section}{\numberline {2.1}The vision of the Semantic Web}{3}{section.0.2.1}
+\contentsline {section}{\numberline {2.2}Architecture}{3}{section.0.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Data Interchange}{3}{subsection.0.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}Querying}{3}{subsection.0.2.2.2}
+\contentsline {subsection}{\numberline {2.2.3}Ontologies}{3}{subsection.0.2.2.3}
+\contentsline {subsection}{\numberline {2.2.4}Rule Based Logics}{4}{subsection.0.2.2.4}
+\contentsline {subsection}{\numberline {2.2.5}Unifying Logic}{4}{subsection.0.2.2.5}
+\contentsline {subsection}{\numberline {2.2.6}Proofs}{5}{subsection.0.2.2.6}
+\contentsline {section}{\numberline {2.3}Research questions}{5}{section.0.2.3}
+\contentsline {chapter}{\numberline {3}Semantics of Notation3}{9}{chapter.0.3}
+\contentsline {section}{\numberline {3.1}Syntax}{9}{section.0.3.1}
+\contentsline {section}{\numberline {3.2}Implicit quantification}{11}{section.0.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Existentials}{12}{subsection.0.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Universals}{13}{subsection.0.3.2.2}
+\contentsline {section}{\numberline {3.3}Direct Semantics}{17}{section.0.3.3}
+\contentsline {subsection}{\numberline {3.3.1}Formalization of quantification}{17}{subsection.0.3.3.1}
+\contentsline {subsection}{\numberline {3.3.2}Interpretations and models}{20}{subsection.0.3.3.2}
+\contentsline {section}{\numberline {3.4}Elaboration Semantics for N3}{22}{section.0.3.4}
+\contentsline {chapter}{\numberline {4}Notation3 and other frameworks}{23}{chapter.0.4}
+\contentsline {section}{\numberline {4.1}OWL}{23}{section.0.4.1}
+\contentsline {section}{\numberline {4.2}SPARQL}{23}{section.0.4.2}
+\contentsline {section}{\numberline {4.3}RIF}{23}{section.0.4.3}
+\contentsline {chapter}{\numberline {5}Proofs and exchange of proofs}{25}{chapter.0.5}
+\contentsline {section}{\numberline {5.1}Proof calculus}{25}{section.0.5.1}
+\contentsline {section}{\numberline {5.2}Applications of Proofs}{29}{section.0.5.2}
+\contentsline {subsection}{\numberline {5.2.1}RESTdesc\xspace Descriptions}{29}{subsection.0.5.2.1}
+\contentsline {subsection}{\numberline {5.2.2}Sensdesc}{34}{subsection.0.5.2.2}
+\contentsline {chapter}{\numberline {6}Going beyond first order logic: expressing changes}{37}{chapter.0.6}
+\contentsline {section}{\numberline {6.1}Weighted Transition Logic}{37}{section.0.6.1}
+\contentsline {chapter}{\numberline {7}N3 as unifying Logic}{39}{chapter.0.7}
+\contentsline {chapter}{\numberline {8}Conclusion}{41}{chapter.0.8}
+\contentsline {chapter}{Appendices}{43}{section*.22}
+\contentsline {chapter}{Bibliography}{45}{chapter*.23}

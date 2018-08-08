@@ -1,0 +1,525 @@
+% This file was created with JabRef 2.10.
+% Encoding: UTF8
+
+
+@Article{12Aggelen_2013,
+  Title                    = {Extended random phase approximation method for atomic excitation energies from correlated and variationally optimized second-order density matrices},
+  Author                   = {van Aggelen, H. and Verstichel, B. and Acke, G. and Degroote, M. and Bultinck, P. and Ayers, P. W. and Van Neck, D.},
+  Journal                  = {Computational and Theoretical Chemistry},
+  Year                     = {2013},
+  Pages                    = {50-54},
+  Volume                   = {1003},
+
+  Date-added               = {2014-01-15 16:56:01 +0000},
+  Date-modified            = {2014-01-15 16:56:01 +0000},
+  Doi                      = {10.1016/j.comptc.2012.09.036},
+  ISSN                     = {2210-271X},
+  Owner                    = {ward},
+  Timestamp                = {10.03.2015},
+  Type                     = {Journal Article},
+  Url                      = {<Go to ISI>://WOS:000314074200010}
+}
+
+@Article{helen_3,
+  Title                    = {Variational second order density matrix study of \mbox{$\mathrm{F_3^-}$}: Importance of subspace constraints for size-consistency},
+  Author                   = {Helen van Aggelen and Brecht Verstichel and Patrick Bultinck and Dimitri Van Neck and Paul W. Ayers and David L. Cooper},
+  Journal                  = {Journal of Chemical Physics},
+  Year                     = {2011},
+  Number                   = {5},
+  Pages                    = {054115},
+  Volume                   = {134},
+
+  Doi                      = {10.1063/1.3532409},
+  Eid                      = {054115},
+  Keywords                 = {density functional theory; dissociation energies; fluorine; negative ions; potential energy surfaces},
+  Numpages                 = {8},
+  Owner                    = {ward},
+  Publisher                = {AIP},
+  Timestamp                = {10.11.2015},
+  Url                      = {http://link.aip.org/link/?JCP/134/054115/1}
+}
+
+@Article{128Aggelen_2012,
+  Title                    = {Considerations on describing non-singlet spin states in variational second order density matrix methods},
+  Author                   = {van Aggelen, H. and Verstichel, B. and Bultinck, P. and Van Neck, D. and Ayers, P. W.},
+  Journal                  = {Journal of Chemical Physics},
+  Year                     = {2012},
+  Number                   = {1},
+  Pages                    = {014110},
+  Volume                   = {136},
+
+  Date-added               = {2014-01-15 16:56:01 +0000},
+  Date-modified            = {2014-01-15 16:56:01 +0000},
+  Doi                      = {10.1063/1.3672087},
+  ISSN                     = {0021-9606},
+  Owner                    = {ward},
+  Timestamp                = {10.03.2015},
+  Type                     = {Journal Article},
+  Url                      = {<Go to ISI>://WOS:000298967200010}
+}
+
+@Article{helen_2,
+  Title                    = {Chemical verification of variational second-order density matrix based potential energy surfaces for the N2 isoelectronic series},
+  Author                   = {van Aggelen, Helen and Verstichel, Brecht and Bultinck, Patrick and Van Neck, Dimitri and Ayers, Paul W. and Cooper, David L.},
+  Journal                  = {Journal of Chemical Physics},
+  Year                     = {2010},
+  Number                   = {11},
+  Pages                    = {114112},
+  Volume                   = {132},
+
+  Doi                      = {10.1063/1.3354910},
+  Eid                      = {114112},
+  Owner                    = {ward},
+  Timestamp                = {10.11.2015},
+  Url                      = {http://scitation.aip.org/content/aip/journal/jcp/132/11/10.1063/1.3354910}
+}
+
+@InBook{braams_book,
+  Title                    = {\mbox{R}educed-\mbox{D}ensity-\mbox{M}atrix \mbox{M}echanics: \mbox{W}ith \mbox{A}plication to \mbox{M}any-\mbox{E}lectron \mbox{A}toms and \mbox{M}olecules},
+  Author                   = {Braams, B. J. and Percus, J. K. and Zhao, Z.},
+  Editor                   = {Mazziotti, D. A.},
+  Pages                    = {93},
+  Publisher                = {Wiley: New York},
+  Year                     = {2007},
+  Volume                   = {134},
+
+  Owner                    = {ward},
+  Timestamp                = {10.11.2015}
+}
+
+@Book{rdm_book,
+  Title                    = {Many-electron densities and reduced density matrices},
+  Author                   = {Coleman, A. J.},
+  Editor                   = {Cioslowski, J.},
+  Publisher                = {Kluwer Academic/Plenum Publishers},
+  Year                     = {2000},
+  Series                   = {mathematical and computational chemistry},
+
+  Owner                    = {ward},
+  Timestamp                = {10.11.2015}
+}
+
+@Article{coleman-agp,
+  Title                    = {Structure of Fermion Density Matrices. {II}. Antisymmetrized Geminal Powers},
+  Author                   = {Coleman, A. J.},
+  Journal                  = {Journal of Mathematical Physics},
+  Year                     = {1965},
+  Number                   = {9},
+  Pages                    = {1425-1431},
+  Volume                   = {6},
+
+  Doi                      = {http://dx.doi.org/10.1063/1.1704794},
+  Owner                    = {ward},
+  Timestamp                = {10.11.2015},
+  Url                      = {http://scitation.aip.org/content/aip/journal/jmp/6/9/10.1063/1.1704794}
+}
+
+@Article{coleman,
+  Title                    = {Structure of Fermion Density Matrices},
+  Author                   = {Coleman, A. J.},
+  Journal                  = {Reviews of Modern Physics},
+  Year                     = {1963},
+
+  Month                    = {Jul},
+  Pages                    = {668--686},
+  Volume                   = {35},
+
+  Doi                      = {10.1103/RevModPhys.35.668},
+  Issue                    = {3},
+  Myurl                    = {http://link.aps.org/doi/10.1103/RevModPhys.35.668},
+  Owner                    = {ward},
+  Publisher                = {American Physical Society},
+  Timestamp                = {10.11.2015}
+}
+
+@Book{coleman_book,
+  Title                    = {Reduced Density Matrices: Coulson's Challange},
+  Author                   = {Coleman, A. J. and Yukalov, V. I.},
+  Publisher                = {Springer-Verlag, New York},
+  Year                     = {2000},
+
+  Owner                    = {ward},
+  Timestamp                = {10.11.2015}
+}
+
+@Article{davidson_3,
+  Title                    = {Linear inequalities for density matrices: \mbox{III}},
+  Author                   = {Davidson, Ernest R.},
+  Journal                  = {International Journal of Quantum Chemistry},
+  Year                     = {2003},
+  Number                   = {1},
+  Pages                    = {1--4},
+  Volume                   = {91},
+
+  Doi                      = {10.1002/qua.10340},
+  ISSN                     = {1097-461X},
+  Keywords                 = {\mbox{$N$}-representability, density matrices, linear inequalities},
+  Myurl                    = {http://dx.doi.org/10.1002/qua.10340},
+  Owner                    = {ward},
+  Publisher                = {Wiley Subscription Services, Inc., A Wiley Company},
+  Timestamp                = {10.11.2015}
+}
+
+@Article{davidson_1,
+  Title                    = {Linear Inequalities for Density Matrices},
+  Author                   = {Davidson, Ernest R.},
+  Journal                  = {Journal of Mathematical Physics},
+  Year                     = {1969},
+  Number                   = {4},
+  Pages                    = {725-734},
+  Volume                   = {10},
+
+  Doi                      = {10.1063/1.1664899},
+  Owner                    = {ward},
+  Timestamp                = {10.11.2015},
+  Url                      = {http://scitation.aip.org/content/aip/journal/jmp/10/4/10.1063/1.1664899}
+}
+
+@Article{maz_spin,
+  Title                    = {Spin and symmetry adaptation of the variational two-electron reduced-density-matrix method},
+  Author                   = {Gergely Gidofalvi and David A. Mazziotti},
+  Journal                  = {Physical Review A},
+  Year                     = {2005},
+  Pages                    = {052505},
+  Volume                   = {72},
+
+  Owner                    = {ward},
+  Timestamp                = {10.11.2015}
+}
+
+@Article{maz_ham,
+  Title                    = {Variational reduced-density-matrix theory: strenght of Hamiltonian-dependent positivity condtions},
+  Author                   = {Gergely Gidofalvi and David A. Mazziotti},
+  Journal                  = {Chemical Physics Letters},
+  Year                     = {2004},
+  Pages                    = {434-439},
+  Volume                   = {398},
+
+  Owner                    = {ward},
+  Timestamp                = {10.11.2015}
+}
+
+@Book{helgaker2007molecular,
+  Title                    = {Molecular Electronic-Structure Theory},
+  Author                   = {Helgaker, T. and Jorgensen, P. and Olsen, J.},
+  Publisher                = {Wiley},
+  Year                     = {2014},
+
+  Doi                      = {10.1002/9781119019572},
+  ISBN                     = {9780470017593},
+  Owner                    = {ward},
+  Timestamp                = {10.11.2015},
+  Url                      = {http://onlinelibrary.wiley.com/book/10.1002/9781119019572}
+}
+
+@Article{55Johnson_2013a,
+  Title                    = {The sharp-G N-representability condition},
+  Author                   = {Johnson, P. A. and Ayers, P. W. and Verstichel, B. and Van Neck, D. and van Aggelen, H.},
+  Journal                  = {Computational and Theoretical Chemistry},
+  Year                     = {2013},
+  Pages                    = {32-36},
+  Volume                   = {1003},
+
+  Date-added               = {2014-01-15 16:56:01 +0000},
+  Date-modified            = {2014-01-15 16:56:01 +0000},
+  Doi                      = {10.1016/j.comptc.2012.09.029},
+  ISSN                     = {2210-271X},
+  Owner                    = {ward},
+  Timestamp                = {10.03.2015},
+  Type                     = {Journal Article},
+  Url                      = {<Go to ISI>://WOS:000314074200007}
+}
+
+@Book{mazz_book,
+  Title                    = {\mbox{R}educed-\mbox{D}ensity-\mbox{M}atrix \mbox{M}echanics: \mbox{W}ith \mbox{A}plication to \mbox{M}any-\mbox{E}lectron \mbox{A}toms and \mbox{M}olecules},
+  Author                   = {Mazziotti, D. A.},
+  Editor                   = {Mazziotti, D. A.},
+  Publisher                = {Wiley: New York},
+  Year                     = {2007},
+  Volume                   = {134},
+
+  Owner                    = {ward},
+  Pages                    = {93},
+  Timestamp                = {10.11.2015}
+}
+
+@Article{maz_review,
+  Title                    = {Two-Electron Reduced Density Matrix as the Basic Variable in Many-Electron Quantum Chemistry and Physics},
+  Author                   = {Mazziotti, David A.},
+  Journal                  = {Chemical Reviews},
+  Year                     = {2012},
+  Note                     = {PMID: 21863900},
+  Number                   = {1},
+  Pages                    = {244-262},
+  Volume                   = {112},
+
+  Doi                      = {10.1021/cr2000493},
+  Owner                    = {ward},
+  Timestamp                = {10.11.2015},
+  Url                      = {http://dx.doi.org/10.1021/cr2000493}
+}
+
+@Article{mazziotti_large-scale_2011,
+  Title                    = {Large-{Scale} {Semidefinite} {Programming} for {Many}-{Electron} {Quantum} {Mechanics}},
+  Author                   = {Mazziotti, David A.},
+  Journal                  = {Physical Review Letters},
+  Year                     = {2011},
+
+  Month                    = feb,
+  Number                   = {8},
+  Pages                    = {083001},
+  Volume                   = {106},
+
+  Abstract                 = {The energy of a many-electron quantum system can be approximated by a constrained optimization of the two-electron reduced density matrix (2-RDM) that is solvable in polynomial time by semidefinite programming (SDP). Here we develop a SDP method for computing strongly correlated 2-RDMs that is 10–20 times faster than previous methods [D. A. Mazziotti, Phys. Rev. Lett. 93 213001 (2004)]. We illustrate with (i) the dissociation of N2 and (ii) the metal-to-insulator transition of H50. For H50 the SDP problem has 9.4×106 variables. This advance also expands the feasibility of large-scale applications in quantum information, control, statistics, and economics.},
+  Doi                      = {10.1103/PhysRevLett.106.083001},
+  File                     = {APS Full Text PDF:/home/ward/.mozilla/firefox/u1pwfk5g.default/zotero/storage/2DPJBR95/Mazziotti - 2011 - Large-Scale Semidefinite Programming for Many-Elec.pdf:application/pdf;APS Snapshot:/home/ward/.mozilla/firefox/u1pwfk5g.default/zotero/storage/R2H8C88V/e083001.html:text/html},
+  Myurl                    = {http://link.aps.org/doi/10.1103/PhysRevLett.106.083001},
+  Owner                    = {ward},
+  Timestamp                = {10.11.2015},
+  Urldate                  = {2011-09-29}
+}
+
+@Article{maz_prl,
+  Title                    = {Realization of Quantum Chemistry without Wave Functions through First-Order Semidefinite Programming},
+  Author                   = {David A. Mazziotti},
+  Journal                  = {Physical Review Letters},
+  Year                     = {2004},
+  Pages                    = {213001},
+  Volume                   = {93},
+
+  Owner                    = {ward},
+  Timestamp                = {10.11.2015}
+}
+
+@Article{davidson_2,
+  Title                    = {Linear Inequalities for Density Matrices. {II}},
+  Author                   = {McRae, Walter B. and Davidson, Ernest R.},
+  Journal                  = {Journal of Mathematical Physics},
+  Year                     = {1972},
+  Number                   = {10},
+  Pages                    = {1527-1538},
+  Volume                   = {13},
+
+  Doi                      = {10.1063/1.1665874},
+  Owner                    = {ward},
+  Timestamp                = {10.11.2015},
+  Url                      = {http://scitation.aip.org/content/aip/journal/jmp/13/10/10.1063/1.1665874}
+}
+
+@Article{ward-doci,
+  Title                    = {Variational optimization of the second order density matrix corresponding to a seniority-zero configuration interaction wave function},
+  Author                   = {Poelmans, Ward and Van Raemdonck, Mario and Verstichel, Brecht and De Baerdemacker, Stijn and Torre, Alicia and Lain, Luis and Massaccesi, Gustavo E. and Alcoba, Diego Ricardo and Bultinck, Patrick and Van Neck, Dimitri},
+  Journal                  = {Journal of Chemical Theory and Computation},
+  Year                     = {2015},
+  Number                   = {9},
+  Pages                    = {4064-4076},
+  Volume                   = {11},
+
+  Doi                      = {10.1021/acs.jctc.5b00378},
+  Owner                    = {ward},
+  Timestamp                = {19.06.2015},
+  Url                      = {http://dx.doi.org/10.1021/acs.jctc.5b00378}
+}
+
+@Article{shenvi,
+  Title                    = {Active-Space $N$-Representability Constraints for Variational Two-Particle Reduced Density Matrix Calculations},
+  Author                   = {Shenvi, Neil and Izmaylov, Artur F.},
+  Journal                  = {Physical Review Letters},
+  Year                     = {2010},
+
+  Month                    = {Nov},
+  Pages                    = {213003},
+  Volume                   = {105},
+
+  Doi                      = {10.1103/PhysRevLett.105.213003},
+  Issue                    = {21},
+  Numpages                 = {4},
+  Publisher                = {American Physical Society},
+  Url                      = {http://link.aps.org/doi/10.1103/PhysRevLett.105.213003}
+}
+
+@Book{szabo_modern_1996,
+  Title                    = {Modern {Quantum} {Chemistry}: {Introduction} to {Advanced} {Electronic} {Structure} {Theory}},
+  Author                   = {Szabo, Attila and Ostlund, Neil S.},
+  Publisher                = {Dover Publications},
+  Year                     = {1996},
+
+  Abstract                 = {The aim of this graduate-level textbook is to present and explain, at other than a superficial level, modem ab initio approaches to the calculation of the electronic structure and properties of molecules. The first three chapters contain introductory material culminating in a thorough discussion of the Hartree-Fock approximation.The remaining four chapters describe a variety of more sophisticated approaches, which improve upon this approximation.Among the highlights of the seven chapters are (1) a review of the mathematics (mostly matrix algebra) required for the rest of the book, (2) an introduction to the basic techniques, ideas, and notations of quantum chemistry, (3) a thorough discussion of the Hartree-Fock approximation, (4) a treatment of configuration interaction (Cl) and approaches incorporating electron correlation, (5) a description of the independent electron pair approximation and a variety of more sophisticated approaches that incorporate coupling between pairs, (6) a consideration of the perturbative approach to the calculation of the correlation energy of many-electron systems and (7) a brief introduction to the use of the one-particle many-body Green's function in quantum chemistry.Over 150 exercises, designed to help the reader acquire a working knowledge of the material, are embedded in the text. The book is largely self-contained and requires no prerequisite other than a solid undergraduate physical chemistry course; however, some exposure to quantum chemistry will enhance the student's appreciation of the material. Clear and well-written, this text is ideal for the second semester of a two-semester course in quantum chemistry, or for a special topics course.},
+  ISBN                     = {9780486691862},
+  Language                 = {English},
+  Owner                    = {ward},
+  Shorttitle               = {Modern {Quantum} {Chemistry}},
+  Timestamp                = {10.11.2015},
+  Url                      = {http://www.amazon.com/Modern-Quantum-Chemistry-Introduction-Electronic/dp/0486691861}
+}
+
+@Article{helen_1,
+  Title                    = {Incorrect diatomic dissociation in variational reduced density matrix theory arises from the flawed description of fractionally charged atoms},
+  Author                   = {Van Aggelen, Helen and Bultinck, Patrick and Verstichel, Brecht and Van Neck, Dimitri and Ayers, Paul W.},
+  Journal                  = {Physical Chemistry Chemical Physics},
+  Year                     = {2009},
+  Pages                    = {5558-5560},
+  Volume                   = {11},
+
+  Doi                      = {10.1039/B907624G},
+  Issue                    = {27},
+  Myurl                    = {http://dx.doi.org/10.1039/B907624G},
+  Owner                    = {ward},
+  Publisher                = {The Royal Society of Chemistry},
+  Timestamp                = {10.11.2015}
+}
+
+@PhdThesis{brechtphd,
+  Title                    = {Variational determination of the two-particle density matrix as a quantum many-body technique},
+  Author                   = {Verstichel, Brecht},
+  School                   = {Ghent University},
+  Year                     = {2012},
+
+  Owner                    = {ward},
+  Pages                    = {VI, 198},
+  Publisher                = {Ghent University. Faculty of Sciences},
+  Timestamp                = {10.11.2015},
+  Url                      = {http://arxiv.org/abs/1203.5659}
+}
+
+@Article{218Verstichel_2012,
+  Title                    = {Variational Two-Particle Density Matrix Calculation for the Hubbard Model Below Half Filling Using Spin-Adapted Lifting Conditions},
+  Author                   = {Verstichel, B. and van Aggelen, H. and Poelmans, W. and Van Neck, D.},
+  Journal                  = {Physical Review Letters},
+  Year                     = {2012},
+  Number                   = {21},
+  Pages                    = {213001},
+  Volume                   = {108},
+
+  Date-added               = {2014-01-15 16:56:01 +0000},
+  Date-modified            = {2014-01-15 16:56:01 +0000},
+  Doi                      = {10.1103/PhysRevLett.108.213001},
+  ISSN                     = {0031-9007},
+  Owner                    = {ward},
+  Timestamp                = {10.03.2015},
+  Type                     = {Journal Article}
+}
+
+@Article{99Verstichel_2013,
+  Title                    = {Extensive {v2DM} study of the one-dimensional Hubbard model for large lattice sizes: Exploiting translational invariance and parity},
+  Author                   = {Verstichel, B. and van Aggelen, H. and Poelmans, W. and Wouters, S. and Van Neck, D.},
+  Journal                  = {Computational and Theoretical Chemistry},
+  Year                     = {2013},
+  Pages                    = {12-21},
+  Volume                   = {1003},
+
+  Date-added               = {2014-01-15 16:56:01 +0000},
+  Date-modified            = {2014-01-15 16:56:01 +0000},
+  Doi                      = {10.1016/j.comptc.2012.09.014},
+  ISSN                     = {2210-271X},
+  Owner                    = {ward},
+  Timestamp                = {10.03.2015},
+  Type                     = {Journal Article}
+}
+
+@Article{cpc_proc,
+  Title                    = {Variational density matrix optimization using semidefinite programming},
+  Author                   = {Verstichel, Brecht and van Aggelen, Helen and Van Neck, Dimitri and Ayers, Paul W. and Bultinck, Patrick},
+  Journal                  = {Computer Physics Communications},
+  Year                     = {2011},
+
+  Month                    = {SEP},
+  Number                   = {9, SI},
+  Pages                    = {2025-2028},
+  Volume                   = {182},
+
+  Doi                      = {10.1016/j.cpc.2010.12.034},
+  ISSN                     = {0010-4655},
+  Journal-iso              = {Comput. Phys. Commun.},
+  Owner                    = {ward},
+  Timestamp                = {10.11.2015}
+}
+
+@Article{qsep,
+  Title                    = {Subsystem constraints in variational second order density matrix optimization: Curing the dissociative behavior},
+  Author                   = {Verstichel, Brecht and van Aggelen, Helen and Van Neck, Dimitri and Ayers, Paul W. and Bultinck, Patrick},
+  Journal                  = {Journal of Chemical Physics},
+  Year                     = {2010},
+  Number                   = {11},
+  Pages                    = {114113},
+  Volume                   = {132},
+
+  Doi                      = {10.1063/1.3354911},
+  Eid                      = {114113},
+  Owner                    = {ward},
+  Timestamp                = {10.11.2015},
+  Url                      = {http://scitation.aip.org/content/aip/journal/jcp/132/11/10.1063/1.3354911}
+}
+
+@Article{atomic,
+  Title                    = {Variational determination of the second-order density matrix for the isoelectronic series of beryllium, neon, and silicon},
+  Author                   = {Verstichel, Brecht and van Aggelen, Helen and Van Neck, Dimitri and Ayers, Paul W. and Bultinck, Patrick},
+  Journal                  = {Physical Review A},
+  Year                     = {2009},
+
+  Month                    = {Sep},
+  Pages                    = {032508},
+  Volume                   = {80},
+
+  Doi                      = {10.1103/PhysRevA.80.032508},
+  Issue                    = {3},
+  Myurl                    = {http://link.aps.org/doi/10.1103/PhysRevA.80.032508},
+  Numpages                 = {14},
+  Owner                    = {ward},
+  Publisher                = {American Physical Society},
+  Timestamp                = {10.11.2015}
+}
+
+@Article{primal_dual,
+  Title                    = {A primal-dual semidefinite programming algorithm tailored to the variational determination of the two-body density matrix},
+  Author                   = {Verstichel, Brecht and van Aggelen, Helen and Van Neck, Dimitri and Bultinck, Patrick and De Baerdemacker, Stijn},
+  Journal                  = {Computer Physics Communications},
+  Year                     = {2011},
+
+  Month                    = {june},
+  Number                   = {6},
+  Pages                    = {1235-1244},
+  Volume                   = {182},
+
+  Doi                      = {10.1016/j.cpc.2011.02.005},
+  Owner                    = {ward},
+  Timestamp                = {10.11.2015}
+}
+
+@Article{Verstichel2014,
+  Title                    = {Variational optimization of the {2DM}: approaching three-index accuracy using extended cluster constraints},
+  Author                   = {Verstichel, Brecht and Poelmans, Ward and De Baerdemacker, Stijn and Wouters, Sebastian and Van Neck, Dimitri},
+  Journal                  = {European Physical Journal B: Condensed Matter and Complex Systems},
+  Year                     = {2014},
+
+  Month                    = {Mar},
+  Number                   = {3},
+  Volume                   = {87},
+
+  Doi                      = {10.1140/epjb/e2014-40788-x},
+  ISSN                     = {1434-6036},
+  Owner                    = {ward},
+  Publisher                = {Springer Science + Business Media},
+  Timestamp                = {23.06.2015},
+  Url                      = {http://dx.doi.org/10.1140/epjb/e2014-40788-x}
+}
+
+@Book{sdpa1,
+  Title                    = {Latest Developments in the SDPA Family for Solving Large-Scale SDPs},
+  Author                   = {Yamashita, Makoto and Fujisawa, Katsuki and Fukuda, Mituhiro and Kobayashi, Kazuhiro and Nakata, Kazuhide and Nakata, Maho},
+  Editor                   = {Anjos, Miguel F. and Lasserre, Jean B.},
+  Publisher                = {Springer US},
+  Year                     = {2012},
+  Series                   = {International Series in Operations Research \& Management Science},
+  Volume                   = {166},
+
+  Booktitle                = {Handbook on Semidefinite, Conic and Polynomial Optimization},
+  Doi                      = {10.1007/978-1-4614-0769-0_24},
+  ISBN                     = {978-1-4614-0768-3},
+  Language                 = {english},
+  Myurl                    = {http://dx.doi.org/10.1007/978-1-4614-0769-0_24},
+  Owner                    = {ward},
+  Pages                    = {687-713},
+  Timestamp                = {10.11.2015}
+}
+

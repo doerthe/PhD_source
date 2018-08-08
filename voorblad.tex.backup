@@ -1,0 +1,35 @@
+\pagenumbering{gobble}
+
+{\large \ \vspace{0.25\textheight} \\
+
+\hspace{-\parindent}Variational determination of the two-particle density matrix: the case of doubly-occupied space\\
+
+\hspace{-\parindent}Variationele bepaling van de tweedeeltjesdichtheidsmatrix in het geval van de dubbel-bezette ruimte
+
+
+\vspace{0.5cm}
+\hspace{-\parindent}Ward Poelmans
+
+}
+
+\vspace*{\fill}
+\hspace{-\parindent}Supervisors: prof. dr. D. Van Neck,~ prof. dr. P. Bultinck\\
+\hspace{-\parindent}Dissertation submitted in fulfillment of the requirements for the degree of\\
+\hspace{-\parindent}Doctor (Ph.D.) in Science: {Physics}\\
+
+
+\vspace{0.5cm}
+
+\hspace{-\parindent}\begin{minipage}{0.7\textwidth}
+  \hspace{-\parindent}Department of Physics and Astronomy\\
+%  \hspace{-\parindent}Voorzitter: prof. dr. D. Ryckbosch\\
+  \hspace{-\parindent}Faculty of Sciences\\
+  \hspace{-\parindent}Ghent University\\
+  \hspace{-\parindent}Academic year 2014-2015
+\end{minipage}
+\begin{minipage}{0.3\textwidth}
+  \begin{flushright}
+    \includegraphics[width=0.7\textwidth]{./figures/logo-ugent}
+  \end{flushright}
+\end{minipage}
+

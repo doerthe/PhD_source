@@ -1,0 +1,404 @@
+\section{Direct Semantics}
+
+\subsection{Formalization of quantification}\label{formal}
+%When it comes to semantics of \nthree one aspect where the interpretations chosen by the implementers of reasoning engines differ is the understanding 
+%of quantified variables. It is not always clear in which cases the variables with the same name actually mean the same and when they have to be interpreted differently.
+%We propose a solution for that problem, which is oriented on the implementation of the EYE-reasoner as it was in December 2013. We start with auxiliary definitions:
+%\restdesc descriptions are expressed in the Notation3 (\nthree) rule language~\cite{N3Logic,Notation3}.
+%We will introduce the \nthree language and its logic,
+%focusing on the aspects relevant to our purposes.
+After having discussed the characteristics of implicit quantification in Notation3 in the last section, we now formalize our observations. 
+Where possible, we will follow the team submission \cite{Notation3} as this is the most official source indicating how the language is meant to be understood.
+%As the dominant reference 
+%we will use the team submission as this is the most official source available, which specifies how the logic is meant to be interpreted.
+%Where both reasoners differ
+%we are following cwm as this reasoner seems to be the closest to the actual specification.
+
+To enable us to distinguish between variables occurring directly in a formula and variables only occurring in formula expressions which are dependent of a formula---as 
+it is necessary to interpret for example formula (\ref{eq1})---we give the following definition: 
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Semantics
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+\begin{definition}[Components of a formula]
+Let $f\in F$ be a formula and $c: E \rightarrow 2^E$ a~function such that:
+\[c(e)=\begin{cases}
+  
+  c(e_1)\cup\ldots\cup c(e_n) & \text{if }e=\underline{\texttt{(}}e_1 \ldots e_n\underline{\texttt{)}}\text{ is a list,}\\
+  \{e\}  & \text{otherwise.}
+\end{cases}\]
+
+
+
+We define the set $\textit{comp}(f)\subset E$ of components of $f$ as follows:
+ \begin{itemize}
+  \item If $f$ is an atomic formula of the form $e_1~ e_2~ e_3.$, $\textit{comp}(f)=c(e_1)\cup c(e_2)\cup c(e_3)$.
+  \item If $f$ is an implication of the form $t_{1} \verb!=>!~t_{2}.$, then $\textit{comp}(f)=\{t_1, t_2\}$.
+  \item If $f$ is a conjunction of the form $f_1 f_2$, then $\textit{comp}(f)=\textit{comp}(f_1)\cup \textit{comp}(f_2)$.
+ \end{itemize}
+ Likewise, for $n\in \mathbb{N}_{>0}$, we define the components of level $n$ as:
+ \begin{flalign*} 
+  \textit{comp}^n(f):= &  
+  \{e\in E|\exists f_1,\ldots, f_{n-1}\in F: 
+   e\in \textit{comp}(f_1)\wedge  \underline{\texttt{\{}}f_1\underline{\texttt{\}}}\in \textit{comp}(f_2)\wedge \ldots\\& \wedge  \underline{\texttt{\{}}f_{n-1}\underline{\texttt{\}}}\in 
+  \textit{comp}(f)\} 
+\end{flalign*} 
+\end{definition}
+
+
+The definition allows us to distinguish between direct components and 
+nested components. As an example take the following \nthree formula:
+%\begin{Verbatim}[fontsize=\normalsize] 
+\begin{equation}
+\label{cit}		\verb!:John :says {:Kurt :knows :Albert.}.! \end{equation}
+%\end{Verbatim}
+Direct components are \verb!:John!, \verb!:says! and \verb!{:Kurt :knows :Albert.}! while \verb!:Kurt!,  \verb!:knows! and  \verb!:Albert! are nested components of
+level two.
+
+%The definition allows us to distinguish between direct components and 
+%nested components. We clarify the deepness of a nesting:
+
+For variables, we can now clarify the deepness of a nesting:
+
+
+
+\begin{definition}[Nesting level]
+Let $f\in F$ be an \nthree formula and $v\in V$ a variable. The nesting level $n_f(v)$ of $v$ in $f$ 
+is defined as follows:
+\[
+n_f(v):= 
+\begin{cases} 
+\min\{n\in \mathbb{N}|v\in \textit{comp}^n(f)\} & \text{if } v\in \textit{comp}^n(f) \text{ for some } n.\\
+0 & \text{otherwise.}    
+         \end{cases}
+\]
+The nesting level of a formula is defined as: $n(f) = \max_{v\in V} (n_f (v))$.
+\end{definition}
+
+
+As an illustration of the definition, consider the following formula:
+\[
+ f=\verb! _:x :says {_:y :says {_:x :knows ?z.}.}.!
+\]
+Here we have $n_f(\verb!_:x!)=1$, $n_f(\verb!_:y!)=2$, $n_f(\verb!?z!)=3$ and $n_f(\verb!?v!)=0$, as the latter does not occur in the formula. The nesting level of that formula is 
+$n(f)=3$, as the deepest nested variable \verb!?z! has nesting level 3.
+
+%This definition seems to be a little bit counter-intuitive, especially because we count the nesting level starting from the top of the formula and not, as one might expect, recursively from the bottom.
+%The reason for this lies in the way nested universal quantifiers are expected to be interpreted: coming form the top formula, we are always interested in the less nested occurrence of a variable and its 
+%direct parent formula, the variables with the same name which depend on this formula and are  are nested deeper are not important for the 
+
+
+%Variables occurring in \nthree formulas are always implicitly quantified (either universally or existentially). 
+%For the interpretation it is crucial to clearly define the scope of each variable. 
+%Translated to first order logic, the formula 
+%\[
+%\verb! {{?x :p :a.} => {?x :q :b.}.} => {{?x :r :c.} => {?x :s :d.}.}.! 
+%\]
+%should be understood as 
+%\[
+%(\forall x_1: p(x_1,a)\rightarrow q(x_1,b))\rightarrow (\forall x_2: r(x_2,c) \rightarrow s(x_2,d))
+%\]
+%and \emph{not} as, for example,
+%\[\forall x: ((p(x,a)\rightarrow q(x,b))\rightarrow ( r(x,c) \rightarrow s(x,d)))\]
+At first glance this definition might seem counter-intuitive as we count the nesting level starting from the top of the formula and not, as one might expect, from the bottom. This has to do with the
+intended meaning of implicitly quantified universals. Only the parent formula of an expression containing a universal is important for its interpretation (see formula (\ref{eq2})). 
+All subordinated formulas depending on that formula are handled equally regardless of the degree of their dependency (see formula (\ref{nest})).
+
+The different treatment of universal and existential variables in the interpretation of formulas (\ref{nest}) and (\ref{eq2}) also makes it necessary to define two ways to apply a substitution: 
+%one which only acts on the component level and one, 
+%which replaces also all nested variable by their substitute:
+
+%it indicates which is the lowest depth a variable occurs and not, as one might expect, the most nested occurrence.  
+
+
+%\noindent
+%To reach this goal, we need to take a closer look to the possible applications of substitutions:
+
+\begin{definition}[Substitution]
+
+Let $A$ be an \nthree alphabet %, $S\subset V$ a set of variables 
+and $f\in F$ an \nthree formula over $A$. 
+\begin{itemize}
+ \item A \emph{substitution} is a finite set of pairs of expressions $\{v_1/e_1, \ldots, v_n/e_n\}$ where each $e_i$ is an expression and each $v_i$ 
+ a variable such that $v_i\neq e_i$ and 
+ $v_i \neq v_j$,
+ if $i\neq j$. 
+ %We call each mapping $\sigma: S\cap \text{comp}(f) \rightarrow E$
+ %a \textit{component substitution} of $f$. 
+ \item %The application $f\sigma$ of a component substitution $\sigma$ 
+ For a formula $f$ and a substitution $\sigma=\{v_1/e_1, \ldots, v_n/e_n\}$, we obtain the \emph{component application} of $\sigma$ to $f$, $f\sigma^c$, by simultaneously replacing each $v_i$ 
+ which occurs as a \emph{direct component} in $f$ by the corresponding expression $e_i$. 
+ \item %The application $f\sigma$ of a component substitution $\sigma$ 
+ For a formula $f$ and a substitution $\sigma=\{v_1/e_1, \ldots, v_n/e_n\}$, we obtain the \emph{total application} of $\sigma$ to $f$, $f\sigma^t$, by simultaneously replacing each $v_i$ 
+ which occurs as a \emph{direct or nested component} in $f$ by the corresponding expression $e_i$. 
+ \end{itemize}
+%A substitution $\sigma: S \rightarrow E_g$ is called \textit{ground substitution}, a substitution  $\sigma: S\rightarrow V_E$ \textit{existential substitution}.
+\end{definition}
+
+As the definition states, component application of a substitution only changes the direct components of a formula. For a substitution $\sigma=\{\verb!?x!/ \verb!:Kurt!\}$ we obtain:
+\begin{multline}
+(\texttt{?x :says \{?x :knows :Albert.\}.})\sigma^c  =\nonumber \\ (\texttt{ :Kurt :says \{?x :knows :Albert.\}.})\nonumber
+\end{multline}
+A total application, in contrast, replaces each \emph{occurrence} of a variable in a formula. with the same example as above, by applying $\sigma$ as a total substitution, we get:
+\begin{multline}
+(\texttt{?x :says \{?x :knows :Albert.\}.})\sigma^t =\\ (\texttt{:Kurt :says \{:Kurt :knows :Albert.\}.})\nonumber
+\end{multline}
+
+
+%For the following definition, we count the components of each level of a formula $f$ from left to right according to their position in $f$.
+This enables us to state how the different kinds of variables in a formula should be treated by an interpretation:
+
+
+
+
+\begin{definition}[Replacements]\label{repl}
+Let $f\in F$ be an \nthree formula over an alphabet $A$. Let $v\in V_E$ be an existential and $u\in V_U$ a universal variable. 
+For each level $i\in \mathbb{N}$, $i>1$, of $f$, we count with the index $j$ the formula expressions $\underline{\texttt{\{}} f_{ij}\underline{\texttt{\}}}\in \text{comp}^{(i-1)}(f)\cap \text{FE}$ according to
+their appearance in $f$ from left to right.
+
+
+%For each expression $e\in E$ of $A$ let
+%$\sigma_e:V\rightarrow E$ be the constant map with $\sigma_e(x)=e$ for all $x\in V$.  
+\begin{enumerate}
+% \item A \emph{replacement} of $v$ is list $(\sigma_i)_{i\in \mathbb{N}}$ of substitutions $\{x/e_i\}$ for $v$.
+
+
+ \item 
+ An \emph{existential replacement} $\rho_v:F\rightarrow F$ of $v$ is a function consisting of single 
+ substitutions $ \{v/e_{ij}\}=\sigma_{ij}$ with $i,j\in \mathbb{N}$ %$(\sigma_{ij})_{i,j \in \mathbb{N}}$ 
+ which can be applied by simultaneously performing the component applications $f_{ij}\sigma_{ij}^c$ of the substitutions $\sigma_{ij}$ to the formulas $f_{ij}$. 
+ %\\
+ %Start with $f=f_{11}$ and perform the following steps:
+ % \begin{enumerate}
+  
+ % \item If $n_f(v)=0$, then $\rho_v(f)=f$.
+ %   \item If $n_f(v)>0$ perform the component application of substitution $\sigma_{11}$ on $f$ resulting in $f\sigma_{11}^c$  and perform for each level 
+    %perform on each 
+   %level 
+  % $i>1$ for each formula $f_{ij}$ with $\underline{\texttt{\{}} f_{ij} \underline{\texttt{\}}}\in \text{comp}^{i-1}(f)\cap \text{FE}$ 
+   %a component application 
+    %of the substitution $\sigma_{ij}$.   
+  %\end{enumerate}
+  %To emphasize the different substitutions of an existential replacement, we sometimes write it as the set of all its substitutions 
+  %$\rho = \{\sigma_{e_f}, \sigma_{e_{f_1}}, \ldots \sigma_{e_{f_n}},\sigma_{e_{f_{1_1}}}\ldots \sigma_{e_{f_{1_m}}}\ldots \sigma_{e_{f_{n_1}}}\ldots \sigma_{e_{f_{n_o}}} $
+ \item \label{ur} A \emph{universal replacement}  $\mu_u:F\rightarrow F$ of $u$ is a function consisting of 
+ single substitutions $\{u/e_{ij}\}=\sigma_{ij}$ with $i,j \in \mathbb{N}$ %$(\sigma_{ij})_{i,j\in \mathbb{N}}$ 
+ which can be applied as follows:\\
+ Start with $f=f_{11}$ and perform one of the following steps:
+ \begin{enumerate}
+ 
+  %\item If $n_f(u)=0$, then $\mu_u(f)=f$.
+  \item \label{a} If $n_{f_{ij}}(u)\leq 2$, perform a total application $ f_{ij}\sigma_{ij}^t$. %of $\sigma_{(i+1)j}$ to $f_{ij}$. %Apply the same componenet substitution to all subformulas  
+  %$\underline{\texttt{\{}}f_i\underline{\texttt{\}}}\in \textit{comp}(f)$ and all 
+  %to all $u$ with $u\in \textit{comp}^n(f)$ for some $n\in \mathbb{N}$.
+  \item \label{b} If $n_{f_{ij}}(u)>2$ 
+  repeat %the above mentioned 
+  %step (a) or (b) 
+  this process
+  for each $f_{(i+1) k}$\\with  
+  $\underline{\texttt{\{}} f_{(i+1)k} \underline{\texttt{\}}}\in \text{comp}(f_{ij})\cap \text{FE}$. % if $n_{f_{ij}}(u)\leq 2$. 
+  %whether 
+  %each level 
+  %$i\in \mathbb{N}$ formula $f_{ij}$ with $\underline{\texttt{\{}} f_{ij} \underline{\texttt{\}}}\in \text{comp}^{i-1}(f)$ if $n_{f_{ij}}(u)\leq 2$ and perform, if this is the case, a total
+  %application $f_{ij}\sigma_{ij}^t$ of $\sigma_{ij}$.
+  %, apply this procedure for all $f_i$ with $\underline{\texttt{\{}}f_i\underline{\texttt{\}}}\in \textit{comp}(f)$.
+ \end{enumerate}
+
+\end{enumerate}
+%For both kinds of replacement
+%the subformula index $j$ of a formula $f_{ij}$ is counted from left to right depending on its appearance in $f$.\\
+If all substitutions $\sigma_{ij}$ are ground substitutions, i.e. $\sigma_{ij}:\{x\}\rightarrow E_g$, we call the respective replacement \emph{ground}. %\\
+%If $V_f$ is the set of variables occurring in $f$ we call all replacements which only consist of substitutions of the form 
+%$\sigma_{ij} :\{v\}\rightarrow V_E\setminus V_f$, $v\in V_E$ an %\emph{variable renaming}. Analogously we call it 
+%\emph{existential renaming}. 
+%Analogously we call $\sigma_{ij} :\{u\}\rightarrow V_U\setminus V_f$, $u\in V_U$
+%if the range is $V_E\setminus V_f$ and 
+%a \emph{universal renaming}.
+%in the case that it is $V_U\setminus V_f$.
+ \end{definition}
+
+
+Note that existential and universal replacements are uniquely defined by the set of their substitutions.\\
+%Note, that both definitions can be understood as a set of substitutions which can be applied to 
+%Both replacements allow different substitutions for the same variable. While in existential replacement a substitution is always only applied 
+%to the \emph{components} of one level of a formula, the substituions used within universal replacement change each \emph{occurrence} of a variable in a (part-)formula. 
+The definition states that only existential variables occurring as components in the same (sub-)formula should be treated equally. 
+This is different for universal variables. 
+To understand how nesting level two is of importance, we come back to our previous example, formula (\ref{eq2}):
+\begin{small}\[
+f=(\verb!{{?x :p :a.} => {?x :q :b.}.} => {{?x :r :c.} => {?x :s :d.}.}.!) 
+\]
+\end{small}
+For this formula the indexing $f_{ij}$ explained at the beginning of the definition is as follows:\\
+
+\noindent
+ \begin{tabular}{ p{3cm}    p{3cm}   p{3cm}  p{3cm} }
+%\hline
+\multicolumn{4}{l}{ $f_{11}=$}\\
+\multicolumn{4}{l}{ $(\texttt{\{\{?x :p :a.\} => \{?x :q :b.\}.\} => \{\{?x :r :c.\} => \{?x :s :d.\}.\}.})$}\\
+&&&\\
+%\hline
+\multicolumn{2}{l}{$f_{21} = $} & \multicolumn{2}{l}{$f_{22} = $}\\
+\multicolumn{2}{l}{$(\texttt{\{?x :p :a.\} => \{?x :q :b.\}.})$} & \multicolumn{2}{l}{$(\texttt{\{?x :r :c.\} => \{?x :s :d.\}.})$}\\
+&&&\\
+  $f_{31}= $& $f_{32}=$& $f_{33}= $& $f_{34}= $\\
+    $(\verb!?x :p :a.!)$& $(\verb!?x :q :b.!)$& $( \verb!?x :r :c.!)$& $(\verb!?x :s :d.!)$\\
+&&&\\
+ \end{tabular}
+
+
+
+%$f_{11}=(\texttt{\{\{?x :p :a.\} => \{?x :q :b.\}.\} => \{\{?x :r :c.\} => \{?x :s :d.\}.\}.})$
+
+%{$f_{22} = \texttt{\{?x :r :c.\} => \{?x :s :d.\}.\}.$}
+
+%$f_{11} = f$
+
+%$f_{21} = \verb!{?x :p :a.} => {?x :q :b.}.!$, $f_{22} = \verb!{?x :r :c.} => {?x :s :d.}.!$
+
+%$f_{31}= \verb!?x :p :a.!$, $f_{32}=\verb!?x :q :b.!$, $f_{33}= \verb!?x :r :c.!$, $f_{34}= \verb!?x :s :d.!$.
+
+\noindent Suppose we want to apply a universal replacement $\mu= (\sigma_{ij})_{i,j \in \mathbb{N}}$ for \verb!?x!:\\
+As $n_f(\verb!?x!)=3>2$, i.e. \ref{b} is fulfilled, we have to consider the subformulas $f_{21}$ and $f_{22}$ separately.\\
+%\[f_{21}=(\verb!{?x :p :a.} => {?x :q :b.}.!)\] \hspace{5cm} and \[f_{22}=(\verb!{{?x :r :c.} => {?x :s :d}.}.!)\] separately.
+For $f_{21}$ we get $n_{f_{21}}(\verb!?x!)=2$, which means that \ref{a} is fulfilled. We apply the substitution $\sigma_{21}= \{\verb!?x!/e_{21}\}$ totally on $f_{21}$.\\
+We do the same for $f_{22}$. As $n_{f_{22}}(\verb!?x!)=2$, thus \ref{a}, we totally apply the substitution $\sigma_{22}= \{\verb!?x!/e_{22}\}$.
+As a result we get:
+\begin{small}
+\[
+\mu(f)=(\verb!{{!e_{21}\verb! :p :a.} => {!e_{21}\verb! :q :b.}.} => {{!e_{22} \verb! :r :c.} => {! e_{22}\verb! :s :d.}.}.!) 
+\]
+\end{small}
+%Both substitutions are applied via total applications such that, 
+%if the respective variable occurred in sub-formulas, it would be handled the same way as it is as a~component of 
+%$f_{21}$ and $f_{22}$. Note that $e_{21}$ and $e_{22}$ can be different. 
+By the total application of the substitutions every nested occurrence of the variable is replaced, we do not have to consider the formulas $f_{3j}$ separately.\\ 
+Note that $e_{21}$ and $e_{22}$ can be different. 
+Our definition only ensures, that, 
+if the same variable occurs in direct sibling formulas, it is treated in the same way, just as in interpretation (\ref{eq2}a).
+
+
+
+\subsection{Interpretations and models}\label{semn3}
+In this section we are going to embed our concept for evaluation of implicit quantified variables into a definition for the semantics of Notation3.
+
+We start be defining an interpretation function:
+
+%We embed our concepts in the definition of interpretation and semantics:
+
+\begin{definition}[Interpretation]
+An interpretation $\mathfrak{I}$ of
+an alphabet $A$ consists of:
+\begin{enumerate}
+\item A set $\mathcal{D}$ called the domain of $\mathfrak{I}$.
+\item A function $\mathfrak{a}: 
+E_g \rightarrow \mathcal{D}$ called the object function.
+\item A function $\mathfrak{p}:
+\mathcal{D} \rightarrow 2^{\mathcal{D} \times \mathcal{D}}$ called the predicate function.
+\end{enumerate}
+\end{definition}
+
+Note that in contrast to the classical definition of \rdf-semantics \cite{rdf} our domain does not distinguish between properties (IP) 
+and resources (IR). 
+The definitions are nevertheless compatible, as we assume $\mathfrak{p}(p)=\emptyset\in 2^{\mathcal{D} \times \mathcal{D}}$
+for all resources p which are not properties (i.e. $p \in \text{IR}\setminus \text{IP}$ in the \rdf-sense). 
+By extending given \rdf ground interpretation functions to Notation 3 interpretation functions, the meaning of all valid \rdf triples can be kept in Notation3 Logic. %\\
+%Note that 
+The main necessary extension would be a function which assigns domain values to ground formula expressions. 
+This manner of handling formula expressions makes the expressiveness of such quoting of formulas as in example (\ref{cit}) very similar to \rdf reification \cite{rdf}. 
+%Evaluation of concepts within a formula expression can be made via rules. 
+%By doing so, we don't allow any extra-evaluation of the ground formulas (as for example 
+%By handling ground formulas in that way, we don't allow 
+%To use the \rdf ground interpretation functions here 
+%By only adding one extra interpretation-function which assigns domain values to formula expressions, \rdf interpretation functions could be used here.  
+%Thereby any \rdf-interpretation is also expressible as a Notation3 interpretation.
+ %So, the interpretation functions 
+%Therefore every \rdf triple can also be interpreted in Notation3.
+%Notation3 is more tolerant than \rdf in the sense, that it accepts every kind of expression in all positions (subject, predicate or object).\\ 
+%Especially in the object position this makes sense, as it enables us to make statements about formulas as in example (\ref{cit}). We consider 
+%the oportunity to use a formula expression in the predicate position as rather theoretical, but we wouln't exclude that there may be cases where 
+%this could be a useful feature.\\
+%REIFICATION
+
+
+%This flexibility might raises the question, whether it is really necessary to allow a
+%If necessary, the predicate position can easily be restricted.
+
+
+
+
+The following definition combines the replacements of variables and the ground interpretation functions:
+
+
+
+
+
+
+\begin{definition}[\label{sem_n3}Semantics of \nthree]
+Let $\mathfrak{I}=(\mathcal{D},\mathfrak{a,p})$ be an interpretation of $A$.
+Let  $f$ be a formula over $A$ which contains at least one variable, $f_1$ and $f_2$ be ground formulas and $c_1,c_2,p \in E$ be ground expressions.
+Then the following holds:
+\begin{enumerate}
+ \item\label{quant} $\mathfrak{I}\models f$ iff for all universal ground replacements $\mu_1,\ldots,\mu_n$ of the universal variables contained in $f$,  there exist some existential ground replacements
+ $\rho_1,\ldots,\rho_m$ of the existential variables in $f$, such that 
+ \[\mathfrak{I}\models \rho_1\circ\ldots\circ \rho_m \circ \mu_1\circ\ldots\circ\mu_n(f)\]
+
+ \item $\mathfrak{I} \models c_1\, p\, c_2$. iff $(\mathfrak{a}(c_1),\mathfrak{a}(c_2))\in\mathfrak{p}(\mathfrak{a}(p))$.
+ \item \label{conj} $\mathfrak{I} \models f_1 f_2$ iff $\mathfrak{I}\models f_1$ and $\mathfrak{I} \models f_2$.
+ \item \label{impl1} $\mathfrak{I} \models \verb!{! f_1 \verb!}! \verb!=>! \verb!{! f_2 \verb!}!$. iff $\mathfrak{I} \models f_2$ if $\mathfrak{I} \models f_1$. 
+% \item $\mathfrak{I} \models \verb!{ }! \verb!=>! \verb!{! f_2 \verb!}!$. iff $\mathfrak{I} \models f_2$.
+% \item  $\mathfrak{I} \models e \,\verb!=>!\, \verb!{ }!$. for all formula expressions $e$.
+% \item \label{fal1} $\mathfrak{I} \models \verb!false! \,\verb!=>!\, e $. for all formula expressions $e$.
+ 
+% \item \label {fal2}$\mathfrak{I} \models \verb!{! f_1 \verb!}! \,\verb!=>!\, \verb!false!$. iff $\mathfrak{I} \not\models f_1$.
+\end{enumerate} 
+\end{definition}
+
+Number \ref{quant} of the definition respects the constraint explained at the beginning of section \ref{quantsec} and illustrated by example (\ref{both}). % that
+%prescribed by the \nthree-website \cite{Notation32}, that in a formula the 
+%the scope of all universal quantifications is outside the scope of all existentials. 
+This constraint is also the reason, 
+why we define two separate mappings which ``ground'' the formulas before further valuation is done.
+
+We finally define a model:
+
+\begin{definition}[Model]
+Let $\Phi$ be a set of \nthree formulas. We call an interpretation $\mathfrak{I}=(\mathcal{D},\mathfrak{a,p})$ a \textit{model} of $\Phi$ iff $\mathfrak{I}\models f$ for every formula $f\in \Phi$.
+\end{definition}
+%
+%As in first order logic, we can define the notion of logical implication:
+
+%\begin{definition}[Logical implication]\label{log_impl}
+%Let $\Phi$ be a set of \nthree formulas  and $\phi$ a formula over the same \nthree alphabet $A$. We say that $\Phi$ (logical) implies 
+%$\phi$ ($\Phi \models \phi$) iff every
+%model $\mathfrak{I}\models \Phi$ is also a model of $\phi$.
+%\end{definition}
+
+
+%\section{Findings}
+
+
+
+
+
+
+
+%As a consequence, 
+%the interpretation of an existential is slightly different than the of a exisitential quantified variable in first order logic, as it alsways requires the existence of a 
+%witness 
+%The interpretation of \texttt{false}
+%as defined in \ref{fal1} and \ref{fal2} is not supported by every \nthree reasoner. %Nevertheless, we include it in our definition to clarify that not every formula posses a model. 
+%Our approach follows the semantics of EYE~\cite{eye}.\\
+
+
+%\section{Implicit Quantification in other Logics}
+
+
+

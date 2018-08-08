@@ -1,0 +1,25 @@
+\cleardoublepage
+
+\selectlanguage{dutch}
+\normalsize
+
+\chapter{Dankwoord}
+\setlength{\epigraphrule}{0pt}
+\setlength{\epigraphwidth}{0.75\textwidth}
+\epigraph{\textit{In science, one should use all available resources to solve difficult problems. One of our most powerful resources is the insight of our colleagues.}}{Peter Agre}
+
+Aan iedereen die heeft meegeholpen, bedankt! Aan iedereen die niet heeft meegeholpen, ook bedankt!
+
+
+\vspace*{\fill}
+
+\begin{flushright}
+Ward Poelmans \\
+Gent, \today
+\end{flushright}
+
+\vspace*{\fill}
+
+\selectlanguage{english}
+
+% vim: spell spelllang=nl syntax=tex tw=140 

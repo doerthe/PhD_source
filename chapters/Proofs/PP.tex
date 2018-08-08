@@ -1,0 +1,295 @@
+
+\subsection{\restdesc Descriptions}\label{rd}
+
+\restdesc descriptions are designed to explain how a hypermedia API can be used to perform a specific action. 
+Such a process of using an API consists of different steps:
+given all needed information, the client sends an \http request to the hypermedia API on a server.
+The API interprets the request and,
+if possible, reacts by fulfilling the indicated task
+or retrieving the information requested. The server sends a~response and thereby creates a new situation. As mentioned in \cref{api}, this process 
+is called an API operation.
+Hypermedia APIs are commonly able to perform different kinds of operations.
+
+To describe such an operation in \nthree
+%As this process makes use of \http, a %we start with a closer look to this protocol and how it can be expressed in \nthree. we start by giving a short overview of the \http predicates used in this paper, how this protocol can be expressed in \nthree
+%For the description of hypermedia API operations an \nthree 
+a formalization of \http
+is needed. 
+We use the \rdf vocabulary as defined in the corresponding W3C Working Draft \cite{httprdf}.
+In order to facilitate the understanding of the following sections, we give a short overview of the \http predicates used in this paper.
+
+\begin{definition}[\http predicates\label{httppr}]
+Let $A$ be an \nthree alphabet,
+$M$ be a set of \http method names,
+$\{ \texttt{"GET"},\texttt{"POST"},\texttt{"PUT"},\linebreak[1]
+\texttt{"DELETE"},\texttt{"HEAD"},\texttt{"PATCH"}\}\subset M \subset L$,
+$\verb!u!\in U$ an \http message,
+$\verb!v!\in U\cup L$
+and $\mathfrak{I}=(\mathcal{D},\mathfrak{a,p})$ an interpretation of $A$.
+Then:
+
+
+\begin{itemize}
+ \item  $\mathfrak{I}\models$ \verb!u http:headers v.! iff \texttt{v} is an \http header of \verb!u!.
+ \item $\mathfrak{I}\models$ \verb!u http:body v.! iff \verb!v! is the \http body of \verb!u!. 
+  \item $\mathfrak{I}\models$ \verb!u http:methodName v.! iff $\verb!u!$ is a request and 
+  $\verb!v!\in M$ its method name.
+  \item $\mathfrak{I}\models$ \verb!u http:requestURI v.! iff $\verb!u!$ is a request and $\verb!v!$ is its \URL.
+  \item $\mathfrak{I}\models$ \verb!u http:resp v.! iff $\verb!u!$ is a request and $\verb!v!$ is its responding \http message.
+\end{itemize}
+\end{definition}
+
+% \begin{definition}[\http Request]
+%  
+% \end{definition}
+
+This vocabulary can be used to describe \http-requests.  Such a request must always have a method name and a request \uri.
+%With the usual prefix definitions for \texttt{owl}\footnote{\texttt{@prefix owl: <http://www.w3.org/2002/07/owl\#>} }, 
+%\texttt{rdf}\footnote{@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns\#> .} and \texttt{xsd}\footnote{@prefix xsd: <http://www.w3.org/2001/XMLSchema\#> .},
+Using owl-vocabulary, such requests can be defined by the following class:
+%If we use the above 
+%\begin{lstlisting}[
+%  float=t,
+%  caption={OWL description of the class \texttt{http:Request}},
+%  label=request]
+%§\textcolor{gray}{@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns\#> .}§
+%§\textcolor{gray}{@prefix owl: <http://www.w3.org/2002/07/owl\#> }§
+%§\textcolor{gray}{@prefix xsd: <http://www.w3.org/2001/XMLSchema\#> .}§
+%§\textcolor{gray}{@prefix http: <http://www.w3.org/2011/http\#>.}§
+\begin{verbatim}
+http:Request rdfs:subClassOf http:Message, 
+    [
+    rdf:type     owl:Restriction ;
+    owl:onProperty http:methodName ;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
+    ],
+    [ 
+    rdf:type owl:Restriction ;
+    owl:onProperty http:requestURI ;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+\end{verbatim}
+    %\end{lstlisting}
+These two properties also have to be specified in an \http request description:
+%This enables us to define an \http request description:
+
+\begin{definition}[\http request description]
+  \label{def:HttpRequestDescription}
+ Let $A$ be an \nthree alphabet which contains a set $H$ of \http predicates including those defined in Definition~\ref{httppr}. 
+  \begin{itemize}
+  % \item An \http request    
+\item An \emph{\http request description} is a conjunction $f=f_1 f_2 \ldots f_n\in F$ of atomic formulas with the following properties:
+\begin{itemize}
+ \item All atomic formulas $f_i$ share the same existential variable $\verb!_:x!\in V_E$ as a subject.
+ \item The predicate of each formula $f_i$ is an \http-predicate, i.e. $f_i$ has the form $\verb!_:x :h!_i \verb!:o!_i\verb!.!$ with $\verb!:h!_i\in H$.
+ \item The conjunction $f$ contains one atomic formula $f_i$ with the predicate\linebreak \verb! http:methodName!
+ %\item The conjunction $f$ contains 
+ and one formula $f_j$ with the predicate\linebreak 
+ \verb! http:requestURI!.
+ \item The object of every atomic formula $f_i=\verb!_:x :h!_i \verb!:o!_i\verb!.!$ with $\verb!h!_i \neq \verb!http:resp!$ is either a universal variable, 
+ a URI or a literal, $\verb!:o!_i\in V_U\cup U\cup L$.
+\end{itemize}
+ %let  
+ %$\verb!_:x! \in V_E$ be an existential variable 
+ %and $f_1, f_2,\ldots, f_n\in F$, $n \in \mathbb{N}$, $n\geq 2$, be \nthree formulas over $A$.
+
+%  \item We call an \nthree 
+%  formula $f=f_1 f_2 \ldots f_n\in F$ 
+%  an \textit{\http request description} if:
+%  
+%  \begin{itemize}
+% \item for all $i\leq n$: $f_i=\verb!_:x! \verb! p!_i \verb! b!_i.$ with $\verb!p!_i\in H$, $\verb!b!_i\in V_U\cup U \cup L$.
+% \item for one $k\leq n$:  $f_k=\verb!_:x! \verb! http:methodName! \verb! b!_k$. 
+% \item for one $j\leq n$:  $f_j=\verb!_:x! \verb! http:requestURI! \verb! b!_j$.  
+% \end{itemize}
+\item  We call an \http request description $f=f_1\ldots f_n$ \textit{sufficiently specified},
+if  $\texttt{:o}_i\in E_g$ for every triple $f_i=\texttt{\_:x :h}_i \texttt{:h}_i$ with $\texttt{:p}_i\neq \texttt{http:resp}$. % i.e. 
+%$\texttt{:o}_i\in E_g$
+  %if it contains, with the exception of \verb!_:x!, only ground expressions.
+\end{itemize}
+
+\end{definition}
+
+
+The definition reflects %the \emph{minimal} requirements 
+the syntactical requirements
+to an \http request description, %, such a description 
+it should contain  the URL and the method name of the described request and it can contain additional information which can be
+described using the \http-predicates.
+%it can always contain more formulas.
+If the object of these formulas are instantiated, i.e. sufficiently specified, they can be sent to a server and, 
+if they contain all necessary information, executed by an API which will return the \http response.
+\restdesc descriptions enable us to specify
+the intended functionality of a~hypermedia API's operations:
+
+\begin{definition}[\restdesc description]
+Let $A$ be an \nthree alphabet containing the predicates defined in Definition \ref{httppr}, $F$ the set of formulas over $A$.
+A \restdesc description $f\in F$ of a hypermedia API operation is a \emph{simple} \nthree formula %an \nthree implication %with nesting level $n(f)= 2$, 
+%with $\text{comp}^n(f)=\emptyset$ for all $n>2$
+of the form:
+\[	  \verb!{ precondition } => { http-request  postcondition }.!\]
+where \verb!precondition!, \verb!http-request! and \verb!postcondition! are \nthree formulas over $A$ with the following properties:
+\begin{enumerate}
+ \item \emph{\texttt{precondition}} describes the resources needed to execute the operation and does not contain %the expression \texttt{false} and none 
+ any existential variable. %And $comp^n(\texttt{precondition}) = \emptyset$ for all $n>1$.
+ \item \emph{\texttt{http-request}} is an \http request description which describes a request which can be used to obtain the desired 
+ result of executing the operation. % and 
+ It contains no triple having the same subject as the \verb!http-request!.
+All universal variables which occur in \verb!http-request!
+ do also occur in \verb!precondition!. 
+ 
+ \item \emph{\texttt{postcondition}} describes one or more results obtained by the execution of the operation. All universal variables contained in \verb!postcondition! 
+also occur in \verb!precondition!. 
+\end{enumerate}
+
+
+\end{definition}
+By making sure that the subject of any triple in the postcondition is different than the subject of the request, we make both syntactical distinguishable. 
+%By prohibiting components of a higher level than~2,
+%we especially exclude nested rules.
+Note that a RESTdesc description is an existential rule as defined in the Datalog$^{\pm}$ framework \cite{datalogpm}:
+our restriction on universal variables,
+that all universals in the head of the rule should also occur in the body,
+%exclude all rules with new 
+is very similar to Datalog \cite{datalog}
+%rules which introduce new universal variables are excluded and
+%and
+%But as 
+and our rules 
+ allow (and expect) new existentials in the consequence. 
+%  The reason for this will become clear in the following sections, but the basic idea here is
+%  to express knowledge and situations which cannot be obtained by reasoning 
+%  using existential variables: we are aware of the existence of facts or instances, but we have to act
+%  to get further details.
+ %As we will further explain in the following sections
+%We will see in the coming sections, especially in section
+%we cannot guarantee that the models of ground formulas (facts)
+%and \restdesc rules are finite,
+%as is the case with Datalog. 
+%\todo{make the connection to datalog stronger}
+%\todo{!}
+
+The reasons for the restrictions will become more clear in \cref{sec:Reasoning},
+where we show that for every ground instance of the precondition,
+the \http request is sufficiently specified and the postcondition will not contain any universal variables.
+From an operational point of view, the remaining existential variables in the postcondition
+are those which are expected to be grounded through the execution of the \http request.
+
+\begin{lstlisting}[
+  float=t,
+  caption={\restdesc description of the action ``obtaining a~thumbnail'' \emph{(desc\_thumbnail.n3)}},
+  label=lst:Thumbnail]
+§\textcolor{gray}{@prefix dbpedia: <http://dbpedia.org/resource/>.}§
+§\textcolor{gray}{@prefix dbpedia-owl: <http://dbpedia.org/ontology/>.}§
+§\textcolor{gray}{@prefix ex: <http://example.org/image\#>.}§
+§\textcolor{gray}{@prefix http: <http://www.w3.org/2011/http\#>.}§
+
+{ ?image ex:smallThumbnail ?thumbnail. }
+=>
+{
+  _:request http:methodName "GET";
+            http:requestURI ?thumbnail;
+            http:resp [ http:body ?thumbnail ].
+
+  ?image dbpedia-owl:thumbnail ?thumbnail.
+  ?thumbnail a dbpedia:Image;
+             dbpedia-owl:height 80.0.
+}.
+\end{lstlisting}
+
+%To illustrate our definition on a~concrete hypermedia API example,
+\Cref{lst:Thumbnail} shows a~description
+that explains the \verb!smallThumbnail! relation in a~hypermedia API.
+The \emph{precondition} demands the existence of
+a~\verb!smallThumbnail! hyperlink
+between an \verb!?image! resource
+and a~\verb!?thumbnail! resource.
+The \http request
+is a~\verb!GET! request to the \URL of \verb!?thumbnail!.
+The response to this request will be a~representation of \verb!?thumbnail!.
+These characteristics of this representation are detailed in the remainder of the \emph{postcondition}.
+This states that the original \verb!?image!
+will be in a~\verb!thumbnail! relationship
+(the meaning of which is defined by the \dbpedia ontology~\cite{DBpedia})
+with \verb!?thumbnail!.
+Furthermore, \verb!?thumbnail! will be an \verb!Image!
+and have a~\verb!height! of \verb!80.0!.
+
+There are two different ways to interpret this description:
+First the declarative, static way as defined in \cref{nthree},
+which could be phrased as
+\enquote{the existence of the \texttt{smallThumbnail} relationship
+implies the existence of a~\texttt{GET} request
+which leads to an~80px-high thumbnail of this image.}
+
+The second interpretation is the operational, dynamic way.
+In this case, a~software agent has a~description of the world,
+against which the description is \emph{instantiated},
+i.e., the rule is applied.
+
+Thus, given a~concrete set of triples, such as:
+\begin{Verbatim}
+    </photos/37> ex:smallThumbnail </photos/37/thumb>.
+\end{Verbatim}
+the description in \cref{lst:Thumbnail} would be instantiated to: 
+\begin{Verbatim}
+    _:request http:methodName "GET";
+              http:requestURI </photos/37/thumb>;
+              http:resp [ http:body </photos/37/thumb> ].
+
+    </photos/37> dbpedia-owl:thumbnail </photos/37/thumb>.
+    </photos/37/thumb> a dbpedia:Image;
+                       dbpedia-owl:height 80.0.
+\end{Verbatim}
+Thereby, the description has been instantiated into a~concrete \http request
+that can be executed by the agent.
+Note how this instantiation directly results in RDF triples,
+which can be interpreted by any RDF-compatible client.
+The request has been sufficiently specified
+as defined in Definition~\ref{def:HttpRequestDescription}.
+In addition, the instantiated postcondition
+explains the properties realized by this concrete request.
+Here, an \http \verb!GET! request to \url{/photos/37/thumb}
+will result in a~thumbnail of the image \url{/photos/37}
+that will have a~height of 80~pixels.
+This dynamic interpretation is helpful to agents
+that want to understand the impact
+of performing a~certain action on resources they have at their disposition.
+
+\begin{lstlisting}[
+  float=b,
+  caption={\restdesc description of the action ``uploading an image'' \emph{(desc\_images.n3)}},
+  label=lst:Images]
+§\textcolor{gray}{@prefix dbpedia: <http://dbpedia.org/resource/>.}§
+§\textcolor{gray}{@prefix dbpedia-owl: <http://dbpedia.org/ontology/>.}§
+§\textcolor{gray}{@prefix ex: <http://example.org/image\#>.}§
+§\textcolor{gray}{@prefix http: <http://www.w3.org/2011/http\#>.}§
+
+{ ?image a dbpedia:Image. }
+=>
+{
+  _:request http:methodName "POST";
+            http:requestURI "/images/";
+            http:body ?image;
+            http:resp [ http:body ?image ].
+  ?image ex:comments _:comments;
+         ex:smallThumbnail _:thumb.
+}
+\end{lstlisting}
+
+\restdesc descriptions are not limited to \verb!GET! requests.
+They can also describe state-changing operations,
+for instance, those realized through the \verb!POST! method.
+\Cref{lst:Images} shows a~description for an image upload action.
+The postconditions contain existential variables that are not referenced
+(\verb!_:comments! and \verb!_:thumb!),
+which might appear strange at first sight.
+However, these triples are important to an agent
+as they convey an \emph{expectation} of what happens when an image is uploaded.
+Concretely, any uploaded image will receive a~\verb!comments! link
+and a~\verb!smallThumbnail! link.
+Even though the exact values will only be known at runtime
+when the actual \verb!POST! request is executed,
+at design-time, we are able to determine that there will be several links.
+The meaning of those links is in turn expressed by other descriptions,
+such as the one in \cref{lst:Thumbnail} discussed~above.

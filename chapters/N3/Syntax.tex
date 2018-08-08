@@ -1,0 +1,126 @@
+
+\section{Syntax}
+Before coming to the main topic of this paper, implicit quantification, we start by defining the general syntax of N3Logic. We exclude built-ins %, as their 
+%meaning is mostly defined on the corresponding website, %\footnote{See \url{http://www.w3.org/2000/10/swap/doc/cwmBuiltins}.},  
+and explicit quantification (for more information see section \ref{expl}). %\footnote{We explain this choice in section \ref{expl}. }. 
+%The latter is, as well as its implicit counterpart, not trivial. We will give a quick explanation of that at the end of this paper.\\
+The syntax-definition below is oriented on the context-free grammar as provided at the team submission web page \cite{Notation3}. 
+%We limit our developments to the %, at least in our opinion, 
+%most important properties of \nthree---quantification, implication and quoting---and skip most inbuilt-predicates of \nthree and \rdf, whose meaning 
+%can be found on the corresponding websites. %We start with the vocabulary:
+
+
+\begin{definition}[Basic N3 vocabulary]\label{voc}
+An \emph{N3 alphabet~$A$} consists of the following disjoint classes of symbols:
+\begin{itemize}
+\item A set $U$ of \uri symbols.
+\item A set $V=V_E\mathbin{\dot{\cup}} V_U$  of (quantified) variables, with $V_E$ being the set of existential variables
+and $V_U$ the set of universal variables.
+\item A set $L$  of literals.
+%\item A boolean literal \verb!false!
+\item Brackets \verb!{!, \verb!}!, \verb!(!, \verb!)!
+\item Logical implication $\verb!=>!$ 
+\item Period \verb!.!
+\end{itemize}
+\end{definition}
+
+%We define the elements of $U$ in the same way as \rdf \cite{rdf}. %in %the corresponding specification~\cite{iri}.
+%Like Turtle, \nthree allows to abbreviate URLs as prefixed names~\cite{turtle}.
+%Literals are strings beginning and ending with quotation marks `\verb!"!';
+%existentials start with `\verb!_:!', universals with `\verb!?!'.\\
+%As \nthree does not clearly distinguish between predicates and constants---a single \uri symbol can stand for both at the same time---we have to change the first-order-concept of a 
+%term to something similar:
+
+We define the elements of $U$ as in the corresponding specification~\cite{iri}. As for example in Turtle \cite{turtle},
+\nthree allows  to abbreviate URLs by using prefixes.
+%\nthree allows to abbreviate URLs as prefixed names~\cite{turtle}.
+Literals are strings beginning and ending with quotation marks `\verb!"!';
+existentials start with `\verb!_:!', universals with `\verb!?!'.
+%
+Unlike first order logic, \nthree does not distinguish between predicates and constants---%
+a single \uri symbol can stand for both at the same time---%
+so the first-order-concept of a~\emph{term}
+has a~slightly different counterpart in \nthree: an \emph{expression}.
+Since the definition of expressions (Definition~\ref{expression})
+is closely related to the concept of a~formula (Definition~\ref{formula}),
+the two following definitions should be considered together.
+
+%We include the possibility of quoting formulas by introducing \emph{formula expressions}. Additionally to the direct citation of a formula, there are two other 
+%kinds of formula-expressions: the empty expression (true) and \verb!false!. As the latter is inherited from \rdf, it can't be understood as a formula itself as the 
+%similar expression in first order logic normally is. The declarations as formula expressions enable us to keep that kind of meaning in controlled situations, as will
+%be shown in the following chapters.
+
+
+\begin{definition}[Expressions]\label{expression}
+  Let $A$ be an \nthree alphabet.
+  The set of \textit{expressions} $E \subset A^{*}$ is
+  defined as follows:
+  \begin{enumerate}
+    \item Each \uri is an expression.
+    \item Each variable is an expression.
+    \item Each literal is an expression.
+    \item \label{list} If $e_1,\ldots,e_n$ are expressions, $\verb!(!e_1 \ldots e_n\verb!)!$ is an expression. 
+    %\item \label{false} \verb!false! is an expression.
+   % \item $\verb!{ }!$ is an expression.
+    \item \label{fe} If $f\in F$ is a formula, then $\verb!{!f\verb!}!$ is an expression. 
+  \end{enumerate}
+  The expression defined by \ref{list} is called a \textit{list}.
+  We call the expressions defined by %\ref{false}--
+  \ref{fe}
+  \textit{formula expressions} and denote the set of all formula expressions by $\mbox{\textit{FE}}$.
+\end{definition}
+
+
+Note that point \ref{fe} of the definition above makes use of formulas, which are defined as follows:
+
+\begin{definition}[\nthree Formulas]
+    \label{formula}
+    The set $F$ of \textit{\nthree formulas} over an alphabet $A$ is recursively defined as follows:
+    \begin{enumerate}  
+      \item \label{1} If $e_1, e_2, e_3$ are expressions, $e_1~ e_2~ e_3$. is a formula, an \textit{atomic} formula.
+      \item \label{2} If $t_1, t_2$ are formula expressions, $t_{1} \verb!=>!~t_{2}.$ is a formula, an \textit{implication}.
+      \item \label{n} If $f_1$ and $f_2$ are formulas, $f_1 f_2$ is a formula, a \textit{conjunction}.
+    \end{enumerate}
+\end{definition}
+
+We will refer to a~formula without any variables as a~\textit{ground formula}.
+Analogously, we call such kind of expressions \textit{ground expressions}.
+We denote the corresponding sets by $F_g$ respectively $E_g$.\\
+%Note that 
+%Althouh we see this rarely used in practice, t
+The definition explicitly allows all expressions in all positions of atomic formulas. 
+Literals or even formula expressions can be subjects, objects or predicates.
+
+%Whether a triple with a 
+%
+%It is rather unlikely th
+%It is rather unlikely that any
+%Whether an element 
+%The meaning of those expressions depends on the respective interpretation.
+
+%We will refer to a~formula without any variables as a~\textit{ground formula}.
+%Analogously, we call expressions without any variables \textit{ground expressions}.
+%We denote the corresponding sets by $F_g$ respectively $E_g$.
+% We are going to define the semantics of a formula. To enable the reader to distinguish between mathematical symbols describing the language and \nthree-constructs (expressions and formulas), 
+% we mark the latter by underlinement. 
+
+In the examples in the remainder of this paper, we will use the common \rdf shortcuts:
+
+\begin{remark}[Syntactic variants]\label{rem}
+\begin{itemize}
+\item A formula consisting of two triple subformulas starting with the same element \verb!<d> <p> <e>. <d> <q> <f>.! can be abbreviated using a semicolon:\newline 
+\verb!<d> <p> <e>; <q> <f>.!
+\item Two triple formulas sharing the first two elements  \verb!<d> <p> <e>. <d> <p> <f>.! can be abbreviated using a comma: \verb!<d> <p> <e>, <f>.!
+%  \item \verb![]! can be used as an expression and is a shortcut for a new existential variable. So \verb![] <p> <d>.! stands for \verb!_:x <p> <d>.!
+%  If $[~]$ occurs in a formula $f$ instead of an expression, each instance of $[~]$  can be translated by a new existential variable.
+ \item An expression of the form \verb![<p> <o>]! is a shortcut for a new existential variable \verb!_:x!,
+   which is subject to the statement \verb!_:x <p> <o>.! %\linebreak
+   So \verb! <s> <p> [<q> <o>].! stands for \verb!<s> <p> _:x. _:x <q> <o>.!
+ %\item \verb!a! is a~shortcut for \verb!rdf:type!~\cite{RDF}.
+ \end{itemize}
+\end{remark}
+
+
+
+To emphasize the difference between brackets which form part of the \nthree vocabulary, i.e. ``\verb!(!'', ``\verb!)!'', ``\verb!{!'', and ``\verb!}!'', 
+and the brackets occurring in mathematical language, we will underline the \nthree brackets in all definitions where both kinds of brackets occur.
