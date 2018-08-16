@@ -4,38 +4,31 @@
 \select@language {dutch}
 \select@language {english}
 \contentsline {chapter}{Abstract}{xi}{chapter*.9}
-\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.0.1}
-\contentsline {chapter}{\numberline {2}A unifying logic for the Semantic Web}{3}{chapter.0.2}
-\contentsline {section}{\numberline {2.1}The vision of the Semantic Web}{3}{section.0.2.1}
-\contentsline {section}{\numberline {2.2}Architecture}{3}{section.0.2.2}
-\contentsline {subsection}{\numberline {2.2.1}Data Interchange}{3}{subsection.0.2.2.1}
-\contentsline {subsection}{\numberline {2.2.2}Querying}{3}{subsection.0.2.2.2}
-\contentsline {subsection}{\numberline {2.2.3}Ontologies}{3}{subsection.0.2.2.3}
-\contentsline {subsection}{\numberline {2.2.4}Rule Based Logics}{4}{subsection.0.2.2.4}
-\contentsline {subsection}{\numberline {2.2.5}Unifying Logic}{4}{subsection.0.2.2.5}
-\contentsline {subsection}{\numberline {2.2.6}Proofs}{5}{subsection.0.2.2.6}
-\contentsline {section}{\numberline {2.3}Research questions}{5}{section.0.2.3}
-\contentsline {chapter}{\numberline {3}Semantics of Notation3}{9}{chapter.0.3}
-\contentsline {section}{\numberline {3.1}Syntax}{9}{section.0.3.1}
-\contentsline {section}{\numberline {3.2}Implicit quantification}{11}{section.0.3.2}
-\contentsline {subsection}{\numberline {3.2.1}Existentials}{12}{subsection.0.3.2.1}
-\contentsline {subsection}{\numberline {3.2.2}Universals}{13}{subsection.0.3.2.2}
-\contentsline {section}{\numberline {3.3}Direct Semantics}{17}{section.0.3.3}
-\contentsline {subsection}{\numberline {3.3.1}Formalization of quantification}{17}{subsection.0.3.3.1}
-\contentsline {subsection}{\numberline {3.3.2}Interpretations and models}{20}{subsection.0.3.3.2}
-\contentsline {section}{\numberline {3.4}Elaboration Semantics for N3}{22}{section.0.3.4}
-\contentsline {chapter}{\numberline {4}Notation3 and other frameworks}{23}{chapter.0.4}
-\contentsline {section}{\numberline {4.1}OWL}{23}{section.0.4.1}
-\contentsline {section}{\numberline {4.2}SPARQL}{23}{section.0.4.2}
-\contentsline {section}{\numberline {4.3}RIF}{23}{section.0.4.3}
-\contentsline {chapter}{\numberline {5}Proofs and exchange of proofs}{25}{chapter.0.5}
-\contentsline {section}{\numberline {5.1}Proof calculus}{25}{section.0.5.1}
-\contentsline {section}{\numberline {5.2}Applications of Proofs}{29}{section.0.5.2}
-\contentsline {subsection}{\numberline {5.2.1}RESTdesc\xspace Descriptions}{29}{subsection.0.5.2.1}
-\contentsline {subsection}{\numberline {5.2.2}Sensdesc}{34}{subsection.0.5.2.2}
-\contentsline {chapter}{\numberline {6}Going beyond first order logic: expressing changes}{37}{chapter.0.6}
-\contentsline {section}{\numberline {6.1}Weighted Transition Logic}{37}{section.0.6.1}
-\contentsline {chapter}{\numberline {7}N3 as unifying Logic}{39}{chapter.0.7}
-\contentsline {chapter}{\numberline {8}Conclusion}{41}{chapter.0.8}
-\contentsline {chapter}{Appendices}{43}{section*.22}
-\contentsline {chapter}{Bibliography}{45}{chapter*.23}
+\contentsline {part}{I\hspace {1em}Introduction}{1}{part.10}
+\contentsline {chapter}{\numberline {1}Introduction}{3}{chapter.11}
+\contentsline {chapter}{\numberline {2}A unifying logic for the Semantic Web}{7}{chapter.12}
+\contentsline {section}{\numberline {2.1}The vision of the Semantic Web}{7}{section.13}
+\contentsline {section}{\numberline {2.2}Architecture}{7}{section.14}
+\contentsline {subsection}{\numberline {2.2.1}Data Interchange}{7}{subsection.16}
+\contentsline {subsection}{\numberline {2.2.2}Querying}{7}{subsection.17}
+\contentsline {subsection}{\numberline {2.2.3}Ontologies}{7}{subsection.18}
+\contentsline {subsection}{\numberline {2.2.4}Rule Based Logics}{8}{subsection.19}
+\contentsline {subsection}{\numberline {2.2.5}Unifying Logic}{8}{subsection.20}
+\contentsline {subsection}{\numberline {2.2.6}Proofs}{9}{subsection.21}
+\contentsline {section}{\numberline {2.3}Research questions}{9}{section.22}
+\contentsline {part}{II\hspace {1em}Semantics}{11}{part.23}
+\contentsline {chapter}{\numberline {3}Motivation and Problems}{13}{chapter.24}
+\contentsline {chapter}{\numberline {4}Elaboration Semantics for N3}{15}{chapter.25}
+\contentsline {chapter}{\numberline {5}Esplicit Semantics for N3}{17}{chapter.26}
+\contentsline {part}{III\hspace {1em}N3 in relation to other frameworks}{19}{part.27}
+\contentsline {chapter}{\numberline {6}General Discussion}{21}{chapter.28}
+\contentsline {chapter}{\numberline {7}Use case: Nurse Call System}{23}{chapter.29}
+\contentsline {chapter}{\numberline {8}Use case: Data Validation}{25}{chapter.30}
+\contentsline {part}{IV\hspace {1em}Proofs}{27}{part.31}
+\contentsline {chapter}{\numberline {9}A Proof Calculus for N3}{29}{chapter.32}
+\contentsline {chapter}{\numberline {10}Proofs in Use: RESTdesc}{31}{chapter.33}
+\contentsline {chapter}{\numberline {11}Proofs in Use: SENSdesc}{33}{chapter.34}
+\contentsline {part}{V\hspace {1em}Conclusive Discussion}{35}{part.35}
+\contentsline {chapter}{\numberline {12}Conclusion}{37}{chapter.36}
+\contentsline {chapter}{Appendices}{39}{section*.37}
+\contentsline {chapter}{Bibliography}{41}{chapter*.38}

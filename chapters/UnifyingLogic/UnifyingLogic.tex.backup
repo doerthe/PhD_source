@@ -1,11 +1,58 @@
 \chapter{A unifying logic for the Semantic Web}
+With the idea of the Semantic Web~\cite{SemanticWeb} a new vision how to use the Internet was born. The World Wide
+Web~\cite{bernerslee_1992} and its numerous functionalities should no longer only be used by humans---% 
+who can read websites or follow links to gain knowledge or use applications---but also by computers. To enable the computer to use the Web---just as humans do---%
+it must \emph{understand} the Web. But how does a computer think? How can we teach it content? 
+And which language does it understand? 
+
+%we need logic!
+When a human user reads a text in the Web, he has an idea of the concepts behind. He \emph{knows} for example that the cockatoo is a kind of bird, that most birds can fly 
+and that he
+can browse the Web to find further information. To provide the computer with similar knowledge about concrete objects (the cockatoo) and bigger concepts (birds, flying),
+and to enable it to reason and draw conclusions (cockatoos can fly) a representation of these facts and a clear definition of their meaning is needed: a logic.
+
+To represent basic facts the Semantic Web follows a common standard, the Resource Description Framework (\rdf)~\cite{rdf}. 
+The semantics of \rdf is clearly defined and other standards are designed on top of it, 
+but \rdf itself does not include any entailment regime, in other words: there is no internal
+mechanism designed how the computer is supposed to draw conclusions.
+To either query a graph, or to derive new knowledge applying description logics,
+or rule based reasoning, there are other standards defined. The envisioned architecture of the Semantic Web then 
+foresees a \emph{unifying logic} on top of those. Of which nature this logic needs to be and what the possible candidates are is still subject to discussion. 
+
+In this thesis we take a closer look at the unifying logic and 
+discuss one of the candidates to become such a logic: 
+\notationthree. 
+Introduced by Tim Berners-Lee et al. \cite{N3Logic}, \notationthree is a rule-based logic which extends \rdf
+by different features like an inference mechanism, the option to cite graphs and the possibility to express proofs.
+
+
+
+% In order to enable the computer to read from the Web, understand it and draw its own conclusions different technologies are needed: first of all, knowledge needs to be 
+% represented in an unambiguous way. It is rather difficult for the computer to decide whether the term \emph{bass} refers to a fish or a musical instrument, 
+% but by using different 
+% unique names employing Uniform Resource Identifiers (\uris) it can clearly distinguish between  \texttt{dbr:Bass_guitar}.
+
+% When humans process language, a lot of knowledge is required. To decide whether the term \emph{bass} refers to a fish or a musical instrument they need context.
+% If humans browse through the Web, they read written content which they are able to process because of their knowledge of the world. Without 
+
+% All of us have already tried to directly talk to the computer---especially when we were frustrated and nothing seemed to work---but even when we scream in such situations, 
+% the computer's reaction is rather disappointing. A lot of afford is made to change this situation and to enable the computer to understand natural language, 
+% but there are still obstacles: human language tends to be ambiguous. Without knowing the context it is hard to tell whether the term 
+
+% In order to ``teach'' the computer these concepts, it needs to be able to parse the language used and to make sense of it. 
+% And even though there is an agreement that this language cannot be natural language---with all its ambiguities which are impossible or at least very difficult to resolve by a 
+% machine---but that a logic is needed, the opinions about the nature of that logic differ: description logic based formalisms are very powerful and allow for complex reasoning but they 
+% are also sensible for mistakes.
+
+
+
 \section{The vision of the Semantic Web}
 My idea for this chapter is to explain a little bit more about the semantic web in general and its architecture
 
 
 \section{Architecture}
 
-Gerber \cite{Gerber} \cite{Gerber2}. Really nicht: abstracts from technnologies. Bad: the word ``unifying Logic'' dissapeared.
+Gerber \cite{Gerber} \cite{Gerber2}. Really nice: abstracts from technnologies. Bad: the word ``unifying Logic'' dissapeared.
 
 \cite{rearch} Paper by Boley, Kifer, etc. ``realistic'' architecture, not just one technology. 
 
@@ -42,6 +89,9 @@ An unambiguous way to express knowledge is needed, a logic.
 This logic needs to be well defined to avoid misunderstandings and it needs to be agreed on this definition between all possible parties involved.
 
 
+Also say why you should go for N3: unifying logic is not just a theoretical construct, it also gives practical advantages: reasoning is often faster when you use only one logic.  
+It has advantages if you need 
+the features of different frameworks. Of course, if you know that, eg only querying is needed you should still go for SPARQL.
 
 
 % The Unifying Logic needs to be well-defined in itself, it needs to be able to ``understand'' the underlying formats, in particular to query, do DL reasoning and use rules. 
@@ -83,17 +133,57 @@ Then: we know the differences, can we fomalize those?
 
 To do so, we go for attribute grammars, implemet a tool, test the impact of the problem.
 
-We argue that we are in favor of doing as EYE does, but for the rest of the thesis we assume the semantics as in the team submission. Foollowing that, we also give a direct semantic which we want 
+We argue that we are in favor of doing as EYE does, but for the rest of the thesis we assume the semantics as in the team submission. Following that, we also give a direct semantic which we want 
 to use in the following chapters.
 
 Question: should I display both, direct and elaboration Semantics? Alternative: only go for elaboration, but then the proofs in the RESTdesc part need to be adjusted.
 
-\textbf{Part2:}
+Conclusion: N3 is, as we will see a very nice logic. To be used in the web, a better semantics is needed. 
+
+\textbf{Part 2:}
+N3 and other standards.
+
+The idea of this chapter is to illustrade on practical cases that tasks which were already implemented by different frameworks can be taken over by N3. We have two use cases: 
+
+Firstly, a nurse call system. Here, a solution was implemented in OWL DL using SPARQL on top of it. We show that N3 can be use to combine the parts of DL relevant for this approach SPARQL queries. 
+The reasoning times of both systems are then compared. We also discuss steps to further improve performance of reasoning.  
+
+Secondly: finding constraints. Here, other approaches also suggest to use SPARQL and DL reasoning, we again argue that N3 is a very good fit for this use case. As an extra aspect, we discuss the features of 
+N3 which are important for this use case. Here, we emphasize scoped negation as failuere and the fact that RIF predicates are supported (something we need from a unifying logic).
 
 
+A: owl
+
+Show that OWL RL is quite powerful (first ORCA paper).
+ - introduce use case
+Show that reasoning can be optimized with precomputation.
+
+Dhort new part that we can go beyond OWL RL, say why, but: futere work
+
+B: querying and RIF
+example constraints paper (need to think about that part).
+
+\textbf{Part 3:}
+Message: Proofs are expressible in N3. Proofs are a very useful tool with many applications beyond trust.
 
 
+N3 and proofs
 
+First: it is possible to express proofs in N3: introduce the calculus.
+
+Second: it is a very nice feature even beyond the obvious use of ``trust''. To show that, we introduce two practical applications
+
+A: Pragmatic proof: we describe Web APIs using N3 rules. Then we can use proofs to combine these. Has been used for many applications. Problem: no way to express change
+
+B: Sensdesc: same idea as RESTdesc but in a different setting: we use rules to describe possible queries to streams. Then we can use the proof to determine whether a query is relevant for a request.
+
+Conclusion: The feature ``proof'' is very useful. For some use cases N3 has limits.
+
+% \textbf{Part 4: going beyond the limits}
+% 
+% introduce weighted transition logic to express change
+% 
+% This part is optional
 
 
 

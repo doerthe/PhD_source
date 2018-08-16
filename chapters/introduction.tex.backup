@@ -31,7 +31,7 @@ Introduced by Tim Berners-Lee et al. \cite{N3Logic}, \notationthree Logic is a r
 by different features like an inference mechanism, the option to cite graphs and the possibility to express proofs.
 We discuss how the logic itself can be formalised, how it interacts with other formalisms and how proofs are useful for applications.
 
-This thesis consists of 5 parts and 12 chapters in total:
+This thesis consists of 5 parts and 11 chapters in total:
 
 \begin{description}
 \item[Part \ref{intro} -- Introduction] includes, apart from this text, a discussion the envisioned architecture of the Semantic Web and the concept of a 
@@ -103,17 +103,13 @@ beyond simple verification and assessment of trustworthiness.
 
 \emph{Chapter~\ref{cal}} introduces the calculus and the language used to express proofs in \nthree. We prove the correctness of the former.
 
-We next present two applications of proofs:
-
-In \emph{Chapter~\ref{restdesc}} the RESTdesc framework is introduced. Here, \nthree rules are used to
+We next present two applications of proofs. In \emph{Chapter~\ref{restdesc}} the RESTdesc framework is introduced. Here, \nthree rules are used to
 describe possible operations of Web APIs. These can then be automatically combined into a plan to fulfil a goal. To generate this plan, proofs are used.
 
-In \emph{Chapter~\ref{sensdesc}} a similar idea is used. With SENSDesc we describe possible queries to \rdf streams using rules. 
-A proof can then be used to determine whether a query is relevant for a request.
+In \emph{Chapter~\ref{sensdesc}} a similar idea is used. Here we describe  Sensdesc: same idea as RESTdesc but in a different setting: we use rules to describe possible queries to streams. Then we can use the proof to determine whether a query is relevant for a request.
 
 
 \item[Part~\ref{conclusion} -- Conclusion]
-With \emph{Chapter~\ref{concl}} we conclude this thesis, come back to the research question and discuss future work.
 \end{description}
 
 

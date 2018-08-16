@@ -1,11 +1,21 @@
 \documentclass[11pt,a4paper,twoside]{book}
 % add draft to the options to make the compile go faster
 
-%\synctex=1
+
 
 %packages
 \usepackage{varioref} % cool references to pages etc
-\usepackage{hyperref} % make links
+\usepackage[colorlinks,
+pdfpagelabels,
+pdfstartview = FitH,
+bookmarksopen = true,
+bookmarksnumbered = true,
+linkcolor = black,
+plainpages = false,
+hypertexnames = false,
+citecolor = black]{hyperref} % make links
+
+
 
 \usepackage{url}						% urls (duh)
 \usepackage{doi}						% doi links
@@ -206,11 +216,11 @@
 \makeglossaries
 
 
-
-% for the papers part, reset chapter numbering a new part
-\makeatletter
-\@addtoreset{chapter}{part}
-\makeatother
+% I don't need that, but: if I want the chapters in every part could start again with 1
+% % for the papers part, reset chapter numbering a new part
+% \makeatletter
+% \@addtoreset{chapter}{part}
+% \makeatother
 
 % this must be one of the last packages loaded
 \usepackage{cleveref}
@@ -457,46 +467,50 @@
 \mainmatter
  %   \part{Variational determination of the two-particle density matrix: the case of doubly-occupied space}
 
+\part{Introduction} \label{intro}
 \input{chapters/introduction}
 
 % reset all acronyms after the introduction
-\glsresetall
+%\glsresetall
 
 \input{chapters/UnifyingLogic/UnifyingLogic}
 
+\part{Semantics}\label{semantics}
+
+\chapter{Motivation and Problems}\label{problem}
+
+%\input{chapters/N3/Syntax}
+%\input{chapters/N3/Finding_the_meaning}
+%\input{chapters/N3/directsemantics}
+\chapter{Elaboration Semantics for N3}\label{emph}
 
 
-\chapter{Semantics of Notation3}
-\section{Implicit quantification}
-\section{Direct Semantics for N3}
-\section{Elaboration Semantics for N3}
-
-
-\chapter{Notation3 and other frameworks}
-\section{OWL}
-\section{SPARQL}
-\section{RIF}
+\part{N3 in relation to other frameworks}\label{others}
+\chapter{Use case: Nurse Call System}
+\chapter{Use case: Data Validation}
 
 
 
 
 
 scoped negation as failure
-\chapter{Proofs and exchange of proofs}
+\part{Proofs}\label{proof}
 
+\chapter{A Proof Calculus for N3}
 OWL: expressing proofs is difficult (I guess possible but as far as I know not done). N3 is good because it is rather  easy to express proofs.
-\input{chapters/Proofs/proofcalculus}
-\section{Applications of Proofs}
-\subsection{RestDesc}
-\subsection{Sensdesc}
+%\input{chapters/Proofs/proofcalculus}
+%\section{Applications of Proofs}
+%\input{chapters/Proofs/PP}
+%\subsection{Sensdesc}
+\chapter{Proofs in Use: RESTdesc}
+\chapter{Proofs in Use: SENSdesc}
 
 
 
+% \part{Going beyond}
+% \section{Weighted Transition Logic}
 
-\chapter{Going beyond first order logic: expressing changes}
-\section{Weighted Transition Logic}
-\chapter{N3 as unifying Logic}
-\chapter{Conclusion}
+\part{Conclusive Discussion}\label{conclusion}
 
 
 
@@ -520,7 +534,7 @@ OWL: expressing proofs is difficult (I guess possible but as far as I know not d
 
 \bookmarksetupnext{level=part} % puts the bookmark at the same level as a part
 \begin{appendices}
-    \input{listpapers}
+%    \input{listpapers}
 
 \end{appendices}
 
