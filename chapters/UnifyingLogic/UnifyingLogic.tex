@@ -1,53 +1,81 @@
 \chapter{Unifying Logic} \label{uni}
-
+In this chapter we discuss the idea of a unifying logic for the Semantic Web. The term itself stems form the so-called Semantic Web Stack (or Semantic Web Layer Cake).
+This schema represents the envisioned architecture for the Semantic Web and the unifying logic is one of its pieces.
+We start with a discussion of that stack followed by a discussion of the elements which are relevant for this thesis.
 
 
 \section{The architecture of the Semantic Web}
+ To concretely realise the dream of a machine understandable Web as it was envisioned by Tim Berners-Lee et al. \cite{SemanticWeb}, 
+an architecture has been proposed, the  
+ ``Semantic Web Stack'' (aka ``Semantic Web Layer Cake'').
+This stack provides a structural overview of the different concepts, technologies and standards needed for the Semantic Web to become reality. 
+Its shape has changed over the years \cite{Gerber2} due to the progress made---several languages such as \rdf \cite{rdf} and SPARQL \cite{sparql} have been standardised---but also 
+as a consequence of controversial discussion \cite{twotowers,rearch}. 
+Knowing that this version can---and most probably will---evolve and change in the coming years, we take the current 
+version from wikipedia, which is a slight modification of the latest official version available,\footnote{Available at: \url{https://www.w3.org/2007/03/layerCake.svg}.} 
+into account and discuss its different parts. This version is displayed in Figure~\ref{fig:stack}. 
 \begin{figure}[h!]
 	\centering
 	%\begin{adjustwidth}{-\marginnotewidth}{}%
-	\includegraphics{Semantic_Web_Stack}
+	\includegraphics[width=0.5\textwidth]{stack2}
 	%\end{adjustwidth}
-	\caption{Semantic Web Stack in its version from 2007.}
+	\caption[Semantic Web Stack]{Semantic Web Stack.\footnotemark}
 	\label{fig:stack}
 \end{figure}
+\footnotetext{Source: \url{https://en.wikipedia.org/wiki/Semantic_Web_Stack}}
+Each layer placed on top of other layers  depends on  these other layers but not on those above them. Neighbouring layers can, but not necessarily have to make use of each other. 
+We go from the bottom of the stack to its top to explain all its elements:
 
-To concretely realise the dream of a machine understandable Web as it was envisioned by Tim Berners-Lee et al. \cite{SemanticWeb}, 
-an architecture has been proposed, the  
- ``Semantic Web Stack'' (aka ``Semantic Web Layer Cake'').
-This stack provides a structural overview of the different concepts, technologies and standards needed for the Seamntic Web to become reality. 
-Its shape has changed over the years \cite{Gerber2} due to the progress made---several languages such as \rdf \cite{rdf} and SPARQL \cite{sparql} have been standardised---but also 
-as a consequence of controversial discussion \cite{twotowers,rearch}. 
-Knowing that the current version can---and most probably will---evolve and change in the coming years, we take the current 
-version\footnote{Available at: \url{https://www.w3.org/2007/03/layerCake.svg}.} 
-into account and discuss its different parts. This version is displayed in Figure~\ref{fig:stack}.
+\begin{description}
+ \item[Character Set] To be compatible with the current Web and its applications, but also with textual documents in all languages in general,
+ the Semantic Web relies on Unicode.
+ \item[Identifiers] The Semantic Web is a global network which relies on interoperability. In such a big setting, it is crucial that the names of individuals and concepts are unique.
+ For their representation Uniform Resource Identifiers (\uris) and Internationalized Resource Identifiers (\iri{}s) are used.  
+ \item[Syntax] There are several syntax formats frequently used in the Semantic Web. Standards of the World Wide Web are employed---such as XML or JSON---but also formats 
+ only created for the Semantic Web such as for example the Terse RDF Triple Language (Turtle). The fact that the Semantic Web stack only mentions XML and omits which are also often used
+ is often 
+ a point of criticism.\footnote{See for example the discussion at: \url{https://lists.w3.org/Archives/Public/semantic-web/2016Feb/0121.html}.} 
+ \item[Data Interchange]
+In order to exchange data it must be agreed on  a common structure to express knowledge. This 
+structure should not be too complex for a machine to parse but still 
+powerful enough to make simple statements and connections. 
+In the Semantic Web the Resource Description Framework (\rdf) was developed with 
+that goal in mind. Knowledge is expressed using simple triples consisting of subject,
+predicate and object. By using unique names (\iri{}s and \uris) connections between different triples are made. 
+Ideally, one resulting graph then forms the Semantic Web.
+ \item[Taxonomies] For the simple classification of objects and properties the Semantic Web uses the standard \rdf Schema (\rdf{}s). \rdf{}s extends the basic representation format 
+ \rdf by several predicates with a predefined meaning such as for example \texttt{rdfs:subclassOf} to denote that one class is a subclass of another. 
+ %
+ \item[Ontologies]
+ The taxonomy already gives some basic information about concepts and individuals in the web. To express more complex things in a fixed way, ontologies are used. 
+ Ontologies can be understood as a collection of statements about concepts, classes and individuals using a broad variety of logical predicates which have a fixed meaning for the computer.
+ Even though, in that sense a collection of rules over \rdf data could be understood as an ontology,  in the Semantic Web context the term refers to a set of statements written in the Web 
+ Ontology Language (\owl). This language is based on description logics and a reasoner can use these statements to draw conclusions.
+ %
+ \item[Rules] Alternatively to \owl, but also in combination with this standard, there is another way of stating knowledge about concepts and data in the Semantic Web: rules. 
+ Having their origin in classical logic programming, rules are used to directly state which triples or pattern of triples can be concluded from given information. To combine rule-based reasoning 
+ with \owl reasoning the Semantic Web Rule Language (swrl) can be used. As a general format to exchange different kinds of rules, the Rule Interchange Format (RIF) was created. There are also many other 
+ rule-based logics used in the Semantic Web which are not standardised (yet), the most important one to mention for this thesis is \notationthree logic (\nthreelogic) 
+ which is the subject of this thesis.
+ \item[Querying] Independently of whether reasoning is performed on \rdf data or not, there are many situations in which a user or an application wants to retrieve information 
+ by searching for triples of a certain kind. Therefore, querying is an important part of the Semantic Web. To query data from \rdf the SPARQL Protocol And RDF Query Language (SPARQL) is used.
+ \item[Unifying Logic]
+ \item[Proof]
+ \item[Cryptography]
+ \item[Trust]
+ \item[User interface and applications]
+\end{description}
 
 
-% The Semantic Web as it is worked on today was introduced at the beginning of this millennium.\cite{SemanticWeb}
-% Tim Berners-Lee et al. had the idea of a Semantic Web which  
-% 
-% Together with that proposal, there were more concrete plans, how such a vision can be realised including the discussion of the structure of such a new Semantic Web. 
-% A first version of the envisioned architecture was presented by Tim Berners-Lee in the year 2000.\footnote{\url{https://www.w3.org/2000/Talks/1206-xml2k-tbl/slide10-0.html}} 
-% Since then, this architecture has changed several times
-% %came with a first version\footnote{\url{https://www.w3.org/2000/Talks/1206-xml2k-tbl/slide10-0.html}} 
-% Together with that idea different strategies and concepts how this new Web can come into practice have been proposed.
-% One of them is the Semantic Web architecture, %realize that idea an architecture was proposed\footnote{First version: \url{https://www.w3.org/2000/Talks/1206-xml2k-tbl/slide10-0.html}}  
-% the ``Semantic Web Stack'' (aka ``Semantic Web Layer Cake''). Even though
-% there is no official working group addressing the topic of that architecture, 
-% there have been several changes from the original architecture which was proposed in a talk by Tim Berners-Lee in the year 2000.\footnote{\url{https://www.w3.org/2000/Talks/1206-xml2k-tbl/slide10-0.html}} 
-% 
 
 
 Introduction given by Hogan \cite{hogan}.
-
-
-
-Gerber \cite{Gerber} \cite{Gerber2}. Really nice: abstracts from technnologies. Bad: the word ``unifying Logic'' dissapeared.
-
-Ian Horrocks: two towers \cite{twotowers} -- by supporting the closed world assumption we get two semantic webs.
-
-
-\cite{rearch} Paper by Boley, Kifer, etc. ``realistic'' architecture, not just one technology. 
+% Gerber \cite{Gerber} \cite{Gerber2}. Really nice: abstracts from technnologies. Bad: the word ``unifying Logic'' dissapeared.
+% 
+% Ian Horrocks: two towers \cite{twotowers} -- by supporting the closed world assumption we get two semantic webs.
+% 
+% 
+% \cite{rearch} Paper by Boley, Kifer, etc. ``realistic'' architecture, not just one technology. 
 
 
 \subsection{Data Interchange}
