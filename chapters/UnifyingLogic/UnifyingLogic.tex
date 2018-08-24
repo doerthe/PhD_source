@@ -99,9 +99,7 @@ The logic should thus support the inference mechanisms of these three underlying
  together with the progress of the Semantic Web as a whole, we expect a lot more to come.
 \end{description}
 
-
-
-
+%After having briefly introduced the Semantic Web Stack, it is worth to mention that there are different points which are 
 % Introduction given by Hogan \cite{hogan}.
 % Gerber \cite{Gerber} \cite{Gerber2}. Really nice: abstracts from technnologies. Bad: the word ``unifying Logic'' dissapeared.
 % 
@@ -119,8 +117,29 @@ The logic should thus support the inference mechanisms of these three underlying
 % \subsection{Ontologies}
 % RDFS
 % OWL
+Introducing the Semantic Web stack, its critical points should also be discussed:
+One problem which was already mentioned above is that the current stack explicitly names XML as a base for the syntax while many applications rather use formats like 
+the JSON based JSON-LD~\cite{jsonld} or the Turtle~\cite{turtle}, which is also easy to read for humans, to represent \rdf.\footnote{Even though in the case of Turtle this point 
+is somehow addressed as the \rdf layer directly 
+touches the layer of identifiers which are directly used by Turtle.} This point is certainly true, 
+but we see the formats occurring in the stack as open lists of formalisms which have already been standardized to serve the purpose mentioned 
+rather than a simple declaration of the decision in favour of a format. To emphasize this, we added to every layer which is labelled with a standard also the general purpose this layer 
+fulfils. These names are not always present in the original stack our figure is based on.
 
-\section{Unifying Logic}
+Other possible problems with the stack can be found in the middle layer: While \owl and SPARQL are concrete logics disposing over their own semantics (see \cite{owlrdfsem,owldsem} 
+and \cite{sparql}, respectively), RIF~\cite{rif} is a format to interchange rules and not a logic on its own.
+\todo{maybe add online reference for rif? Get the owl citations right}
+
+Here: Problems with Ontology layer
+
+Even the parts realised have certain ``cracks'' or problems. It was mentioned earlier that all higher layers should rely
+on the layers beneath them. That said, one would expect that \owl would be compatible with \rdf{}S---and there exists a version which actually is, \owl full. 
+
+Must it even be \emph{one} unifying logic?
+
+\section{The Unifying Logic}
+
+
 
 Mention: RDF is only compatible with owl full
 
@@ -210,6 +229,7 @@ The meaning of every statement needs to be clearly defined.
  \item[support of proofs] It must be possible to express, interchange and check all derivations made in the logic.
  \item[capability to handle change] It must be possible to express and reason about change.
 \end{description}
+
 
 
 \section{Research questions}
