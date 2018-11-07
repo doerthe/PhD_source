@@ -118,11 +118,11 @@ The logic should thus support the inference mechanisms of these three underlying
 % \subsection{Ontologies}
 % RDFS
 % OWL
-Introducing the Semantic Web stack, its critical points should also be discussed:
-
+% Introducing the Semantic Web stack, its critical points should also be discussed:
+%
 %Above, we explained, that the upper layers of the Semantic Web stack should depend on the lower ones, this particular detail often leads to discussion on several levels  
-
-One problem which often leads to disputes\footnote{See for example: \url{https://lists.w3.org/Archives/Public/semantic-web/2016Feb/0121.html}} 
+%
+One detail which often leads to discussion\footnote{See for example: \url{https://lists.w3.org/Archives/Public/semantic-web/2016Feb/0121.html}} 
 is that the current stack explicitly names XML~\cite{XML} as a base for the syntax while many applications rather use formats like 
 the JSON-based JSON-LD~\cite{jsonld} or Turtle~\cite{turtle}, 
 which is also easy to read for humans, to represent \rdf.\footnote{Even though in the case of Turtle this point 
@@ -132,6 +132,55 @@ However, in this thesis we see the formats occurring in the stack as open lists 
 rather than a simple declaration of the decision in favour of a format. To emphasize this, we added to every layer which is labelled with a standard also the general purpose this layer 
 fulfils. These names are not always present in the original stack our figure is based on.
 
+
+\section{The Logical Layers}
+%The \emph{Unifying Logic} is the piece of the Semantic Web stack we are going to focus on in this thesis. As this logic is 
+After the overview of all layers of the Semantic Web stack, we now dive deeper into the different logical concepts involved which the layer \emph{Unifying Logic} 
+is meant to combine. 
+These are the the building blocks \emph{Querying}, \emph{Ontologies/Taxonomies} and \emph{Rules} and their base \emph{Data Interchange}. 
+The focus of this section are the different formats used on these layers, their semantics and their relation between each other.
+% and the next upper layer, \emph{Proof}, in more detail to then clearly define the requirements
+% such a unifying logic needs to fulfil.
+
+\subsection{Data Interchange}
+To exchange data the Semantic Web uses \rdf. \rdf can be expressed in several syntaxes, namely XML, Turtle or JSON-LD. 
+ In this thesis we are going to use Turtle syntax, since that
+is the syntax \rdf shares with Notation3. Knowledge is expressed in simple triples consisting of \emph{subject}, \emph{predicate} and \emph{object}. Examples are displayed in 
+Listing~\ref{triple}. The triple in line 3 means \textit{``Jim is a cockatoo.''} 
+
+Of course, this notion of \emph{meaning} has a formal definition as well:
+\rdf Semantics~\cite{RDFSemantics} defines simple interpretations. The functions IS and IL map the different elements of a triple into the domain
+of discourse which here consists of the set of 
+resources (IR) and the set of
+properties (IP). Properties are then assigned to elements of the powerset of all pairs of resources ($2^{IR\times IR}$) by an extra mapping IEXT.
+Triples are considered true if the pair consisting of the values of subject and object $(IS(s),IS(o))\in IEXT(IS(p))$ is element of the 
+\begin{lstlisting}[
+  float=t,
+  caption={Example triples in \rdf. },
+  label=triple]
+§\scriptsize\textcolor{gray}{
+@prefix\quad  : <http://example.org/ex\#>.}§
+
+:jim a :Cockatoo.
+_:x a :Cockatoo.
+\end{lstlisting}
+\rdf furthermore offers the option to use existential quantification which can be expressed by using so-called blank nodes.  These can either be written 
+using brackets \texttt{[]}
+or using expressions starting with \texttt{\_:}. The triple in line 4 of Listing~\ref{triple} for example means that \textit{``Cockatoos exist.''} 
+For the interpretation of existentially quantified variables assignment functions A are used which map existential variables to the set of resources IR.
+
+
+
+\subsection{Querying}
+SPARQL has its own query semantics which is agnostic about the meaning of \rdf triples. For SPARQL these are only patterns but these patterns need to be aligned 
+with the search patterns of SPARQL.
+
+\subsection{Taxonomies and Ontologies}
+More problematic is the relationship of \owl and \rdf. \owl  has been designed on the base of Description Logics~\cite{dl}. a logical framework based on First Order Logic 
+which---in contrast to the latter---has the advantage to be decidable. For \owl there exist two syntaxes, one direct syntax 
+
+
+\subsection{Rules}
 Another detail of the stack which is often criticised has to do with the middle layer: While \owl and SPARQL are concrete logics---in case of \owl 
 with sub-logics~\cite{OWLRL}---disposing 
 over their own clearly defined unambiguous semantics (see \cite{owlrdfsem,owldsem} 
@@ -166,14 +215,11 @@ can be semantically aligned with \rdf.
 % serve : the crea Semantic Web.
 %RIF is standardised disagreement
 
-SPARQL has its own query semantics which is agnostic about the meaning of \rdf triples. For SPARQL these are only patterns but these patterns need to be aligned 
-with the search patterns of SPARQL.
-
-More problematic is the relationship of \owl and \rdf. \owl  has been designed on the base of Description Logics~\cite{dl}. a logical framework based on First Order Logic 
-which---in contrast to the latter---has the advantage to be decidable. For \owl there exist two syntaxes, one direct syntax 
 
 
 
+
+\section{The Unifying Logic}
 In my opinion, only SPARQL is compatible with RDF (but I have to think about it) -> naja, sparql definiert nur query pattern und is in gewissen sinne agnostisch was die bedeutung der triple betrifft.
 
 Here: Problems with Ontology layer
@@ -182,9 +228,6 @@ Even the parts realised have certain ``cracks'' or problems. It was mentioned ea
 on the layers beneath them. That said, one would expect that \owl would be compatible with \rdf{}S---and there exists a version which actually is, \owl full. 
 
 Must it even be \emph{one} unifying logic?
-
-\section{The Unifying Logic}
-
 
 
 Mention: RDF is only compatible with owl full
