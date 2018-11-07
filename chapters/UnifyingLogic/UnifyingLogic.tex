@@ -38,10 +38,11 @@ We go from the bottom of the stack to its top to explain all its elements:
  \item[Identifiers] The Semantic Web is a global network which relies on interoperability. In such a big setting, it is crucial that the names of individuals and concepts are unique.
  For their representation Uniform Resource Identifiers (\uris) and Internationalized Resource Identifiers (\iri{}s) are used.  
  \item[Syntax] There are several syntax formats frequently used in the Semantic Web. Standards of the World Wide Web are employed---such as XML or JSON---but also formats 
- only created for the Semantic Web such as for example the Terse RDF Triple Language (Turtle). The fact that the Semantic Web stack only mentions XML and omits 
- other notations which are also used
- is often 
- a point of criticism.\footnote{See for example the discussion at: \url{https://lists.w3.org/Archives/Public/semantic-web/2016Feb/0121.html}.} 
+ only created for the Semantic Web such as for example the Terse RDF Triple Language (Turtle). 
+%  The fact that the Semantic Web stack only mentions XML and omits 
+%  other notations which are also used
+%  is often 
+%  a point of criticism.\footnote{See for example the discussion at: \url{https://lists.w3.org/Archives/Public/semantic-web/2016Feb/0121.html}.} 
  \item[Data Interchange]
 In order to exchange data it must be agreed on  a common structure to express knowledge. This 
 structure should not be too complex for a machine to parse but still 
@@ -118,17 +119,62 @@ The logic should thus support the inference mechanisms of these three underlying
 % RDFS
 % OWL
 Introducing the Semantic Web stack, its critical points should also be discussed:
-One problem which was already mentioned above is that the current stack explicitly names XML as a base for the syntax while many applications rather use formats like 
-the JSON based JSON-LD~\cite{jsonld} or the Turtle~\cite{turtle}, which is also easy to read for humans, to represent \rdf.\footnote{Even though in the case of Turtle this point 
+
+%Above, we explained, that the upper layers of the Semantic Web stack should depend on the lower ones, this particular detail often leads to discussion on several levels  
+
+One problem which often leads to disputes\footnote{See for example: \url{https://lists.w3.org/Archives/Public/semantic-web/2016Feb/0121.html}} 
+is that the current stack explicitly names XML~\cite{XML} as a base for the syntax while many applications rather use formats like 
+the JSON-based JSON-LD~\cite{jsonld} or Turtle~\cite{turtle}, 
+which is also easy to read for humans, to represent \rdf.\footnote{Even though in the case of Turtle this point 
 is somehow addressed as the \rdf layer directly 
-touches the layer of identifiers which are directly used by Turtle.} This point is certainly true, 
-but we see the formats occurring in the stack as open lists of formalisms which have already been standardized to serve the purpose mentioned 
+touches the layer of identifiers which are directly used by Turtle.} This is certainly a valid criticism. 
+However, in this thesis we see the formats occurring in the stack as open lists of formalisms which have already been standardized to serve the purpose mentioned 
 rather than a simple declaration of the decision in favour of a format. To emphasize this, we added to every layer which is labelled with a standard also the general purpose this layer 
 fulfils. These names are not always present in the original stack our figure is based on.
 
-Other possible problems with the stack can be found in the middle layer: While \owl and SPARQL are concrete logics disposing over their own semantics (see \cite{owlrdfsem,owldsem} 
-and \cite{sparql}, respectively), RIF~\cite{rif} is a format to interchange rules and not a logic on its own.
-\todo{maybe add online reference for rif? Get the owl citations right}
+Another detail of the stack which is often criticised has to do with the middle layer: While \owl and SPARQL are concrete logics---in case of \owl 
+with sub-logics~\cite{OWLRL}---disposing 
+over their own clearly defined unambiguous semantics (see \cite{owlrdfsem,owldsem} 
+and \cite{sparql}, respectively), RIF~\cite{rif} is a format to interchange rules. Being designed for that purpose, RIF supports different paradigms with sometimes 
+conflicting model-theoretic semantics (eg well-founded vs stable semantics) or even with no model-theoretic semantics at all: 
+for the RIF Production Rule Dialect (RIF-PRD)~\cite{rifprd} only operational semantics is defined. 
+As a connection between these formats, RIF offers RIF Core \cite{rifcore}, a minimal rule language supporting common features of rule languages which can be 
+extended to define the semantics of concrete languages.
+This broad support of different forms of rule-based languages makes it easy to create a new rule language and relate it to the standard---in that sense it is really
+appealing from a theoretical point of view---but it also forms a burden for the bigger goal
+behind the Semantic Web Stack: the realisation of the Semantic Web. Practitioners creating applications want to \emph{use rules}
+and not  \emph{create or compare rule languages}. For the outsider the complex RIF landscape can be overwhelming. This is one possible reason why the 
+full potential of RIF is barely used in practice. 
+
+% Another aspect weakening the position of RIF in the stack is that its syntax is directly based on XML 
+% and not on \rdf which offers different syntactic variants of which only one is \rdf/XML. 
+% This makes the connection to \rdf rather loose
+
+As discussed above, the upper layers of the Semantic Web stack should depend on the lower ones. 
+Above, we already discussed that in the case of the syntax layer this is not always the case 
+since XML is only one syntactical option to represent \rdf. The dependency problem is also given for the upper layers depending on \rdf:
+
+RIF is independent of \rdf and poses own semantic definitions. The integration of \rdf into RIF can be done using so-called slots, an extra note~\cite{rifrdf} 
+explains how RIF dialects 
+can be semantically aligned with \rdf. 
+%\rdf and \owl can be integrated to RIF via so-called slots, the   
+%
+%Nevertheless, even this group of 
+%This means that it is a family of logics which do not all have Semantics defined.
+%As it is, RIF is a very good format to \emph{define} languages, but with its oneness   
+% Being a very open standard, RIF misses the opportunity to force the community to stick to a certain rule format which is crucial if we have in mind that it was created to 
+% serve : the crea Semantic Web.
+%RIF is standardised disagreement
+
+SPARQL has its own query semantics which is agnostic about the meaning of \rdf triples. For SPARQL these are only patterns but these patterns need to be aligned 
+with the search patterns of SPARQL.
+
+More problematic is the relationship of \owl and \rdf. \owl  has been designed on the base of Description Logics~\cite{dl}. a logical framework based on First Order Logic 
+which---in contrast to the latter---has the advantage to be decidable. For \owl there exist two syntaxes, one direct syntax 
+
+
+
+In my opinion, only SPARQL is compatible with RDF (but I have to think about it) -> naja, sparql definiert nur query pattern und is in gewissen sinne agnostisch was die bedeutung der triple betrifft.
 
 Here: Problems with Ontology layer
 
