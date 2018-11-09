@@ -133,54 +133,97 @@ rather than a simple declaration of the decision in favour of a format. To empha
 fulfils. These names are not always present in the original stack our figure is based on.
 
 
-\section{The Logical Layers}
-%The \emph{Unifying Logic} is the piece of the Semantic Web stack we are going to focus on in this thesis. As this logic is 
-After the overview of all layers of the Semantic Web stack, we now dive deeper into the different logical concepts involved which the layer \emph{Unifying Logic} 
-is meant to combine. 
-These are the the building blocks \emph{Querying}, \emph{Ontologies/Taxonomies} and \emph{Rules} and their base \emph{Data Interchange}. 
-The focus of this section are the different formats used on these layers, their semantics and their relation between each other.
-% and the next upper layer, \emph{Proof}, in more detail to then clearly define the requirements
-% such a unifying logic needs to fulfil.
-
-\subsection{Data Interchange}
-To exchange data the Semantic Web uses \rdf. \rdf can be expressed in several syntaxes, namely XML, Turtle or JSON-LD. 
- In this thesis we are going to use Turtle syntax, since that
-is the syntax \rdf shares with Notation3. Knowledge is expressed in simple triples consisting of \emph{subject}, \emph{predicate} and \emph{object}. Examples are displayed in 
-Listing~\ref{triple}. The triple in line 3 means \textit{``Jim is a cockatoo.''} 
-
-Of course, this notion of \emph{meaning} has a formal definition as well:
-\rdf Semantics~\cite{RDFSemantics} defines simple interpretations. The functions IS and IL map the different elements of a triple into the domain
-of discourse which here consists of the set of 
-resources (IR) and the set of
-properties (IP). Properties are then assigned to elements of the powerset of all pairs of resources ($2^{IR\times IR}$) by an extra mapping IEXT.
-Triples are considered true if the pair consisting of the values of subject and object $(IS(s),IS(o))\in IEXT(IS(p))$ is element of the 
-\begin{lstlisting}[
-  float=t,
-  caption={Example triples in \rdf. },
-  label=triple]
-§\scriptsize\textcolor{gray}{
-@prefix\quad  : <http://example.org/ex\#>.}§
-
-:jim a :Cockatoo.
-_:x a :Cockatoo.
-\end{lstlisting}
-\rdf furthermore offers the option to use existential quantification which can be expressed by using so-called blank nodes.  These can either be written 
-using brackets \texttt{[]}
-or using expressions starting with \texttt{\_:}. The triple in line 4 of Listing~\ref{triple} for example means that \textit{``Cockatoos exist.''} 
-For the interpretation of existentially quantified variables assignment functions A are used which map existential variables to the set of resources IR.
+% \section{The Logical Building Blocks}
+% After the overview of all layers of the Semantic Web stack, we now dive deeper into the different logical concepts involved which the layer \emph{Unifying Logic} 
+% is meant to combine. 
+% These are the the building blocks \emph{Querying}, \emph{Ontologies/Taxonomies} and \emph{Rules} and their base \emph{Data Interchange}. 
+% The focus of this section are the different formats used on these layers, their semantics and their relation between each other.
 
 
+\section{\rdf as the Base of the Logical Building Blocks}
+While the standards proposed for the other building blocks of the Semantic Web stack are subject to discussion---some more than others as the example of XML shows---\rdf as 
+the standard 
+used for data interchange is widely accepted. The Linked Open Data Cloud (LOD Cloud)~\cite{LODCloud}---at the time of writing (November 2018) 
+consisting of 1,229 datasets each containing at least 1,000 \rdf triples---is one indicator for that, the various papers using \rdf papers 
+published at different conferences, eg \cite{iswc,eswc},
+are another. 
+%As the decision for a logic to interchange data is not only made by the \wwwc consortium, but even commonly accepted in practice
+Given this strong position of \rdf as the proposed standard for data interchange 
+the logical building blocks \emph{Querying}, \emph{Ontologies/Taxonomies} and \emph{Rules} and---as a consequence---also the
+\emph{Unifying Logic} need to connect to \rdf. 
+This connection can be on syntactic level---other standards can use \rdf's syntax of triples---but to really realise a \emph{Semantic} Web 
+such a connection needs to be stronger:
+\rdf is a logic and has its own formally defined semantics~\cite{RDFSemantics} and other logical concepts relying on it need to take that fact into account. 
+We now discuss the relation of \rdf and the different standards listed in the Semantic Web Stack in detail.
 
-\subsection{Querying}
+Querying
+
 SPARQL has its own query semantics which is agnostic about the meaning of \rdf triples. For SPARQL these are only patterns but these patterns need to be aligned 
 with the search patterns of SPARQL.
+SPARQL uses a syntax defined on top of \rdf. 
+SPIN~\cite{spin}
 
-\subsection{Taxonomies and Ontologies}
+
+
+\rdf Schema (\rdf{}S)~\cite{RDFS} was developed together with \rdf and extends this rather basic logic by several predicates having a fixed meaning such as for example 
+\texttt{rdfs:range} and \texttt{rdfs:domain} to specify the domain and range of a predicate or \texttt{rdfs:subClassOf} to express hierarchies between different classes.
+%The same official document~\cite{RDFSemantics} which defines the semantics of \rdf also specified the meaning of \rdf{}S predicates and entailments which can be done using those.
+The semantics of \rdf{}S is defined in the same official document~\cite{RDFSemantics} \rdf's is and therefore it is not surprising that these two standards are fully compatible
+on both levels, syntax and semantics. 
+This makes \rdf{}S a good choice  to fulfil the requirements of the \emph{Taxonomy} layer. \rdf{}S truly extends \rdf. 
+
+On a syntactic level \owl is compatible with \rdf---there exists a representation of \owl in \rdf~\cite{owltordf}---but semantically, 
+the situation is more complicated: There are two semantics for OWL defined, the direct semantics~\cite{owldsem} and the \rdf-based semantics~\cite{owlrdfsem}
+
+%Given that popularity other standards in the Semantic Web need to be based on this one just as envisioned by the stack.
+
+
+
+
+% To exchange data the Semantic Web uses \rdf. \rdf can be expressed in several syntaxes, eg XML, Turtle or JSON-LD. 
+%  In this thesis we are going to use Turtle syntax, since that
+% is the syntax \rdf shares with Notation3. Knowledge is expressed in simple triples consisting of \emph{subject}, \emph{predicate} and \emph{object} ($s$, $p$, $o$). 
+% Examples are displayed in 
+% Listing~\ref{triple}. The triple in line 3 means \textit{``Jim is a cockatoo.''} 
+% 
+% Of course, this notion of \emph{meaning} has a formal definition as well:
+% \rdf Semantics~\cite{RDFSemantics} defines simple interpretations. The functions $IS$ and $IL$ (together $I$) map the different elements of a triple into the domain
+% of discourse which here consists of the set of 
+% resources ($IR$) and the set of
+% properties ($IP$). Properties are then assigned to elements of the powerset of all pairs of resources ($2^{IR\times IR}$) by an extra mapping $IEXT$.
+% Triples are considered true if the pair consisting of the values of subject and object is element of the value assigned to the predicate, ie if $(I(s),I(o))\in IEXT(I(p))$. 
+% \begin{lstlisting}[
+%   float=t,
+%   caption={Example triples in \rdf. },
+%   label=triple]
+% §\scriptsize\textcolor{gray}{
+% @prefix\quad  : <http://example.org/ex\#>.}§
+% 
+% :jim a :Cockatoo.
+% _:x a :Cockatoo.
+% \end{lstlisting}
+% \rdf furthermore offers the option to use existential quantification which can be expressed by using so-called blank nodes.  These can either be written 
+% using brackets \texttt{[]}
+% or using expressions starting with \texttt{\_:}. The triple in line 4 of Listing~\ref{triple} for example means that \textit{``Cockatoos exist.''} 
+% For the interpretation of existentially quantified variables assignment functions $A$ 
+% are used which map existential variables to the set of resources $IR$.  A triple containing a blank node is considered true if for this blank node such a mapping $A$ can 
+% be found which makes 
+% the triple true in combination 
+% with the interpretation.
+% 
+% The format \rdf is broadly used in practice. The Linked Open Data Cloud \cite{LODCloud}
+% \subsection{The relation to the base}
+
+
+
+Taxonomies and Ontologies
+
 More problematic is the relationship of \owl and \rdf. \owl  has been designed on the base of Description Logics~\cite{dl}. a logical framework based on First Order Logic 
 which---in contrast to the latter---has the advantage to be decidable. For \owl there exist two syntaxes, one direct syntax 
 
 
-\subsection{Rules}
+Rules
+
 Another detail of the stack which is often criticised has to do with the middle layer: While \owl and SPARQL are concrete logics---in case of \owl 
 with sub-logics~\cite{OWLRL}---disposing 
 over their own clearly defined unambiguous semantics (see \cite{owlrdfsem,owldsem} 
@@ -219,7 +262,7 @@ can be semantically aligned with \rdf.
 
 
 
-\section{The Unifying Logic}
+\subsection{Connecting the Logical Building Blocks}
 In my opinion, only SPARQL is compatible with RDF (but I have to think about it) -> naja, sparql definiert nur query pattern und is in gewissen sinne agnostisch was die bedeutung der triple betrifft.
 
 Here: Problems with Ontology layer
@@ -319,6 +362,7 @@ The meaning of every statement needs to be clearly defined.
  \item[capability to handle change] It must be possible to express and reason about change.
 \end{description}
 
+\subsection{Proofs}
 
 
 \section{Research questions}
