@@ -7,7 +7,7 @@ Therefore we start with a discussion of that stack in general to then focus on t
 \section{The architecture of the Semantic Web}
  To concretely realise the dream of a machine understandable Web as it was envisioned by Tim Berners-Lee et al. \cite{SemanticWeb}, 
 an architecture has been proposed, the  
- ``Semantic Web Stack'' (aka ``Semantic Web Layer Cake'').
+ \emph{Semantic Web Stack} (aka \emph{Semantic Web Layer Cake}).
 This stack provides a structural overview of the different concepts, technologies and standards needed for the Semantic Web to become reality. 
 Its shape has changed over the years \cite{Gerber2} due to the progress made---several languages such as \rdf \cite{rdf} and SPARQL \cite{sparql} have been standardised---but also 
 as a consequence of controversial discussion \cite{twotowers,rearch}. 
@@ -156,12 +156,16 @@ such a connection needs to be stronger:
 \rdf is a logic and has its own formally defined semantics~\cite{RDFSemantics} and other logical concepts relying on it need to take that fact into account. 
 We now discuss the relation of \rdf and the different standards listed in the Semantic Web Stack in detail.
 
-Querying
-
-SPARQL has its own query semantics which is agnostic about the meaning of \rdf triples. For SPARQL these are only patterns but these patterns need to be aligned 
-with the search patterns of SPARQL.
-SPARQL uses a syntax defined on top of \rdf. 
-SPIN~\cite{spin}
+The query language SPARQL treats \rdf as a data structure in which can be searched for particular patterns. In that sense, SPARQL only makes use of the syntax of \rdf and 
+is agnostic about its specific semantics. However, the query semantics of SPARQL is compatible with \rdf and the specification even states, how SPARQL can be aligned with different 
+entailment regimes including simple \rdf entailment.  The syntax of SPARQL is defined on top of \rdf and uses \rdf's  triple structure to express the graph pattern to search for. 
+There exists an approach to fully express SPARQL
+queries in \rdf, the SPARQL Inferencing Notation (SPIN)~\cite{spin}. 
+While this notation is syntactically compatible with \rdf, SPIN conflicts with \rdf's model theory: To express SPARQL's query variables SPIN uses blank nodes. The problem here is
+that blank nodes already have a meaning, they are understood as implicitly existentially quantified variables. This is opposed to the meaning of query variables: 
+when a variable is used
+in a search pattern, it is the purpose of the SPARQL query to provide evidence for the \emph{existence} of an instance of the variable but in case that this is not possible
+it is not sure whether such an instance \emph{exists}.
 
 
 
@@ -170,54 +174,12 @@ SPIN~\cite{spin}
 %The same official document~\cite{RDFSemantics} which defines the semantics of \rdf also specified the meaning of \rdf{}S predicates and entailments which can be done using those.
 The semantics of \rdf{}S is defined in the same official document~\cite{RDFSemantics} \rdf's is and therefore it is not surprising that these two standards are fully compatible
 on both levels, syntax and semantics. 
-This makes \rdf{}S a good choice  to fulfil the requirements of the \emph{Taxonomy} layer. \rdf{}S truly extends \rdf. 
+\rdf{}S thus truly extends \rdf. 
 
+For the ontology level the Semantic Web Stack proposes the Web Ontology Language (OWL)~\cite{owlold} which has evolved further since the creation 
+of the Semantic Web Stack to OWL~2~\cite{owl}.
 On a syntactic level \owl is compatible with \rdf---there exists a representation of \owl in \rdf~\cite{owltordf}---but semantically, 
 the situation is more complicated: There are two semantics for OWL defined, the direct semantics~\cite{owldsem} and the \rdf-based semantics~\cite{owlrdfsem}
-
-%Given that popularity other standards in the Semantic Web need to be based on this one just as envisioned by the stack.
-
-
-
-
-% To exchange data the Semantic Web uses \rdf. \rdf can be expressed in several syntaxes, eg XML, Turtle or JSON-LD. 
-%  In this thesis we are going to use Turtle syntax, since that
-% is the syntax \rdf shares with Notation3. Knowledge is expressed in simple triples consisting of \emph{subject}, \emph{predicate} and \emph{object} ($s$, $p$, $o$). 
-% Examples are displayed in 
-% Listing~\ref{triple}. The triple in line 3 means \textit{``Jim is a cockatoo.''} 
-% 
-% Of course, this notion of \emph{meaning} has a formal definition as well:
-% \rdf Semantics~\cite{RDFSemantics} defines simple interpretations. The functions $IS$ and $IL$ (together $I$) map the different elements of a triple into the domain
-% of discourse which here consists of the set of 
-% resources ($IR$) and the set of
-% properties ($IP$). Properties are then assigned to elements of the powerset of all pairs of resources ($2^{IR\times IR}$) by an extra mapping $IEXT$.
-% Triples are considered true if the pair consisting of the values of subject and object is element of the value assigned to the predicate, ie if $(I(s),I(o))\in IEXT(I(p))$. 
-% \begin{lstlisting}[
-%   float=t,
-%   caption={Example triples in \rdf. },
-%   label=triple]
-% §\scriptsize\textcolor{gray}{
-% @prefix\quad  : <http://example.org/ex\#>.}§
-% 
-% :jim a :Cockatoo.
-% _:x a :Cockatoo.
-% \end{lstlisting}
-% \rdf furthermore offers the option to use existential quantification which can be expressed by using so-called blank nodes.  These can either be written 
-% using brackets \texttt{[]}
-% or using expressions starting with \texttt{\_:}. The triple in line 4 of Listing~\ref{triple} for example means that \textit{``Cockatoos exist.''} 
-% For the interpretation of existentially quantified variables assignment functions $A$ 
-% are used which map existential variables to the set of resources $IR$.  A triple containing a blank node is considered true if for this blank node such a mapping $A$ can 
-% be found which makes 
-% the triple true in combination 
-% with the interpretation.
-% 
-% The format \rdf is broadly used in practice. The Linked Open Data Cloud \cite{LODCloud}
-% \subsection{The relation to the base}
-
-
-
-Taxonomies and Ontologies
-
 More problematic is the relationship of \owl and \rdf. \owl  has been designed on the base of Description Logics~\cite{dl}. a logical framework based on First Order Logic 
 which---in contrast to the latter---has the advantage to be decidable. For \owl there exist two syntaxes, one direct syntax 
 
@@ -262,10 +224,11 @@ can be semantically aligned with \rdf.
 
 
 
-\subsection{Connecting the Logical Building Blocks}
-In my opinion, only SPARQL is compatible with RDF (but I have to think about it) -> naja, sparql definiert nur query pattern und is in gewissen sinne agnostisch was die bedeutung der triple betrifft.
+\section{Connecting the Logical Building Blocks}
 
-Here: Problems with Ontology layer
+
+We want to have a unifying logic which connects the functionalities. We want \rdf as a base. We want to be able to choose how the reasoning deals with owl given that owl full is 
+undecidable. 
 
 Even the parts realised have certain ``cracks'' or problems. It was mentioned earlier that all higher layers should rely
 on the layers beneath them. That said, one would expect that \owl would be compatible with \rdf{}S---and there exists a version which actually is, \owl full. 
@@ -362,7 +325,7 @@ The meaning of every statement needs to be clearly defined.
  \item[capability to handle change] It must be possible to express and reason about change.
 \end{description}
 
-\subsection{Proofs}
+
 
 
 \section{Research questions}
