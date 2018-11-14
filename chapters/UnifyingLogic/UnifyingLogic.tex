@@ -176,12 +176,28 @@ The semantics of \rdf{}S is defined in the same official document~\cite{RDFSeman
 on both levels, syntax and semantics. 
 \rdf{}S thus truly extends \rdf. 
 
-For the ontology level the Semantic Web Stack proposes the Web Ontology Language (OWL)~\cite{owlold} which has evolved further since the creation 
-of the Semantic Web Stack to OWL~2~\cite{owl}.
-On a syntactic level \owl is compatible with \rdf---there exists a representation of \owl in \rdf~\cite{owltordf}---but semantically, 
-the situation is more complicated: There are two semantics for OWL defined, the direct semantics~\cite{owldsem} and the \rdf-based semantics~\cite{owlrdfsem}
-More problematic is the relationship of \owl and \rdf. \owl  has been designed on the base of Description Logics~\cite{dl}. a logical framework based on First Order Logic 
-which---in contrast to the latter---has the advantage to be decidable. For \owl there exist two syntaxes, one direct syntax 
+For the ontology layer the Semantic Web Stack proposes the Web Ontology Language (OWL)~\cite{owlold} which has evolved further to OWL~2~\cite{owl}. 
+On the syntactic level \owl~2 is compatible with \rdf. There are different syntaxes defined for \owl but the \rdf{}/XML syntax is mandatory for all 
+systems supporting \owl~2 and other 
+syntaxes can be mapped to that~\cite{owltordf}.
+For the semantics the situation is more complicated: There are two different semantics for \owl~2. 
+The \emph{direct semantics}~\cite{owldsem} for the structural syntax of \owl~2~\cite{owlsyn1} is purely based on Description Logics~\cite{dl} a subset of first order logic
+which is known 
+to be decidable.
+This flavour of \owl 2 is also called \emph{\owl DL} and there are several reasoners for it and its subprofiles OWL 2 RL, OWL 2 QL and OWL 2 EL~\cite{OWLRL}
+like for example Pellet~\cite{Pellet}, HermiT~\cite{hermit} or RDFox~\cite{rdfox}.  
+Even though it can be represented using \rdf \emph{syntax}, \owl DL is not \emph{semantically compatible} with \rdf and 
+does for example not interpret blank nodes as existentially quantified variables.
+To provide a semantic connection between \owl and \rdf, 
+the \emph{\rdf-based semantics}~\cite{owlrdfsem} for the \rdf-representation of \owl 2 was created. % to  logically combine \rdf{}(S) with description logics.   
+The logic supported by this semantics is also called \emph{\owl Full}. OWL full is not decidable and there are no reasoners implemented to fully support 
+this logic. 
+% ---there exists a representation of \owl in \rdf~\cite{owltordf}---but semantically, 
+% the situation is more complicated: There are two semantics for OWL defined, the direct semantics~\cite{owldsem} and the \rdf-based semantics~\cite{owlrdfsem}
+% More problematic is the relationship of \owl and \rdf. \owl  has been designed on the base of Description Logics~\cite{dl}. a logical framework based on First Order Logic 
+% which---in contrast to the latter---has the advantage to be decidable. For \owl there exist two syntaxes, one direct syntax 
+
+For the rule layer, the Semantic Web Stack lists the Rule Interchange Format (RIF)~\cite{rif}.
 
 
 Rules
