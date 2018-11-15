@@ -156,16 +156,26 @@ such a connection needs to be stronger:
 \rdf is a logic and has its own formally defined semantics~\cite{RDFSemantics} and other logical concepts relying on it need to take that fact into account. 
 We now discuss the relation of \rdf and the different standards listed in the Semantic Web Stack in detail.
 
-The query language SPARQL treats \rdf as a data structure in which can be searched for particular patterns. In that sense, SPARQL only makes use of the syntax of \rdf and 
+The query language SPARQL~\cite{sparql} treats \rdf as a data structure in which can be searched for particular patterns. In that sense, SPARQL only makes use of the syntax of \rdf and 
 is agnostic about its specific semantics. However, the query semantics of SPARQL is compatible with \rdf and the specification even states, how SPARQL can be aligned with different 
 entailment regimes including simple \rdf entailment.  The syntax of SPARQL is defined on top of \rdf and uses \rdf's  triple structure to express the graph pattern to search for. 
 There exists an approach to fully express SPARQL
 queries in \rdf, the SPARQL Inferencing Notation (SPIN)~\cite{spin}. 
-While this notation is syntactically compatible with \rdf, SPIN conflicts with \rdf's model theory: To express SPARQL's query variables SPIN uses blank nodes. The problem here is
-that blank nodes already have a meaning, they are understood as implicitly existentially quantified variables. This is opposed to the meaning of query variables: 
-when a variable is used
-in a search pattern, it is the purpose of the SPARQL query to provide evidence for the \emph{existence} of an instance of the variable but in case that this is not possible
-it is not sure whether such an instance \emph{exists}.
+While this notation is syntactically compatible with \rdf, there are several constructs which make the integration of SPIN on a semantic level problematic:
+SPIN represents SPARQL queries as blank nodes whose different properties are then specified in \rdf triples. The problem with this notation is that these blank nodes do 
+not simply represent anonymous objects in \rdf but implicitly existentially quantified variables. This means that, by using SPIN notation, a user just states that a 
+query \emph{exists}. This is something different than writing down a query which one wants to execute.\footnote{
+To understand this difference, consider the two sentences: (1) \emph{``The moon is made of cheese.''} and (2) \emph{``There exists the statement that the moon is made of cheese.``}
+The person using sentence 1 expresses his believe that the moon is made of cheese while by stating sentence 2 nothing is said about the believe of the speaker concerning the moon.
+} 
+Similar problems arise from the use of blank nodes to represent other concepts like for example the search variables of a query. 
+% Blank nodes are for example used to represent query variables which is opposed to their meaning:
+% % 
+% % To express SPARQL's query variables SPIN uses blank nodes. The problem here is
+% % that blank nodes already have a meaning, they are understood as implicitly existentially quantified variables. This is opposed to the meaning of query variables: 
+% When a variable is used
+% in a search pattern, it is the purpose of the SPARQL query to provide evidence for the \emph{existence} of an instance of the variable but in case that this is not possible
+% it is not sure whether such an instance \emph{exists}.
 
 
 
@@ -198,35 +208,60 @@ this logic.
 % which---in contrast to the latter---has the advantage to be decidable. For \owl there exist two syntaxes, one direct syntax 
 
 For the rule layer, the Semantic Web Stack lists the Rule Interchange Format (RIF)~\cite{rif}.
-
-
-Rules
-
-Another detail of the stack which is often criticised has to do with the middle layer: While \owl and SPARQL are concrete logics---in case of \owl 
-with sub-logics~\cite{OWLRL}---disposing 
-over their own clearly defined unambiguous semantics (see \cite{owlrdfsem,owldsem} 
-and \cite{sparql}, respectively), RIF~\cite{rif} is a format to interchange rules. Being designed for that purpose, RIF supports different paradigms with sometimes 
+While \rdf{}S, \owl and SPARQL are concrete logics disposing 
+over their own semantics, RIF~\cite{rif} is a format to \emph{interchange} rules. 
+Being designed for that purpose, RIF supports different paradigms with sometimes 
 conflicting model-theoretic semantics (eg well-founded vs stable semantics) or even with no model-theoretic semantics at all: 
 for the RIF Production Rule Dialect (RIF-PRD)~\cite{rifprd} only operational semantics is defined. 
 As a connection between these formats, RIF offers RIF Core \cite{rifcore}, a minimal rule language supporting common features of rule languages which can be 
 extended to define the semantics of concrete languages.
-This broad support of different forms of rule-based languages makes it easy to create a new rule language and relate it to the standard---in that sense it is really
-appealing from a theoretical point of view---but it also forms a burden for the bigger goal
-behind the Semantic Web Stack: the realisation of the Semantic Web. Practitioners creating applications want to \emph{use rules}
-and not  \emph{create or compare rule languages}. For the outsider the complex RIF landscape can be overwhelming. This is one possible reason why the 
-full potential of RIF is barely used in practice. 
+% This broad support of different forms of rule-based languages makes it easy to create a new rule language and relate it to the standard---in that sense it is really
+% appealing from a theoretical point of view---but it also forms a burden for the bigger goal
+% behind the Semantic Web Stack: the realisation of the Semantic Web. Practitioners creating applications want to \emph{use rules}
+% and not  \emph{create or compare rule languages}. 
+% For the outsider the complex RIF landscape can be overwhelming. This is one possible reason why the 
+% full potential of RIF is barely used in practice. 
+The syntax of RIF is based directly on XML but can be mapped to an \rdf representation~\cite{rifinrdf}. 
+As it was the case with SPIN, this representation can be used for data exchange but does not really combine both logics: 
+blank nodes are used to express RIF formulas and variables. \rdf interprets these as existentially quantified.
+The semantics of 
+RIF Core and its different extensions is defined independently of \rdf but the standard also specifies a way to semantically integrate \rdf to RIF~\cite{rifrdf}. 
+However, from the reported implementations supporting RIF\footnote{\url{https://www.w3.org/2005/rules/wiki/Implementations}} only FuXi~\cite{fuxi} and EYE~\cite{EYE}
+explicitly state that they support \rdf. Here, it needs to be said that EYE is based on \nthreelogic and does only support RIF is a translator from RIF to N3 is used
+and FuXi
+
+Say that this is never done in practice.
+% This integration maps triples to so-called frames. The meaning of \iri{}s is preserved by the mapping. Since RIF does not directly support the concept of blank nodes, these are 
+% translated in two ways: firstly, as existentially quantified variables---RIF supports existential quantification for simple statements---and, secondly, in a skolemized version.
+% The latter is done to make it easier to apply rules on triples which in their \rdf version include blank nodes.
+
+% Except for \rdf{}S, the \rdf syntax of the frameworks names is rather artificial: To make statements in 
+
+% Rules
+% 
+% Another detail of the stack which is often criticised has to do with the middle layer: While \owl and SPARQL are concrete logics---in case of \owl 
+% with sub-logics~\cite{OWLRL}---disposing 
+% over their own clearly defined unambiguous semantics (see \cite{owlrdfsem,owldsem} 
+% and \cite{sparql}, respectively), RIF~\cite{rif} is a format to interchange rules. Being designed for that purpose, RIF supports different paradigms with sometimes 
+% conflicting model-theoretic semantics (eg well-founded vs stable semantics) or even with no model-theoretic semantics at all: 
+% for the RIF Production Rule Dialect (RIF-PRD)~\cite{rifprd} only operational semantics is defined. 
+% As a connection between these formats, RIF offers RIF Core \cite{rifcore}, a minimal rule language supporting common features of rule languages which can be 
+% extended to define the semantics of concrete languages.
+% This broad support of different forms of rule-based languages makes it easy to create a new rule language and relate it to the standard---in that sense it is really
+% appealing from a theoretical point of view---but it also forms a burden for the bigger goal
+% behind the Semantic Web Stack: the realisation of the Semantic Web. Practitioners creating applications want to \emph{use rules}
+% and not  \emph{create or compare rule languages}. For the outsider the complex RIF landscape can be overwhelming. This is one possible reason why the 
+% full potential of RIF is barely used in practice. 
 
 % Another aspect weakening the position of RIF in the stack is that its syntax is directly based on XML 
 % and not on \rdf which offers different syntactic variants of which only one is \rdf/XML. 
 % This makes the connection to \rdf rather loose
 
-As discussed above, the upper layers of the Semantic Web stack should depend on the lower ones. 
-Above, we already discussed that in the case of the syntax layer this is not always the case 
-since XML is only one syntactical option to represent \rdf. The dependency problem is also given for the upper layers depending on \rdf:
+% As discussed above, the upper layers of the Semantic Web stack should depend on the lower ones. 
+% Above, we already discussed that in the case of the syntax layer this is not always the case 
+% since XML is only one syntactical option to represent \rdf. The dependency problem is also given for the upper layers depending on \rdf:
 
-RIF is independent of \rdf and poses own semantic definitions. The integration of \rdf into RIF can be done using so-called slots, an extra note~\cite{rifrdf} 
-explains how RIF dialects 
-can be semantically aligned with \rdf. 
+
 %\rdf and \owl can be integrated to RIF via so-called slots, the   
 %
 %Nevertheless, even this group of 
