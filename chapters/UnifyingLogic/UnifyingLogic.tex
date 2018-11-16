@@ -225,12 +225,13 @@ The syntax of RIF is based directly on XML but can be mapped to an \rdf represen
 As it was the case with SPIN, this representation can be used for data exchange but does not really combine both logics: 
 blank nodes are used to express RIF formulas and variables. \rdf interprets these as existentially quantified.
 The semantics of 
-RIF Core and its different extensions is defined independently of \rdf but the standard also specifies a way to semantically integrate \rdf to RIF~\cite{rifrdf}. 
-However, from the reported implementations supporting RIF\footnote{\url{https://www.w3.org/2005/rules/wiki/Implementations}} only FuXi~\cite{fuxi} and EYE~\cite{EYE}
-explicitly state that they support \rdf. Here, it needs to be said that EYE is based on \nthreelogic and does only support RIF is a translator from RIF to N3 is used
-and FuXi
-
-Say that this is never done in practice.
+RIF Core and its different extensions is defined independently of \rdf. 
+The standard also specifies a way to semantically integrate \rdf to RIF~\cite{rifrdf} but to apply rules on \rdf data, this data needs to be translated
+and there are only very few reasoners which do that translation.\footnote{\url{https://www.w3.org/2005/rules/wiki/Implementations}}
+% However, from the reported implementations supporting RIF\footnote{\url{https://www.w3.org/2005/rules/wiki/Implementations}} only FuXi~\cite{fuxi} and EYE~\cite{EYE}
+% explicitly state that they support \rdf. Here, it needs to be said that EYE is based on \nthreelogic and does only support RIF is a translator from RIF to N3 is used
+% and FuXi
+% Say that this is never done in practice.
 % This integration maps triples to so-called frames. The meaning of \iri{}s is preserved by the mapping. Since RIF does not directly support the concept of blank nodes, these are 
 % translated in two ways: firstly, as existentially quantified variables---RIF supports existential quantification for simple statements---and, secondly, in a skolemized version.
 % The latter is done to make it easier to apply rules on triples which in their \rdf version include blank nodes.
@@ -278,7 +279,8 @@ Say that this is never done in practice.
 \section{Connecting the Logical Building Blocks}
 
 
-We want to have a unifying logic which connects the functionalities. We want \rdf as a base. We want to be able to choose how the reasoning deals with owl given that owl full is 
+We want to have a unifying logic which connects the functionalities. We want \rdf as a base. 
+We want to be able to choose how the reasoning deals with owl given that owl full is 
 undecidable. 
 
 Even the parts realised have certain ``cracks'' or problems. It was mentioned earlier that all higher layers should rely
@@ -287,11 +289,9 @@ on the layers beneath them. That said, one would expect that \owl would be compa
 Must it even be \emph{one} unifying logic?
 
 
-Mention: RDF is only compatible with owl full
-
 \cite{twotowers} think that the rules and owl should not be side by side, they see the open world assumption as problem and want to have the rule layer on top of owl dl.
 
-Maybe also mention that the connection of owl and rdfs is rather artificial -> two semantic definitions...
+
 
 %\subsection{Rule Based Logics}
 
@@ -301,7 +301,7 @@ Discussion: closed world assumption a problem
 
 comes also in \cite{rearch}.
 
-Solution:scoped negation as failure.
+Solution: scoped negation as failure.
 
 The paper above sees rules without negation as failure such as swrl just as extension of owl and not as belonging to the other format.
 
