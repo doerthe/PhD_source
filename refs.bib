@@ -356,7 +356,7 @@ year = 2014,
   month = jan,
   year = 2008
 }
-@online{SPARQL,
+@online{sparql,
   author = {Harris, Steve and Seaborne, Andy},
   title = {{SPARQL 1.1 Query Language}},
   note =  {\url{http://www.w3.org/TR/sparql11-query/}},
@@ -554,13 +554,25 @@ year = {}
   urlnote = {\url{http://dl.acm.org/citation.cfm?id=1586263}},
 }
 
-@inproceedings{Pellet,
-    author = {Parsia, Bijan and Sirin, Evren},
-    booktitle = {Proceedings of the Third International Semantic Web Conference},
-    title = {Pellet: An {\sc owl dl} Reasoner},
-    year = {2004},
-    urlnote = {\url{http://iswc2004.semanticweb.org/posters/PID-ZWSCSLQK-1090286232.pdf}},
-}
+@article{Pellet,
+ author = {Sirin, Evren and Parsia, Bijan and Grau, Bernardo Cuenca and Kalyanpur, Aditya and Katz, Yarden},
+ title = {Pellet: A Practical OWL-DL Reasoner},
+ journal = {Journal of Web Semantics},
+ issue_date = {June, 2007},
+ volume = {5},
+ number = {2},
+ month = jun,
+ year = {2007},
+ issn = {1570-8268},
+ pages = {51--53},
+ numpages = {3},
+ url = {http://dx.doi.org/10.1016/j.websem.2007.03.004},
+ doi = {10.1016/j.websem.2007.03.004},
+ acmid = {1265744},
+ publisher = {Elsevier Science Publishers B. V.},
+ address = {Amsterdam, The Netherlands, The Netherlands},
+ keywords = {Description logics, Tableau Theorem Proving, Web Ontology Language},
+} 
 
 @inproceedings{Jena,
   title={Jena: implementing the {Semantic Web} recommendations},
@@ -1460,12 +1472,20 @@ isbn="978-3-540-32028-9"
  keywords = {RDF, XML, description logic, inferencing, information integration, interoperability, knowledge representation, logic programs, model-theoretic semantics, ontologies, rules, semantic web, translation},
 } 
 
-@inproceedings{knorr,
-  title={Reconciling OWL and Non-monotonic Rules for the Semantic Web},
-  author={Knorr, Matthias and Hitzler, Pascal and Maier, Frederick},
-  booktitle={European Conference on Artificial Intelligence},
-  volume={474},
-  pages={479}
+
+@conference {knorr,
+	title = {Reconciling OWL and Non-monotonic Rules for the Semantic Web},
+	booktitle = {ECAI 2012 - 20th European Conference on Artificial Intelligence.},
+	volume = {242},
+	year = {2012},
+	pages = {474--479},
+	publisher = {IOS Press},
+	organization = {IOS Press},
+	address = {Montpellier, France},
+	doi = {10.3233/978-1-61499-098-7-474},
+	url = {http://dx.doi.org/10.3233/978-1-61499-098-7-474},
+	author = {Matthias Knorr and Pascal Hitzler and Frederick Maier},
+	editor = {Luc De Raedt and Christian Bessi{\`e}re and Didier Dubois and Patrick Doherty and Paolo Frasconi and Fredrik Heintz and Peter J. F. Lucas}
 }
 
 @inproceedings{unilogic,
@@ -1781,4 +1801,56 @@ publisher="Springer International Publishing",
 address="Cham",
 pages="3--20",
 isbn="978-3-319-25010-6"
+}
+@online{swrl,
+author= {Ian Horrocks and
+Peter F. Patel-Schneider and
+Harold Boley and
+Said Tabet and
+Benjamin Grosof and
+Mike Dean },
+note= {\url{https://www.w3.org/Submission/SWRL/}},
+title= {{SWRL: A Semantic Web Rule Language
+Combining OWL and RuleML}},
+howpublished = {{\sc w\oldstylenums3c} Member Submission},
+month = may,
+year = 2004,
+}
+@Inbook{snaf1,
+author="Polleres, Axel
+and Feier, Cristina
+and Harth, Andreas",
+editor="Sure, York
+and Domingue, John",
+title="Rules with Contextually Scoped Negation",
+bookTitle="The Semantic Web: Research and Applications: 3rd European Semantic Web Conference, ESWC 2006 Budva, Montenegro, June 11-14, 2006 Proceedings",
+year="2006",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="332--347",
+isbn="978-3-540-34545-9",
+doi="10.1007/11762256_26",
+url="http://dx.doi.org/10.1007/11762256_26"
+}
+
+
+
+@Inbook{snaf2,
+author="Dam{\'a}sio, Carlos Viegas
+and Analyti, Anastasia
+and Antoniou, Grigoris
+and Wagner, Gerd",
+editor="Alferes, J{\'o}se J{\'u}lio
+and Bailey, James
+and May, Wolfgang
+and Schwertel, Uta",
+title="Supporting Open and Closed World Reasoning on the Web",
+bookTitle="Principles and Practice of Semantic Web Reasoning: 4th International Workshop, PPSWR 2006, Budva, Montenegro, June 10-11, 2006, Revised Selected Papers",
+year="2006",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="149--163",
+isbn="978-3-540-39587-4",
+doi="10.1007/11853107_11",
+url="http://dx.doi.org/10.1007/11853107_11"
 }

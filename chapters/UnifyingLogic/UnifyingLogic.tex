@@ -1,7 +1,7 @@
 \chapter{Unifying Logic} \label{uni}
-In this chapter we discuss the idea of a unifying logic for the Semantic Web. The term itself stems form the so-called Semantic Web Stack (or Semantic Web Layer Cake).
+In this chapter we discuss the idea of a unifying logic for the Semantic Web. The term itself stems form the so-called \emph{Semantic Web Stack}.
 This schema represents the envisioned architecture for the Semantic Web and the unifying logic is one of its pieces.
-Therefore we start with a discussion of that stack in general to then focus on the parts relevant for this thesis. This considerations then lead to the research questions.
+Therefore we start with a discussion of that stack in general to then focus on the parts relevant for this thesis. These considerations then lead to the research questions.
 
 
 \section{The architecture of the Semantic Web}
@@ -20,7 +20,7 @@ variant %\footnote{Available at: \url{https://www.w3.org/2007/03/layerCake.svg}.
 The original picture is available at: 
 \url{https://www.w3.org/2007/03/layerCake.svg}.
 A newer (unofficial) version is for example provided by Hogan \cite{hogan}.} 
-\begin{figure}[h!]
+\begin{figure}[!ht]
 	\centering
 	%\begin{adjustwidth}{-\marginnotewidth}{}%
 	\includegraphics[width=0.8\textwidth]{stack6}
@@ -227,7 +227,9 @@ blank nodes are used to express RIF formulas and variables. \rdf interprets thes
 The semantics of 
 RIF Core and its different extensions is defined independently of \rdf. 
 The standard also specifies a way to semantically integrate \rdf to RIF~\cite{rifrdf} but to apply rules on \rdf data, this data needs to be translated
-and there are only very few reasoners which do that translation.\footnote{\url{https://www.w3.org/2005/rules/wiki/Implementations}}
+and there are only very few reasoners which perform that translation.\footnote{From the different engines listed at \url{https://www.w3.org/2005/rules/wiki/Implementations}
+only FuXi, riftr and EYE 
+claim to support \rdf, but for the latter it is clearly stated that the RIF syntax first needs to be translated into the native syntax of EYE by en external tool. }
 % However, from the reported implementations supporting RIF\footnote{\url{https://www.w3.org/2005/rules/wiki/Implementations}} only FuXi~\cite{fuxi} and EYE~\cite{EYE}
 % explicitly state that they support \rdf. Here, it needs to be said that EYE is based on \nthreelogic and does only support RIF is a translator from RIF to N3 is used
 % and FuXi
@@ -277,16 +279,49 @@ and there are only very few reasoners which do that translation.\footnote{\url{h
 
 
 \section{Connecting the Logical Building Blocks}
+On top of the logical building blocks \emph{Querying}, \emph{Ontology/Taxonomy} and \emph{Rules} the Semantic Web Stack foresees a connecting layer: 
+the \emph{Unifying Logic}. Such a connection can, for example, only support the exchange of the results obtained by the different blocks 
+such as the \emph{logic framework}
+envisioned by
+Kifer et al~\cite{rearch} or semantically combine Description Logics and rule-based reasoning in one logic as Knorr et all understand it \cite{knorr}. 
+Regardless of the concrete vision, there are two conceptual differences between the building blocks which are commonly seen 
+as challenging: the closed or open world assumption and decidability.
+
+Classical database languages (eg SQL)  but also many rule languages (eg Prolog) support the \emph{closed world} assumption which basically says that if a statement cannot 
+be derived, 
+it is considered to be false (negation as failure). While such an assumption comes in handy when we have one single database which can be completely searched by applying a query, 
+it is problematic 
+in the environment of the Web: the Web is decentralised and it is impossible to know whether or not something is stated to be true \emph{somewhere} in the Web.
+For that reason \rdf, \rdf{}S and \owl are defined with the \emph{open world assumption}. In contrast to that, the query language SPARQL follows the closed world assumption---the
+filter \texttt{NOT EXISTS} retrieves a positive result if no match can be found for a given pattern \cite[Section 8]{sparql}---and for rule languages that depends on the semantic 
+chosen---SWRL~\cite{swrl} follows the open world assumption while RIF-PRD~\cite{rifprd} supports the closed world assumption. As Kifer et al~\cite{rearch} point out, the solution 
+to that problem lies in a slightly modified form of negation as failure: The concept of \emph{scoped negation as failure}~\cite{snaf1,snaf2} refers 
+to the fact that a statement cannot be derived from a given set of knowledge, the \emph{scope}.
+
+% and rather loose as a \emph{logic framework} connecting the results 
+% of description logic and rule-based reasoning 
+% \cite{rearch} or by the definition of one logic which combines these two logics \cite{knorr,unilogic,DLASP}.
+
+% So far, several approaches for a unifying logic have been proposed, all with their own advantages and disadvantages. An attempt to combine Description logics with rule-based 
+% reasoning has been 
+% %Below we discuss how such a \emph{connection} can be established and whether or not the concrete 
+% %This logic should support the functionalities of all three sub-layers and be compatible with  
+% %and ideally also provide a combined semantic model for 
+% % all standards listed in the stack.   
+% % 
+% % That especially this last goal is difficult to fulfil 
+% % can already be concluded from the last section where we have seen that the  level of compatibility with \rdf differs between different standards which makes it 
+% % even more unlikely to find on approach which syntactically and semantically combines all standards.
+% 
+% Closed versus open world.
+
+Decidability.
 
 
 We want to have a unifying logic which connects the functionalities. We want \rdf as a base. 
 We want to be able to choose how the reasoning deals with owl given that owl full is 
 undecidable. 
 
-Even the parts realised have certain ``cracks'' or problems. It was mentioned earlier that all higher layers should rely
-on the layers beneath them. That said, one would expect that \owl would be compatible with \rdf{}S---and there exists a version which actually is, \owl full. 
-
-Must it even be \emph{one} unifying logic?
 
 
 \cite{twotowers} think that the rules and owl should not be side by side, they see the open world assumption as problem and want to have the rule layer on top of owl dl.
@@ -311,6 +346,8 @@ we can combine them
 
 the paper also see querying as some kind of rule application (I think they are right here).
 
+in the paper they also say that querying and then integrating the results into each other can be a solution. On purpose they do not use
+the term ''unifying logic`` but: ''Logic Framework``
 
 RIF
 
@@ -380,6 +417,11 @@ The meaning of every statement needs to be clearly defined.
 
 
 \section{Research questions}
+
+Important: connection to \rdf, usable in practice (no theoretical construct, but something which can be used, maybe argue on RIF), able to cover the 
+layers ontology/taxonomy, querying, and rules (whatever that layer is), can express proofs.
+
+
 Question: Is N3 a suitable candidate to become the unifying logic for the semantic web?
 
 Sub-questions:
