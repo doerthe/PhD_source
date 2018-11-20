@@ -280,23 +280,43 @@ claim to support \rdf, but for the latter it is clearly stated that the RIF synt
 
 \section{Connecting the Logical Building Blocks}
 On top of the logical building blocks \emph{Querying}, \emph{Ontology/Taxonomy} and \emph{Rules} the Semantic Web Stack foresees a connecting layer: 
-the \emph{Unifying Logic}. Such a connection can, for example, only support the exchange of the results obtained by the different blocks 
-such as the \emph{logic framework}
-envisioned by
-Kifer et al~\cite{rearch} or semantically combine Description Logics and rule-based reasoning in one logic as Knorr et all understand it \cite{knorr}. 
-Regardless of the concrete vision, there are two conceptual differences between the building blocks which are commonly seen 
-as challenging: the closed or open world assumption and decidability.
+the \emph{Unifying Logic}. 
+% How this connection should be has been subject to discussion.
+% Several approaches focussed on the connection of Description Logics, the base of OWL DL, and rule-based reasoning (eg \cite{DLP,knorr,unilogic,DLASP}). 
+% This connection normally deals with 
+% two major challenges:
+Such a connection can, for example, only support the exchange of the results obtained by the different blocks~\cite{rearch} 
+or semantically combine Description Logics and rule-based reasoning in one logic \cite{DLP,knorr,unilogic,DLASP}. 
+Especially this last approach normally deals with two major challenges: 
+the support of a \emph{closed vs open world assumption} and \emph{decidability}.
+
 
 Classical database languages (eg SQL)  but also many rule languages (eg Prolog) support the \emph{closed world} assumption which basically says that if a statement cannot 
 be derived, 
-it is considered to be false (negation as failure). While such an assumption comes in handy when we have one single database which can be completely searched by applying a query, 
+it is considered to be false (negation as failure, NAS). While such an assumption comes in handy when we have one single database which can be completely searched by applying a query, 
 it is problematic 
 in the environment of the Web: the Web is decentralised and it is impossible to know whether or not something is stated to be true \emph{somewhere} in the Web.
-For that reason \rdf, \rdf{}S and \owl are defined with the \emph{open world assumption}. In contrast to that, the query language SPARQL follows the closed world assumption---the
-filter \texttt{NOT EXISTS} retrieves a positive result if no match can be found for a given pattern \cite[Section 8]{sparql}---and for rule languages that depends on the semantic 
-chosen---SWRL~\cite{swrl} follows the open world assumption while RIF-PRD~\cite{rifprd} supports the closed world assumption. As Kifer et al~\cite{rearch} point out, the solution 
-to that problem lies in a slightly modified form of negation as failure: The concept of \emph{scoped negation as failure}~\cite{snaf1,snaf2} refers 
-to the fact that a statement cannot be derived from a given set of knowledge, the \emph{scope}.
+For that reason \rdf, \rdf{}S and \owl are defined with the \emph{open world assumption}. No conclusions can be taken by the fact that something cannot be derived. 
+In contrast to that, the query language SPARQL supports a form of negation as failure. The
+filter \texttt{NOT EXISTS} retrieves a positive result if no match can be found for a given pattern \cite[Section 8]{sparql}.
+For rule languages, it is more complicated:
+RIF-Core~\cite{rifcore} does not cover negation and it depends on the designer of RIF dialect whether and how this concept is handled. From the dialects 
+specified in the \wwwc recommendation, only RIF-PRD~\cite{rifprd} supports the closed world assumption. \\
+But even these cases of negation can be covered by open world concepts: As a SPARQL query is always executed on one or more specific databases and 
+rule languages rely on facts and formulas which are explicitly stated somewhere, we  
+can use the concept of \emph{scoped negation as failure} (SNAF)~\cite{rearch,snaf1,snaf2}. SNAF makes use of the sources (the scope) 
+which where taken into account when executing a 
+query or performing rule-based reasoning. Instead of simply stating that something cannot be proven such as it is done when applying NAF, in SNAF  we
+draw conclusions from the fact that something cannot be derived from a \emph{fixed dataset} which we explicitly name. 
+So, even if somewhere in the Semantic Web a fact x is declared to be true, the statement that we cannot derive that fact x from a fixed knowledge base K 
+is valid.  
+
+Description Logics in general and with them also OWL DL in particular are designed as a subset of First Order Logic which is known to be decidable, ie   
+
+%The semantic Web SWRL~\cite{swrl} follows the open world assumption while RIF-PRD~\cite{rifprd} supports the closed world assumption. 
+% As Kifer et al~\cite{rearch} point out, the solution 
+% to that problem lies in a slightly modified form of negation as failure: The concept of \emph{scoped negation as failure}~\cite{snaf1,snaf2} refers 
+% to the fact that a statement cannot be derived from a given set of knowledge, the \emph{scope}.
 
 % and rather loose as a \emph{logic framework} connecting the results 
 % of description logic and rule-based reasoning 
@@ -314,8 +334,7 @@ to the fact that a statement cannot be derived from a given set of knowledge, th
 % % even more unlikely to find on approach which syntactically and semantically combines all standards.
 % 
 % Closed versus open world.
-
-Decidability.
+% Decidability.
 
 
 We want to have a unifying logic which connects the functionalities. We want \rdf as a base. 
@@ -329,35 +348,35 @@ undecidable.
 
 
 %\subsection{Rule Based Logics}
-
-History about big discussion open vs. closed world assumption.
-
-Discussion: closed world assumption a problem
-
-comes also in \cite{rearch}.
-
-Solution: scoped negation as failure.
-
-The paper above sees rules without negation as failure such as swrl just as extension of owl and not as belonging to the other format.
-
-rules and owl see each other as black boxes.
-we can combine them
--> this reminds me a little bit of validation where we first do dl reasoning and then querying
-
-the paper also see querying as some kind of rule application (I think they are right here).
-
-in the paper they also say that querying and then integrating the results into each other can be a solution. On purpose they do not use
-the term ''unifying logic`` but: ''Logic Framework``
-
-RIF
-
-SWRL
-
-N3
-
-\cite{N3Logic}
-
-Explain this unifying logic, list the attempts to find one and answer the question: why N3 and not those?
+% 
+% History about big discussion open vs. closed world assumption.
+% 
+% Discussion: closed world assumption a problem
+% 
+% comes also in \cite{rearch}.
+% 
+% Solution: scoped negation as failure.
+% 
+% The paper above sees rules without negation as failure such as swrl just as extension of owl and not as belonging to the other format.
+% 
+% rules and owl see each other as black boxes.
+% we can combine them
+% -> this reminds me a little bit of validation where we first do dl reasoning and then querying
+% 
+% the paper also see querying as some kind of rule application (I think they are right here).
+% 
+% in the paper they also say that querying and then integrating the results into each other can be a solution. On purpose they do not use
+% the term ''unifying logic`` but: ''Logic Framework``
+% 
+% RIF
+% 
+% SWRL
+% 
+% N3
+% 
+% \cite{N3Logic}
+% 
+% Explain this unifying logic, list the attempts to find one and answer the question: why N3 and not those?
 
 
 
