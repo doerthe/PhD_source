@@ -288,7 +288,7 @@ the \emph{Unifying Logic}.
 Such a connection can, for example, only support the exchange of the results obtained by the different blocks~\cite{rearch} 
 or semantically combine Description Logics and rule-based reasoning in one logic \cite{DLP,knorr,unilogic,DLASP}. 
 Especially this last approach normally deals with two major challenges: 
-the support of a \emph{closed vs open world assumption} and \emph{decidability}.
+the support of a \emph{closed vs open world assumption} and \emph{decidability}. We discuss both topics in detail.
 
 
 Classical database languages (eg SQL)  but also many rule languages (eg Prolog) support the \emph{closed world} assumption which basically says that if a statement cannot 
@@ -308,10 +308,18 @@ can use the concept of \emph{scoped negation as failure} (SNAF)~\cite{rearch,sna
 which where taken into account when executing a 
 query or performing rule-based reasoning. Instead of simply stating that something cannot be proven such as it is done when applying NAF, in SNAF  we
 draw conclusions from the fact that something cannot be derived from a \emph{fixed dataset} which we explicitly name. 
-So, even if somewhere in the Semantic Web a fact x is declared to be true, the statement that we cannot derive that fact x from a fixed knowledge base K 
-is valid.  
+So, even if we find out later that somewhere in the Semantic Web a fact x is declared to be true, 
+the statement that we cannot derive that fact x from a fixed knowledge base K 
+keeps being valid.  
 
-Description Logics in general and with them also OWL DL in particular are designed as a subset of First Order Logic which is known to be decidable, ie   
+Description Logics in general and with them also OWL DL in particular are designed as a subset of First Order Logic which is known to be decidable. that means that 
+given a set of formulas which are known to be valid in the logic and an arbitrary statement which can be expressed in the language of the logic, 
+there always exists an effective method to
+decide whether or not this statement is a logical consequence of the set of formulas. 
+
+If we really want to connect all logical building blocks we cannot keep decidability since only OWL Full fully covers \rdf and that is already known to not be decidable.
+Our quest should therefore rather enable us to only reason with the information we need and accept that we can not know everything 
+(which is a problem  not only the Semantics Web has to cope with but also something we all deal with in our daily life).
 
 %The semantic Web SWRL~\cite{swrl} follows the open world assumption while RIF-PRD~\cite{rifprd} supports the closed world assumption. 
 % As Kifer et al~\cite{rearch} point out, the solution 
