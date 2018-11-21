@@ -324,6 +324,9 @@ two important building blocks of the Semantic Web.
 The quest for a Unifying Logic should therefore rather focus on ways how information specified in OWL, \rdf and rules can be used to draw conclusions
 and accept that we cannot know everything (which is not only a problem  for Semantic Web technologies but also something we all deal with in our daily life).
 
+
+
+
 %The semantic Web SWRL~\cite{swrl} follows the open world assumption while RIF-PRD~\cite{rifprd} supports the closed world assumption. 
 % As Kifer et al~\cite{rearch} point out, the solution 
 % to that problem lies in a slightly modified form of negation as failure: The concept of \emph{scoped negation as failure}~\cite{snaf1,snaf2} refers 
@@ -348,9 +351,13 @@ and accept that we cannot know everything (which is not only a problem  for Sema
 % Decidability.
 
 
-We want to have a unifying logic which connects the functionalities. We want \rdf as a base. 
-We want to be able to choose how the reasoning deals with owl given that owl full is 
-undecidable. 
+
+
+
+
+% We want to have a unifying logic which connects the functionalities. We want \rdf as a base. 
+% We want to be able to choose how the reasoning deals with owl given that owl full is 
+% undecidable. 
 
 
 % 
@@ -403,33 +410,47 @@ undecidable.
 % 
 % Different approaches in the ``quest for a unifying logic'': extend owl (nominal schemas, same paper \cite{unilogic}), ``merge'' owl and rules (both mentioned in \cite{unilogic}). 
 % We go a third way: rules for all.
-
-approaches consider worst case time complexity (e.g. \cite{unilogic}). -> argue that this is nice but we focus on practical cases.
-
-unifying logic on application level, not just a construct -> we therefore exclude owl full.
-
-
-
-
-Also say why you should go for N3: unifying logic is not just a theoretical construct, it also gives practical advantages: reasoning is often faster when you use only one logic.  
+% 
+% approaches consider worst case time complexity (e.g. \cite{unilogic}). -> argue that this is nice but we focus on practical cases.
+% 
+% unifying logic on application level, not just a construct -> we therefore exclude owl full.
+% 
 
 
-% The Unifying Logic needs to be well-defined in itself, it needs to be able to ``understand'' the underlying formats, in particular to query, do DL reasoning and use rules. 
-% Additionally it should provide the opportunity to connect to the proof layer.
-Requirements:
-\begin{description}
- \item[clear semantic definition] 
-The meaning of every statement needs to be clearly defined.
- \item[compatibility with existing Web standards]  Existing standards of the Semantic Web need to be supported. 
- In particular, querying, Description Logics, and rule based reasoning need to be covered.
- \item[support of proofs] It must be possible to express, interchange and check all derivations made in the logic.
- \item[capability to handle change] It must be possible to express and reason about change.
-\end{description}
+% 
+% Also say why you should go for N3: unifying logic is not just a theoretical construct, it also gives practical advantages: reasoning is often faster when you use only one logic.  
+% 
+% 
+% % The Unifying Logic needs to be well-defined in itself, it needs to be able to ``understand'' the underlying formats, in particular to query, do DL reasoning and use rules. 
+% % Additionally it should provide the opportunity to connect to the proof layer.
+% Requirements:
+% \begin{description}
+%  \item[clear semantic definition] 
+% The meaning of every statement needs to be clearly defined.
+%  \item[compatibility with existing Web standards]  Existing standards of the Semantic Web need to be supported. 
+%  In particular, querying, Description Logics, and rule based reasoning need to be covered.
+%  \item[support of proofs] It must be possible to express, interchange and check all derivations made in the logic.
+%  \item[capability to handle change] It must be possible to express and reason about change.
+% \end{description}
 
 
 
 
 \section{Research questions}
+
+In this thesis we aim to find a pragmatic solution for the Unifying logic. Instead of focussing on the combination of the concrete logical standards listed in the 
+Semantic Web stack which already show ''cracks`` without even adding the layer of a unifying logic---think of the problem of \rdf and OWL DL not being compatible---and 
+are sometimes rather vague like RIF which represents a set of many possible rule languages, we focus on the \emph{functionalities} of the different building blocks and 
+ask the general research question:
+
+\textbf{Research Question 1:} Is it possible to perform the practical tasks 
+connected to the layer \emph{Querying}, \emph{Ontologies/Taxonomies} and \emph{Rules}
+by one single logic which is based on \rdf?
+
+\textbf{Hypothesis 1:} Notation3 Logic can perform the practical tasks connected to the different logical layers of the Semantic Web stack.
+
+
+
 
 Important: connection to \rdf, usable in practice (no theoretical construct, but something which can be used, maybe argue on RIF), able to cover the 
 layers ontology/taxonomy, querying, and rules (whatever that layer is), can express proofs.
@@ -443,13 +464,15 @@ Can we give a clear semantic definition of Notation3 Logic?
 
 How does Notation3 Logic interfere with other formats? Can SPARQL, OWL and RIF be expressed?
 
-Is it possible to express proofs in N3?
+\textbf{Research question:} Is it possible to realise the proof layer in \nthree and can proofs be used for practical applications?
 
-Can N3 handle change?
+\textbf{Hypothesis:} \nthreelogic provides 
 
-I think I need to be more specific. To find that: what do I actually do here?
-
-
+% Can N3 handle change?
+% 
+% I think I need to be more specific. To find that: what do I actually do here?
+% 
+% 
 
 % \textbf{Part 4: going beyond the limits}
 % 
@@ -458,9 +481,3 @@ I think I need to be more specific. To find that: what do I actually do here?
 % This part is optional
 
 
-
-Somewhere I need to talk about problems, especially decidability and for example the problems of OWL full.
-
-Should I have a chapter about negation as failure?
-
-Problem: blank nodes in SPARQL
