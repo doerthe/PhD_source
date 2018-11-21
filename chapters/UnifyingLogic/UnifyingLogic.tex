@@ -286,7 +286,7 @@ the \emph{Unifying Logic}.
 % This connection normally deals with 
 % two major challenges:
 Such a connection can, for example, only support the exchange of the results obtained by the different blocks~\cite{rearch} 
-or semantically combine Description Logics and rule-based reasoning in one logic \cite{DLP,knorr,unilogic,DLASP}. 
+or semantically combine Description Logics and rule-based reasoning in one logic \cite{DLP,knorr,unilogic,DLASP,owlandrules}. 
 Especially this last approach normally deals with two major challenges: 
 the support of a \emph{closed vs open world assumption} and \emph{decidability}. We discuss both topics in detail.
 
@@ -312,14 +312,17 @@ So, even if we find out later that somewhere in the Semantic Web a fact x is dec
 the statement that we cannot derive that fact x from a fixed knowledge base K 
 keeps being valid.  
 
-Description Logics in general and with them also OWL DL in particular are designed as a subset of First Order Logic which is known to be decidable. that means that 
-given a set of formulas which are known to be valid in the logic and an arbitrary statement which can be expressed in the language of the logic, 
-there always exists an effective method to
-decide whether or not this statement is a logical consequence of the set of formulas. 
-
-If we really want to connect all logical building blocks we cannot keep decidability since only OWL Full fully covers \rdf and that is already known to not be decidable.
-Our quest should therefore rather enable us to only reason with the information we need and accept that we can not know everything 
-(which is a problem  not only the Semantics Web has to cope with but also something we all deal with in our daily life).
+Description Logics~\cite{dl} in general and with them OWL DL~\cite{owldsem} in particular are decidable; for every statement expressed in the language of these logics there
+exists an effective method to decide whether or not this statement is consequence of a set of valid formulas. This is not the case for classical 
+First Order Logic~(FOL) and one of the main goals driving the development of Description Logics was to cover as much of the features of FOL as possible while still guaranteeing 
+decidability. Therefore it is not surprising that many approaches of finding a Unifying Logic mainly focus on decidability (eg~\cite{unilogic,dllog}). 
+While this focus forms a very interesting research problem---especially when considering the fact that simply combining decidable rule-based reasoning with description logics 
+does not lead to decidability \cite{orl}---it is of rather theoretical nature when searching for a Unifying Logic: OWL Full, 
+the semantic combination of \rdf and OWL DL is already undecidable which is the reason why no decidable combination of rule-based reasoning and description logics can cover these 
+two important building blocks of the Semantic Web.
+%If we really want to connect all logical building blocks we cannot keep decidability since only OWL Full fully covers \rdf and that is already known to not be decidable.
+The quest for a Unifying Logic should therefore rather focus on ways how information specified in OWL, \rdf and rules can be used to draw conclusions
+and accept that we cannot know everything (which is not only a problem  for Semantic Web technologies but also something we all deal with in our daily life).
 
 %The semantic Web SWRL~\cite{swrl} follows the open world assumption while RIF-PRD~\cite{rifprd} supports the closed world assumption. 
 % As Kifer et al~\cite{rearch} point out, the solution 
@@ -350,9 +353,9 @@ We want to be able to choose how the reasoning deals with owl given that owl ful
 undecidable. 
 
 
-
-\cite{twotowers} think that the rules and owl should not be side by side, they see the open world assumption as problem and want to have the rule layer on top of owl dl.
-
+% 
+% \cite{twotowers} think that the rules and owl should not be side by side, they see the open world assumption as problem and want to have the rule layer on top of owl dl.
+% 
 
 
 %\subsection{Rule Based Logics}
@@ -385,47 +388,30 @@ undecidable.
 % \cite{N3Logic}
 % 
 % Explain this unifying logic, list the attempts to find one and answer the question: why N3 and not those?
-
-
-
-Here or somewhere else mention description logic programs \cite{DLP} which try to combine Description Logic and Logic Programming. - OK, rather their intersection.
-
-\cite{knorr} rules as unifying logic
-
-\cite{unilogic} first attempt to close the rift between rule-based and description logic reasoning, problem remains: open world assumption
-
-
-What do we expect from the ``unifying logic''?
-
-The vision of the Semantic Web is to enable machines to use the Web just as humans do. For that they need to be able to \emph{understand} and \emph{exchange} data through the Web. 
-An unambiguous way to express knowledge is needed, a logic. 
-This logic needs to be well defined to avoid misunderstandings and it needs to be agreed on this definition between all possible parties involved.
-
-
-Different approaches in the ``quest for a unifying logic'': extend owl (nominal schemas, same paper \cite{unilogic}), ``merge'' owl and rules (both mentioned in \cite{unilogic}). We go a third way: rules for all.
+% 
+% 
+% 
+% Here or somewhere else mention description logic programs \cite{DLP} which try to combine Description Logic and Logic Programming. - OK, rather their intersection.
+% 
+% \cite{knorr} rules as unifying logic
+% 
+% \cite{unilogic} first attempt to close the rift between rule-based and description logic reasoning, problem remains: open world assumption
+% 
+% 
+% What do we expect from the ``unifying logic''?
+% 
+% 
+% Different approaches in the ``quest for a unifying logic'': extend owl (nominal schemas, same paper \cite{unilogic}), ``merge'' owl and rules (both mentioned in \cite{unilogic}). 
+% We go a third way: rules for all.
 
 approaches consider worst case time complexity (e.g. \cite{unilogic}). -> argue that this is nice but we focus on practical cases.
 
-OWL and rdf is already artificial, rules are natural extension of RDF and the can cover owl.
-
-Later on mention integrity constraints on data bases which are needed for validation.
-
-Artikel von Motnik \cite{DLASP} sagt was ueber default rules for validation -> validation ist ein ziemlich interessantes Thema hier.
-
 unifying logic on application level, not just a construct -> we therefore exclude owl full.
 
-allgemein: answer set programming hat zwei Formen der Nagation.
 
-noch was von Lifschitz und asp zitieren.
 
 
 Also say why you should go for N3: unifying logic is not just a theoretical construct, it also gives practical advantages: reasoning is often faster when you use only one logic.  
-
-somewhere: reification is not the same as citation.
-
-Knorr hat DL style syntax
-It has advantages if you need 
-the features of different frameworks. Of course, if you know that, eg only querying is needed you should still go for SPARQL.
 
 
 % The Unifying Logic needs to be well-defined in itself, it needs to be able to ``understand'' the underlying formats, in particular to query, do DL reasoning and use rules. 
