@@ -1,4 +1,9 @@
 \chapter{Unifying Logic} \label{uni}
+% \setlength{\epigraphrule}{0pt}
+% \setlength{\epigraphwidth}{0.75\textwidth}
+% %\epigraph{\textit{Er ist ein Mathematiker und also hartnäckig.}}{Johann Wolfgang von Goethe}
+% \epigraph{\textit{[Socrates] ita disputat, ut [...] nihil se scire dicat nisi id ipsum, eoque praestare ceteris, quod illi quae nesciant scire se putent, ipse se nihil scire id unum sciat.}}{Cicero, Academica 1,16}
+
 In this chapter we discuss the idea of a unifying logic for the Semantic Web. The term itself stems form the so-called \emph{Semantic Web Stack}.
 This schema represents the envisioned architecture for the Semantic Web and the unifying logic is one of its pieces.
 Therefore we start with a discussion of that stack in general to then focus on the parts relevant for this thesis. These considerations then lead to the research questions.
@@ -321,11 +326,45 @@ does not lead to decidability \cite{orl}---it is of rather theoretical nature wh
 the semantic combination of \rdf and OWL DL is already undecidable which is the reason why no decidable combination of rule-based reasoning and description logics can cover these 
 two important building blocks of the Semantic Web.
 %If we really want to connect all logical building blocks we cannot keep decidability since only OWL Full fully covers \rdf and that is already known to not be decidable.
+%
+% Next to these 
+% This last point shows the limits when understanding the concept of a unifying logic as a 
+% logic semantically connecting different standards listed in the stack which are not always fully compatible or 
+% show severe practical problems in terms of reasoning time when  applying them
+% 
 The quest for a Unifying Logic should therefore rather focus on ways how information specified in OWL, \rdf and rules can be used to draw conclusions
-and accept that we cannot know everything (which is not only a problem  for Semantic Web technologies but also something we all deal with in our daily life).
+and accept that we cannot know everything (which is not only a problem  for Semantic Web technologies but also something we all deal with in our daily life). 
+
+% The discussion so far has shown, that it is impossible to find one single logic which connects the logical layers on a semantic level while still providing a 
+% practical framework supporting reasoning with them.
+Having this last idea in mind, there are more aspects than just \emph{open vs. closed world assumption} and \emph{decidability}
+which are relevant for finding a \emph{Unifying Logic}. 
+%as one single logic semantically connecting all logical building blocks, 
+%there are other views of how a unifying logic can be and in which sense it \emph{''unifies``} the underlaying layers: 
+From a practical 
+point of view, the concept can be understood as a logic that covers the \emph{functionalities} of the logical building blocks.
+Then, it has to be possible to implement and combine
+the typical applications of \emph{Querying},  \emph{Taxonomies/Ontologies} and \emph{Rules} in one single unifying logic. Of course, as for every logic,
+the semantics of such a logic  needs to be clearly defined to avoid misunderstandings and support interoperability, one of the crucial concepts of the Semantic Web. 
+Another important aspect to keep in mind when searching for a \emph{Unifying Logic} is its connection to the other layers: it does not only need to be 
+connect the three layers it is directly based on (to the extend possible), 
+it also needs to be compatible to the base of these layers, the \emph{Data Interchange} layer and its representing standard \rdf. Likewise, it should support
+the next-higher layer, the layer of 
+\emph{Proof}. It needs to be possible to formally express how conclusions are drawn applying the \emph{Unifying Logic}. This formal expression, the proof, needs to be exchangeable 
+and different parties should be able to verify it---by applying the logic---and to further use it in applications. 
+When we talk about the \emph{Unifying Logics} in this thesis, we mean a logic covering all the key aspects mentioned above.
+% which will be further clarified 
+% by the different chapters of this book. 
 
 
+% If we want the vision 
+% of a Semantic Web become reality, 
 
+%a unifying logic should focus on the \emph{applications} and \emph{functionalities} of the different logical building blocks.
+
+% Therefore, this dissertation treats the idea of a unifying logic from a practical point of view: we need a logic which supports the \emph{applications} 
+% of the logical building blocks. This logic should be compatible with \rdf and it should also be a possible base for the next higher building block of the Semantic Web stack, 
+% the proof layer. 
 
 %The semantic Web SWRL~\cite{swrl} follows the open world assumption while RIF-PRD~\cite{rifprd} supports the closed world assumption. 
 % As Kifer et al~\cite{rearch} point out, the solution 
@@ -432,41 +471,121 @@ and accept that we cannot know everything (which is not only a problem  for Sema
 %  \item[support of proofs] It must be possible to express, interchange and check all derivations made in the logic.
 %  \item[capability to handle change] It must be possible to express and reason about change.
 % \end{description}
-
+% 
 
 
 
 \section{Research questions}
+Having discussed the architecture of the Semantic Web and the idea of a unifying logic in general, 
+we now come to the topic of this dissertation in particular which  is 
+Notation3 Logic (\nthreelogic)~\cite{N3Logic} and its potential for becoming the \emph{Unifying Logic} for the Semantics Web. 
+\nthreelogic is a rule logic based on \rdf which extends \rdf's data model by universal variables, the possibility to cite formulas, and  several logical operators, 
+including the implication operator. %Motivated by the discussion above, we ask the general research question:
+%\footnote{A recent discussion about \nthree as a standard rule language for Semantic Web can also be found here \url{https://lists.w3.org/Archives/Public/semantic-web/2018Nov/0063.html}.}
+There are several reasoners for \nthreelogic implemented such as cwm~\cite{cwm}, EYE~\cite{eye} and FuXi~\cite{fuxi} and it is used in practical applications~\cite{eyepaper}. 
+\nthreelogic is thus more than just a theoretical construct. But this alone does not qualify it to become the \emph{Unifying Logic}
+for the Semantic Web and we therefore ask our first research question:
 
+
+\textbf{Research Question 1:} \textit{To what extend is \nthree Logic a valuable candidate to become the \emph{Unifying Logic} of the Semantic Web?}
+%Which properties of \nthreelogic make it a good candidate to become the \emph{Unifying Logic} for the Semantic Web?
+
+In order to answer this question, we go back to the several requirements on a \emph{Unifying Logic} we discussed in the previous sections. 
+In particular,
+a clear definition of the semantics (1), a semantic and syntactic connection to \rdf (2), the possibility to perform the tasks associated with 
+the three blocks \emph{Querying}, \emph{Taxonomies/Ontologies}
+and \emph{Rules} (3), and the possibility to express proofs and use them in applications (4). We go through them one by one.
+
+The \emph{semantics} of \nthree is not formally defined yet. The details of \nthreelogic 
+are explained in a journal paper~\cite{N3Logic} and a \wwwc team submission~\cite{Notation3}. 
+These two official sources explain informally what \nthree formulas are supposed to mean using examples.  Therefore, we firstly focus in providing a formalisation of this informal specification and test the following hypothesis:
+
+\textbf{Hypothesis 1.1} \textit{The semantics of  \nthreelogic can be formally specified consistent to the official sources.}
+
+Unfortunately, such a formalisation consistent to the official sources, the paper and the \wwwc team submission,  is not unique:
+For some concepts, these sources are rather vague. This results in contraindicative understandings of the same formula as they can for example be observed 
+when using \nthree reasoning engines.
+%which leads us to our next research question:
+If we want to come to an agreement here, we need to identify these differences and make them explicit. This leads to our next research question:
+%\textbf{Research Question 1.1:} How can N3 be formalised and what are the current problems?
+
+\textbf{Research Question 2:} \textit{How do existing interpretations of \nthree differ and how can this difference be formally expressed?}
+
+To answer this research question, we test reasoning engines and compare their results. One main difference we can identify is their way of handling 
+implicit quantification: \nthreelogic allows the user to use universally or existentially quantified variables 
+without explicitly putting a quantifier and defining the scope of this quantification. We therefore argue, that the differences between interpretations can best be expressed 
+by making them explicit:
+
+
+\textbf{Hypothesis 2} \textit{ Existing interpretations differ in their way to handle implicit quantification. 
+Such a difference can be expressed by mapping \nthree expressions to an \nthree Core Logic  with well defined semantics
+whose syntax is close to \nthree's but which only supports explicit quantification.}
+
+%\textbf{Research question 1.1.2} How the differences between interpretations be formally expressed?
+% 
+% 
+% Going through the different criteria a \emph{Unifying Logic} needs to fulfil discussed in the previous section, we come to several hypotheses:
+To show the feasibility of this approach, we define such a core logic which respects the specific details of \nthreelogic and implement such a mapping from \nthree syntax to this
+\nthree Core Logic. We apply this implementation on several representative \nthree files to find out:
+
+\textbf{Research question 3:} \textit{Does this conceptual difference between existing interpretations lead to diverging interpretations of files used in practical applications?} 
+
+Of course, we cannot test if all \nthree files in all practical applications ever using \nthree are understood the same way by all reasoners. 
+We therefore choose a test set, consisting of the test files of the EYE reasoner and several 
+files written for our own research projects. We use the first set of files because it represents a broad spectrum of different applications and the second one because the creation 
+of these files was not aimed to merely test a reasoner but to handle practical cases. We come to the conclusion:
+
+Therefore, the community has to agree on the semantics of \nthreelogic.
+
+
+The syntax of \nthree is already aligned with the syntax of \rdf: as we will discuss in the following chapter, \nthree extends the symbol set of \rdf by two simple characters,
+the bracket symbols $\{$ and $\}$ and every syntactically valid \rdf formula is also a formula in \nthree.  For the semantic level, this is more complicated: 
+Once we agree on an understanding of \nthreelogic this understanding needs to be formalised and we formulate the hypothesis:
+%we can directly formalise it on the base of \rdf. This leads to the following hypothesis:
+
+\textbf{Hypothesis 1.2:}  The model theory for \nthree can be defined by extending the model theory for \rdf.
+
+%\nthreelogic is syntactically compatible with \rdf and its semantics can be aligned with the one for \rdf.
 In this thesis we aim to find a pragmatic solution for the Unifying logic. Instead of focussing on the combination of the concrete logical standards listed in the 
 Semantic Web stack which already show ''cracks`` without even adding the layer of a unifying logic---think of the problem of \rdf and OWL DL not being compatible---and 
 are sometimes rather vague like RIF which represents a set of many possible rule languages, we focus on the \emph{functionalities} of the different building blocks and 
-ask the general research question:
+formulate the hypothesis:
+% \textbf{Research Question 1.2:} Is it possible to perform the practical tasks 
+% connected to the layer \emph{Querying}, \emph{Ontologies/Taxonomies} and \emph{Rules} in N3?
 
-\textbf{Research Question 1:} Is it possible to perform the practical tasks 
-connected to the layer \emph{Querying}, \emph{Ontologies/Taxonomies} and \emph{Rules}
-by one single logic which is based on \rdf?
+\textbf{Hypothesis 1.3:}  \nthreelogic supports the practical tasks 
+connected to the layer \emph{Querying}, \emph{Ontologies/Taxonomies} and \emph{Rules}.
 
-\textbf{Hypothesis 1:} Notation3 Logic can perform the practical tasks connected to the different logical layers of the Semantic Web stack.
+Being a rule language, there is no evidence needed that \nthree supports rule reasoning and its practical applications. To show its ability to perform ontology reasoning and 
+querying, we focus on two selected tasks which where originally designed for OWL DL reasoning and SPARQL querying: 
 
-
-
-
-Important: connection to \rdf, usable in practice (no theoretical construct, but something which can be used, maybe argue on RIF), able to cover the 
-layers ontology/taxonomy, querying, and rules (whatever that layer is), can express proofs.
+%\textbf{Hypothesis 1.3:} Notation3 Logic can perform the practical tasks connected to the different logical layers of the Semantic Web stack.
 
 
-Question: Is N3 a suitable candidate to become the unifying logic for the semantic web?
+%\textbf{Research Question 4:} Can the layer of proofs be realised in \nthree and does such a layer have practical applications?
 
-Sub-questions:
 
-Can we give a clear semantic definition of Notation3 Logic?
+\textbf{Research Hypothesis 1.4:} It is possible to express proofs in  \nthreelogic and these proofs can be used for practical applications. 
 
-How does Notation3 Logic interfere with other formats? Can SPARQL, OWL and RIF be expressed?
 
-\textbf{Research question:} Is it possible to realise the proof layer in \nthree and can proofs be used for practical applications?
 
-\textbf{Hypothesis:} \nthreelogic provides 
+
+
+% Important: connection to \rdf, usable in practice (no theoretical construct, but something which can be used, maybe argue on RIF), able to cover the 
+% layers ontology/taxonomy, querying, and rules (whatever that layer is), can express proofs.
+
+
+
+
+% Sub-questions:
+% 
+% Can we give a clear semantic definition of Notation3 Logic?
+% 
+% How does Notation3 Logic interfere with other formats? Can SPARQL, OWL and RIF be expressed?
+
+% \textbf{Research question:} Is it possible to realise the proof layer in \nthree and can proofs be used for practical applications?
+% 
+% \textbf{Hypothesis:} \nthreelogic provides 
 
 % Can N3 handle change?
 % 
