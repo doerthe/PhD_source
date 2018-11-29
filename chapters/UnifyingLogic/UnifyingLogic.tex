@@ -554,32 +554,44 @@ the bracket symbols $\{$ and $\}$ and every syntactically valid \rdf formula is 
 Once we agree on an understanding of \nthreelogic this understanding needs to be formalised in line with \rdf and we therefore formulate the hypothesis:
 %we can directly formalise it on the base of \rdf. This leads to the following hypothesis:
 
-\hyp{Hypothesis 1.2:}{The model theory for \nthree can be defined by extending the model theory for \rdf.}
+\hyp{Hypothesis 1.2:}{The model theory for \nthree can be defined by extending the model theory of \rdf.}
 
 %\nthreelogic is syntactically compatible with \rdf and its semantics can be aligned with the one for \rdf.
-This leads us to the third requirement, the connection to the building blocks \emph{Querying}, \emph{Ontologies/Taxonomies} and \emph{Rules} of the Semantic Web stack.
-In this thesis we aim to find a pragmatic solution for the Unifying logic. Instead of focussing on the combination of the concrete logical standards listed in the 
-Semantic Web stack which already show ''cracks`` without even adding the layer of a unifying logic---think of the problem of \rdf and OWL DL not being compatible---and 
-are sometimes rather vague like RIF which represents a set of many possible rule languages, we focus on the \emph{functionalities} of the different building blocks.
-Being a rule language, there is no evidence needed that \nthree supports rule reasoning and its practical applications. For the two other blocks 
-\emph{Querying} and \emph{Ontologies/Taxonomies} this is different. To illustrate the potential of \nthree we examine its feasibility to handle a use case which
-is typically solved by using SPARQL querying, data validation~\cite{hartmann2016}.
+This leads us to the third requirement: The unifying logic needs to support the same practical tasks which are normally approached using
+the building blocks \emph{Querying}, \emph{Ontologies/Taxonomies} and \emph{Rules} of the Semantic Web stack.
+% In this thesis we aim to find a pragmatic solution for the Unifying logic. Instead of focussing on the combination of the concrete logical standards listed in the 
+% Semantic Web stack which already show ''cracks`` without even adding the layer of a unifying logic---think of the problem of \rdf and OWL DL not being compatible---and 
+% are sometimes rather vague like RIF which represents a set of many possible rule languages, we focus on the \emph{functionalities} of the different building blocks.
+Being a rule language, there is no evidence needed that \nthree supports rule reasoning and its practical applications. 
+For the two other blocks 
+\emph{Querying} and \emph{Ontologies/Taxonomies} this is different and we focus here on the possibility address such practical tasks by only one framework. 
+We test the following hypothesis on two use cases which were originally solved by using SPARQL querying and \owl DL reasoning:
+% To illustrate the potential of \nthree we examine its feasibility to handle a use case which
+% is typically solved by using SPARQL querying, data validation~\cite{hartmann2016}:
+%
+% \hyp{Hypothesis 1.3.1:}{\nthreelogic can be used instead of SPARQL to perform the querying necessary for classical data validation.}
+%For a \emph{unifying} logic, it is not only important that our purposes, it is not only important that the un
+% The advantage of using rule based reasoning for data validation is that here, additional reasoning can be directly combined with querying. 
+% Such reasoning can also take the information specified in an \owl ontology into account since syntactically \owl is mostly written in \rdf syntax. Rules can then be used 
+% to perform reasoning on that knowledge. We test on a use case of health care, a nurse call system, 
+% the following hypothesis:
 
-\hyp{Hypothesis 1.3.1:}{\nthreelogic can be used instead of SPARQL to perform the querying necessary for classical data validation.}
-
-The advantage of using rule based reasoning for data validation is that here, additional reasoning can be directly combined with querying. To illustrate this possibility in 
-more detail, we consider another use case where an \owl DL ontology
-examine two use cases which have been implemented before by using a combination of OWL DL and SPARQL: 
-one  concerning data validation---here normally SPARQL queries are applied and sometimes OWL DL reasoning is performed before---and 
-reasoning based on a specified \owl ontology in combination with a complex decision tree.
-
-A classical use case for querying is data validation~\cite{hartmann2016}
+\hyp{Hypothesis 1.3:}{\nthreelogic can be used to combine SPARQL querying and reasoning over OWL ontologies in practical use cases.}
 
 
-% \textbf{Research Question 1.2:} Is it possible to perform the practical tasks 
-% connected to the layer \emph{Querying}, \emph{Ontologies/Taxonomies} and \emph{Rules} in N3?
+% To illustrate this possibility in 
+% more detail, we consider another use case where an \owl~DL ontology
+% examine two use cases which have been implemented before by using a combination of OWL DL and SPARQL: 
+% one  concerning data validation---here normally SPARQL queries are applied and sometimes OWL DL reasoning is performed before---and 
+% reasoning based on a specified \owl ontology in combination with a complex decision tree.
+% 
+% A classical use case for querying is data validation~\cite{hartmann2016}
 
-\hyp{Hypothesis 1.3:}{\nthreelogic supports data validation and ontology reasoning and \emph{Ontologies/Taxonomies}.}
+
+% \hyp{Hypothesis 1.3:}{It is possible to perform typical practical tasks 
+% connected to the layers \emph{Querying} and \emph{Ontologies/Taxonomies} by only using \nthree.}
+
+% \hyp{Hypothesis 1.3:}{\nthreelogic supports data validation and ontology reasoning and \emph{Ontologies/Taxonomies}.}
 
 % To show its ability to perform ontology reasoning and 
 % querying, we focus on two selected tasks which where originally designed for OWL DL reasoning and SPARQL querying: 
@@ -590,7 +602,7 @@ A classical use case for querying is data validation~\cite{hartmann2016}
 %\textbf{Research Question 4:} Can the layer of proofs be realised in \nthree and does such a layer have practical applications?
 
 
-\textbf{Research Hypothesis 1.4:} It is possible to express proofs in  \nthreelogic and these proofs can be used for practical applications. 
+\hyp{Hypothesis 1.4:}{It is possible to express and process proofs using \nthreelogic and these proofs can be used for practical applications.} 
 
 
 
