@@ -487,7 +487,7 @@ There are several reasoners for \nthreelogic implemented such as cwm~\cite{cwm},
 for the Semantic Web and we therefore ask our first research question:
 
 
-\textbf{Research Question 1:} \textit{To what extend is \nthree Logic a valuable candidate to become the \emph{Unifying Logic} of the Semantic Web?}
+\hyp{Research Question 1:}{To what extend is \nthree Logic a valuable candidate to become the \emph{Unifying Logic} of the Semantic Web?}
 %Which properties of \nthreelogic make it a good candidate to become the \emph{Unifying Logic} for the Semantic Web?
 
 In order to answer this question, we go back to the several requirements on a \emph{Unifying Logic} we discussed in the previous sections. 
@@ -503,13 +503,13 @@ These two official sources explain informally what \nthree formulas are supposed
 \textbf{Hypothesis 1.1} \textit{The semantics of  \nthreelogic can be formally specified consistent to the official sources.}
 
 Unfortunately, such a formalisation consistent to the official sources, the paper and the \wwwc team submission,  is not unique:
-For some concepts, these sources are rather vague. This results in contraindicative understandings of the same formula as they can for example be observed 
+For some concepts, these sources are rather vague. This results in contradictory understandings of the same formula as they can for example be observed 
 when using \nthree reasoning engines.
 %which leads us to our next research question:
 If we want to come to an agreement here, we need to identify these differences and make them explicit. This leads to our next research question:
 %\textbf{Research Question 1.1:} How can N3 be formalised and what are the current problems?
 
-\textbf{Research Question 2:} \textit{How do existing interpretations of \nthree differ and how can this difference be formally expressed?}
+\hyp{Research Question 2:}{How do existing interpretations of \nthree differ and how can this difference be formally expressed?}
 
 To answer this research question, we test reasoning engines and compare their results. One main difference we can identify is their way of handling 
 implicit quantification: \nthreelogic allows the user to use universally or existentially quantified variables 
@@ -517,7 +517,7 @@ without explicitly putting a quantifier and defining the scope of this quantific
 by making them explicit:
 
 
-\textbf{Hypothesis 2} \textit{ Existing interpretations differ in their way to handle implicit quantification. 
+\hyp{Hypothesis 2}{ Existing interpretations differ in their way to handle implicit quantification. 
 Such a difference can be expressed by mapping \nthree expressions to an \nthree Core Logic  with well defined semantics
 whose syntax is close to \nthree's but which only supports explicit quantification.}
 
@@ -525,39 +525,64 @@ whose syntax is close to \nthree's but which only supports explicit quantificati
 % 
 % 
 % Going through the different criteria a \emph{Unifying Logic} needs to fulfil discussed in the previous section, we come to several hypotheses:
-To show the feasibility of this approach, we define such a core logic which respects the specific details of \nthreelogic and implement such a mapping from \nthree syntax to this
-\nthree Core Logic. We apply this implementation on several representative \nthree files to find out:
+% To show the feasibility of this approach, we define such a core logic which respects the specific details of \nthreelogic and implement such a mapping from \nthree syntax to this
+% \nthree Core Logic. We apply this implementation on several representative \nthree files to find out:
+If we can express the differences in the interpretations of \nthree formulas applied by different parties, we also want to know whether this difference is only something we discuss 
+in our scientific ivory tower or whether this also has practical impact:
 
-\textbf{Research question 3:} \textit{Does this conceptual difference between existing interpretations lead to diverging interpretations of files used in practical applications?} 
+\hyp{Research question 3:}{Does this conceptual difference between existing interpretations lead to diverging interpretations of files used in practical applications?} 
 
-Of course, we cannot test if all \nthree files in all practical applications ever using \nthree are understood the same way by all reasoners. 
-We therefore choose a test set, consisting of the test files of the EYE reasoner and several 
-files written for our own research projects. We use the first set of files because it represents a broad spectrum of different applications and the second one because the creation 
-of these files was not aimed to merely test a reasoner but to handle practical cases. We come to the conclusion:
+% Of course, we cannot test if all \nthree files in all practical applications ever using \nthree are understood the same way by all reasoners. 
+% We therefore choose a test set, consisting of the test files of the EYE reasoner and several 
+% files written for our own research projects. We use the first set of files because it represents a broad spectrum of different applications and the second one because the creation 
+% of these files was not aimed to merely test a reasoner but to handle practical cases. We come to the conclusion:
+% A clear difference in the interpretation of files used in practice would have severe consequences: \nthreelogic is designed for the Semantics Web where interoperability is 
+% one of the main goals. Different machines need to be able to exchange knowledge in forms of facts and rules without having to ask for the intended meaning. We tests the hypothesis:
+To answer this question, we compare the two interpretations of the reasoner Cwm and EYE on a dataset of \nthree files which are used in practical applications and 
+test the hypothesis:
 
-Therefore, the community has to agree on the semantics of \nthreelogic.
+\hyp{Hypothesis 3:}{Around one quarter of the files used in practical applications are interpreted differently by the reasoners Cwm and EYE.}  
+
+Of course such a situation is not acceptable, especially if we have in mind that \nthreelogic was not designed to be used in local applications but 
+for a global setting: the Semantic Web. Therefore, we as the Semantic Web community need to agree on the semantics of \nthreelogic.  By going back to the answers to 
+Research question 1, we show, that \nthreelogic is worth that effort.  
 
 
-The syntax of \nthree is already aligned with the syntax of \rdf: as we will discuss in the following chapter, \nthree extends the symbol set of \rdf by two simple characters,
+We take a closer look to our second requirement, the connection to \rdf. The syntax of \nthree is already aligned with the syntax of \rdf: 
+as we will discuss in the following chapter, \nthree extends the symbol set of \rdf by two simple characters,
 the bracket symbols $\{$ and $\}$ and every syntactically valid \rdf formula is also a formula in \nthree.  For the semantic level, this is more complicated: 
-Once we agree on an understanding of \nthreelogic this understanding needs to be formalised and we formulate the hypothesis:
+Once we agree on an understanding of \nthreelogic this understanding needs to be formalised in line with \rdf and we therefore formulate the hypothesis:
 %we can directly formalise it on the base of \rdf. This leads to the following hypothesis:
 
-\textbf{Hypothesis 1.2:}  The model theory for \nthree can be defined by extending the model theory for \rdf.
+\hyp{Hypothesis 1.2:}{The model theory for \nthree can be defined by extending the model theory for \rdf.}
 
 %\nthreelogic is syntactically compatible with \rdf and its semantics can be aligned with the one for \rdf.
+This leads us to the third requirement, the connection to the building blocks \emph{Querying}, \emph{Ontologies/Taxonomies} and \emph{Rules} of the Semantic Web stack.
 In this thesis we aim to find a pragmatic solution for the Unifying logic. Instead of focussing on the combination of the concrete logical standards listed in the 
 Semantic Web stack which already show ''cracks`` without even adding the layer of a unifying logic---think of the problem of \rdf and OWL DL not being compatible---and 
-are sometimes rather vague like RIF which represents a set of many possible rule languages, we focus on the \emph{functionalities} of the different building blocks and 
-formulate the hypothesis:
+are sometimes rather vague like RIF which represents a set of many possible rule languages, we focus on the \emph{functionalities} of the different building blocks.
+Being a rule language, there is no evidence needed that \nthree supports rule reasoning and its practical applications. For the two other blocks 
+\emph{Querying} and \emph{Ontologies/Taxonomies} this is different. To illustrate the potential of \nthree we examine its feasibility to handle a use case which
+is typically solved by using SPARQL querying, data validation~\cite{hartmann2016}.
+
+\hyp{Hypothesis 1.3.1:}{\nthreelogic can be used instead of SPARQL to perform the querying necessary for classical data validation.}
+
+The advantage of using rule based reasoning for data validation is that here, additional reasoning can be directly combined with querying. To illustrate this possibility in 
+more detail, we consider another use case where an \owl DL ontology
+examine two use cases which have been implemented before by using a combination of OWL DL and SPARQL: 
+one  concerning data validation---here normally SPARQL queries are applied and sometimes OWL DL reasoning is performed before---and 
+reasoning based on a specified \owl ontology in combination with a complex decision tree.
+
+A classical use case for querying is data validation~\cite{hartmann2016}
+
+
 % \textbf{Research Question 1.2:} Is it possible to perform the practical tasks 
 % connected to the layer \emph{Querying}, \emph{Ontologies/Taxonomies} and \emph{Rules} in N3?
 
-\textbf{Hypothesis 1.3:}  \nthreelogic supports the practical tasks 
-connected to the layer \emph{Querying}, \emph{Ontologies/Taxonomies} and \emph{Rules}.
+\hyp{Hypothesis 1.3:}{\nthreelogic supports data validation and ontology reasoning and \emph{Ontologies/Taxonomies}.}
 
-Being a rule language, there is no evidence needed that \nthree supports rule reasoning and its practical applications. To show its ability to perform ontology reasoning and 
-querying, we focus on two selected tasks which where originally designed for OWL DL reasoning and SPARQL querying: 
+% To show its ability to perform ontology reasoning and 
+% querying, we focus on two selected tasks which where originally designed for OWL DL reasoning and SPARQL querying: 
 
 %\textbf{Hypothesis 1.3:} Notation3 Logic can perform the practical tasks connected to the different logical layers of the Semantic Web stack.
 
