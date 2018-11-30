@@ -576,9 +576,13 @@ We test the following hypothesis on two use cases which were originally solved b
 % to perform reasoning on that knowledge. We test on a use case of health care, a nurse call system, 
 % the following hypothesis:
 
-\hyp{Hypothesis 1.3:}{\nthreelogic can be used to combine SPARQL querying and reasoning over OWL ontologies in practical use cases.}
+\hyp{Hypothesis 1.3:}{\nthreelogic can be used to combine querying over \rdf graphs and reasoning over OWL ontologies in practical use cases.}
 
-
+Last, we discuss our forth requirement: the unifying logic should be the base for a proof layer.  
+There exists a proof vocabulary for 
+\nthreelogic~\cite{Proof} and the reasoners cwm and EYE use it to express and exchange proofs explaining the inference steps they perform. 
+Without a formal definition of \nthree's semantics, it is also not possible to show the correctness of this proof calculus but with the solution of the former problem, 
+we can also solve the latter which leads to the hypothesis:
 % To illustrate this possibility in 
 % more detail, we consider another use case where an \owl~DL ontology
 % examine two use cases which have been implemented before by using a combination of OWL DL and SPARQL: 
@@ -587,9 +591,13 @@ We test the following hypothesis on two use cases which were originally solved b
 % 
 % A classical use case for querying is data validation~\cite{hartmann2016}
 
+\hyp{Hypothesis 1.4.1}{Proof steps in \nthree can be expressed using the \nthree proof vocabulary and the underlying \nthree proof calculus is correct.}
 
 % \hyp{Hypothesis 1.3:}{It is possible to perform typical practical tasks 
 % connected to the layers \emph{Querying} and \emph{Ontologies/Taxonomies} by only using \nthree.}
+But in this thesis we do not only want to focus on theoretical properties of \nthreelogic but also on practical applications, since this is an important 
+aspect towards  the full realisation of the Semantic Web. Proofs can be used to establish the layer of trust, but there are also more practical 
+applications for proofs of which we want to illustrate two in this thesis by testing the hypothesis:
 
 % \hyp{Hypothesis 1.3:}{\nthreelogic supports data validation and ontology reasoning and \emph{Ontologies/Taxonomies}.}
 
@@ -602,7 +610,7 @@ We test the following hypothesis on two use cases which were originally solved b
 %\textbf{Research Question 4:} Can the layer of proofs be realised in \nthree and does such a layer have practical applications?
 
 
-\hyp{Hypothesis 1.4:}{It is possible to express and process proofs using \nthreelogic and these proofs can be used for practical applications.} 
+\hyp{Hypothesis 1.4.2:}{Proofs in \nthree can be used to perform work flow composition and source selection.} 
 
 
 
