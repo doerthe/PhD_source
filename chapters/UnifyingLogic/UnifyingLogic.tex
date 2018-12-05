@@ -57,7 +57,14 @@ that goal in mind. Knowledge is expressed using simple triples consisting of sub
 predicate and object. By using unique names (\iri{}s and \uris) connections between different triples are made. 
 Ideally, one resulting graph then forms the Semantic Web.
  \item[Taxonomies] For the simple classification of objects and properties the Semantic Web uses the standard \rdf Schema (\rdf{}S). \rdf{}S extends the basic representation format 
- \rdf by several predicates with a predefined meaning such as for example \texttt{rdfs:subclassOf} to denote that one class is a subclass of another. 
+ \rdf by several predicates with a predefined meaning such as for example \texttt{rdfs:subclassOf} to denote that one class is a subclass of another.\footnote{
+Here and later in this section we make use of the prefix 
+``\texttt{rdfs}'' which stands for  \url{http://www.w3.org/2000/01/rdf-schema\#}.
+% , the complete url of the concept we refer to here is 
+% \url{http://www.w3.org/2000/01/rdf-schema\#subClassOf}.
+In Section \ref{prefixremark} we will further explain the use of such prefixes.
+%https://www.w3.org/TR/rdf11-concepts/#vocabularies
+ } 
  %
  \item[Ontologies]
  The taxonomy already gives some basic information about concepts and individuals in the web. To express more complex things in a fixed way, ontologies are used. 
@@ -161,6 +168,7 @@ such a connection needs to be stronger:
 \rdf is a logic and has its own formally defined semantics~\cite{RDFSemantics} and other logical concepts relying on it need to take that fact into account. 
 We now discuss the relation of \rdf and the different standards listed in the Semantic Web Stack in detail.
 
+\begin{paragraph}{RDF and SPARQL}
 The query language SPARQL~\cite{sparql} treats \rdf as a data structure in which can be searched for particular patterns. In that sense, SPARQL only makes use of the syntax of \rdf and 
 is agnostic about its specific semantics. However, the query semantics of SPARQL is compatible with \rdf and the specification even states, how SPARQL can be aligned with different 
 entailment regimes including simple \rdf entailment.  The syntax of SPARQL is defined on top of \rdf and uses \rdf's  triple structure to express the graph pattern to search for. 
@@ -181,17 +189,19 @@ Similar problems arise from the use of blank nodes to represent other concepts l
 % When a variable is used
 % in a search pattern, it is the purpose of the SPARQL query to provide evidence for the \emph{existence} of an instance of the variable but in case that this is not possible
 % it is not sure whether such an instance \emph{exists}.
+\end{paragraph}
 
-
-
+\begin{paragraph}{RDF and RDFS}
 \rdf Schema (\rdf{}S)~\cite{RDFS} was developed together with \rdf and extends this rather basic logic by several predicates having a fixed meaning such as for example 
 \texttt{rdfs:range} and \texttt{rdfs:domain} to specify the domain and range of a predicate or \texttt{rdfs:subClassOf} to express hierarchies between different classes.
 %The same official document~\cite{RDFSemantics} which defines the semantics of \rdf also specified the meaning of \rdf{}S predicates and entailments which can be done using those.
 The semantics of \rdf{}S is defined in the same official document~\cite{RDFSemantics} \rdf's is and therefore it is not surprising that these two standards are fully compatible
 on both levels, syntax and semantics. 
 \rdf{}S thus truly extends \rdf. 
+\end{paragraph}
 
-For the ontology layer the Semantic Web Stack proposes the Web Ontology Language (OWL)~\cite{owlold} which has evolved further to OWL~2~\cite{owl}. 
+\begin{paragraph}{RDF and OWL}
+For the ontology layer the Semantic Web Stack proposes the Web Ontology Language (OWL)~\cite{owlold} which has evolved further to \linebreak OWL~2~\cite{owl}. 
 On the syntactic level \owl~2 is compatible with \rdf. There are different syntaxes defined for \owl but the \rdf{}/XML syntax is mandatory for all 
 systems supporting \owl~2 and other 
 syntaxes can be mapped to that~\cite{owltordf}.
@@ -205,13 +215,15 @@ Even though it can be represented using \rdf \emph{syntax}, \owl DL is not \emph
 does for example not interpret blank nodes as existentially quantified variables.
 To provide a semantic connection between \owl and \rdf, 
 the \emph{\rdf-based semantics}~\cite{owlrdfsem} for the \rdf-representation of \owl 2 was created. % to  logically combine \rdf{}(S) with description logics.   
-The logic supported by this semantics is also called \emph{\owl Full}. OWL full is not decidable and there are no reasoners implemented to fully support 
+The logic supported by this semantics is also called \emph{\owl Full}. OWL Full is not decidable and there are no reasoners implemented to fully support 
 this logic. 
 % ---there exists a representation of \owl in \rdf~\cite{owltordf}---but semantically, 
 % the situation is more complicated: There are two semantics for OWL defined, the direct semantics~\cite{owldsem} and the \rdf-based semantics~\cite{owlrdfsem}
 % More problematic is the relationship of \owl and \rdf. \owl  has been designed on the base of Description Logics~\cite{dl}. a logical framework based on First Order Logic 
 % which---in contrast to the latter---has the advantage to be decidable. For \owl there exist two syntaxes, one direct syntax 
+\end{paragraph}
 
+\begin{paragraph}{RDF and RIF}
 For the rule layer, the Semantic Web Stack lists the Rule Interchange Format (RIF)~\cite{rif}.
 While \rdf{}S, \owl and SPARQL are concrete logics disposing 
 over their own semantics, RIF~\cite{rif} is a format to \emph{interchange} rules. 
@@ -242,7 +254,7 @@ claim to support \rdf, but for the latter it is clearly stated that the RIF synt
 % This integration maps triples to so-called frames. The meaning of \iri{}s is preserved by the mapping. Since RIF does not directly support the concept of blank nodes, these are 
 % translated in two ways: firstly, as existentially quantified variables---RIF supports existential quantification for simple statements---and, secondly, in a skolemized version.
 % The latter is done to make it easier to apply rules on triples which in their \rdf version include blank nodes.
-
+\end{paragraph}
 % Except for \rdf{}S, the \rdf syntax of the frameworks names is rather artificial: To make statements in 
 
 % Rules
@@ -295,8 +307,8 @@ or semantically combine Description Logics and rule-based reasoning in one logic
 Especially this last approach normally deals with two major challenges: 
 the support of a \emph{closed vs open world assumption} and \emph{decidability}. We discuss both topics in detail.
 
-
-Classical database languages (eg SQL)  but also many rule languages (eg Prolog) support the \emph{closed world} assumption which basically says that if a statement cannot 
+\begin{paragraph}{Open vs. closed world}
+ Classical database languages (eg SQL)  but also many rule languages (eg Prolog) support the \emph{closed world} assumption which basically says that if a statement cannot 
 be derived, 
 it is considered to be false (negation as failure, NAS). While such an assumption comes in handy when we have one single database which can be completely searched by applying a query, 
 it is problematic 
@@ -306,7 +318,8 @@ In contrast to that, the query language SPARQL supports a form of negation as fa
 filter \texttt{NOT EXISTS} retrieves a positive result if no match can be found for a given pattern \cite[Section 8]{sparql}.
 For rule languages, it is more complicated:
 RIF-Core~\cite{rifcore} does not cover negation and it depends on the designer of RIF dialect whether and how this concept is handled. From the dialects 
-specified in the \wwwc recommendation, only RIF-PRD~\cite{rifprd} supports the closed world assumption. \\
+specified in the \wwwc recommendation, only RIF-PRD~\cite{rifprd} supports the closed world assumption. 
+
 But even these cases of negation can be covered by open world concepts: As a SPARQL query is always executed on one or more specific databases and 
 rule languages rely on facts and formulas which are explicitly stated somewhere, we  
 can use the concept of \emph{scoped negation as failure} (SNAF)~\cite{rearch,snaf1,snaf2}. SNAF makes use of the sources (the scope) 
@@ -316,8 +329,10 @@ draw conclusions from the fact that something cannot be derived from a \emph{fix
 So, even if we find out later that somewhere in the Semantic Web a fact x is declared to be true, 
 the statement that we cannot derive that fact x from a fixed knowledge base K 
 keeps being valid.  
+\end{paragraph}
 
-Description Logics~\cite{dl} in general and with them OWL DL~\cite{owldsem} in particular are decidable; for every statement expressed in the language of these logics there
+\begin{paragraph}{Decidability}
+ Description Logics~\cite{dl} in general and with them OWL DL \cite{owldsem} in particular are decidable; for every statement expressed in the language of these logics there
 exists an effective method to decide whether or not this statement is consequence of a set of valid formulas. This is not the case for classical 
 First Order Logic~(FOL) and one of the main goals driving the development of Description Logics was to cover as much of the features of FOL as possible while still guaranteeing 
 decidability. Therefore it is not surprising that many approaches of finding a Unifying Logic mainly focus on decidability (eg~\cite{unilogic,dllog}). 
@@ -334,27 +349,8 @@ two important building blocks of the Semantic Web.
 % 
 The quest for a Unifying Logic should therefore rather focus on ways how information specified in OWL, \rdf and rules can be used to draw conclusions
 and accept that we cannot know everything (which is not only a problem  for Semantic Web technologies but also something we all deal with in our daily life). 
+\end{paragraph}
 
-% The discussion so far has shown, that it is impossible to find one single logic which connects the logical layers on a semantic level while still providing a 
-% practical framework supporting reasoning with them.
-Having this last idea in mind, there are more aspects than just \emph{open vs. closed world assumption} and \emph{decidability}
-which are relevant for finding a \emph{Unifying Logic}. 
-%as one single logic semantically connecting all logical building blocks, 
-%there are other views of how a unifying logic can be and in which sense it \emph{''unifies``} the underlaying layers: 
-From a practical 
-point of view, the concept can be understood as a logic that covers the \emph{functionalities} of the logical building blocks.
-Then, it has to be possible to implement and combine
-the typical applications of \emph{Querying},  \emph{Taxonomies/Ontologies} and \emph{Rules} in one single unifying logic. Of course, as for every logic,
-the semantics of such a logic  needs to be clearly defined to avoid misunderstandings and support interoperability, one of the crucial concepts of the Semantic Web. 
-Another important aspect to keep in mind when searching for a \emph{Unifying Logic} is its connection to the other layers: it does not only need to be 
-connect the three layers it is directly based on (to the extend possible), 
-it also needs to be compatible to the base of these layers, the \emph{Data Interchange} layer and its representing standard \rdf. Likewise, it should support
-the next-higher layer, the layer of 
-\emph{Proof}. It needs to be possible to formally express how conclusions are drawn applying the \emph{Unifying Logic}. This formal expression, the proof, needs to be exchangeable 
-and different parties should be able to verify it---by applying the logic---and to further use it in applications. 
-When we talk about the \emph{Unifying Logics} in this thesis, we mean a logic covering all the key aspects mentioned above.
-% which will be further clarified 
-% by the different chapters of this book. 
 
 
 % If we want the vision 
@@ -473,18 +469,95 @@ When we talk about the \emph{Unifying Logics} in this thesis, we mean a logic co
 % \end{description}
 % 
 
+\section{Requirements on a Unifying Logic}
+% The discussion so far has shown, that it is impossible to find one single logic which connects the logical layers on a semantic level while still providing a 
+% practical framework supporting reasoning with them.
+In the last two sections we already discussed two aspects which qualify a logic to become the unifying logic for the Semantic Web: It must be compatible with \rdf and it should 
+ connect the layers it directly relies on. We have already seen that the concept of \emph{connection} can be understood in different ways, one of these being the creation of a 
+ decidable logic which supports DL reasoning and rule-based inferencing at the same time. Since this solution excludes OWL Full and with it also \rdf we do not follow this approach here 
+ and focus on practical aspects instead: we search for a logic which supports the different practical applications the layers \emph{Querying}, \emph{Ontologies/Taxonomies} and 
+ \emph{Rules} aim to support and combines them in one framework. This logic should be semantically and syntactically compatible with \rdf and
+ thereby also allow the user to directly operate 
+ on the syntactic \rdf-representations 
+ of the standards listed in the Semantic Web stack. 
+ 
+ Another aspect of a \emph{Unifying Logic} we have not fully covered yet is the connection to the layers above it: by emphasizing the usability for practical applications, 
+ we already made a connection 
+ to the layer \emph{User Interface and Applications} but there are two other layers on top of the \emph{Unifying Logic}: \emph{Proofs} and \emph{Trust}. 
+ The \emph{Trust} layer relies 
+ on the layer \emph{Cryptography} which is beyond the scope of this dissertation and we therefore do not discuss it here. 
+ The layer \emph{Proofs} only relies 
+the \emph{Unifying Logic} and \emph{Rules} and the various layers below these. 
+%It should be possible to explain the 
+The inferencing done by applying the \emph{Unifying Logic} should be expressible in a formal proof.
+% have  the inferencing which can be performed by applying it can also be expressed in 
+%  concrete proofs.
+% In some cases we already discovered problems regarding the compatibility when connecting the standards explicitly listed in the stack---SPARQL, OWL, RDFS and RIF---to \rdf which 
+% makes it difficult to semantically and syntactically connect these
+% In this thesis we aim to find a pragmatic solution for the Unifying logic. Instead of focussing on the combination of the concrete logical standards listed in the 
+% Semantic Web stack which already show ''cracks`` without even adding the layer of a unifying logic---think of the problem of \rdf and OWL DL not being compatible---and 
+% are sometimes rather vague like RIF which represents a set of many possible rule languages, we focus on the \emph{functionalities} of the different building blocks.
+% We discovered that strictly following the existing stack and unifying
+% the standards explicitly mentioned there in only one logic is problematic:
+% The semantic and syntactic connection of RIF, OWL and SPARQL to \rdf is in some cases rather loose such that a unifying logic cannot easily connect these 
+% and be syntactically and semantically consistent with \rdf 
+% at the same time. The solution we propose here in this thesis is therefore of a practical nature
+%
+%The reasoning techniques associated with OWL DL and RIF cannot easily be connected. 
+% and the reasoning mechanisms 
+% of rule-based and DL-based reasoning are difficult to combine.
+% in the case of OWL, only OWL Full is semantically compatible with RDF. 
+% But OWL Full is also undicidable and to the best of our knowledge there is no reasoning system which even tries to tackle all concepts of this complex logic. Therefore, it is 
+% unlikely that we find a logic which connects OWL Full with RIF and SPARQL which can also be used in practice.
+%
+%
+% Having this last idea in mind, there are more aspects than just \emph{open vs. closed world assumption} and \emph{decidability}
+% which are relevant for finding a \emph{Unifying Logic}. 
+%as one single logic semantically connecting all logical building blocks, 
+%there are other views of how a unifying logic can be and in which sense it \emph{''unifies``} the underlaying layers: 
+% From a practical 
+% point of view, the concept can be understood as a logic that covers the \emph{functionalities} of the logical building blocks.
+
+% Then, it has to be possible to implement and combine
+% the typical applications of \emph{Querying},  \emph{Taxonomies/Ontologies} and \emph{Rules} in one single unifying logic. Of course, as for every logic,
+% the semantics of such a logic  needs to be clearly defined to avoid misunderstandings and support interoperability, one of the crucial concepts of the Semantic Web. 
+Another important aspect to keep in mind when searching for a \emph{Unifying Logic} is its connection to the other layers: it does not only need to be 
+connect the three layers it is directly based on (to the extend possible), 
+it also needs to be compatible to the base of these layers, the \emph{Data Interchange} layer and its representing standard \rdf. Likewise, it should support
+the next-higher layer, the layer of 
+\emph{Proof}. It needs to be possible to formally express how conclusions are drawn applying the \emph{Unifying Logic}. This formal expression, the proof, needs to be exchangeable 
+and different parties should be able to verify it---by applying the logic---and to further use it in applications. 
+When we talk about the \emph{Unifying Logics} in this thesis, we mean a logic covering all the key aspects mentioned above.
+% which will be further clarified 
+% by the different chapters of this book. 
+Requirements:
+\begin{enumerate}
+\item a clear definition of the semantics,
+\item a semantic and syntactic connection to \rdf, 
+\item the possibility to perform the tasks associated with 
+the three blocks \emph{Querying}, \emph{Taxonomies/Ontologies}
+and \emph{Rules}, and 
+\item the possibility to express proofs and use them in applications (4).
+\end{enumerate}
 
 
-\section{Research questions}
+\section{Notation3 Logic}
 Having discussed the architecture of the Semantic Web and the idea of a unifying logic in general, 
 we now come to the topic of this dissertation in particular which  is 
 Notation3 Logic (\nthreelogic)~\cite{N3Logic} and its potential for becoming the \emph{Unifying Logic} for the Semantics Web. 
+We first explain which aspects of a unifying logic we want to t
+
 \nthreelogic is a rule logic based on \rdf which extends \rdf's data model by universal variables, the possibility to cite formulas, and  several logical operators, 
 including the implication operator. %Motivated by the discussion above, we ask the general research question:
 %\footnote{A recent discussion about \nthree as a standard rule language for Semantic Web can also be found here \url{https://lists.w3.org/Archives/Public/semantic-web/2018Nov/0063.html}.}
 There are several reasoners for \nthreelogic implemented such as cwm~\cite{cwm}, EYE~\cite{eye} and FuXi~\cite{fuxi} and it is used in practical applications~\cite{eyepaper}. 
 \nthreelogic is thus more than just a theoretical construct. But this alone does not qualify it to become the \emph{Unifying Logic}
 for the Semantic Web and we therefore ask our first research question:
+
+\label{prefixremark}
+
+\section{Research questions}
+
 
 
 \hyp{Research Question 1:}{To what extend is \nthree Logic a valuable candidate to become the \emph{Unifying Logic} of the Semantic Web?}
