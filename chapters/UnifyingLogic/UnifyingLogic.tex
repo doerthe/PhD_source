@@ -489,7 +489,7 @@ In the last two sections we already discussed two aspects which qualify a logic 
  The layer \emph{Proofs} only relies 
 the \emph{Unifying Logic} and \emph{Rules} and the various layers below these. 
 %It should be possible to explain the 
-The inferencing done by applying the \emph{Unifying Logic} should be expressible in a formal proof.
+%The inferencing done by applying the \emph{Unifying Logic} should be expressible in a formal proof.
 % have  the inferencing which can be performed by applying it can also be expressed in 
 %  concrete proofs.
 % In some cases we already discovered problems regarding the compatibility when connecting the standards explicitly listed in the stack---SPARQL, OWL, RDFS and RIF---to \rdf which 
@@ -517,19 +517,24 @@ The inferencing done by applying the \emph{Unifying Logic} should be expressible
 %there are other views of how a unifying logic can be and in which sense it \emph{''unifies``} the underlaying layers: 
 % From a practical 
 % point of view, the concept can be understood as a logic that covers the \emph{functionalities} of the logical building blocks.
-
+%
 % Then, it has to be possible to implement and combine
 % the typical applications of \emph{Querying},  \emph{Taxonomies/Ontologies} and \emph{Rules} in one single unifying logic. Of course, as for every logic,
 % the semantics of such a logic  needs to be clearly defined to avoid misunderstandings and support interoperability, one of the crucial concepts of the Semantic Web. 
-Another important aspect to keep in mind when searching for a \emph{Unifying Logic} is its connection to the other layers: it does not only need to be 
-connect the three layers it is directly based on (to the extend possible), 
-it also needs to be compatible to the base of these layers, the \emph{Data Interchange} layer and its representing standard \rdf. Likewise, it should support
-the next-higher layer, the layer of 
-\emph{Proof}. It needs to be possible to formally express how conclusions are drawn applying the \emph{Unifying Logic}. This formal expression, the proof, needs to be exchangeable 
-and different parties should be able to verify it---by applying the logic---and to further use it in applications. 
+% Another important aspect to keep in mind when searching for a \emph{Unifying Logic} is its connection to the other layers: it does not only need to be 
+% connect the three layers it is directly based on (to the extend possible), 
+% it also needs to be compatible to the base of these layers, the \emph{Data Interchange} layer and its representing standard \rdf. Likewise, it should support
+% the next-higher layer, the layer of 
+% \emph{Proof}. 
+It needs to be possible to formally express how conclusions are drawn applying the \emph{Unifying Logic}. This formal expression, the proof, needs to be exchangeable 
+and different parties should be able to verify it by applying the logic. %---and to further use it in applications. 
+
+Applications
+
 When we talk about the \emph{Unifying Logics} in this thesis, we mean a logic covering all the key aspects mentioned above.
 % which will be further clarified 
 % by the different chapters of this book. 
+
 Requirements:
 \begin{enumerate}
 \item a clear definition of the semantics,
