@@ -58,11 +58,11 @@ predicate and object. By using unique names (\iri{}s and \uris) connections betw
 Ideally, one resulting graph then forms the Semantic Web.
  \item[Taxonomies] For the simple classification of objects and properties the Semantic Web uses the standard \rdf Schema (\rdf{}S). \rdf{}S extends the basic representation format 
  \rdf by several predicates with a predefined meaning such as for example \texttt{rdfs:subclassOf} to denote that one class is a subclass of another.\footnote{
-Here and later in this section we make use of the prefix 
+Here and later in this section we use the prefix 
 ``\texttt{rdfs}'' which stands for  \url{http://www.w3.org/2000/01/rdf-schema\#}.
 % , the complete url of the concept we refer to here is 
 % \url{http://www.w3.org/2000/01/rdf-schema\#subClassOf}.
-In Section \ref{prefixremark} we will further explain the use of such prefixes.
+In Section \ref{prefixremark} we further explain prefixes.
 %https://www.w3.org/TR/rdf11-concepts/#vocabularies
  } 
  %
@@ -473,21 +473,28 @@ and accept that we cannot know everything (which is not only a problem  for Sema
 % The discussion so far has shown, that it is impossible to find one single logic which connects the logical layers on a semantic level while still providing a 
 % practical framework supporting reasoning with them.
 In the last two sections we already discussed two aspects which qualify a logic to become the unifying logic for the Semantic Web: It must be compatible with \rdf and it should 
- connect the layers it directly relies on. We have already seen that the concept of \emph{connection} can be understood in different ways, one of these being the creation of a 
+ connect the layers it directly relies on. We have already seen that the concept of \emph{connection} can be understood in different ways. One of these is the creation of a 
  decidable logic which supports DL reasoning and rule-based inferencing at the same time. Since this solution excludes OWL Full and with it also \rdf we do not follow this approach here 
  and focus on practical aspects instead: we search for a logic which supports the different practical applications the layers \emph{Querying}, \emph{Ontologies/Taxonomies} and 
- \emph{Rules} aim to support and combines them in one framework. This logic should be semantically and syntactically compatible with \rdf and
+ \emph{Rules} aim to facilitate and combines them in one framework. This logic should be semantically and syntactically compatible with \rdf and
  thereby also allow the user to directly operate 
  on the syntactic \rdf-representations 
- of the standards listed in the Semantic Web stack. 
+ of the standards listed in the Semantic Web stack. It should furthermore have a clearly defined semantics. While this is a basic requirement every logic needs to fulfil 
+ regardless of the role it is designed for, this property has a special importance for a Semantics Web logic: One key concept of 
+the Semantic Web is interoperability. This means that different systems exchanging information and applying the logic need to have a common agreement about 
+the meaning of formulas.
+%  :
+%  it should 
+%  have a clearly defined semantics which enables us to unambiguously determine the meaning of a statement. 
  
  Another aspect of a \emph{Unifying Logic} we have not fully covered yet is the connection to the layers above it: by emphasizing the usability for practical applications, 
  we already made a connection 
- to the layer \emph{User Interface and Applications} but there are two other layers on top of the \emph{Unifying Logic}: \emph{Proofs} and \emph{Trust}. 
- The \emph{Trust} layer relies 
- on the layer \emph{Cryptography} which is beyond the scope of this dissertation and we therefore do not discuss it here. 
- The layer \emph{Proofs} only relies 
-the \emph{Unifying Logic} and \emph{Rules} and the various layers below these. 
+ to the layer \emph{User Interface and Applications} but the connection to the layers in between, in particular to the next higher layer \emph{Proofs}, has not been discussed so far.
+ %there are two other layers on top of the \emph{Unifying Logic}: \emph{Proofs} and \emph{Trust}. 
+%  The \emph{Trust} layer relies 
+%  on the layer \emph{Cryptography} which is beyond the scope of this dissertation and we therefore do not discuss it here. 
+%  The layer \emph{Proofs} only relies 
+% the \emph{Unifying Logic} and \emph{Rules} and the various layers below these. 
 %It should be possible to explain the 
 %The inferencing done by applying the \emph{Unifying Logic} should be expressible in a formal proof.
 % have  the inferencing which can be performed by applying it can also be expressed in 
@@ -526,23 +533,37 @@ the \emph{Unifying Logic} and \emph{Rules} and the various layers below these.
 % it also needs to be compatible to the base of these layers, the \emph{Data Interchange} layer and its representing standard \rdf. Likewise, it should support
 % the next-higher layer, the layer of 
 % \emph{Proof}. 
-It needs to be possible to formally express how conclusions are drawn applying the \emph{Unifying Logic}. This formal expression, the proof, needs to be exchangeable 
-and different parties should be able to verify it by applying the logic. %---and to further use it in applications. 
+It needs to be possible to formally express how conclusions are drawn applying the \emph{Unifying Logic}.
+For this, a calculus must be defined and its correctness needs to be proven. The proofs composed of the different inference steps of the calculus need to be exchangeable between 
+different parties and these need to be able to verify them. Being the most established standard of the Semantic Web, the proof layer should be compatible with \rdf. 
+Since the implementation of the
+Semantic Web stack with its different building blocks is not a scientific goal in itself but aims to realise the vision of a Semantic Web, the connection of all the building blocks 
+occurring in the stack with the upper layer, the layer of applications, is crucial: only if the different standards support real life applications they push the realisation of the
+Semantic Web forward. We therefore also expect from the proof layer based on the unifying logic that it can be used in different scenarios which preferably go beyond the establishment of trust. 
+% One obvious application is the establishment 
+% of the trust layer, but if there can be applications beside this one,  
+% 
+% was not only meant to define interesting research problems like the definition of a proof 
+% 
+% should not of pure academic nature---we do not only show that it is theoretically possible to have  but to have real applications making use of the different layers of the Semantic Web, 
+% we also need applications for which the proofs can be beneficial. 
+% The calculus used for that purpose needs to be correct and the formal expression composed by applying the calculus, the proof, needs to be exchangeable 
+% and different parties should be able to verify it by applying the logic. %---and to further use it in applications. 
 
-Applications
-
-When we talk about the \emph{Unifying Logics} in this thesis, we mean a logic covering all the key aspects mentioned above.
-% which will be further clarified 
-% by the different chapters of this book. 
-
-Requirements:
+Before we continue and discuss the research questions this thesis aims to answer, 
+we briefly summarize the aspects on a \emph{Unifying Logic} we want to focus on. The \emph{Unifying Logic} for the Semantic Web, a Logic should:
 \begin{enumerate}
-\item a clear definition of the semantics,
-\item a semantic and syntactic connection to \rdf, 
-\item the possibility to perform the tasks associated with 
-the three blocks \emph{Querying}, \emph{Taxonomies/Ontologies}
-and \emph{Rules}, and 
-\item the possibility to express proofs and use them in applications (4).
+\item \textbf{Be clearly defined:} The semantics of the \emph{Unifying Logic} should be formally defined to avoid ambiguities.
+% For the \emph{Unifying Logic} it is even more crucial than for any other logic to have a formally defined semantics because one key concept of 
+% the Semantic Web is interoperability. This means that different systems exchanging information and applying the logic need to have a common agreement about 
+% its meaning of formulas. % which can only be given if this is clearly defined.
+\item \textbf{Built on \rdf:} The \emph{Unifying Logic} should be \emph{syntactically} and \emph{semantically} compatible with \rdf.
+\item \textbf{Connect the logical layers:} The \emph{Unifying Logic}  should support the practical tasks the 
+ building blocks \emph{Querying}, \emph{Taxonomies/Ontologies}
+and \emph{Rules} aim to solve and it should support reasoning on the \rdf representation of the standards listed in the current stack (ie RIF, OWL and SPARQL).
+\item \textbf{Support proofs:} It should be possible to formally express proofs for derivations done in the \emph{Unifying Logic}. The proof format should be based on \rdf, it should be 
+exchangeable and it should be usable in practical applications which go  beyond their primary purpose of establishing trust.
+%the possibility to express proofs and use them in applications (4).
 \end{enumerate}
 
 
