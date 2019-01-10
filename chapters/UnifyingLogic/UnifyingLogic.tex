@@ -729,7 +729,7 @@ and not as
 % their intended meaning becomes less intuitive. 
 
 % 
-\subsection{Proofs}
+\subsection{Proofs}\label{proofintro}
 
 By providing the option to cite formulas, \nthree also makes it possible to express proofs referring to the different rules which -- applied to the statements
 of the dataset at hand 
@@ -797,13 +797,25 @@ There are various reasoners which support \nthree reasoning like cwm~\cite{cwm},
 cwm for example supports only  forward-chaining while with EYE the user can decide for each rule whether it should be applied in a forward or backward manner -- and are implemented 
 in different programming languages -- swish for example in Haskell and FuXi in Python. But since all reasoners support the same logic, they are all suited for 
 a broad variety of practical 
-implementations. \nthree rules are for example used in health care~\cite{sun,dou}, in the construction domain~\cite{bau} and in the context of the internet of things \cite{iot}, 
+implementations. \nthree rules are used in health care~\cite{sun,dou}, in the construction domain~\cite{bau} and in the context of the internet of things \cite{iot} 
 to only name a few areas.
 
 Provided with different facts and rules written in \nthree, reasoners can either produce the deductive closure of this input knowledge -- this is similar to how \owl DL reasoners
 like for example 
 Pellet~\cite{Pellet} or Hermit~\cite{hermit} work -- or they can provide the answer to a specific query -- this is in some aspects similar to the idea of 
-ontology-based data access (OBDA) \cite{obda}. The query in this case is simple \nthree rule 
+ontology-based data access (OBDA) \cite{obda} where queries are rewritten and only the ontology knowledge relevant for a certain query is taken into account. 
+In the case of \nthree reasoning, the query is a simple \nthree rule which only differs from other rules by the simple details that it is marked as a query. We illustrate that by getting back to our previous example.
+Let us assume, that the reasoner is provided with the two formulas we already used in our proof step, namely Formula~\ref{simple} and Formula~\ref{implex}. A meaningful query for this very small knowledge base is:
+\begin{equation}
+ \texttt{\{?x :knows ?y\}=>\{?x :knows ?y\}}
+\end{equation}
+At first sight this rule might look confusing, given that its antecedent equals its consequent. But as it is given to the reasoner as a query, the reasoner will only output all ground instances of the 
+formula 
+\[
+ \texttt{?x :knows ?y.}
+\]
+which can be concluded from the given knowledge. In our example these are the Formulas~\ref{simple} and \ref{out}. 
+
 
 % There are several reasoners supporting \nthree:\footnote{A more complete list can be found at: \url{https://github.com/w3c/N3/blob/master/implementations.md}.}
 % FuXi \cite{fuxi} is a forward-chaining production system for Notation3 whose reasoning is based on the RETE algorithm. 
@@ -825,10 +837,26 @@ ontology-based data access (OBDA) \cite{obda}. The query in this case is simple 
 
 
 \subsection{Open challenges}
-Many of the different properties we discussed so far make \nthree a promising candidate to become the \emph{Unifying Logic} of the Semantics Web: \nthree truely extends \rdf on both 
-levels: the semantic and the syntactic level. Furthermore it provides a proof vocabulary which ex
+Many of the different properties we discussed so far make \nthree a promising candidate to become the \emph{Unifying Logic} of the Semantics Web: \nthree truly extends \rdf on both 
+levels, the semantic and the syntactic level and it contains constructs like citation of formulas which make it particularly well suited to express  proofs and there is already a specific vocabulary defined for such proofs.
+The fact that there are several reasoners implemented for \nthree and that these reasoners are already used in practical implications furthermore shows that \nthreelogic is more then just a theoretical construct but actually connects to the highest level of the Semantic Web stack, 
+the level of application. But there are also open challenges related to \nthree which we briefly discuss in this section.
 
+%But there are also problems which still need to be solved: 
+The first but probably most important open problem we discuss here has to do with the specification of \nthreelogic: The semantics of \nthree lacks a formal definition. Instead, there are only websites~\cite{Notation3,Notation32} and a paper~\cite{N3Logic} explaining in 
+an informal way what the different constructs present in \nthree are supposed to mean. Next to the obvious problems resulting from this lack of formalisation -- without a proper definition of \nthree's semantics 
+the concept of correctness is not even defined and can therefore not be proven for the calculus discussed in Section~\ref{proofintro} above; the relation to other logics in terms or expressivity 
+cannot be investigated -- there are also more practical consequences: since some informal explanations are rather vague, the different reasoners mentioned above assume different interpretations.  
+As a consequence the reasoning result of these reasoners can differ when provided with the same input. While a situation like this would be a problem for any logic, 
+it is in particular a problem for a logic in the Semantic Web, where interoperability is key. 
+% This becomes even more important if we consider a logic as the \emph{Unifying Logic} for the Semantic Web. 
+%The lack of a formal semantics is also one of the main obstacles of \nthreelogic being standardised, one of the main requirements of formalisms to appear in the official Semantic Web stack.
 
+Related to the problem we just described, there is another problem which needs to be addressed: it is not clear yet, how \nthree logic behaves in comparison to other logics. 
+We already mentioned the expressivity which is related to the semantics. Apart from this we want to know for which kinds of tasks \nthreelogic is well suited 
+and when it is better to use another formalism. Having the idea of a \emph{Unifying Logic} in mind it would be in particular be interesting to 
+know whether common SPARQL querying tasks 
+and the reasoning tasks which are classically solved using OWL DL can also be addressed applying \nthree reasoning.
 
 %
 %In the next subsections we give examples for such ambiguous formulas.
