@@ -1,0 +1,316 @@
+\section{N3 Core Logic}\label{core}
+The examples in the last section explain how \nthree formulas are interpreted differently by different reasoners. To point out these variations,
+we used natural language together with a
+first-order-logic-like structure. However, both the natural language and logical structure do not have a fixed definition of their semantics and can 
+thus still be understood in different 
+ways. In order to dispose of this ambiguity when comparing interpretations, 
+ we  now define a new \emph{core logic} of \nthree. 
+This logic  supports all important features of \nthree such as the possibility to refer to formulas or to use quantified variables in predicate position, 
+but only allows \emph{explicit} quantification. This logic can then be used to make \nthree's implicit quantification explicit.
+
+
+\begin{figure}
+
+\begin{tabular}{llr}
+\hline
+Syntax: &&\\
+&&\\
+\texttt{t ::=}&&                    terms:\\
+      & \texttt{v}\hspace{0.15\textwidth} &                variables\\
+      & \texttt{c} &                constants\\
+      & \texttt{e} &                 expressions\\
+      & \texttt{(k)}& lists\\
+      & \texttt{()}& empty list\\
+      &&\\
+\texttt{k ::=}&&                    listcontent\\  
+       &\texttt{t}  &\\
+       &\texttt{t k}&\\
+\texttt{e ::=}&&                    expressions:\\
+%      &\texttt{<>} &                true\\
+       &\texttt{<f>} &               formula expression\\
+       &\texttt{<>} & true\\
+       &\texttt{false}       &               false\\
+       &&\\
+\texttt{f ::= } & &                   formulas:\\  
+    &  \texttt{t t t}&                atomic formula\\
+    &  \texttt{e} $\rightarrow$ \texttt{e}& implication\\
+%    &  \texttt{f} $\rightarrow \bot$ &\\
+%    &  \texttt{f} $\rightarrow \top$ &\\
+%    &  $\top \rightarrow $ \texttt{f} &\\
+%    &   $\bot \rightarrow $ \texttt{f} &\\
+    &  \texttt{f f} &                 conjunction\\
+    &  \(\forall\)\texttt{v.f}     & universal formula\\
+    &  \(\exists\)\texttt{v.f}     & existential formula\\
+    \hline
+\end{tabular}
+\caption{Syntax of the core language $\mathcal{L}$ over $\mathcal{V}\cup\mathcal{C}$.\label{syntax}}
+\end{figure}
+
+\subsection{Syntax}
+Given disjoint countable sets of variables $\mathcal{V}$ and constants $\mathcal{C}$ we define the core language $\mathcal{L}$ of \nthree over \linebreak
+$\mathcal{C}\cup\mathcal{V}$ as displayed in Figure \ref{syntax}. 
+In core logic interpretation \ref{zwei} is expressed as:
+\[
+ \exists \texttt{x. x says <x knows Albert>}
+\]
+And Interpretation \ref{zw}:
+\[
+ \exists \texttt{x1. x1 says <}\exists\texttt{x2. x2 knows Albert>} 
+\]
+%\rv{Nit, but unfortunate choice of the <> symbols, which are used in N3 and elsewhere on the Web to denote IRIs}
+%\da{what do you recommend? [] and () are also taken and I need brackets.}
+Note that this notation is close to the original \nthree notation. To make a clear distinction between core logic and \nthreelogic, 
+we use angle brackets instead of curly brackets and
+a different kind of arrow. 
+For the same reason, we do not represent constants and variables using \iri{}s (ie we write \texttt{x} instead of \texttt{:x}) in our examples.%
+\footnote{Note that the representation of the constants and variables only depends on the choice of $\mathcal{C}$ and $\mathcal{V}$.} 
+The main difference between \nthreelogic and core logic is the symbol used for explicit quantification in the latter, 
+which is taken from first order logic to emphasize 
+that the quantifiers here are interpreted in the order they occur.
+
+
+
+
+
+
+Variables in a formula can either occur free or bound:
+\begin{definition}[Free variables]\label{free}
+The set of free variables of a language element~$\texttt{l}\in\mathcal{L}$, written $\text{FV}(\texttt{l})$ is defined as follows:
+
+\begin{align*}
+ \text{FV}(\texttt{v}) &= \{\texttt{v}\}\\
+ \text{FV}(\texttt{c}) &= \emptyset\\
+ \text{FV}(\texttt{<f>}) &= \text{FV}(\texttt{f})\\
+ \text{FV}(\texttt{<>}) &= \emptyset\\
+ \text{FV}(\texttt{false}) &= \emptyset\\
+ \text{FV}(\texttt{(t}_1\ldots\texttt{t}_n\texttt{)})&=\text{FV}(\texttt{t}_1)\cup\ldots\cup\text{FV}(\texttt{t}_n)\\
+ \text{FV}(\texttt{()})&= \emptyset\\
+ \text{FV}(\texttt{t}_1\texttt{t}_2\texttt{t}_3) &= \text{FV}(\texttt{t}_1)\cup\text{FV}(\texttt{t}_2)\cup \text{FV}(\texttt{t}_3)\\
+ \text{FV}(\texttt{e}_1\rightarrow \texttt{e}_2) &= \text{FV}(\texttt{e}_1)\cup\text{FV}(\texttt{e}_2)\\
+ \text{FV}(\texttt{f}_1\texttt{f}_2) &= \text{FV}(\texttt{f}_1)\cup\text{FV}(\texttt{f}_2)\\
+ \text{FV}(\forall \texttt{v}.\texttt{f}) &= \text{FV}(\texttt{f})\setminus\{\texttt{v}\}\\
+ \text{FV}(\exists \texttt{v}.\texttt{f}) &= \text{FV}(\texttt{f})\setminus\{\texttt{v}\}\\
+\end{align*}
+We call every language element $\texttt{l}\in \mathcal{L}$ with $\text{FV}(\texttt{l})=\emptyset$ \emph{ground}.
+% 
+% The set of ground elements of $\mathcal{L}$ is defined as:
+% \[
+%  \mathcal{L}_g=\{\texttt{l}\in \mathcal{L}| \text{FV}(\texttt{l})=\emptyset\}
+% \]
+%If a formula $\texttt{f} \in \mathcal{F}$ does not contain free variables, ie $\text{FV}(\texttt{f})=\emptyset$, we call this formula \emph{ground}. 
+%Accordingly, we call a term 
+%$\texttt{t}\in \mathcal{T}$ with $\text{FV}(\texttt{t})=\emptyset$ \emph{ground}. 
+We denote the set of ground language elements by $\mathcal{L}_g$, 
+for the set $\mathcal{T}$ of terms as defined in Figure~\ref{syntax}, we define  $\mathcal{T}_g:= \mathcal{L}_g\cap \mathcal{T}$ as the set of ground terms.% By 
+%$\mathcal{E}_g := \mathcal{E}\cap \mathcal{T}_g$ we denote the set of ground expressions.
+\end{definition}
+For example,
+in the formula
+\[
+ \forall \texttt{x. x knows y}
+\]
+the variable \texttt{x} occurs bound, while \texttt{y} is free.
+
+
+
+\subsection{Semantics}
+To define the semantics of the core language $\mathcal{L}$ over $\mathcal{V}\cup\mathcal{C}$ we first introduce the notion of structure. 
+
+\begin{definition}[Structure]
+A structure over a language $\mathcal{L}$ %alphabet $\mathcal{A}$ 
+%\nthree care language
+is a triple $\mathfrak{A}=(\mathcal{D}, \mathfrak{a}, \mathfrak{p})$ containing:
+\begin{itemize}
+ \item A non empty set $\mathcal{D}$ %is a non empty set, 
+ called the \emph{domain}. %of $\mathfrak{A}$.
+ \item A mapping $\mathfrak{a}: \mathcal{T}_g\rightarrow \mathcal{D}$ 
+ called the \emph{object mapping}.
+ %is a mapping from the set of ground expressions into the domain of discourse. %is mapping defined on $\mathcal{A}$ with the following properties.
+ %\begin{itemize}
+ 
+%  \item For every constant $c\in\mathcal{C}\subset \mathcal{A}$, $\mathfrak{a}(c)\in \mathcal{D}$.
+%  \item For every ground expression $e\in \mathcal{E}_{g}$, $\mathfrak{a}(e)\in \mathcal{D}$. 
+% %  \Remark{Not sure yet, whether I need some additional restrictions or interpretation functions here. 
+% %  Maybe I want to treat two formulas which are logically equivalent equally? N3 reasoners don't do that as far as I know.
+% %  N3 paper only says the I shouldn't use knowledge from other formulas.
+% %  }
+%  %\item For the relation $\text{tr}$, $\mathfrak{a}(\text{tr})\subset \mathcal{D}^3$.
+%  \end{itemize}
+\item A mapping $\mathfrak{p}: \mathcal{T}_g\rightarrow 2^{\mathcal{D}\times\mathcal{D}}$ called the \emph{predicate mapping}.  %is a mapping on  the domain elements 
+%$d\in \mathcal{D}$ such that $\mathfrak{p}(d)\in 2^{\mathcal{D}\times\mathcal{D}}$.
+%$\mathfrak{p}:\mathcal{T}_g\rightarrow 2^{\mathcal{D}\times\mathcal{D}}$ is a mapping which maps every ground term into a set of domain pairs.
+\end{itemize}
+\end{definition}
+Similarly to a structure in the classical first order sense, a core logic structure 
+consists of a domain of discourse and maps from the terms of the language into that domain. There are two main differences:
+
+Firstly, there is not \emph{one} mapping into the domain of discourse, but \emph{two}. The reason is that in \rdf and \nthree -- and thereby also in its core logic -- the 
+same symbol 
+can represent a predicate, a subject or an object:
+\[
+ \texttt{knows a predicate. Albert knows Kurt.}
+\]
+is a formula of the core language. A structure should map the first occurrence of the term ``\texttt{knows}'' to one element of the domain and its second occurrence to 
+a set of pairs of domain elements, since the latter 
+represents a relation. 
+% \rdf semantics~\cite{RDFSemantics} deals with that case in a similar way: One interpretation function maps from the terms into the set of resources (IR) and properties (IP) 
+% and a second mapping assigns 
+% a set of resource pairs to all properties. Even though we do not distinguish between resources and properties, the two definitions are compatible. 
+% For a resource in the \rdf sense which is not a property, the predicate mapping $\mathfrak{p}$ simply maps into the empty set.  
+
+The second difference is that our structure is only defined for ground terms and not, as it is in other logics, for terms containing variables. 
+To define the semantics for these we make use of a grounding function:
+
+
+\begin{definition}[Grounding Function]
+A \emph{grounding function} $\gamma_g$ over a language $\mathcal{L}$ is a mapping from the set of variables $\mathcal{V}$ %in $\mathcal{A}$
+into the set of ground terms $\mathcal{T}_g$. % of $\mathcal{A}$. 
+By $\gamma_g [x\mapsto t]$ 
+ we denote the grounding function which is identical to $\gamma_g$ except for $x\mapsto t$. 
+% Likewise we denote a mapping which behaves like a gounding function $\gamma$ 
+% but does not change the variable $x$ by $\gamma\{x/x\}$.
+\end{definition}
+
+This function can be extended to all elements of the language:
+
+\begin{definition}[Extended Grounding Function]
+For a language $\mathcal{L}$ and a  \emph{grounding function} $\gamma_g: \mathcal{V}\rightarrow \mathcal{T}_g$ we define its extension
+%is a mapping $\gamma_b:\mathcal{V}\rightarrow \mathcal{T}_g$ which can be extended to a function 
+$\gamma:\mathcal{L}\rightarrow \mathcal{L}_g$ as follows: 
+\begin{align*}
+ \gamma(\texttt{v}) &= \gamma_g(\texttt{v})\\
+ \gamma(\texttt{c}) &= c\\
+ \gamma(\texttt{<f>}) &= \texttt{<}\gamma(\texttt{f})\texttt{>}\\
+ \gamma(\texttt{<>}) &= \texttt{<>}\\
+ \gamma(\texttt{false}) &= \texttt{false}\\
+ \gamma(\texttt{(t}_1\ldots\texttt{t}_n\texttt{)})&= \texttt{(}\gamma(\texttt{t}_1)\ldots\gamma(\texttt{t}_n)\texttt{)}\\
+ \gamma(\texttt{()})&=\texttt{()}\\
+ \gamma(\texttt{t}_1\texttt{t}_2\texttt{t}_3) &= \gamma(\texttt{t}_1)\gamma(\texttt{t}_2)\gamma(\texttt{t}_3)\\
+ \gamma(\texttt{e}_1\rightarrow \texttt{e}_2) &= \gamma(\texttt{e}_1)\rightarrow\gamma(\texttt{e}_2)\\
+ \gamma(\texttt{f}_1\texttt{f}_2) &= \gamma(\texttt{f}_1)\gamma(\texttt{f}_2)\\
+ \gamma(\forall \texttt{v}.\texttt{f}) &=  \forall \texttt{v}. \gamma[\texttt{v}\mapsto \texttt{v}](\texttt{f})\\
+  \gamma(\exists \texttt{v}.\texttt{f}) &=  \exists \texttt{v}. \gamma[\texttt{v}\mapsto \texttt{v}](\texttt{f})
+\end{align*}
+\end{definition}
+
+For the definition of an interpretation and meaning we now use the grounding function instead of a classical 
+valuation function which maps the set of variables into the domain of discourse. We have two reasons for that:
+%We have two reasons for using a grounding function instead of a classical valuation function from the set of variables into the domain of discourse:
+
+The first reason is again related to the lack of distinction 
+between objects and predicates. In \nthree it is possible to quantify over predicates. 
+These predicates could also be used in subject or object position as in the example formula\footnote{Here and for the remainder of this paper, we use the symbols $\lhexbrace$ and $\rhexbrace$ as auxiliary brackets 
+to clarify the structure of the formulas shown.}
+%and this aspect needs to be covered by the core logic. A formula of the form
+\[
+ \forall \texttt{x.}\lhexbrace\texttt{ x a predicate. Albert x Kurt.}\rhexbrace
+\]
+%is part of the core language.
+We need make sure that the universal quantifier takes the relation between the 
+two occurrences of \texttt{x} into account. 
+We do that by using the same mapping into the set of ground terms for both of them.
+%both occurrences of \texttt{x} get assigned 
+%to the same constant and
+%that a quantifier over a variable occurring 
+By doing so we furthermore make sure that a variables in predicate position cannot refer to all elements of $2^{\mathcal{D}\times\mathcal{D}}$ and thereby lead us into second order logic.
+Following the idea of  Henkin Semantics \cite{henkin_1950}, we ensure by grounding first that it can only be quantified over 
+the countable subset of those relations 
+which have a name in $\mathcal{L}$. 
+A mapping into first order logic could then be done similarly as it has been performed for KIF \cite{skif}. %\todo{not two paragraphs over grounding, but one}
+%To also assign a meaning to variables, we define the following mapping:
+%To
+%As explained above, the use of a grounding function instead of a direct mapping from the variables into the domain of discourse ensures that we stay in first order logic.
+
+An alternative to perform grounding would have been to use the functions IS and IEXT as defined in \rdf Semantics \cite{RDFSemantics}. 
+This brings us to the second reason to perform grounding first: %The reason for not doing that 
+%not directly 
+%use these functions here and use a grounding function and a predicate mapping instead 
+%
+%has to do with 
+Many of the built-ins defined 
+for \nthreelogic\footnote{\url{https://www.w3.org/2000/10/swap/doc/CwmBuiltins}} 
+%Many of these functions 
+act on the representation layer of the logic. The predicate \texttt{log:equalTo}, for example, 
+compares concrete \uri{}s and literals:
+\[
+ \texttt{dbpedia:Bern log:equalTo \texttt{dbpedia:Bern}.} 
+\]
+is \texttt{true} while
+\[
+ \texttt{dbpedia:Bern log:equalTo dbpedia-nl:Bern.}
+\]
+results in \texttt{false}, even though we can assume that both \uri{}s refer to the same place in Switzerland.
+While we do not explicitly define the meaning of built-ins in this paper 
+we still want to make sure that our theory is able to cover such cases.
+%To be able to define the semantics of such built-ins in our theory, we do the grounding step.
+
+An interpretation for core formulas therefore makes use of a grounding function:
+
+
+\begin{definition}[Core logic interpretation]
+A core logic interpretation $\mathfrak{I}$ is a pair $(\mathfrak{A}, \gamma)$ consisting of a structure $\mathfrak{A}$ and a grounding function $\gamma$.
+\end{definition}
+
+
+With the present definitions we can now define the meaning  of formulas. 
+
+
+\begin{definition}[Meaning of formulas]
+Let $\mathfrak{I}=(\mathfrak{A}, \gamma)$ be a core logic interpretation of a language $\mathcal{L}$. %and $\texttt{f}_1$ and $\texttt{f}_2$ formulas. 
+Then:
+ \begin{enumerate}
+ \item $\mathfrak{I}\models \texttt{t}_1\texttt{t}_2 \texttt{t}_3$ iff 
+ $(\mathfrak{a}(\gamma(\texttt{t}_1)), \mathfrak{a}(\gamma(\texttt{t}_3))\in \mathfrak{p}(\gamma(\texttt{t}_2)))$
+  %\item $\mathfrak{I}\models \text{tr}(t_1, t_2, t_3)$ iff $(\mathfrak{I}(t_1), \mathfrak{I}(t_3))\in \mathfrak{p}(\mathfrak{I}(t_2))$. %$(\mathfrak{I}(t_1), \mathfrak{I}(t_2), \mathfrak{I}(t_3))\in \mathfrak{a}(tr)$.
+  \item $\mathfrak{I}\models \texttt{<f}_1\texttt{>}\rightarrow \texttt{<f}_2\texttt{>}$ iff 
+  $\mathfrak{I}\models \texttt{f}_2$ if $\mathfrak{I}\models \texttt{f}_1$.
+  \item $\mathfrak{I}\models \texttt{false} \rightarrow \texttt{<f>}$
+  \item $\mathfrak{I}\models \texttt{<f>}\rightarrow \texttt{<>}$
+  %\item $\mathfrak{I}\models \bot \rightarrow (\phi)$ and $\mathfrak{I}\models (\phi)\rightarrow \top$.
+  \item $\mathfrak{I}\models \texttt{<f>} \rightarrow \texttt{false}$ iff $\mathfrak{I}\not \models \texttt{f}$.
+  \item $\mathfrak{I}\models \texttt{<>} \rightarrow \texttt{<f>}$ iff $\mathfrak{I}\models \texttt{f}$.
+  \item $\mathfrak{I}\models \texttt{f}_1\texttt{f}_2$ iff $\mathfrak{I}\models \texttt{f}_1$ and $\mathfrak{I}\models \texttt{f}_2$.
+  \item $\mathfrak{I}\models \forall \texttt{v.f}$ iff $(\mathfrak{A}, \gamma[\texttt{v}\mapsto\texttt{t}])\models\texttt{f}$ for all $t\in \mathcal{T}_g$.
+  \item $\mathfrak{I}\models \exists \texttt{v.f}$ iff $(\mathfrak{A}, \gamma[\texttt{v}\mapsto\texttt{t}])\models \texttt{f}$ for some $t\in \mathcal{T}_g$.
+ % \item $\mathfrak{I}\models \exists x (\phi)$ iff $(\mathfrak{A}, \gamma\{x/t\})\models \phi$ for some $t\in \mathcal{T}_g$.
+ \end{enumerate}
+%
+We call a formula $\texttt{f}$ \emph{true} in $\mathfrak{I}$ if $\mathfrak{I}\models \texttt{f}$. 
+\end{definition}
+
+%Next to the fact that we do not use the functions IS and IEXT from \rdf Semantics, there is another detail which the reader familiar to these definitions might consider 
+Note that in \nthree lists are treated as ``first-class citizens'', this means that \nthree does not use \rdf's 
+\texttt{rdf:first}-\texttt{rdf:rest} notation to construct lists but allows the treatment of lists as a proper data type (see also \cite[p.6]{N3Logic}). 
+This is reflected
+in our core logic and its semantics, where we directly map ground lists into the domain of discourse. We do the same for cited formulas since such a treatment allows later
+refinement by specifying the mapping function further. %We see this refinement as future work.
+
+
+The definition of a model is similar to first order logic:
+
+%This enables us to define the 
+%concept of a model of or 
+
+\begin{definition}[Model]
+ Let $\Phi$ be a set of formulas. We call a core logic interpretation $\mathfrak{I}$ a \emph{model} of $\Phi$ iff every formula in $\Phi$ is true in $\mathfrak{I}$.
+\end{definition}
+
+% \Remark{Problem:
+%  I think I should guarantee that two
+% ``expression-formulas'' which only differ in their variable names, are treated equally. How?
+% Using logical equivalence? 
+% }
+
+We finish this section by defining the classical concepts of logical consequence and equivalence:
+
+\begin{definition}[Logical consequence]
+ Let $\Phi$ be a set of ground formulas. A ground formula $\texttt{f}$ is called a \emph{logical consequence} of $\Phi$ (written: $\Phi\models\texttt{f}$) 
+ iff $\texttt{f}$ is true in every model 
+ of $\Phi$.
+\end{definition}
+ Instead of $\{\texttt{f}_1\}\models \texttt{f}_2$ we sometimes write $\texttt{f}_1\models\texttt{f}_2$.
+
+\begin{definition}[Logical equivalence]
+ Two formulas $\phi$ and $\psi$ are called logically equivalent ($\phi \equiv \psi$) iff $\phi \models \psi$ and $\psi\models \phi$.
+\end{definition}
+

@@ -1,0 +1,121 @@
+\section{Conclusion}\label{concl}
+We conclude this paper in two parts: First, we get back to the research questions which we raised in the introduction and 
+summarize how they have been addressed in this paper. In a second part we give an outlook to future work and 
+discuss open challenges for the formalisation of \nthreelogic.
+
+
+\subsection{Review of the Research Questions}
+We discuss each research question separately:
+\begin{enumerate}
+ \item[(i)] \emph{How can we formally express the difference between two interpretations of the same \nthree formula?}
+ \end{enumerate}
+ To express the interpretations of implicitly quantified variables in \nthreelogic, we defined a core logic (Section~\ref{core}). The syntax of this 
+ core logic is very close to the syntax of \nthree and -- apart from some differences in the symbols -- only differs from it in the fact 
+ that it only supports explicit 
+ quantification. That way, it is easy to express at which position an interpretation sets the quantifier when being faced with implicit quantification
+ and to compare different interpretations. 
+ For the syntax we also provided a semantics which respects the characteristics 
+ of \nthree{} -- like the fact that lists need to be treated as \emph{first-class citizens} -- and allows for further refinement of concepts which have
+ not been treated in detail in this paper like the interpretation 
+of cited formulas and the definition of \nthree's built-in functions.
+
+To connect an \nthree formula to its core logic counterpart, we chose the concept of attribute grammars (Section~\ref{ag}) and can -- using this concept -- formally
+define how an interpretation maps \nthree to core logic.
+ \begin{enumerate}
+ \item[(ii)] \emph{How do existing interpretations of \nthreelogic conceptually differ in their way of handling implicit quantification?}
+% \item[(iii)] What are the consequences of this difference in practice?
+% \begin{enumerate}
+\end{enumerate}
+To answer this research question we first explained that universal quantification is closely related to the concept of a \emph{parent formula} 
+(Section~\ref{universals}) which is underspecified in the \wwwc team submission. 
+We specified attribute grammars for two different interpretations (Section~\ref{n3}): one seeing the top formula as the \emph{parent formula} of all implicitly universally
+quantified variables occurring in it regardless of their level of nesting -- this is the interpretation the reasoner EYE applies -- 
+one for which this \emph{parent formula} of an implicitly universally quantified variable is not the direct formula either written in curly brackets \{\} 
+or being the top formula
+containing the variable
+but the next higher formula fulfilling these conditions -- this approach is implemented in Cwm.
+\begin{enumerate}
+ \item[(iii)] \textit{How often does this conceptual difference lead to conflicting interpretations of formulas used in practical applications?}
+ \end{enumerate}
+To know whether the conceptual difference in the treatment of implicit universal quantification is not only of theoretical nature but does have impact 
+on practical cases we implemented the previously defined attribute grammars in Haskell (Section~\ref{imp}). We applied the implementation to different datasets which were written for 
+practical applications and discovered that in 31\% of
+all our investigated files at least one construct which is understood differently by the different interpretations can be found (Sections~\ref{data} and \ref{results}).
+ \begin{enumerate}
+ \item[(iv)]\textit{Which kinds of constructs cause these conflicting interpretations in practice and how likely is it that a file containing 
+ these constructs is actually 
+ subject to the problem?}
+% \item How likely is it that a file containing such constructs leads to conflicting interpretations?
+% \end{enumerate}
+\end{enumerate}
+For the answer of this last question, we looked deeper into the datasets and identified three different categories of constructs which
+caused conflicting interpretations, namely proofs, built-ins, and deeply nested formulas without the occurrence of proof-constructs or built-ins 
+(Section~\ref{results}). For all these constructs we provided examples and discussed whether the differences in the interpretations are problematic which was especially
+the case for nested constructs without built-ins which are not part of a proof. 
+We then tested if, given one of these constructs is present in a file, how likely it is 
+that this file is treated differently by the two different interpretations. While this was always the case if proofs are present, 
+disagreements could also be found for a quarter of the cases containing built-ins and for 72\% of the files containing nested constructs of any kind.
+As a last step, we divided the files showing differences in the interpretations into disjoint groups depending on the main reason  causing that difference.
+We identified that 13\% of our disagreements were caused by simple nesting without built-ins or proof-constructs. These are the cases we consider as most dangerous 
+since files are mostly manually written -- opposed to computer generated proofs -- by users which do not have a specific reasoner in mind.
+\\
+
+Especially these cases lead us to the conclusion that the problem of having different interpretations for deeply nested implicit universal quantification needs 
+to be addressed by a formalised standard. 
+In our opinion, this standard should be easy to understand for users and easy to implement which is why we favour to
+the interpretation which understands the top formula as the parent for all universals. 
+% But 
+% also
+% for anyone 
+%Being easy to understand and implement, we favour 
+% Of the possible solutions we favour the option to follow the the interpretation 
+% understanding the top formula as the parent for all universals (Section~\ref{solution}).
+% A first, but in our opinion very important, step towards such a standard is to
+By providing a way to explicitly express 
+the differences between existing interpretations as we did by defining the core logic and showing how attribute grammars can be used to map from
+\nthree formulas to that logic, we provided tools which ease the discussion.
+Having these tools at hand enables anyone involved to clearly define how he understands implicit universal quantification 
+and to test where this interpretation differs
+from others. We thereby set a step forward towards the standardisation of \nthree.
+% and a mapping from \nthree formula t exemplified of Cwm and EYE in this paper. 
+% The newly provided framework enables us and any user to identify the concrete cases where interpretations 
+% differ in their understanding of a formula and, hopefully, 
+% helps to come to an agreement between different implementers.
+% Nested constructs occurring in proofs are often rather harmless. Many cases where built-in functions are involved lead 
+% to different interpretations due
+% to the fact that not all functions are supported by all reasoners such that the problem of differently defined implicit quantification adds 
+% not that much extra damage. But we
+% also found cases in almost all of our datasets where nested constructs were occurring without being used in a proof or together with built-in functions. This happened in 13\%
+% of the files causing contradictory interpretations. Especially these cases need to be avoided. 
+
+\subsection{Open Challenges and Future Directions} 
+While this paper shows how the uncertainties about implicit quantification in \nthree can be clarified the are further challenges lying ahead  
+which need to be solved in order to standardise \nthreelogic. 
+
+Next to the clarification of the different ways to interpret implicit quantification in \nthree and a study whether the concrete meaning of existing \nthree files 
+changes with a change of the 
+interpretation applied, the expressivity of formulas using implicit quantification is an important factor when making a choice how this should be handled. 
+Understanding the \emph{parent formula} as the top formula and not as a nested formula makes \nthree with only implicit quantification less expressive. 
+Whether this limited expressivity is strong enough to support all the tasks \nthree is meant for and how it compares to other standards needs to be carefully studied 
+in order to come to an agreement.
+
+The expressivity of implicit quantification becomes less crucial if \nthree, as intended by the \wwwc team submission, also supports explicit quantification. 
+Section~\ref{remarkExplicitQuantification} briefly discusses the problems and uncertainties in the current informal specification. The most important factors are
+how the exact position of a quantifier should be taken into account (ie does it make sense that universal quantification always dominates existential quantification) 
+and whether or not variables should be separated from constants and have for example a designated name space. These topics need to be discussed in the community. 
+We plan to use our core logic to formalise the different options which then, hopefully, leads to an agreement.
+
+Another important topic we excluded from this paper is the formalisation of built-in functions. The \wwwc team submission discusses different predicates which
+are considered as part of \nthree like the list functions \texttt{rdf:first} and \texttt{rdf:last} which \nthree inherits from \rdf but also, for example, the predicate 
+\texttt{log:equalTo} to state ground equality. We designed the core logic in such way that it can be easily extended to support these and other predicates 
+and plan to provide this formalisation as future work.
+
+The last, but probably most critical point, which needs to be tackled in order to standardise \nthree is a clear definition how cited formulas need to be handled. The 
+need for such constructs but also the difficulties which come with this kind of standardisation can be observed in \rdf: \rdf reification is excluded 
+from the definition of \rdf semantics \cite{RDFSemantics} and 
+for the TriG syntax to express named graphs, there is a disagreement about its meaning \cite{TriGsemantics}. We plan to base our own
+proposal for 
+this part of \nthreelogic on KIF~\cite{kif} and ISO Common Logic~\cite{ICL}.
+
+With the definition of an extendible core logic we provided a framework which can and will help us to clarify all properties of \nthreelogic and thereby
+leverage this logic to become a standard for the Semantic Web.

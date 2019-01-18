@@ -16,14 +16,13 @@ hypertexnames = false,
 citecolor = black]{hyperref} % make links
 
 
-
 \usepackage{url}						% urls (duh)
 \usepackage{doi}						% doi links
 \usepackage{a4wide}						% iets meer tekst op 1 pagina
 \usepackage[dutch,english]{babel}	  	% nederlands en engels inladen
 \usepackage{amsmath}					% AMS-wiskundige symbolen
 \usepackage{amssymb} 					% invoegen van reele getallen etc
-\usepackage[]{graphicx}					% figuren invoegen
+%\usepackage[]{graphicx}					% figuren invoegen
 % if you want to speed up things:
 % \usepackage[draft]{graphicx}					% figuren invoegen
 \usepackage{float}						% positie figuren etc.
@@ -36,11 +35,11 @@ citecolor = black]{hyperref} % make links
 \usepackage{imakeidx}                           % list of abbriviations - not used
 
 \usepackage{rotating}                   % tables, figures, ... rotated 
-\usepackage{arydshln}                   % advanced package for tables: dashed lines etc
-\usepackage[shortcuts]{extdash}         % more types of dashes, sometimes useful
-\usepackage[version=3]{mhchem}          % chemistry symbols: \ce{NH3} gives NH$_3$
+
+%\usepackage[shortcuts]{extdash}         % more types of dashes, sometimes useful
+%\usepackage[version=3]{mhchem}          % chemistry symbols: \ce{NH3} gives NH$_3$
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables for horizontal lines
-\usepackage{cancel}						% cancelen van termen in wiskundige uitdrukkingen
+%\usepackage{cancel}						% cancelen van termen in wiskundige uitdrukkingen
 
 \usepackage{emptypage}                  % allows inclusion of empty pdf pages
 
@@ -50,8 +49,8 @@ citecolor = black]{hyperref} % make links
 \usepackage{nicefrac}
 %\usepackage{subfig} % outdated
 
-\usepackage{algorithm} % nice environment for pseudocode
-\usepackage{algpseudocode} % pseudocode
+%\usepackage{algorithm} % nice environment for pseudocode
+%\usepackage{algpseudocode} % pseudocode
 
 \usepackage{bookmark}
 \usepackage{mathrsfs}
@@ -67,9 +66,9 @@ citecolor = black]{hyperref} % make links
 \usepackage{mathtools} % for dcases
 \usepackage{bbold} 
 \usepackage{dsfont} 
-\usepackage{chemfig} 
-\usepackage{combelow} % Typeset "comma-below" letters, as in Romanian
-\usepackage{memhfixc} % for \cleartorecto and \cleartoverso
+%\usepackage{chemfig} 
+%\usepackage{combelow} % Typeset "comma-below" letters, as in Romanian
+%\usepackage{memhfixc} % for \cleartorecto and \cleartoverso
 
 \usepackage{afterpage} 
 % create new blank pages with no style until the next uneven page, not do always work?
@@ -131,6 +130,7 @@ citecolor = black]{hyperref} % make links
 % font
 \usepackage[T1]{fontenc}
 %\usepackage{bera}
+%changed here
 \usepackage{libertine}
 \renewcommand*\familydefault{\sfdefault}  % biolinum
 %\usepackage{libgreek}
@@ -222,14 +222,12 @@ citecolor = black]{hyperref} % make links
 % \@addtoreset{chapter}{part}
 % \makeatother
 
-% this must be one of the last packages loaded
-\usepackage{cleveref}
+%my own
+\usepackage[utf8]{inputenc}
+%\usepackage{stix}
 
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% my own stuff
-
+\usepackage[T1]{fontenc}
 \usepackage{csquotes}
 %\usepackage{mathptmx}
 \usepackage{amssymb}
@@ -253,15 +251,12 @@ citecolor = black]{hyperref} % make links
 %\usepackage{pifont}
 \usepackage{array}
 
-%for better typewriter 
-\usepackage{courier}
-
 \usepackage[multiple]{footmisc}
 
 
 \usepackage{subcaption}
 % Graphics
-
+\usepackage{graphicx}
 \setcounter{bottomnumber}{2}
 \usepackage{tikz}
 \usetikzlibrary{arrows,positioning,shapes.misc,calc}
@@ -275,7 +270,7 @@ citecolor = black]{hyperref} % make links
 % for numbered quotes
 \newcounter{quotecount}
 \newcommand{\MyQuote}[1]{\vspace{0.5cm}\addtocounter{quotecount}{1}%
-     \parbox{0.39\textwidth}{\em #1}\hspace*{0.5cm}(\Roman{quotecount})\\[0.5cm]}
+     \parbox{0.8\textwidth}{\em #1}\hspace*{0.5cm}(\Roman{quotecount})\\[0.5cm]}
 
 %Definitionen nicht kursiv     
 %\theoremstyle{definition}
@@ -304,11 +299,10 @@ citecolor = black]{hyperref} % make links
         basicstyle=\ttfamily\listingsize\selectfont}
 %\crefname{lstlisting}{Listing}{Listings}
 \definecolor{grey}{RGB}{130,130,130}
+\definecolor{ugentblue}{RGB}{30,100,200}
 
 
-
-%\usepackage{roundrule}
-
+\usepackage{roundrule}
 \usepackage{stackengine}
 \usepackage{scalerel}
 \def\rlwd{.4pt}% \rule width
@@ -326,6 +320,14 @@ citecolor = black]{hyperref} % make links
     \stackon[-\rlwd]{\roundrule{\rlwd}{4pt}}{\rotatebox{-45}{\roundrule{4pt}{\rlwd}}}%
   }{\rotatebox{45}{\roundrule{4pt}{\rlwd}}}%
 }{\SavedStyle[}}\kern1pt}
+
+
+
+
+
+
+
+
 
 
 % Acronyms
@@ -357,12 +359,26 @@ citecolor = black]{hyperref} % make links
 \newtheorem{remark}[theorem]{Remark}
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
-\newcommand{\eq}{\operatorname{\textit{eq}}}
-\newcommand{\bi}{\operatorname{\textit{bi}}}
-\newcommand{\biu}{\operatorname{\textit{b}}}
+\newcommand{\eq}{\text{eq}}
+\newcommand{\bi}{\text{bi}}
+\newcommand{\biu}{\text{b}}
+\newcommand{\col}{:}
 
 \newcommand*\circled[1]{\tikz[baseline=(char.base)]{
             \node[shape=circle,draw,inner sep=1pt] (char) {#1};}}
+
+% labels in trees            
+\newcommand{\tr}[1]{\textcolor{ugentblue}{\textit{\scriptsize{#1}}}}            
+\newcommand{\trm}[1]{ \tr{$\begin{bmatrix}#1\end{bmatrix}$}} 
+\newcommand{\trmv}[4]{\tr{$\begin{bmatrix}    
+                      v_1:&\hspace{-0.3cm}#1\\
+		      v_2:&\hspace{-0.3cm}#2\\
+		      s:&\hspace{-0.3cm}#3\\
+		      q:&\hspace{-0.3cm}#4\end{bmatrix}$}}
+\newcommand{\trmd}[3]{\tr{$\begin{bmatrix}    
+                      v_1:&\hspace{-0.3cm}#1\\
+		      v_2:&\hspace{-0.3cm}#2\\
+		      s:&\hspace{-0.3cm}#3\end{bmatrix}$}}		      
 
 % Indication of to-dos
 \newcommand{\todo}[1]{\noindent\textcolor{red}{{\bf \{TODO}: #1{\bf \}}}}
@@ -373,13 +389,172 @@ citecolor = black]{hyperref} % make links
 % Indication of remarks
 \newcommand{\Remark}[1]{\noindent\textcolor{red}{{\bf \{Remark}: #1{\bf \}}}}
 
-\newcommand{\hyp}[2]{\textbf{#1 }\textit{#2}}
-
-
+% Indication of remarks
+\newcommand{\tom}[1]{\noindent\textcolor{orange}{{\bf \{Tom}: #1{\bf \}}}}
+\newcommand\rv[1]{\noindent\textcolor{orange}{{\bf \{Ruben}: #1{\bf \}}}}
+\newcommand\da[1]{\noindent\textcolor{blue}{{\bf \{D\"orthe}: #1{\bf \}}}}
 \newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}} % zentriert mit Breitenangabe
 
-%%%%%%%%%%%%%%%%5end: own staff%%%%%%%%%%%%%%%%%%%%%%%%%%
+%end my own
 
+
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % my own stuff
+% 
+% 
+% \usepackage{csquotes}
+% %\usepackage{mathptmx}
+% \usepackage{amssymb}
+% \setcounter{tocdepth}{1}
+% 
+% \usepackage{amsthm} 
+% \usepackage{amsfonts}
+% \usepackage{longtable}
+% \usepackage{url}
+% \usepackage{amsmath} 
+% %\usepackage{mathtools} 
+% %\usepackage{qtree}
+% \usepackage{tikz-qtree-compat}
+% \usepackage{multirow}
+% \usepackage{relsize}
+% %\usepackage{tikz-qtree}
+% %\usepackage{authblk}
+% \usepackage{placeins}
+% %\usepackage{syntax}
+% %\usepackage{alltt}
+% \usepackage{supertabular,booktabs}
+% %\usepackage{pifont}
+% \usepackage{array}
+% 
+% %for better typewriter 
+% \usepackage{courier}
+% 
+% \usepackage[multiple]{footmisc}
+% 
+% \usepackage{subcaption}
+% 
+% 
+% \setcounter{bottomnumber}{2}
+% \usepackage{tikz}
+% \usetikzlibrary{arrows,positioning,shapes.misc,calc}
+% \definecolor{lightgrey}{RGB}{170, 170, 170}
+% \pgfdeclarelayer{background}
+% \pgfdeclarelayer{foreground}
+% \pgfsetlayers{background,main,foreground}
+% \usepackage{pgf-umlsd}
+% 
+% \allowdisplaybreaks
+% % for numbered quotes
+% \newcounter{quotecount}
+% \newcommand{\MyQuote}[1]{\hspace*{0.4cm}\vspace{0.5cm}\addtocounter{quotecount}{1}%
+%      \parbox{0.8\textwidth}{\em #1}\hspace*{0.5cm}(\Roman{quotecount})\\[0.5cm]}
+% 
+% %Definitionen nicht kursiv     
+% %\theoremstyle{definition}
+% 
+% %Definitionen nicht fett     
+% \theoremstyle{remark}
+% 
+% 
+% % Listings and Verbatim environment
+% \usepackage{fancyvrb}
+% \usepackage{relsize}
+% \usepackage{listings}
+% \usepackage{verbatim}
+% \usepackage{alltt}
+% \newcommand\listingsize{\fontsize{9pt}{10pt}}
+% \RecustomVerbatimCommand{\Verb}{Verb}{fontsize=\listingsize}
+% \RecustomVerbatimEnvironment{Verbatim}{Verbatim}{fontsize=\listingsize}
+% \lstset{frame=lines,captionpos=b,numberbychapter=false,escapechar=§,
+%         % line numbers
+%         numbers=left,
+%         numbersep=2ex,
+%         numberstyle=\textcolor{lightgrey},
+%         xleftmargin=5ex,
+%         framexleftmargin=5ex,
+%         aboveskip=0.5em,
+%         % font style
+%         basicstyle=\ttfamily\listingsize\selectfont}
+% %\crefname{lstlisting}{Listing}{Listings}
+% \definecolor{grey}{RGB}{130,130,130}
+% \definecolor{ugentblue}{RGB}{30,100,200}
+% 
+% 
+% \usepackage{roundrule}
+% \usepackage{stackengine}
+% \usepackage{scalerel}
+% \def\rlwd{.4pt}% \rule width
+% \def\lhexbrace{\kern1pt%
+% \setstackgap{S}{0pt}\def\stackalignment{l}
+% \ThisStyle{\scalerel*{%
+%   \stackunder[-\rlwd]{%
+%     \stackon[-\rlwd]{\roundrule{\rlwd}{4pt}}{\rotatebox{45}{\roundrule{4pt}{\rlwd}}}%
+%   }{\rotatebox{-45}{\roundrule{4pt}{\rlwd}}}%
+% }{\SavedStyle[}}}
+% \def\rhexbrace{%
+% \setstackgap{S}{0pt}\def\stackalignment{r}
+% \ThisStyle{\scalerel*{%
+%   \stackunder[-\rlwd]{%
+%     \stackon[-\rlwd]{\roundrule{\rlwd}{4pt}}{\rotatebox{-45}{\roundrule{4pt}{\rlwd}}}%
+%   }{\rotatebox{45}{\roundrule{4pt}{\rlwd}}}%
+% }{\SavedStyle[}}\kern1pt}
+% 
+% 
+% % Acronyms
+% % Acronyms
+% \usepackage{xspace}
+% \newcommand{\apis}{\mbox{{API}s}\xspace}
+% \newcommand{\api}{{API}\xspace}
+% \newcommand{\dbpedia}{DBpedia\xspace}
+% \newcommand{\cwm}{{\itshape cwm}\xspace}
+% \newcommand{\http}{{HTTP}\xspace}
+% \newcommand{\notationthree}{Notation3\xspace}
+% \newcommand{\nthree}{{N\oldstylenums 3}\xspace}
+% \newcommand{\nthreelogic}{N{\oldstylenums 3}Logic\xspace}
+% \newcommand{\owl}{\mbox{OWL}\xspace}
+% \newcommand{\owls}{\mbox{OWL-S}\xspace}
+% \newcommand{\rdf}{RDF\xspace}
+% \newcommand{\rest}{REST\xspace}
+% \newcommand{\restdesc}{RESTdesc\xspace}
+% \newcommand{\sla}{SLA\xspace}
+% \newcommand{\soap}{SOAP\xspace}
+% \newcommand{\uri}{URI\xspace}
+% \newcommand{\uris}{URIs\xspace}
+% \newcommand{\iri}{IRI\xspace}
+% \newcommand{\URL}{URL\xspace}
+% \newcommand{\wsmo}{WSMO\xspace}
+% \newcommand{\wwwc}{W3C\xspace}
+% \newtheorem{theorem}{Theorem}
+% \newtheorem{definition}[theorem]{Definition}
+% \newtheorem{remark}[theorem]{Remark}
+% \newtheorem{lemma}[theorem]{Lemma}
+% \newtheorem{corollary}[theorem]{Corollary}
+% \newcommand{\eq}{\operatorname{\textit{eq}}}
+% \newcommand{\bi}{\operatorname{\textit{bi}}}
+% \newcommand{\biu}{\operatorname{\textit{b}}}
+% 
+% \newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+%             \node[shape=circle,draw,inner sep=1pt] (char) {#1};}}
+% 
+% % Indication of to-dos
+% \newcommand{\todo}[1]{\noindent\textcolor{red}{{\bf \{TODO}: #1{\bf \}}}}
+% 
+% % Indication of questions
+% \newcommand{\question}[1]{\noindent\textcolor{blue}{{\bf \{Question}: #1{\bf \}}}}
+% 
+% % Indication of remarks
+% \newcommand{\Remark}[1]{\noindent\textcolor{red}{{\bf \{Remark}: #1{\bf \}}}}
+% 
+\newcommand{\hyp}[2]{\textbf{#1 }\textit{#2}}
+% 
+% 
+% \newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}} % zentriert mit Breitenangabe
+% 
+% %%%%%%%%%%%%%%%%end: own staff%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{arydshln}                   % advanced package for tables: dashed lines etc
+% this must be one of the last packages loaded
+\usepackage{cleveref}
 
 
 % special links for 'Paper' chapters, try \cref{paper1}
@@ -469,24 +644,27 @@ citecolor = black]{hyperref} % make links
 \mainmatter
  %   \part{Variational determination of the two-particle density matrix: the case of doubly-occupied space}
 
-\part{Introduction} \label{intro}
-\input{chapters/introduction}
+%\part{Introduction} 
+\input{chapters/introduction}\label{intro}
 
 % reset all acronyms after the introduction
 %\glsresetall
 
 \input{chapters/UnifyingLogic/UnifyingLogic}
 
-\part{Semantics}\label{semantics}
+%\part{Semantics}
 
-\chapter{Motivation and Problems}\label{problem}
-use mention problem
-%\input{chapters/N3/Syntax}
-%\input{chapters/N3/Finding_the_meaning}
-%\input{chapters/N3/directsemantics}
-\chapter{Elaboration Semantics for N3}\label{ela}
-\chapter{Direct Semantics for N3}\label{exsem}
-
+\chapter{Towards a semantic definition for Notation3 Logic}\label{problem}\label{semantics}
+\input{chapters/N3/intro}
+\input{chapters/N3/Syntax}
+\input{chapters/N3/Finding_the_meaning}
+\input{chapters/N3/N3Core}\label{ela}
+\input{chapters/N3/Mapping}
+\input{chapters/N3/Impact}
+\input{chapters/N3/Solutions}
+\input{chapters/N3/directsemantics}\label{exsem}
+\input{chapters/N3/RelatedWork}
+\input{chapters/N3/Conclusion}
 
 \part{N3 in relation to other frameworks}\label{others}
 \chapter{General Discussion}\label{gen}
