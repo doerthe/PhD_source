@@ -26,8 +26,9 @@ citecolor = black]{hyperref} % make links
 % if you want to speed up things:
 % \usepackage[draft]{graphicx}					% figuren invoegen
 \usepackage{float}						% positie figuren etc.
-%\usepackage{subfloat}						% positie figuren etc.
-\usepackage[hang,bf]{caption}	        % captions van figuren: vet en goed gealigneerd
+\usepackage{subfloat}						% positie figuren etc.
+\usepackage[%hang,
+	    bf]{caption}	        % captions van figuren: vet en goed gealigneerd
 \usepackage{subcaption}						% positie figuren etc.
 \usepackage{pdfpages}					% pdf pagina's invoegen
 
@@ -249,12 +250,17 @@ citecolor = black]{hyperref} % make links
 %\usepackage{alltt}
 \usepackage{supertabular,booktabs}
 %\usepackage{pifont}
+
+%for better typewriter 
+\usepackage{courier}
+
+
 \usepackage{array}
 
 \usepackage[multiple]{footmisc}
 
 
-\usepackage{subcaption}
+
 % Graphics
 \usepackage{graphicx}
 \setcounter{bottomnumber}{2}
@@ -269,8 +275,9 @@ citecolor = black]{hyperref} % make links
 \allowdisplaybreaks
 % for numbered quotes
 \newcounter{quotecount}
-\newcommand{\MyQuote}[1]{\vspace{0.5cm}\addtocounter{quotecount}{1}%
-     \parbox{0.8\textwidth}{\em #1}\hspace*{0.5cm}(\Roman{quotecount})\\[0.5cm]}
+\newcommand{\MyQuote}[1]{\hspace*{0.5cm}\vspace*{0.3cm}\addtocounter{quotecount}{1}%
+     \parbox{0.8\textwidth}{\em #1}\hspace*{0.5cm}(\Roman{quotecount})\\ %[0.5cm]
+     }
 
 %Definitionen nicht kursiv     
 %\theoremstyle{definition}
@@ -394,6 +401,17 @@ citecolor = black]{hyperref} % make links
 \newcommand\rv[1]{\noindent\textcolor{orange}{{\bf \{Ruben}: #1{\bf \}}}}
 \newcommand\da[1]{\noindent\textcolor{blue}{{\bf \{D\"orthe}: #1{\bf \}}}}
 \newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}} % zentriert mit Breitenangabe
+
+% \newcommand{\basedpapers}[1]{%
+%   %\nocite{*}
+%   \newpage
+%   %\noindent\makebox[\linewidth][r]{\color{PlotThree}\rule{0.75\linewidth}{0.5pt}}
+%   This chapter is partly based on the publications:
+%   \foreach \entry in {#1} {%
+%     \\\\
+%     \fullcite{\entry}\mybibexclude{\entry}
+%   }
+% }
 
 %end my own
 
@@ -656,7 +674,7 @@ citecolor = black]{hyperref} % make links
 
 \chapter{Towards a semantic definition for Notation3 Logic}\label{problem}\label{semantics}
 \input{chapters/N3/intro}
-\input{chapters/N3/Syntax}
+%\input{chapters/N3/Syntax} 
 \input{chapters/N3/Finding_the_meaning}
 \input{chapters/N3/N3Core}\label{ela}
 \input{chapters/N3/Mapping}
@@ -666,34 +684,36 @@ citecolor = black]{hyperref} % make links
 \input{chapters/N3/RelatedWork}
 \input{chapters/N3/Conclusion}
 
-\part{N3 in relation to other frameworks}\label{others}
-\chapter{General Discussion}\label{gen}
-\chapter{Use case: Nurse Call System}\label{orca}
-\chapter{Use case: Data Validation}\label{validation}
+\chapter{Querying and ontology reasoning with Notation3 Logic}\label{others}
+\section{General Discussion}\label{gen}
+\section{Use case: Nurse Call System}\label{orca}
+%\input{chapters/N3_and_others/validation}
+\section{Use case: Data Validation}
+\label{validation}
 
 \texttt{pred:literal-not-identical} instead of general string comparison
 
 
 
 scoped negation as failure
-\part{Proofs}\label{proof}
+\chapter{Proofs and applications}\label{proof}
 
-\chapter{A Proof Calculus for N3}\label{cal}
+\section{A Proof Calculus for N3}\label{cal}
 OWL: expressing proofs is difficult (I guess possible but as far as I know not done). N3 is good because it is rather  easy to express proofs.
 %\input{chapters/Proofs/proofcalculus}
 %\section{Applications of Proofs}
 %\input{chapters/Proofs/PP}
 %\subsection{Sensdesc}
-\chapter{Proofs in Use: RESTdesc}\label{restdesc}
-\chapter{Proofs in Use: SENSdesc}\label{sensdesc}
+\section{Proofs in Use: RESTdesc}\label{restdesc}
+\section{Proofs in Use: SENSdesc}\label{sensdesc}
 
 
 
-% \part{Going beyond}
-% \section{Weighted Transition Logic}
+\chapter{Going beyond: modeling change}
+\section{Weighted Transition Logic}
 
-\part{Conclusive Discussion}\label{conclusion}
-\chapter{Conclusion}\label{concl}
+
+\chapter{Conclusion}\label{concl}\label{conclusion}
 
 
 %\afterpage{\null\blankpage}

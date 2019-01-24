@@ -1,20 +1,62 @@
-\section{Implicit quantification}
+\section{Implicit quantification in practice}
+%The examples of implicit quantification given in Section~\ref{n3examples} were rather  
+The example formulas we discussed in Section~\ref{n3examples} were rather simple and understanding their intended meaning was not 
+ difficult (maybe with the exception of cited formulas which can lead to discussions \cite{TriGsemantics}). For the only case where 
+two different interpretations were plausible -- Formula~\ref{both} which had universals and existentials occurring together --
+the \wwwc team submission~\cite{Notation3} contains a clear statement which interpretation needs to be chosen: \\
+% This is different when it comes to implicit quantification. Just like \rdf, \nthree allows the 
+% The examples of \nthree formulas given so far were rather easy and their interpretation was rather straightforward
+% (maybe with the exception of cited formulas which can lead to discussions \cite{TriGsemantics}).
+% This is different when it comes to implicit quantification. Just like \rdf, \nthree allows the usage of implicitly existentially quantified variables, called \emph{blank nodes}.
+% Blank nodes either start with ``\verb!_:!'' or are expressed using square brackets ``\texttt{[~]}''. 
 
-As in \rdf, atomic formulas are triples consisting of subject, predicate and object.\linebreak They can be intuitively understood as 
-first order formulas of the form \linebreak $\text{predicate}(\text{subject}, \text{object})$. It is also easy to get an idea of the meaning of conjunctions or implications 
-if no variables are involved. Including implicit quantification is more difficult.
-Definition \ref{voc} distinguishes between two kinds of variables: universal and existential variables. 
-As the names indicate, these variables are meant to be implicitly quantified. But how do we have to understand this ``implicit'' quantification?
-Some cases are quite simple. 
-If we have the formulas
-\[
-\verb! _:x :knows :Kurt.! \text{ and } \verb! ?x :knows :Kurt.!
-\]
-It is rather straight forward to understand them as ``someone knows Kurt.'' and ``everyone knows Kurt.'' In first order logic:
-%We can understand that as the fact that Kurt knows someone or something, written in first order logic:
-\[
-\exists x: \text{knows}(x, \text{Kurt}) \text{ and } \forall x: \text{knows}(x, \text{Kurt}).
-\]
+\MyQuote{ \label{beide} ``If both universal and existential quantification are specified for the same formula, 
+then the scope of the universal quantification is outside the scope of the existentials''.}
+
+Unfortunately, not all cases are that clear.
+% 
+% 
+% in Section~\ref{n3examples}, we gave a few examples for \nthree formulas and their intended meanings. Since \nthree aims to extend \rdf, a \wwwc standard with well-defined 
+% semantics, the meaning of simple  
+%
+% In the cases illustrated in Section~\ref{n3examples}, the interpretation of the implicitly quantified formulas was rather easy:
+% the variables are existentially and universally quantified at the top of the formula; 
+% if they co-occur in the same formula, the universal quantification dominates the existential. 
+When implicitly quantified variables occur in deeply nested formulas, 
+ their intended meaning is not always obvious and the interpretations of such formulas sometimes differ between reasoning engines. 
+%
+%In the next subsections we give examples for such ambiguous formulas.
+In this section we want to better understand these differences. 
+With this goal, we perform several tests on the reasoners Cwm \cite{cwm} and EYE~\cite{eyepaper} and compare their results. 
+Cwm and EYE were chosen because they cover most constructs specified in \nthree{}'s \wwwc team submission. 
+In contrast to for example FuXi~\cite{fuxi}, they both support rather complex constructs like nested rules. 
+% and because they differ in their way to handle 
+% implicit universal quantification.
+% Further details about how differences can be detected can be found in our previous paper \cite{arndt_ruleml_2015}. % and in \ref{ap1}.
+
+
+
+% 
+% Before clarifying syntax and semantics of \nthree in a more formal way than presented in Section~\ref{n3examples}, 
+% we test how implicit quantification of \nthreelogic is understood in practice. We  take a look to the official sources of \nthree, namely the \wwwc team submission~\cite{Notation3}
+% and the journal paper about \nthree~\cite{N3Logic}, and test, how the reasoners Cwm~\cite{cwm} and EYE~\cite{eye} understand them. 
+% We choose these two reasoners because of their coverage: while for example FuXi~\cite{fuxi} only supports \nthree datalog -- a subset of \nthree which does not support nested rules --
+% the reasoners Cwm and EYE cover a big part of the specifications
+% As in \rdf, atomic formulas are triples consisting of subject, predicate and object. They can be intuitively understood as 
+% first order formulas of the form \linebreak $\text{predicate}(\text{subject}, \text{object})$. It is also easy to get an idea of the meaning of conjunctions or implications 
+% if no variables are involved. Including implicit quantification is more difficult.
+% Definition \ref{voc} distinguishes between two kinds of variables: universal and existential variables. 
+% As the names indicate, these variables are meant to be implicitly quantified. But how do we have to understand this ``implicit'' quantification?
+% Some cases are quite simple. 
+% If we have the formulas
+% \[
+% \verb! _:x :knows :Kurt.! \text{ and } \verb! ?x :knows :Kurt.!
+% \]
+% It is rather straight forward to understand them as ``someone knows Kurt.'' and ``everyone knows Kurt.'' In first order logic:
+% %We can understand that as the fact that Kurt knows someone or something, written in first order logic:
+% \[
+% \exists x: \text{knows}(x, \text{Kurt}) \text{ and } \forall x: \text{knows}(x, \text{Kurt}).
+% \]
 %Similarly simple constructions with universals can be understood:
 %\[
 %\verb! ?x :knows :Kurt.!
@@ -23,27 +65,27 @@ It is rather straight forward to understand them as ``someone knows Kurt.'' and 
 %\[
 %\forall x: \text{knows}(x, \text{Kurt}).
 %\]
-But the above grammar also enables us to construct more complicate statements. Does the construct 
-\begin{equation}\label{both} \verb! ?x :loves _:y.!\end{equation} mean 
-``everybody loves someone'' or ``there is someone
-who is loved by everyone'', in first order formulas: 
-%\[\forall x \exists y : \text{loves}(x,y) \tag{1}\quad \text{ vs. } \exists y \forall x : \text{loves}(x,y)\]
-\stepcounter{equation}
-\begin{equation} % oder auch align
-\forall x \exists y : \text{loves}(x,y)\quad  \text{ vs. }\quad \exists y \forall x : \text{loves}(x,y) \tag{\ref{both}a, b}
-\end{equation}
-
-
-In this case we know the answer, the team submission \cite{Notation3} clearly chooses (\ref{both}a): 
-
-\MyQuote{ \label{beide} ``If both universal and existential quantification are specified for the same formula, 
-then the scope of the universal quantification is outside the scope of the existentials''.}
-%
-And also the reasoners we tested, in particular EYE and cwm, have implemented the first interpretation (\ref{both}a).
-%\\
-
-Such clarity is lacking when it comes to nested formulas or co-occurring formula expressions which contain variables. 
-We will treat this in the following sections, first for existential variables, then for universals.
+% But the above grammar also enables us to construct more complicate statements. Does the construct 
+% \begin{equation}\label{both} \verb! ?x :loves _:y.!\end{equation} mean 
+% ``everybody loves someone'' or ``there is someone
+% who is loved by everyone'', in first order formulas: 
+% %\[\forall x \exists y : \text{loves}(x,y) \tag{1}\quad \text{ vs. } \exists y \forall x : \text{loves}(x,y)\]
+% \stepcounter{equation}
+% \begin{equation} % oder auch align
+% \forall x \exists y : \text{loves}(x,y)\quad  \text{ vs. }\quad \exists y \forall x : \text{loves}(x,y) \tag{\ref{both}a, b}
+% \end{equation}
+% 
+% 
+% In this case we know the answer, the team submission \cite{Notation3} clearly chooses (\ref{both}a): 
+% 
+% \MyQuote{ \label{beide} ``If both universal and existential quantification are specified for the same formula, 
+% then the scope of the universal quantification is outside the scope of the existentials''.}
+% %
+% And also the reasoners we tested, in particular EYE and cwm, have implemented the first interpretation (\ref{both}a).
+% %\\
+% 
+% Such clarity is lacking when it comes to nested formulas or co-occurring formula expressions which contain variables. 
+% We will treat this in the following sections, first for existential variables, then for universals.
 %This is the topic of the following sections.
 
 \subsection{Existentials}

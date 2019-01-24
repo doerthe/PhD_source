@@ -1,5 +1,28 @@
+
+
+
+
+
+
+
+
+
+
+
 In Section~\ref{n3examples} we already briefly introduced \nthreelogic by discussing several examples and their intended meaning. We furthermore explained 
 that this \emph{intended meaning} 
 is problematic: The semantics of \nthreelogic is only defined in an informal way by the \wwwc team submission~\cite{Notation3} and a journal paper~\cite{N3Logic}. 
-This leaves room for interpretation and it actually leads to contradicting implementations. In this chapter, we take a closer look to this problem.  
-We first collect evidence for this problem by showing how the reasoner Cwm and EYE can be tested.
+This leaves room for interpretation and it actually leads to contradicting implementations. 
+In this chapter, we take a closer look to this problem. % and the related \hyperlink{rq2}{Research Question 2}.
+%In order to answer  and test \hyperlink{h2}{Hypothesis 2} we create several test cases .  
+We first collect evidence for this problem by giving concrete example formulas which, when given to the reasoners Cwm~\cite{cwm} and EYE~\cite{eye}, lead to different results. The problems we encounter are mainly related to 
+implicit quantification: \nthree allows the use of quantified variables whose universal or existential quantifier is not explicitly stated but implicitly assumed.
+To formalise the difference in the interpretations of implicit quantification, we define a core logic for \nthree which is very close to the original but only allows explicit quantification. We then map the interpretations of Cwm and EYE to that core logic.
+This mapping is then implemented in a program which we then use to test, whether the problem we encountered is only present in our constructed test cases or whether it can also be observed in files 
+used for practical applications.
+We discuss several solutions for the problem and then show how, once such a solution is selected, the semantics of \nthreelogic can be defined in alignment with \rdf.
+We set our findings into the context of related work to then conclude the chapter.
+
+%This chapter is partly based on the following papers:
+
+%\basedpapers{arndt_ruleml_2015}.
