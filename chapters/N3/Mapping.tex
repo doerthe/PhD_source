@@ -184,10 +184,10 @@ Attribute grammars provide a formalism to describe the above process of \emph{go
 
 
 \subsection{Attribute Grammars}\label{ag}
-\begin{figure}
+\begin{figure}\centering
 \begin{tabular}{llclcl}
 \hline
-\multicolumn{3}{l}{Grammar}&\multicolumn{3}{l}{Synthesized attribute \textit{ds}}\\
+\multicolumn{3}{l}{Grammar\hspace*{0.4\textwidth}}&\multicolumn{3}{l}{Synthesized attribute \textit{ds}}\\
 %Syntax: &&\\
 %&&\\
 \hline
@@ -478,11 +478,11 @@ defined on the symbol \texttt{f}. Such attributes cannot be defined on a start s
 
 
 \subsection{Definition of an N3 Attribute Grammar}
-\begin{table}
+\begin{table}\centering
 \begin{tabular}{llll}
 \hline
-name & type %\hspace{0.5cm}
-& defined for &purpose \\
+name \hspace*{0.1\textwidth}& type \hspace*{0.1\textwidth}
+& defined for \hspace*{0.1\textwidth} &purpose \\
  \hline
  $\eq$ & syn  & $ N$& existentials\\
  \\
@@ -767,10 +767,10 @@ existential variables which are free (see Definition~\ref{free}) under that node
 % which are quantified on the same direct formula the node occurs in. From the translations point of view, 
 % for every node which does not represent a direct formula the value of $\eq$
 % is the set of existential variables which occur as free variables (see Definition~\ref{free}) under that node.
-\begin{figure}
+\begin{figure}\centering
 \begin{tabular}{lll}
 \hline
-\multicolumn{2}{l}{production rule} & attribute rule\\
+\multicolumn{2}{l}{production rule\hspace*{0.3\textwidth}} & attribute rule\\
   \hline
 %Syntax: &&\\
 %&&\\
@@ -1416,20 +1416,20 @@ Formula~\ref{eq99'}.
 
 
 
-
-\begin{figure*}
-\begin{minipage}{\textwidth}
+\begin{landscape}
+\begin{figure}
+\begin{minipage}{\linewidth}
 \begin{center}
-\small
+\footnotesize
 \begin{tikzpicture}[
 level distance=70pt, sibling distance=-5pt,
-level 1/.style={level distance=25pt},
-level 2/.style={level distance=45pt},
-level 3/.style={level distance=30pt},
-level 4/.style={level distance=50pt},
-level 5/.style={level distance=30pt},
-level 6/.style={level distance=50pt},
-level 7/.style={level distance=25pt},
+level 1/.style={level distance=30pt},
+level 2/.style={level distance=50pt},
+level 3/.style={level distance=35pt},
+level 4/.style={level distance=55pt},
+level 5/.style={level distance=35pt},
+level 6/.style={level distance=55pt},
+level 7/.style={level distance=30pt},
 ]
 \tikzset{every tree node/.style={align=base}}%,anchor=base}}
 \Tree [.\node[label={right:\trm{v_1:&\hspace{-0.3cm}\emptyset\\v_2:&\hspace{-0.3cm}\emptyset}}]{\texttt{s}};
@@ -1505,9 +1505,10 @@ level 7/.style={level distance=25pt},
 \end{center}
 \caption{Syntax tree of Formula~\ref{fff} with attribute values for the attributes $v_1$, $v_2$, $s$ and $q$ (in \tr{blue}). \label{treeunisimple}}
 \end{minipage}
-\end{figure*}
+\end{figure}
+\end{landscape}
 
-\begin{figure*}
+\begin{figure}
 \begin{minipage}{0.95\textwidth}
 \begin{center}\small
  \begin{tabular}{llllll}
@@ -1547,7 +1548,7 @@ level 7/.style={level distance=25pt},
 \end{center}   \normalsize
 \caption{Attribute rules for universal quantification in Cwm defined on the context-free grammar of \nthree (Figure~\ref{N3S}).\label{uniatt}}
 \end{minipage}
-\end{figure*}
+\end{figure}
 
 
 % \begin{figure*}
