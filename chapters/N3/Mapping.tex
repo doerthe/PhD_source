@@ -1,6 +1,6 @@
 
 \section{Interpretations of N3}\label{n3}
-The core logic enables us to give more formal descriptions of the \nthree interpretations explained in Section~\ref{ovw}.
+The core logic enables us to give more formal descriptions of the \nthree interpretations explained in Section \ref{quantsec}.
 To be able to map an \nthree formula to its possible interpretation we make use of attribute grammars~\cite{attributegrammar,ag2}. 
 Below, we explain this concept and specify the different attributes needed for this mapping.
 
@@ -8,38 +8,38 @@ Below, we explain this concept and specify the different attributes needed for t
 
 \subsection{N3 Syntax}\label{n3synsec}
 \begin{figure}
-\begin{tabular}{llr}
+\begin{tabular}{lllr}
   \hline
 %Syntax: &&\\
 %&&\\
-\texttt{s ::=}&& start:\\
+start:\hspace{0.2\textwidth} & \texttt{s ::=} %&& \\
 & \texttt{f}& formula\\
-       &&\\
-\texttt{f ::= } & &                   formulas:\\  
+&      &&\\
+formulas: & \texttt{f ::= }% & &                 \\  
     &  \texttt{t t t.}&                atomic formula\\
-    &  \texttt{e => e.}& implication\\
+&    &  \texttt{e => e.}& implication\\
 %    &  \texttt{@forAll :u}     & universal quantification\\
 %    &  \texttt{@forSome :u}     & existential quantification\\
-    &  \texttt{f f} &                 conjunction\\
-&&\\
-\texttt{t ::=}&&                    terms:\\
-      & \texttt{uv}\hspace{0.12\textwidth} &                universal variables\\
-            & \texttt{ex} &                existential variables\\
-      & \texttt{c} &                constants\\
+&    &  \texttt{f f} &                 conjunction\\
+%&&\\
+ terms:& \texttt{t ::=}%&&                   \\
+      & \texttt{uv}\hspace{0.2\textwidth} &                universal variables\\
+&            & \texttt{ex} &                existential variables\\
+&      & \texttt{c} &                constants\\
  %     & \texttt{l} &                literals\\
-      & \texttt{e} &                 expressions\\
-      & \texttt{(k)}& lists\\
-      & \texttt{()}& empty list \\
-      &&\\
-\texttt{k ::=}&& list content:\\
+&      & \texttt{e} &                 expressions\\
+&      & \texttt{(k)}& lists\\
+&      & \texttt{()}& empty list \\
+%      &&\\
+list content:&\texttt{k ::=}%&& \\
 &\texttt{t}& term\\
-&\texttt{t k} & term tail\\
-&&\\
-\texttt{e ::=}&&                    expressions:\\
+&&\texttt{t k} & term tail\\
+%&&\\
+expressions:&\texttt{e ::=}%&&                    \\
 %      &\texttt{<>} &                true\\
        &\texttt{\{f\}} &               formula expression\\
-       &\texttt{\{\}} & true\\
-       &\texttt{false}       &               false\\
+&       &\texttt{\{\}} & true\\
+&       &\texttt{false}       &               false\\
   \hline
 \end{tabular}
 \caption{Overview N3 Syntax \label{N3S}}
@@ -86,7 +86,7 @@ can be expressed as
  
 A major difference between core logic and \nthree as displayed here is the lack of explicit 
 quantification in the latter\footnote{As explained in Section~\ref{remarkExplicitQuantification} we exclude the discussion of 
-\nthree's explicit quantification from this paper. It is therefore also not reflected in the grammar.} %in \nthree as discussed in this paper
+\nthree's explicit quantification from this chapter. It is therefore also not reflected in the grammar.} %in \nthree as discussed in this paper
 %\rv{the footnote contradicts the main text; you probably need to be more precise}
 and the existence of two different kinds of variables instead. % which will be the main challenge of the translation tackled in the following sections.
 To translate these implicitly quantified variables of \nthree into the explicit ones of the core logic we use 
@@ -173,7 +173,7 @@ We illustrate this in Figure~\ref{par} on the syntax tree of the formula:
 The direct formula of the terminal node \texttt{?x} is the formula $\texttt{?x :q :b.}$, the
 $\text{parent}_c$ formula is the 
 top formula. This $\text{parent}_c$ formula carries the universal quantifier for the variable.
- The formula means according to the \wwwc team submission:
+ The formula means according to Cwm:
 %Thus, the formula means a:
 \begin{equation}
 \forall \texttt{x. <x q b>}\rightarrow  \texttt{<a r c>.}

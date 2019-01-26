@@ -572,7 +572,7 @@ exchangeable and it should be usable in practical applications which go  beyond 
 \end{enumerate}
 
 
-\section{Notation3 Logic}
+\section{Notation3 Logic}\label{n3examples}
 Having discussed the architecture of the Semantic Web and the role the \emph{Unifying Logic} plays in it we now introduce a possible candidate to fulfil this role, 
 Notation3 Logic (\nthreelogic)~\cite{N3Logic}. 
 The aim of this section is to make the reader familiar with
@@ -613,9 +613,9 @@ For instance, \texttt{:Kurt} as it occurs in triple \ref{simple}  stands for the
 %Prefixes are further explained in~\cite{turtle}. 
 If two triples occur together as in:
 %
-\[
+\begin{equation}\label{conjunction}
 \verb!:Kurt :knows :Albert. :Albert :knows :Kurt.!
-\]
+\end{equation}
 %
 This is understood as the conjunction of the formulas:
 \textit{``Kurt knows Albert \emph{and} Albert knows Kurt.''} If two triples share the same subject, the conjunction can be abbreviated using a semicolon ``\texttt{;}''.
@@ -669,7 +669,7 @@ Citations and implications as presented above are not supported by \rdf.
 % The formulas discussed so far were composed using literals or \iri{}s to refer to different objects and their relationships. \nthree furthermore supports the use variables. 
 % These variables can either be explicitly quantified, 
 % ie they are used together with a universal or existential quantifier which is written down together or they c
-Next to literals and \iri{}s, \nthree supports the usage of variables. Here, we distinguish between two kinds of variables, \emph{existential variables} (short: \emph{existentials}),
+Next to literals and \iri{}s, \nthree supports the usage of quantified variables. The exact quantifier for these variables is not stated explicitly but it is implicitly assumed. Therefore, we distinguish between two kinds of variables, \emph{existential variables} (short: \emph{existentials}),
 also called \emph{blank nodes}, and \emph{universal variables} (short: \emph{universals}).
 We give examples for the usage of both of them.
 
@@ -790,7 +790,7 @@ has been verified by a proof. As the example already indicates, all these proof 
 
 
 
-\subsection{Notation3 in practice}
+\subsection{Notation3 in practice}\label{prn3}
 \sloppy
 Having introduced the different features of \nthree as a logic, we now briefly discuss how \nthree can be and is used in practise. 
 % 
@@ -923,17 +923,20 @@ common agreement. It therefore makes sense to first understand the existing prob
 % Given that a Semantic Web logic which should be defined based on common agreement, we should further investigate the following research question before suggesting a 
 % formalisation for \nthreelogic:
 
-\hyp{Research Question 2:}{How do existing interpretations of \nthree differ and how can this difference be formally expressed?}
+\hyp{\hypertarget{rq2}{Research Question 2:}}{How do the implemented interpretations of \nthree following the \wwwc team submission and the journal paper 
+differ and how can this difference be formally expressed?}
 
 % To answer this research question, we test reasoning engines and compare their results. One main difference we can identify is their way of handling 
 % implicit quantification: \nthreelogic allows the user to use universally or existentially quantified variables 
 % without explicitly putting a quantifier and defining the scope of this quantification. We therefore argue, that the differences between interpretations can best be expressed 
 % by making them explicit:
 %To find the differences, we perform tests on the different reasoners to see whether or not they produce contradicting results.  
-Here we test the following hypothesis:
+There are many concepts about whose meaning the sources are not entirely clear. Our research here focusses on implicit quantification, ie the fact that quantified 
+formulas in \nthree can be written without explicitly stating the position of the quantifier as exemplified on Formula~\ref{both} which had two possible interpretations of which
+the correct one could be clearly identified by consulting the \wwwc team submission. If implicit quantification is used in a more complex graph structure, the sources are less 
+explicit about the intended meaning of a formula, we therefore test the hypothesis:
 
-
-\hyp{Hypothesis 2}{Existing interpretations differ in their understanding of implicit quantification and this difference can be 
+\hyp{\hypertarget{h2}{Hypothesis 2:}}{Implemented interpretations differ in their understanding of implicit quantification and this difference can be 
 expressed by mapping formulas containing such constructs to a core logic which only supports explicit quantification.}
 
 The awareness of the differences will help the community to agree on one single interpretation of \nthreelogic which then needs to be formalised in a model theory. 

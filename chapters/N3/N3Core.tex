@@ -16,7 +16,7 @@ but only allows \emph{explicit} quantification. This logic can then be used to m
 Syntax: &&\\
 &&\\
 \texttt{t ::=}&&                    terms:\\
-      & \texttt{v}\hspace{0.15\textwidth} &                variables\\
+      & \texttt{v}\hspace{0.5\textwidth} &                variables\\
       & \texttt{c} &                constants\\
       & \texttt{e} &                 expressions\\
       & \texttt{(k)}& lists\\
@@ -144,7 +144,7 @@ is a triple $\mathfrak{A}=(\mathcal{D}, \mathfrak{a}, \mathfrak{p})$ containing:
 Similarly to a structure in the classical first order sense, a core logic structure 
 consists of a domain of discourse and maps from the terms of the language into that domain. There are two main differences:
 
-Firstly, there is not \emph{one} mapping into the domain of discourse, but \emph{two}. The reason is that in \rdf and \nthree -- and thereby also in its core logic -- the 
+Firstly, there is not \emph{one} mapping into the domain of discourse, but \emph{two}. The reason is that in \rdf and \nthree{} -- and thereby also in its core logic -- the 
 same symbol 
 can represent a predicate, a subject or an object:
 \[
@@ -199,7 +199,7 @@ valuation function which maps the set of variables into the domain of discourse.
 
 The first reason is again related to the lack of distinction 
 between objects and predicates. In \nthree it is possible to quantify over predicates. 
-These predicates could also be used in subject or object position as in the example formula\footnote{Here and for the remainder of this paper, we use the symbols $\lhexbrace$ and $\rhexbrace$ as auxiliary brackets 
+These predicates could also be used in subject or object position as in the example formula\footnote{Here and for the remainder of this dissertation, we use the symbols $\lhexbrace$ and $\rhexbrace$ as auxiliary brackets 
 to clarify the structure of the formulas shown.}
 %and this aspect needs to be covered by the core logic. A formula of the form
 \[
@@ -240,7 +240,7 @@ is \texttt{true} while
  \texttt{dbpedia:Bern log:equalTo dbpedia-nl:Bern.}
 \]
 results in \texttt{false}, even though we can assume that both \uri{}s refer to the same place in Switzerland.
-While we do not explicitly define the meaning of built-ins in this paper 
+While we do not explicitly define the meaning of built-ins here 
 we still want to make sure that our theory is able to cover such cases.
 %To be able to define the semantics of such built-ins in our theory, we do the grounding step.
 
