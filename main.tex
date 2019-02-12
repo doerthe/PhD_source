@@ -283,13 +283,15 @@ citecolor = black]{hyperref} % make links
 %\theoremstyle{definition}
 
 %Definitionen nicht fett     
-\theoremstyle{remark}
+%\theoremstyle{remark}
 
 % Listings and Verbatim environment
 \usepackage{fancyvrb}
 \usepackage{relsize}
 \usepackage{listings}
+\usepackage{pdflscape}
 \usepackage{verbatim}
+\usepackage{colortbl}
 \usepackage{alltt}
 \newcommand\listingsize{\fontsize{9pt}{10pt}}
 \RecustomVerbatimCommand{\Verb}{Verb}{fontsize=\listingsize}
@@ -375,7 +377,7 @@ citecolor = black]{hyperref} % make links
             \node[shape=circle,draw,inner sep=1pt] (char) {#1};}}
 
 % labels in trees            
-\newcommand{\tr}[1]{\textcolor{ugentblue}{\textit{\scriptsize{#1}}}}            
+\newcommand{\tr}[1]{\textcolor{ugentblue}{\textit{\tiny{#1}}}}            
 \newcommand{\trm}[1]{ \tr{$\begin{bmatrix}#1\end{bmatrix}$}} 
 \newcommand{\trmv}[4]{\tr{$\begin{bmatrix}    
                       v_1:&\hspace{-0.3cm}#1\\
@@ -684,6 +686,13 @@ citecolor = black]{hyperref} % make links
 \input{chapters/N3/RelatedWork}
 \input{chapters/N3/Conclusion}
 
+% \chapter{Notation3 Logic as an extension of RDF}
+% \section{The semantics of RDF}
+% \section{Differences between RDF and Notation3 Logic}
+
+
+
+
 \chapter{Querying and ontology reasoning with Notation3 Logic}\label{others}
 \section{General Discussion}\label{gen}
 \section{Use case: Nurse Call System}\label{orca}
@@ -737,7 +746,7 @@ OWL: expressing proofs is difficult (I guess possible but as far as I know not d
 \bookmarksetupnext{level=part} % puts the bookmark at the same level as a part
 \begin{appendices}
 %    \input{listpapers}
-
+\input{chapters/appendix}
 \end{appendices}
 
 

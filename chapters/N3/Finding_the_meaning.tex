@@ -270,7 +270,7 @@ The quantifier for both occurrences of \texttt{?x} is in front of the whole form
 Here,
 the \wwwc team submission states the following:\\
 
-\MyQuote{
+\MyQuote{\label{parentquote}
  ``There is a also a shorthand syntax ?x which [...] implies that x is universally quantified not in the formula but in its \textbf{parent formula}.''}
 We learn that universal variables are quantified on their \emph{parent formula}. Unfortunately neither the \wwwc team submission nor the journal paper about \nthreelogic 
 provide us with a definition of that concept. We therefore perform some tests to better understand which formula is the parent.
@@ -305,7 +305,8 @@ For Interpretation~\ref{ci} the parent of the first two occurrences of \texttt{?
 \end{equation}
 and the parent of the third and fourth occurrence of \texttt{?x} is the formula
 \begin{equation}\texttt{\{?x :r :c.\} => \{?x :s :d.\}.}\label{sub2}\end{equation}
-Therefore, these formulas carry quantifiers.
+In this interpretation each occurrence of curly brackets \texttt{\{ \}} marks a level. The direct formula is what we encounter inside the same brackets a variable occurs is, the parent formula is then next formula 
+outside of these brackets. This explains, why the two sub formulas above carry universal quantifiers.
 
 If a reasoner follows Interpretation~\ref{ei}, Formula~\ref{eq2} applied on the following rule
 \begin{equation}\label{ss1}
@@ -316,8 +317,8 @@ results in
 While this result cannot be derived by following Interpretation~\ref{ci}. %However, the latter yields Formula~\ref{sub2} when provided with Formula~\ref{sub1}.
 
 
-If we test the reasoners Cwm and EYE with Formulas~\ref{eq2} and \ref{sub1} as input we get the results displayed in Listing~\ref{cwm2},\footnote{The 
-predicate \texttt{log:implies} present in the original output is replaced here by implication arrow \texttt{=>}. The two symbols have the same meaning.} \ref{forth}, respectively.
+If we test the reasoners Cwm and EYE with Formulas~\ref{eq2} and \ref{sub1} as input we get the results displayed in Listing~\ref{cwm2}\footnote{The 
+predicate \texttt{log:implies} present in the original output is replaced here by implication arrow \texttt{=>}. The two symbols have the same meaning.} and \ref{forth}, respectively.
 \begin{lstlisting}[
   float=t,
   caption={Output of cwm for for Formulas~\ref{eq2} and \ref{ss1}. The reasoner does not derive Formula~\ref{ss2}. },
@@ -368,14 +369,43 @@ predicate \texttt{log:implies} present in the original output is replaced here b
 We clearly see that Formula~\ref{ss2} is derived by EYE but not by Cwm. 
 We furthermore see that the output of Cwm contains the key word \texttt{@forAll} at in beginning of the antecedent and of the consequent of the main rule in Lines 5 and 7. 
 Here, this keyword has the same meaning as the first order symbol $\forall$. Cwm follows Interpretation~\ref{ci}.  We see that 
-Cwm and EYE understand the concept of a \emph{parent} differently.
+Cwm and EYE understand the concept of a \emph{parent} differently. 
 For the remainder of this thesis we write $\textit{parent}_c$ when we refer to the parent formula as implemented in Cwm and $\textit{parent}_e$ 
 for the concept of a parent realised in EYE.
 
-The previous example reveals a general problem: 
-We needed to explain how the \wwwc team submission is \emph{interpreted} by the reasoners EYE and Cwm.
-Of course the term \emph{parent formula} could be understood differently 
-and only
+While the concept of $\text{parent}_e$ is rather simple -- all variables have the same parent formula -- we need to perform more tests to better understand the concept $\text{parent}_c$: What happens 
+if variables occur on different levels of a formula? Take as an example:
+\begin{equation}\label{mixedlevels}
+ \texttt{\{?x :q :b.\} =>\{ :a :b \{?x :s :d.\}.\}.}
+\end{equation}
+According to the explanation above, the parent of the second occurrence of \texttt{?x} seems to be the formula
+\texttt{ :a :b \{?x :s :d.\}.}, but is that also the formula which carries the quantifier for the variable? Listing~\ref{mio} shows the output Cwm produces for Formula~\ref{mixedlevels}. 
+We clearly see that there is only one universal quantifier (\texttt{@forAll}, Line~4)  for both occurrences of \texttt{?x}. 
+As a general rule we can derive from that behaviour that if the parent formula of a universal variable is already in scope of a universal quantifier
+this scoping also counts for its subformula. %By performing similar tests with deeper nested universals, we furthermore know that this 
+\begin{lstlisting}[
+  float=t,
+  caption={Output of Cwm for Formula~\ref{mixedlevels} in which the variable \texttt{?x} occurs on different levels. The output formula only contains one universal quantifier 
+  for both occurences. },
+  label=mio]  
+§\textcolor{gray}{@prefix : <http://example.org/ex\#>.}§
+§\textcolor{gray}{   @prefix unive: <\#> .}§
+
+@forAll unive:x. 
+ {unive:x :q :b.} =>{:a :b {unive:x :s :d.}.}.
+\end{lstlisting}
+%This special case is not covered in the \wwwc team submission and the journal paper about \nthree which both only contain the explanation given in Quote III.
+
+%The situation described above seems to be an exception from the 
+%The previous examples reveal several problems: Firstly, the idea of the quantification on the \emph{parent formula} 
+
+The previous examples reveal a general problem: 
+We needed to explain how the \wwwc team submission is \emph{interpreted} by the reasoners EYE and Cwm.  %the \wwwc team submission which does not contain more information than Quote~III above.
+There are many different possibilities how the term \emph{parent formula} could be understood 
+and specific details like the interpretation of formulas with variables nested on different levels are not even mentioned in the \wwwc team submission. 
+%differently and 
+%and
+Only
 specific testing made us come to our conclusion that the above are EYE's and Cwm's interpretations. % of the formula.
 Most users are not even aware of the differences in interpretations and the lack of a formalism renders it difficult to discuss or even just express them. %---%
 To come to a~clear and unambiguous definition of the logic, 
