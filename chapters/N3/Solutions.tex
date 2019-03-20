@@ -37,7 +37,7 @@ has in both reasoners the same interpretation, namely:
 \begin{flalign*}\tag{\ref{fffa}'}\label{fffa'}
  & \forall \texttt{x.}\forall\texttt{y.}\\
  &\texttt{\quad<y y y>}\rightarrow\texttt{<y y y>.}\\ 
- &\texttt{\quad< < x q y>} \rightarrow \texttt{< x r c> >}\rightarrow%\\
+ &\texttt{\quad<{}< x q y>} \rightarrow \texttt{< x r c>{}>}\rightarrow%\\
   %&\hspace{4cm} 
   \texttt{< x p a>.}
 \end{flalign*}
@@ -45,9 +45,9 @@ Since the antecedent and the consequent of the added rule are exactly the same, 
 For Cwm, the meaning does
 change, the quantifier for \texttt{?y} is lifted to the top level and is no longer nested.
 
-While here, the change of meaning has been performed on purpose -- we wanted the formula to have the same interpretation by both reasoners --
+While here, the change of meaning has been performed on purpose -- we wanted the formula to have the same interpretation in both reasoners --
 phenomena as the one above can also occur rather randomly: In our datasets there are several rules embedded in a bigger context which make use of nested universals but whose
- interpretation does not differ between Cwm and EYE\footnote{A concrete example is the file \url{https://github.com/josd/fluid/blob/master/n3p/sample.n3} in the eye dataset.}. 
+ interpretation does not differ between Cwm and EYE\footnote{A concrete example is the file \url{https://github.com/josd/eye/blob/master/reasoning/n3p/sample.n3} in the eye dataset.}. 
  The reason is that they make use of rather arbitrary variable names such as \texttt{?x} and \texttt{?y} 
 which are also used in other conjuncts of the same very long formulas. Having that in mind, users of Cwm who want to use nested implicit universal quantification need to be careful
 with the variable names they are using to avoid unwanted changes of scope.
@@ -83,8 +83,8 @@ above of adding dummy rules which lift the quantifier of deeply nested implicitl
 Given that \nthreelogic was created for the Semantic Web where interoperability is a very crucial feature, this situation is not acceptable and  
 the community needs to come to an agreement. For such an agreement, we see three options which we discuss below.
 \subsubsection{Semantics with Nested Universal Quantifiers}
-One possible solution could be \todo{Remove!!!}, given that Cwm is the reference implementation of the \wwwc team submission,
-to use our specification as a semantics for \nthree and strictly follow that
+One possible solution could be 
+to follow Cwm and use the mapping from \nthree to \nthree Core Logic given earlier as a definition \nthree's semantics and strictly follow that
 interpretation. 
 
 One problem with that solution is that it is rather difficult to formalise. 
@@ -94,10 +94,10 @@ quantification. Following the same approach, scoping on top level only required 
 Being a direct realisation of this grammar our implementation is equally complex and so far we did not  encounter an easier way 
 to implement the scoping as intended by Cwm.
 %When implementing this attribute grammar, we faced the same difficulties and
-Even the Cwm reasoner itself has difficulties with implicit universal quantification in some cases (see \ref{bugsincwm}).
+Even the Cwm reasoner itself has difficulties with implicit universal quantification in some cases (see Appendix \ref{bugsincwm}).
 To the best of our knowledge, there is no other logical framework supporting implicit universal quantification
 which interprets this feature the way Cwm does (we also discuss other frameworks supporting implicit quantification in Section~\ref{iq}).
-We therefore suspect that the users' intuition about implicit universal quantification could be opposed to the actual meaning. %But even if that is not the case % and a possible user simply 
+We therefore suspect that the users' intuition about implicit universal quantification could be opposed to Cwm's interpretation. %But even if that is not the case % and a possible user simply 
 %looks up the formalisation to know how implicit universal 
 %quantification is understood by the \wwwc team submission,
 We furthermore see the

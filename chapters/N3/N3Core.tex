@@ -10,44 +10,44 @@ but only allows \emph{explicit} quantification. This logic can then be used to m
 
 
 \begin{figure}
-
+\centering \small
 \begin{tabular}{llr}
 \hline
-Syntax: &&\\
-&&\\
+\texttt{f ::= } & &                   formulas:\\  
+    &  \texttt{t t t}&                atomic formula\\
+    &  \texttt{e} $\rightarrow$ \texttt{e}& implication\\
+    &  \texttt{f f} &                 conjunction\\
+    &  \(\forall\)\texttt{v.f}     & universal formula\\
+    &  \(\exists\)\texttt{v.f}     & existential formula\\
+% Syntax: &&\\
+% &&\\
 \texttt{t ::=}&&                    terms:\\
-      & \texttt{v}\hspace{0.5\textwidth} &                variables\\
+      & \texttt{v}\hspace{0.3\textwidth} &                variables\\
       & \texttt{c} &                constants\\
       & \texttt{e} &                 expressions\\
       & \texttt{(k)}& lists\\
       & \texttt{()}& empty list\\
-      &&\\
-\texttt{k ::=}&&                    listcontent\\  
-       &\texttt{t}  &\\
-       &\texttt{t k}&\\
+%      &&\\
+\texttt{k ::=}&&                    list content\\  
+       &\texttt{t}  &term\\
+       &\texttt{t k}&term tail\\
 \texttt{e ::=}&&                    expressions:\\
 %      &\texttt{<>} &                true\\
        &\texttt{<f>} &               formula expression\\
        &\texttt{<>} & true\\
        &\texttt{false}       &               false\\
-       &&\\
-\texttt{f ::= } & &                   formulas:\\  
-    &  \texttt{t t t}&                atomic formula\\
-    &  \texttt{e} $\rightarrow$ \texttt{e}& implication\\
+%       &&\\
 %    &  \texttt{f} $\rightarrow \bot$ &\\
 %    &  \texttt{f} $\rightarrow \top$ &\\
 %    &  $\top \rightarrow $ \texttt{f} &\\
 %    &   $\bot \rightarrow $ \texttt{f} &\\
-    &  \texttt{f f} &                 conjunction\\
-    &  \(\forall\)\texttt{v.f}     & universal formula\\
-    &  \(\exists\)\texttt{v.f}     & existential formula\\
     \hline
 \end{tabular}
 \caption{Syntax of the core language $\mathcal{L}$ over $\mathcal{V}\cup\mathcal{C}$.\label{syntax}}
 \end{figure}
 
 \subsection{Syntax}
-Given disjoint countable sets of variables $\mathcal{V}$ and constants $\mathcal{C}$ we define the core language $\mathcal{L}$ of \nthree over \linebreak
+Given disjoint countable sets of variables $\mathcal{V}$ and constants $\mathcal{C}$ we define the core language $\mathcal{L}$ of \nthree over 
 $\mathcal{C}\cup\mathcal{V}$ as displayed in Figure \ref{syntax}. 
 In core logic interpretation \ref{zwei} is expressed as:
 \[
@@ -221,8 +221,10 @@ A mapping into first order logic could then be done similarly as it has been per
 %To
 %As explained above, the use of a grounding function instead of a direct mapping from the variables into the domain of discourse ensures that we stay in first order logic.
 
-An alternative to perform grounding would have been to use the functions IS and IEXT as defined in \rdf Semantics \cite{RDFSemantics}. 
-This brings us to the second reason to perform grounding first: %The reason for not doing that 
+An alternative to perform grounding would have been to use the functions IS and IEXT as defined in \rdf Semantics \cite{RDFSemantics} and we will come back to this option later in 
+Section~\ref{exsem} when we discuss a possible direct semantics for \nthree. 
+%This brings us to the second reason to perform grounding first
+Here, we do not follow this approach for a specific reason: %The reason for not doing that 
 %not directly 
 %use these functions here and use a grounding function and a predicate mapping instead 
 %

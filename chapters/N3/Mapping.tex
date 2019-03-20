@@ -273,6 +273,7 @@ Attribute grammars provide a formalism to describe the above process of \emph{go
 
 \subsection{Attribute Grammars}\label{ag}
 \begin{figure}\centering
+\small
 \begin{tabular}{llclcl}
 \hline
 \multicolumn{3}{l}{Grammar\hspace*{0.2\textwidth}}&\multicolumn{3}{l}{Synthesized attribute \textit{ds}}\\
@@ -291,6 +292,7 @@ Attribute grammars provide a formalism to describe the above process of \emph{go
 %\texttt{d ::=}&  \\   
 \hline
 \end{tabular}
+\normalsize
 \caption{Context-free grammar producing integers of arbitrary length (left) and definition of the attribute \textit{ds} which composes the digit sum (right). \label{simplegrammar}}
 \end{figure}
 In this section we give an introduction to attribute grammars~\cite{attributegrammar,ag2}. 
@@ -567,10 +569,13 @@ defined on the symbol \texttt{f}. Such attributes cannot be defined on a start s
 
 \subsection{Definition of an N3 Attribute Grammar}
 \begin{figure}\centering
+\small
 \begin{tabular}{llll}
 \hline
-name \hspace*{0.1\textwidth}& type \hspace*{0.1\textwidth}
-& defined for \hspace*{0.1\textwidth} &purpose \\
+name \hspace*{0.05\textwidth}
+& type \hspace*{0.05\textwidth}
+& defined for \hspace*{0.05\textwidth} 
+&purpose \\
  \hline
  $\eq$ & syn  & $ N$& existentials\\
  \\
@@ -585,6 +590,7 @@ name \hspace*{0.1\textwidth}& type \hspace*{0.1\textwidth}
   $m_e$ &syn &$ N$& translation EYE \\
   \hline
 \end{tabular}
+\normalsize
 \caption{Overview of all attributes defined in the \nthree-attribute grammar. The type can be \emph{syn} for synthesized or \emph{inh} for inherited. \label{attributes}}
 \end{figure}
 
@@ -856,6 +862,7 @@ existential variables which are free (see Definition~\ref{free}) under that node
 % for every node which does not represent a direct formula the value of $\eq$
 % is the set of existential variables which occur as free variables (see Definition~\ref{free}) under that node.
 \begin{figure}\centering
+\small
 \begin{tabular}{lll}
 \hline
 \multicolumn{2}{l}{production rule\hspace*{0.2\textwidth}} & attribute rule\\
@@ -886,6 +893,7 @@ existential variables which are free (see Definition~\ref{free}) under that node
        &\texttt{false}       &                $\texttt{e}.\eq \leftarrow\emptyset$\\
   \hline
 \end{tabular}
+  \normalsize
 \caption{Attribute rules for the synthesized attribute $\eq$ (right) and their corresponding production rules (left) from the \nthree grammar (Figure~\ref{N3S}).\label{EQ}}
 \end{figure}
 %
@@ -2076,26 +2084,28 @@ Interpretation~\ref{iall}
 % only count two universal quantifiers: one for \texttt{x} on $\texttt{f}^1$ and one for \texttt{y} on $\texttt{f}^2$. The reason for that is that, 
 % according to Cwm's interpretation,
 % the first universal quantifier for \texttt{x} already covers all other occurrences of the universal variable \texttt{?x} in the formula regardless of their level of nesting. 
-% As a consequence of that behaviour, adding another conjunct 
-% \[
-%  \texttt{:s :p \{:a :b ?y.\}.}
-% \]
-% to our formula also changes the meaning of the latter. The formula
-% \begin{multline}\label{ffff}
-% \texttt{ \{\{?x :q ?y.\} => \{?x :r :c.\}.\}=>}
-% \texttt{\{?x :p :a.\}.}\\
-%  \texttt{:s :p \{:a :b ?y.\}.}
-% \end{multline}
-% means
-%  \begin{multline}\tag{\ref{ffff}'} \label{ffff'}
-%    \forall \texttt{x.}\forall \texttt{y.}\lhexbrace
-%   \texttt{< <x q y>} \rightarrow \texttt{<x r c> >}\rightarrow  \texttt{<x p a>.}\\
-%   \texttt{s p <a b y>.\rhexbrace
-%   }
-%  \end{multline}
-% Note that the quantifier for \texttt{y} which is nested in the interpretation of Formula~\ref{fff} is on top level in the interpretation of Formula~\ref{ffff}. 
-% This is the case because the conjunction, ie the formula as a whole, is the $\text{parent}_c$ formula of the second occurrence of \texttt{?y} and thus carries a quantifier which 
-% also covers the nested occurrence of~\texttt{?y}.
+Before we define attribute $s$ below which takes care of this behaviour, we consider one additional example to fully understand the consequences of the exception.
+%As a consequence of that behaviour, adding another 
+If we add a conjunct 
+\[
+ \texttt{:s :p \{:a :b ?y.\}.}
+\]
+to our Formula~\ref{fff} this addition changes the scoping. The formula
+\begin{multline}\label{ffff}
+\texttt{ \{\{?x :q ?y.\} => \{?x :r :c.\}.\}=>}
+\texttt{\{?x :p :a.\}.}\\
+ \texttt{:s :p \{:a :b ?y.\}.}
+\end{multline}
+means
+ \begin{multline}\tag{\ref{ffff}'} \label{ffff'}
+   \forall \texttt{x.}\forall \texttt{y.}\lhexbrace
+  \texttt{< <x q y>} \rightarrow \texttt{<x r c> >}\rightarrow  \texttt{<x p a>.}\\
+  \texttt{s p <a b y>.\rhexbrace
+  }
+ \end{multline}
+Note that the quantifier for \texttt{y} which is nested in the interpretation of Formula~\ref{fff} is on top level in the interpretation of Formula~\ref{ffff}. 
+This is the case because the conjunction, ie the formula as a whole, is the $\text{parent}_c$ formula of the second occurrence of \texttt{?y} and thus carries a quantifier which 
+also covers the nested occurrence of~\texttt{?y}.
 
 %To be able to cope with that behaviour we need another attribute which keeps track of all the variables which are already quantified on a higher formula of the syntax tree.
 %
@@ -2118,8 +2128,9 @@ Interpretation~\ref{iall}
 %
 % To compute for each formula the set of variables which are universally quantified on it, we need to keep track of this behaviour. 
 % This is done with 
-% To take the behaviour $s$ keeps track of this behaviour. 
-To be able to handle this exception from the quantification on the $\text{parent}_c$ formula, we define attribute $s$.
+%To take the behaviour we define a
+Attribute $s$ keeps track of this behaviour. 
+%To be able to handle this exception from the quantification on the $\text{parent}_c$ formula, we define attribute $s$.
 %
 The value of $s$ is for each node  the set of variables which are universally quantified on the node, 
 either by a quantifier on the node itself, or by a quantifier on a higher level.
@@ -2565,20 +2576,22 @@ The value of $u$ for a node is always the set of universal variables occurring a
 The attribute rules for $u$ are displayed in Figure~\ref{EYEAT}. As the calculation of $u$'s attribute values is rather simple, 
 we do not discuss these rules in detail and only capture for further considerations the value of the top formula  $\texttt{f}^1.u=\{\texttt{?x}, \texttt{?y}\}$.
 \begin{figure}
+\centering
+\small
 \begin{tabular}{lll}
 \hline
-\multicolumn{2}{l}{production rule} & attribute rule\\
+\multicolumn{2}{l}{production rule}\hspace{0.2\textwidth} & attribute rule\\
   \hline
 %Syntax: &&\\
 %&&\\
 \texttt{s ::=}&\texttt{f}& $\texttt{s}.u \leftarrow \texttt{f}.u$\\
-       &&\\
+%       &&\\
 \texttt{f ::= } &  $ \texttt{t}_1 \texttt{t}_2 \texttt{t}_3.$&   $ \texttt{f}.u \leftarrow \texttt{t}_1.u \cup \texttt{t}_2.u \cup \texttt{t}_3.u$ \\
     &  $\texttt{e}_1 \texttt{=>}  \texttt{e}_2.$& $\texttt{f}.u \leftarrow \texttt{e}_1.u \cup \texttt{e}_2.u$ \\
 %    &  \texttt{@forAll :u}     & universal quantification\\
 %    &  \texttt{@forSome :u}     & existential quantification\\
     & $ \texttt{f}_1 \texttt{f}_2$ &                $\texttt{f}.u \leftarrow \texttt{f}_1.u\cup \texttt{f}_2.u$ \\
-&&\\
+%&&\\
 \texttt{t ::=}& \texttt{uv}\hspace{0.07\textwidth} &                $\texttt{t}.u \leftarrow\{\texttt{uv}\}$\\
             & \texttt{ex} &               $\texttt{t}.u \leftarrow \emptyset$\\
       & \texttt{c} &               $\texttt{t}.u \leftarrow\emptyset$\\
@@ -2586,15 +2599,16 @@ we do not discuss these rules in detail and only capture for further considerati
       & \texttt{e} &                $\texttt{t}.u \leftarrow\texttt{e}.u $\\
       & \texttt{(k)}& $\texttt{t}.u \leftarrow\texttt{k}.u$\\
       & \texttt{()}& $\texttt{t}.u \leftarrow\emptyset$\\
-      &&\\
+ %     &&\\
 \texttt{k ::=}& \texttt{t}& $\texttt{k}.u \leftarrow\texttt{t}.u$\\
 &$\texttt{t k}_1$ & $\texttt{k}.u \leftarrow\texttt{t}.u\cup\texttt{k}_1.u$\\
-&&\\
+%&&\\
 \texttt{e ::=}&\texttt{\{f\}} &                $\texttt{e}.u \leftarrow\texttt{f}.u$\\
        &\texttt{\{\}} &  $\texttt{e}.u \leftarrow\emptyset$\\
        &\texttt{false}       &                $\texttt{e}.u \leftarrow\emptyset$\\
   \hline
 \end{tabular}
+\normalsize
 \caption{Attribute rules for the synthesized attribute $u$ (right) and their corresponding production rules (left) from the \nthree grammar (Figure~\ref{N3S}).\label{EYEAT}}
 \end{figure}
 %
@@ -2736,8 +2750,8 @@ we do not discuss these rules in detail and only capture for further considerati
 
 \subsubsection{Generation of the translation}\label{all}
 \begin{figure*}
-\begin{minipage}{0.95\textwidth}
-\begin{center}%\small
+\begin{minipage}{\textwidth}
+\begin{center}\scriptsize
  \begin{tabular}{llll}
 \hline
 \multicolumn{2}{c}{CFG}& \multicolumn{1}{c}{Cwm} &\multicolumn{1}{c}{EYE}\\
@@ -2787,10 +2801,10 @@ We start by defining the following auxiliary functions
 which add quantifiers to any set of symbols of the alphabet: %to add the quantifiers missing in \nthreelogic to the newly generated formulas of the Core Logi
 
 Let $\operatorname{\textit{ex}}: 2^\mathcal{A}\rightarrow 2^{\mathcal{A}^*}$ be defined as:
-\begin{multline}\notag \operatorname{\textit{ex}}(V):= \{\underline{\exists v_1.}\ldots \underline{\exists v_n.}| v_i \in V; 1\leq i \leq n=|V|; \\ i\neq j \Rightarrow v_1 \neq v_j\}.\end{multline}
+\begin{multline}\notag \operatorname{\textit{ex}}(V):= \{\underline{\exists v_1.}\ldots \underline{\exists v_n.}| v_i \in V; 1\leq i \leq n=|V|; i\neq j \Rightarrow v_1 \neq v_j\}.\end{multline}
 %
 Let $\operatorname{\textit{uv}}: 2^\mathcal{A}\rightarrow 2^{\mathcal{A}^*}$ be defined as:
-\begin{multline}\notag \operatorname{\textit{uv}}(V):= \{\underline{\forall v_1.}\ldots \underline{\forall v_n.}| v_i \in V; 1\leq i \leq n=|V|; \\ i\neq j \Rightarrow v_1 \neq v_j\}.
+\begin{multline}\notag \operatorname{\textit{uv}}(V):= \{\underline{\forall v_1.}\ldots \underline{\forall v_n.}| v_i \in V; 1\leq i \leq n=|V|; i\neq j \Rightarrow v_1 \neq v_j\}.
 \end{multline}
 %
 The range of these two functions are sets, for $\{\texttt{x}, \texttt{y}\}$ we get for example:
@@ -2820,7 +2834,7 @@ To get all universally quantified variables at that level, the value of the attr
 Cwm) is used. 
 For existentially quantified variables  we use the value of $\eq$ (existential variables for a formula).
 %\rv{previous sentence is complex to follow}
-As explained in Section~\ref{impquant} the translation puts first the universal and then the existential quantification.
+As explained in Section~\ref{vars} the translation puts first the universal and then the existential quantification.
 In contrast to that, the rule for the attribute $m_e$ only adds the existential quantifier since according to its understanding, 
 universal quantifiers are only set in front of the top formula. 
 

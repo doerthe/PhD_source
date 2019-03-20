@@ -21,7 +21,7 @@ An explanation of the implementation, the datasets used and the results of our t
 
 \subsection{Implementation}\label{imp}
 For our evaluation we have implemented the attribute grammar as specified above. 
-In order to stay close to our format, we used the Utrecht University Grammar (UUAG) and its compiler 
+In order to stay close to our format, we used the Utrecht University Attribute Grammar (UUAG) and its compiler 
 the Utrecht University Attribute Grammar Compiler (UUAGC)~\cite{uuag}. This framework enables the user to specify attribute grammars which 
 then get translated to Haskell code and can be used in all kinds of applications. All additional applications and functions were written in Haskell.
 %
@@ -94,19 +94,20 @@ The \emph{Project datasets} contain rules we specified in previous projects, in 
 the projects \emph{ORCA (Ontology based Reasoning for nurse Call)} \cite{ORCA,ORCA2}, \emph{Facts4Workers (Factories for Workers)} \cite{arndt_ruleml_industry_2016} 
 and \emph{DiSSeCt (Distributed Semantic software solutions for complex Service Composition)}
 \cite{ruleml2017}. 
+%
 The rules of the 
 \emph{ORCA dataset}\footnote{This 
 project was in cooporation with an industry partner and the results might be used in a product. The rules are therefore not public.}
  are written to perform an optimized version of OWL-RL reasoning and to follow a complex decision tree which, depending on the set-up and the 
-current situation of a hospital, assign the best staff member to answer a patient call. 
+current situation of a hospital, assign the best staff member to answer a patient call. We further explain that in Section~\ref{orca}.
 %\end{description}
 %
 The aim of the rules from the \emph{Facts4Workers} use-case\footnote{Available at \url{https://github.com/IDLabResearch/Facts4Workers/tree/master/n3}.}
 is to deal with the diverse infrastructure of modern factories in which different machines are able to perform a huge variety of tasks.
-These tasks are described via rules which can be combined to fulfil a desired goal.
+These tasks are described via rules which can be combined to fulfil a desired goal. The idea behind that is further explained in Section~\ref{restdesc}.
 %
 The last set of rules\footnote{Available at \url{https://github.com/IDLabResearch/data-validation}. },
-used in the project \emph{DiSSeCt}, is designed to check \rdf datasets for user-specified constraints. 
+used in the project \emph{DiSSeCt}, is designed to check \rdf datasets for user-specified constraints. These are the topic of Section~\ref{validation}.
 %
 We chose these datasets because they were produced to be used in practical rather complex applications and not to merely test the reasoner. 
 To ensure compatibility with EYE
@@ -145,9 +146,9 @@ in Table~\ref{result}. We see that every dataset contains files for which the in
 the portion of affected files varies per dataset and depends on the nature of the data. We have identified three kinds of constructs which can be related with disagreements 
 in the interpretation:
 \begin{description}
-  \item[Proofs] formulas which represent a \emph{proof}, a special kind of \nthree formulas explaining the derivation steps of the reasoner (see also~\cite{PP});
+  \item[Proofs] formulas which represent a formal \emph{proof}, ie an explanation of the derivation steps leading to a conclusion; % using the \nthree proof vocabulary~\cite{Proof};  %as introduced in Section~\ref{proofintro};
   \item[Built-ins] formulas which contain built-in functions which have a special meaning for one or both reasoners;
-  \item[Nesting] formulas which, without using built-in functions, either act on graph patterns or perform
+  \item[Nesting] formulas which, without using built-in functions, cite graph patters, act on them or perform
 reasoning about rules.
 \end{description}
 Before taking a closer look at the distribution of these three cases in the different datasets, 
@@ -165,32 +166,45 @@ we explain what we mean by \emph{proofs}, \emph{built-ins} and \emph{nesting} in
 %Where did we find the differences?
 %Mostly in proofs. But also rule producing rules in ORCA. Give examples.
 \subsubsection{Proofs}\label{pro}
-When drawing conclusions from data, both reasoners are able to provide an explanation for their derivations. For that they both use the \nthree proof 
-vocabulary\footnote{\url{https://www.w3.org/2000/10/swap/reason\#}}  
-created in the context of the Semantic Web Application
-Platform (SWAP)~\cite{SWAP}. The vocabulary makes it possible to express proof steps performed by the reasoners. While Cwm proofs only contain explicit universal 
-quantification and are therefore out of scope for our current evaluation, EYE proofs employ implicit universal quantification. 
-An example proof step is given in Listing~\ref{proof}.
+In Section~\ref{proofintro} we already explained that there is a proof vocabulary defined for \nthree. The reasoners Cwm and EYE 
+make practical use of this vocabulary: From both reasoners the user can request a formal proof as an explanation of the derivations made. Such a proof contains 
+all proof steps applied on the data provided to the reasoner leading to the output of the reasoner. We will further explain these steps and the underlying calculs in Chapter~\ref{proof}.
+For our tests in the current section, it is more important, how exactly these steps are represented:
+%
+% When drawing conclusions from data, both reasoners are able to provide an explanation for their derivations. For that they both use the \nthree proof 
+% vocabulary\footnote{\url{https://www.w3.org/2000/10/swap/reason\#}}  
+% created in the context of the Semantic Web Application
+% Platform (SWAP)~\cite{SWAP}. 
+%The vocabulary makes it possible to express proof steps performed by the reasoners. 
+%
+While Cwm proofs only contain explicit universal 
+quantification and are therefore out of scope for our current evaluation, EYE proofs employ implicit universal quantification in nested constructs. 
+
+We already saw an example
+of an inference proof
+step in Listing~\ref{example2}, in 
+% another 
+% An example proof step is given in
+Listing~\ref{proof22} we display another kind a proof step,
 \begin{lstlisting}[
   float=t,
   caption={Representation of a proof step. },
-  label=proof]
+  label=proof22]
 §\scriptsize\textcolor{gray}{
 @prefix\quad  : <http://example.org/ex\#>.}§
 §\scriptsize\textcolor{gray}{@prefix r: <http://www.w3.org/2000/10/swap/reason\#>.}§
 
  <#lemma1> a r:Extraction;
-  r:gives {
-    {:s :p ?x1} => {:s :pp ?x1}.
-  };
-  r:because [ a r:Parsing ].
+  r:gives { {:s :p ?x1} => {:s :pp ?x1}. };
+  r:because [ a r:Parsing; r:source <rules.n3> ].
 \end{lstlisting}
-
-We see the proof step of an \texttt{r:Extraction}. This corresponds to conjunction elimination from common first-order calculi: 
+% 
+% We see the proof step of 
+an \texttt{r:Extraction}. This corresponds to conjunction elimination from common first-order calculi: 
 if a bigger conjunction is known 
 to be correct, so are its conjuncts. %These can be used in further derivations.
 Here, this example step 
-is based on another step, a \texttt{r:Parsing}, ie reading information from a file.  
+is based on another step, a \texttt{r:Parsing}, ie reading information from a file which in the example has the symbolic name \texttt{rules.n3}.
 The proof steps yield the formula \begin{equation}\texttt{\{:s :p ?x1\} => \{:s :pp ?x1\}.}\label{fo}\end{equation} indicated by the predicate \texttt{r:gives}. 
 Interesting from a structural point of view is  
 that the formula appears in a formula expression.  For Cwm the variable \texttt{?x1} is therefore universally quantified in this expression. We get the interpretation:
@@ -257,21 +271,21 @@ while \texttt{ \{:a :b :c\} log:includes \{:a :b :o\}.}
 is not.  %In Listing~\ref{includes} we see an
 The following rule contains a triple using \texttt{log:includes} in its antecedent: 
 \begin{multline}\notag
- \texttt{\{\{:a :b :c\} log:includes \{:a :b ?x\}\}}\\
+ \texttt{\{\{:a :b :c\} log:includes \{:a :b ?x\}\}}
    \texttt{ => \{:d :e :f\}.} 
 \end{multline}
 The shape of this triple is similar to the examples 
 given before with the difference that instead of \texttt{:o} or \texttt{:a}, the object of the triple in the right-hand side formula expression is the universal \texttt{?x}. 
 Cwm interprets this formula as
 \begin{multline}\notag
- \texttt{<}\forall \texttt{x. <a b c> includes <a b x>{}>}\\ \rightarrow \texttt{<d e f>.}
+ \texttt{<}\forall \texttt{x. <a b c> includes <a b x>{}>} \rightarrow\texttt{<d e f>.}
 \end{multline}
 %And 
 Since it is not true that for every \texttt{x} the expression \texttt{<a~b~x>} is included in \texttt{<a b c>} -- think 
 for example in the case above, $\texttt{x}=\texttt{o}$ -- %
 the consequent of the formula is not derived in Cwm. Opposed to that, EYE understands
 \begin{multline}\notag
- \forall \texttt{x.}\texttt{ <{} <a b c> includes <a b x> {}>}\\ \rightarrow \texttt{<d e f>.}
+ \forall \texttt{x.}\texttt{ <{} <a b c> includes <a b x> {}>} \rightarrow \texttt{<d e f>.}
 \end{multline}
 Here, the antecedent of the implication is fulfilled for $\texttt{x}=\texttt{c}$. EYE derives the new triple \texttt{d~e~f.} 
 %Since built-in functions which are
@@ -293,52 +307,18 @@ The different interpretation of universals changes the reasoning result.
 §\scriptsize\textcolor{gray}{@prefix\hspace{0,65cm}:\quad<http://example.org/ex\#>.}§
  
 {  
- {?machine :hasProblem ?problem.} 
-                      :eventId ?eid.
- 
+ {?machine :hasProblem ?problem.} :eventId ?eid.
  (?eid 1) math:sum ?nid
 }
 =>
 {
  _:request http:methodName "POST";
-      http:requestURI 
-            "https://f4w/actions";
-      http:body ("stop" ?machine).
+           http:requestURI "https://f4w/actions";
+           http:body       ("stop" ?machine).
       
- {?machine :stoppedBy ?problem.} 
-                    :eventId ?nid.
+ {?machine :stoppedBecause ?problem.} :eventId ?nid.
 }. 
 \end{lstlisting}
-\subsubsection{Nesting}\label{nest}
-
-Our examples contain a third kind of differences:
-rules which either operate on other rules or on graph structures. Many examples for this can be found in the 
-ORCA dataset where rule-producing rules are applied (see \cite{ORCA2}) but also  in the Facts4Workers dataset, where formula expressions 
-refer to events.
-A (shortened) example of such a reference in a rule is shown in Listing~\ref{F4W}. 
-
-In this example we can perform actions on machines. Such actions can for example be to start or stop the machine, but also to simply do an observation of a problem. Each action performed gets an event id. 
-The rule from the example expresses that, if a problem is observed, the very next action to be performed is to stop the machine (here via an http-call). Note, that the different actions or events in this example 
-are expressed by formula expressions which contain universal variables. While in EYE the two occurrences of the variable \texttt{?problem} co-refer -- here, 
-the universal quantification of implicit universals is always on top level -- this is not the case for Cwm whose interpretation is displayed in Listing~\ref{F4Wcwm}.
-We clearly see that the two occurrences of  
-\texttt{?problem} are understood as two different variables. The meaning of the rule differs between reasoners 
-and the implementation  this use case  does not work with Cwm. 
-
-% Another interesting observation we make when looking closely  to the rule is that the problem we described for \texttt{?problem} does not occur for the variable \texttt{?machine}, a variable which occurs next to 
-% \texttt{?problem} in the formula expressions. The reason for that is that \texttt{?machine} also occurs in a list in the consequent of the rule which lifts the quantifier of the variable one level upwards to outside of the rule. The interpretation of this variable does not differ between the two reasoners.
-
-
-% \begin{multline}\notag
-% \forall \texttt{m.}\forall \texttt{i.} \forall \texttt{i2.}
-% \\ \texttt{<}\forall \texttt{p.<m hasProblem p> hasId i.(i 1) sum i2>}\\
-% \rightarrow\texttt{<}\forall \texttt{p1.}\exists
-% \\\texttt{r. r methodBame ``POST''.}\\ \texttt{ r requestURI ``https://f4w/actions''.}\\\texttt{ r body (``stop m).
-% <m stoppedBy p2> eventid i2 
-% >}
-%\end{multline}
-
-
 \begin{lstlisting}[
   float=t,
   caption={Interpretation of Listing~\ref{F4W} according to Cwm. The occurrences of variable \texttt{?problem} are understood as two different variables. },
@@ -355,26 +335,66 @@ and the implementation  this use case  does not work with Cwm.
  r methodBame 'POST'. 
  r requestURI 'https://f4w/actions'.
  r body ('stop' m).
- <m stoppedBy p1> eventid i2. 
+ <m stoppedBecause p1> eventid i2. 
 >
 \end{lstlisting}
+\subsubsection{Nesting}\label{nest}
+
+Our examples contain a third kind of difference:
+rules which either operate on other rules or on graph structures. Many examples for this can be found in the 
+ORCA dataset where rule-producing rules are applied (this will be further explained in Section~\ref{orca}) but also  in the Facts4Workers dataset, where formula expressions 
+refer to events.
+A (shortened) example of such a reference in a rule is shown in Listing~\ref{F4W}. 
+
+In this example we can perform actions on machines. Such actions can for example be to start or stop the machine, but also to simply do an observation of a problem. Each action performed gets an event id. 
+The rule from the example expresses that, if a problem is observed, the very next action to be performed is to stop the machine (here via an http-call). Note, that the different actions or events in this example 
+are expressed by formula expressions which contain universal variables. While in EYE the two occurrences of the variable \texttt{?problem} in Line 6 and Line 15  co-refer -- here, 
+the universal quantification of implicit universals is always on top level -- this is not the case for Cwm whose interpretation is displayed in Listing~\ref{F4Wcwm}.
+We clearly see that the two occurrences of  
+\texttt{?problem} are understood as two different variables. The meaning of the rule differs between reasoners 
+and the implementation of this use case  does not work with Cwm. 
+
+% Another interesting observation we make when looking closely  to the rule is that the problem we described for \texttt{?problem} does not occur for the variable \texttt{?machine}, a variable which occurs next to 
+% \texttt{?problem} in the formula expressions. The reason for that is that \texttt{?machine} also occurs in a list in the consequent of the rule which lifts the quantifier of the variable one level upwards to outside of the rule. The interpretation of this variable does not differ between the two reasoners.
+
+
+% \begin{multline}\notag
+% \forall \texttt{m.}\forall \texttt{i.} \forall \texttt{i2.}
+% \\ \texttt{<}\forall \texttt{p.<m hasProblem p> hasId i.(i 1) sum i2>}\\
+% \rightarrow\texttt{<}\forall \texttt{p1.}\exists
+% \\\texttt{r. r methodBame ``POST''.}\\ \texttt{ r requestURI ``https://f4w/actions''.}\\\texttt{ r body (``stop m).
+% <m stoppedBy p2> eventid i2 
+% >}
+%\end{multline}
+
+
+
 
 \subsubsection{Distribution of Cases}\label{cases}
 Having seen examples for common cases causing differences in the interpretation of \nthree formulas, we return to the numbers of Table~\ref{result}.
 %: How are these
 %cases distributed within the datasets? 
-As these numbers depend on the nature of our datasets, we show in Figure~\ref{datasets} how many files contain proofs, built-ins and nesting of any kind (dark blue)
-and for how many files one of these constructs causes conflicting interpretations (light blue).
+These numbers depend on the nature of the datasets and the constructs they contain: If a dataset does not contain proofs at all our implementation will also not find
+ any problems related to proof constructs there. 
+The same holds for the two other kinds of potentially problematic constructs we describe above. 
+% On the other hand,
+% it is not always the case 
+%As these numbers depend on the nature of our datasets, 
+We therefore show in Figure~\ref{datasets} how many files contain proofs, built-ins and nesting of any kind\footnote{In that context we define
+nesting as containing at least one formula expression occurring in another one as in the example
+$\texttt{:a :b \{:c :d \{:e :f :g.\}.\}.}$
+where \texttt{\{:e :f :g.\}} is nested.} (dark blue). 
+Next to that information, we also display, how many of these constructs actually lead to conflicting interpretations
+%and for how many files one of these constructs causes conflicting interpretations 
+(light blue). %In Appendix~\ref{}
 % To understand the reasons causing the different interpretations in our tests, we analyse their nature:
 % How many proofs do they contain? How often do we find nesting of any kind 
 % (regardless of the universals involved), and 
 % how many of them contain built-ins? The answers to these questions are displayed in Figure~\ref{datasets} (dark blue part). %The figure shows for each dataset how many of the afore mentioned cases it contains. 
-Nesting is defined as containing at least one formula expression occurring in another one as in the example
-\[\texttt{:a :b \{:c :d \{:e :f :g.\}.\}.}\]
-where \texttt{\{:e :f :g.\}} is nested.
+%
 Note that the cases we consider are overlapping: proofs can contain built-ins, 
 files can have deeply nested formula expressions at one place and use built-ins at other places. Due to the nature of proofs, every proof file is also subject to nesting. 
-\begin{figure*}
+\begin{figure}
  \includegraphics[width=0.95\textwidth]{Rplot06.pdf}
  \caption{Distributions of proofs, built-ins and nesting in datasets. The share in dark blue always represents the files containing the respective feature while light blue is used to represent the cases
  where the feature leads to different interpretations.\label{datasets}}
@@ -389,12 +409,19 @@ files can have deeply nested formula expressions at one place and use built-ins 
 %   So Proofs/EYE now shows 20\%,
 %   can we split this into two stacked bars
 %   where one is green (no diffs) and one is red (diffs)?}
-\end{figure*}
+\end{figure}
 
-As mentioned above all proof files containing universals and rules cause disagreements which also explains why for the DiSSeCt data set
-which consists by 50\% of proofs 60\% of the files are subject to having diverging interpretations. 
-The share of built-ins causing differences is rather small, for nesting, which includes the cases of proofs and built-ins, it is rather high. 
-Below, we discuss the last two cases in detail. 
+We already mentioned earlier that proofs containing universal variables cause conflicting interpretations and that in our examples all proofs contain such variables.
+As a consequence, the dataset containing most proofs, the DiSSeCt data set, is also the one having the highest share of diverging interpretations.
+%which we also expect to be the case for most proofs in general.
+%Taking a closer look
+%As mentioned above all proof files containing universals and rules cause disagreements which also explains why for
+% Having that in mind, it is easy to understand why the DiSSeCt data set
+% which consists by 50\% of proofs is also the one having the highest share of diverging interpretations. 
+For the other kinds of constructs we discussed, built-in functions and nesting, we take a closer look at the numbers appearing in 
+Figure~\ref{datasets} below where we also explain how the values were calculated. %Additionally we explain, how they were calculated.
+% The share of built-ins causing differences is rather small, for nesting, which includes the cases of proofs and built-ins, it is rather high. 
+% Below, we discuss the last two cases in detail. 
 
 %Since almost half of the DiSSeCt data set consists of proofs, it is not surprising that here we also found the highest number of disagreements (60\%).
 % Considering Figure~\ref{datasets} it is not surprising that for the DiSSeCt dataset we found the highest share of disagreement between interpretations (60\%):  
@@ -407,29 +434,83 @@ Below, we discuss the last two cases in detail.
 %  The figure additionally contains the shares of these files where the observed feature (ie proofs, built-ins or nesting) causes problems (light blue). 
 
 
-\subsubsection*{Disagreements per Formula Type}
-To understand how many of the built-ins present in our datasets are causing problems, 
-we extended the attribute grammar by additional attributes which test for every built-in whether its subject or its object contains a universal 
-variable which -- according to Cwm's interpretation -- is not 
-quantified on the $\text{parent}_c$ level of the built in or any higher level. The definition of these attributes can be found in~\ref{cbi}.
- The results of our tests are displayed in Figure~\ref{builtins}. For each dataset we show the percentage of files containing 
-at least one built-in construct 
-which the two reasoners interpret differently compared to all files containing built-ins. We see that for the whole dataset and most subsets approximately a quarter of all 
-files with built-ins contains at least one critical construct. Only in the Facts4Workers dataset this share is higher which can be explained by
-the fact that here the built-in \texttt{e:whenGround}\footnote{See \url{http://eulersharp.sourceforge.net/2003/03swap/log-rules.html\#whenGround}. }
- is used in many rules to test whether graph patterns are ground.
 
+\subsubsection*{Disagreements per Formula Type}
+In order to understand how many of the built-ins present in our datasets are causing problems, 
+we extended the attribute grammar by additional attributes. We give the definition of these attributes in Appendix~\ref{cbi}. Here, 
+we only want to briefly discuss the idea: If a triple has a built-in function in predicate position we test whether subject and object of that triple contains universal 
+variables.
+If this is the case, we next need to know where exactly the interpretation according to Cwm quantifies these variables. If all these universal variables are quantified
+on a higher level than the $\text{parent}_c$ level of the built-in then the built-in construct itself is not 
+causing conflicting interpretations. 
+
+In Figure~\ref{datasets} where the numbers calculated by that method are displayed 
+in the middle we already see that in many cases the presence of a built-in construct in a data set does not cause problems. 
+To better understand how likely this presence of a built-in constructs causes contradicting interpretations we display the numbers from above in another way.
+Figure~\ref{builtins} shows in how many of the files containing built-in functions at least one of the built-in functions occurs in a construct which causes 
+contradictory interpretations.
+%
+% To better understand how likely it is that in a file containing built-in constructs, these constructs also cause contradicting interpretations, we display the numbers 
+% presented in the middle of Figure~\ref{datasets} in another way: 
+% This information is already captured in the 
+% attribute grammar we introduced in Section~\ref{n3}: attribute $s$ collects for all nodes the universal variables which are quantified on the node itself or 
+% any higher level. A universal variable occurring in subject or object position of a built-in \texttt{b} is subject to the problem described above if it is not contained 
+% in the value of $\texttt{b}.s$. 
+% % To know that we can use the syntax tree and the 
+% % information which is already collected by attribute $s$ (discussed in Section~\ref{n3}). This attribute passes in the syntax tree which variables are 
+% % already quantified on a higher level.
+% 
+% which test 
+% for every subject or object of a built-in predicate whether it contains universal 
+% variables which Cwm quantifies %does not quantify %in Cwm's interpretations is not 
+% %quantified 
+% %on the $\text{parent}_c$ 
+% either on the level of the built-in itself or any lower level. The definition of these attributes can be found in Appendix~\ref{cbi}.
+%  
+%  The results of our tests are displayed in Figure~\ref{builtins}. For each dataset we show the percentage of files containing 
+% at least one built-in construct 
+% which the two reasoners interpret differently compared to all files containing built-ins.
+We see that for the whole dataset and most subsets approximately a quarter of all 
+files with built-ins contains at least one critical construct. Only in the Facts4Workers dataset this share is higher.
+This has to do with the fact that in that project one specific built-in is used very often: 
+% which can be explained by
+% the fact that here the built-in 
+ The built-in \texttt{e:whenGround}\footnote{See \url{http://eulersharp.sourceforge.net/2003/03swap/log-rules.html\#whenGround}. }
+ %is used in many rules to 
+ tests whether its subject contains variables or is ground and calls the object if the latter is true. This built-in is implemented in EYE for
+ a few very specific use cases. We expect that users employing such special predicates are aware of the fact that their rules only work with one specific reasoner.
+ The cases counted here are therefore less critical for the problem that files written for use cases of the Semantic Web which rely on interoperability are interpreted 
+ contradictory by different reasoners.
  
-Similarly to the case just seen, we can ask how many files  of our set of formulas containing nesting have different interpretations caused by deeply nested variables. Since all problems we consider 
-in Table~\ref{result} are caused by different interpretations of nested variables -- as this is how we constructed our tests -- we used these numbers to generate Figure~\ref{onlynests}. 
-% Here we see how many
+
+\begin{figure}
+ \includegraphics[width=\textwidth]{Rplot01.pdf}
+ \caption{Share of files containing built-ins causing conflicting interpretations in
+ files containing built-ins. Only in a quarter of all files containing built-ins 
+ these occur with deeply nested universals.
+\label{builtins}}
+\end{figure}  
+ 
+A similar figure as the one above can be produced for nested formulas. We display the share of formulas being subject of a nesting problem in all 
+formulas containing nesting in Figure~\ref{onlynests}. In Figures~\ref{datasets} and \ref{onlynests} we understand a formula as nested if it contains 
+a graph construct in a graph construct (ie a formula in nested brackets \texttt{\{}$\ldots$\texttt{\{}$\ldots$\texttt{\}}$\ldots$\texttt{\}}). 
+As a nesting construction leading to the problems described in this section we understand any nested construct containing a universal variable 
+for which the quantifier according to Cwm is %where Cwm quantifies this universal 
+on any other level than the top level. This rather broad definition qualifies all differences listed in Table~\ref{result} as subject to a nesting problem and these 
+numbers are also used for the two figures.
+% Figure~\ref{datasets} 
+% uses these numbers.
+% 
+% Similarly to the case just seen, we can ask how many files  of our set of formulas containing nesting have different interpretations caused by deeply nested variables. Since all problems we consider 
+% in Table~\ref{result} are caused by different interpretations of nested variables -- as this is how we constructed our tests -- we used these numbers to generate Figure~\ref{onlynests}. 
+% % Here we see how many
 % of the files including nesting have conflicting interpretations. 
 We observe that, when deep nesting is already present in a file, we suffer from conflicting interpretations in 72\% of the cases.
 This is not very surprising since most nested graphs occur in rules which most likely also contain universals, but this figure shows once again, that when using nested graphs, users need to be careful 
 with universal variables.
 
 \subsubsection*{Categorisation of Errors}
-As a last point in this subsection we categorise the problems observed so far in disjoint groups. 
+As a last point in this subsection we display how the different problem types are distributed over the files counted in Table~\ref{result}.   
 The reasons for conflicting interpretations of a formula 
 can be overlapping. 
 % Especially if we have a proof it can be useful to know whether conflicting interpretations are only 
@@ -452,17 +533,22 @@ can be overlapping.
 % we know that the conflict 
 %  found in the proof is more serious and caused by a deeper nesting in one of the formulas occurring in the object of \texttt{r:gives}. 
 %
-We separate them as follows: 
+To be able to show a distribution we separate them in disjoint groups as follows: 
 \begin{description}
-\item[Built-in Class] Every formula containing built-in functions used in connection with formula 
-expressions containing universals
+\item[Built-in Group] Every formula containing a built-in construct which leads to contradictory interpretations
+% built-in functions used in connection with formula 
+% expressions containing universals
 is counted as such even if this construct occurs in a proof or additionally contains nested graph constructs without built-ins.
-\item[Proof Class]
-Every proof formula not belonging to the \emph{Built-in Class}
-for which the results of all proof steps 
-do not contain nested graphs with universal variables which Cwm quantifies on that level are counted as a proof.
-\item[Nesting Class]
-Every formula not belonging to the two classes above is counted as a nested formula.
+\item[Proof Group]
+Every proof formula for which the reason of the contradictory interpretations is only the proof structure itself. 
+That means that the formula does not belong to the \emph{Built-in Group} and that the results of the proof 
+steps -- ie the \textit{result} part in the triples \texttt{<\#lemma> r:gives \{} \textit{result} \texttt{\}} -- do not contain any universal variables which 
+Cwm quantifies on a level which is nested inside these results.
+% not belonging to the \emph{Built-in Group}
+% for which the results of all proof steps 
+% do not contain nested graphs with universal variables which Cwm quantifies on that level are counted as a proof.
+\item[Nesting Group]
+Every formula not belonging to the two groups above is counted as a nested formula.
 \end{description}
 
 To test whether conflicting interpretations are caused by built-ins, we used the attributes introduced above. 
@@ -470,22 +556,40 @@ To test whether conflicting interpretations are caused by built-ins, we used the
 % for conflicting interpretations is the nature of the  proof structure -- in which case the formula is member of the \emph{Proof Class} -- 
 % or whether there are universal variables which Cwm quantifies on a deeper level
 % than the level of the formula expression cited by \texttt{r:gives} -- these formulas are captured in the \emph{Nesting Class}. 
-The method to determine whether a formula representing a proof belongs to the \emph{Nesting Class} or the \emph{Proof Class}  is discussed in~\ref{nested}. 
+The method to determine whether a formula representing a proof belongs to the \emph{Nesting Class} or the \emph{Proof Class}  is discussed in Appendix~\ref{nested}. 
+
 
 \begin{figure}
- \includegraphics[width=0.49\textwidth]{Rplot10.pdf}
- \caption{Share of files containing built-ins causing conflicting interpretations in
- files containing built-ins. Only in a quarter of all files containing built-ins 
- these occur with deeply nested universals.
-\label{builtins}}
-\end{figure} 
-\begin{figure}
- \includegraphics[width=0.49\textwidth]{Rplot12.pdf}
+ \includegraphics[width=\textwidth]{Rplot03.pdf}
  \caption{Share of files causing conflicting interpretations in
  files which have nested expressions. 72\% of the files containing nesting are interpreted differently by both reasoners.
 \label{onlynests}}
 \end{figure}
 
+% \begin{figure}%[htb]
+%     \centering
+%     \begin{minipage}[t]{0.49\linewidth}
+%         \centering
+%         \includegraphics[width=\linewidth]{Rplot10.pdf}
+%         \caption{Share of files containing built-ins causing conflicting interpretations in
+%  files containing built-ins. Only in a quarter of all files containing built-ins 
+%  these occur with deeply nested universals. }
+%     \end{minipage}% <- sonst wird hier ein Leerzeichen eingefügt
+%     \hfill
+%     \begin{minipage}[t]{0.49\linewidth}
+%         \centering
+%         \includegraphics[width=\linewidth]{Rplot12.pdf}
+%         \caption{Share of files causing conflicting interpretations in
+%  files which have nested expressions. 72\% of the files containing nesting are interpreted differently by both reasoners.}
+%     \end{minipage}
+% \end{figure}
+% 
+% \begin{figure}
+%  \includegraphics[width=\textwidth]{2zusammen.pdf}
+%  \caption{Share of files causing conflicting interpretations in
+%  files which have nested expressions. 72\% of the files containing nesting are interpreted differently by both reasoners.
+% \label{222}}
+% \end{figure}
 % 
 % How are these
 % cases distributed within the datasets? 
@@ -522,8 +626,8 @@ The constraints themselves and the results
 are plain \rdf and there is always only one reasoning run applied in order to find constraint violations. In contrast, the Facts4Workers dataset contains
 many constructs similar to the one displayed in Listing~\ref{F4W} and does therefore have a rather high occurrence of cases belonging to the last category (33\%).
 
-\begin{figure}
- \includegraphics[width=0.49\textwidth]{Rplot14.pdf}
+\begin{figure}\centering
+ \includegraphics[width=0.9\textwidth]{Rplot22.pdf}
  \caption{Distribution of different cases causing conflicting interpretations by the reasoners Cwm and EYE.\label{result2}}
 \end{figure}
 % \begin{figure}
