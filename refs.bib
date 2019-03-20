@@ -307,7 +307,7 @@ year = 2014,
 @book{enderton,
 title = "A Mathematical Introduction to Logic (Second Edition)",
 publisher = "Academic Press",
-edition = "Second Edition",
+edition = "Second ",
 address = "Boston",
 pages = "xi - xii",
 year = "2001",
@@ -387,15 +387,32 @@ author = "Herbert B. Enderton"
   year = 2013
 }
 
-@online{OWL,
-  author = {Bock, Conrad and Fokoue, Achille and Haase, Peter and Hoekstra, Rinke and Horrocks, Ian and Ruttenberg, Alan and Sattler, Uli and Smith, Michael},
+@online{owl,
+  author = {{W3C OWL Working Group}},
   title = {{\sc owl} 2 {Web Ontology Language}},
-  note = {\url{http://www.w3.org/TR/owl2-syntax/}},
+  note = {\url{https://www.w3.org/TR/owl2-overview/}},
   howpublished = {{\sc w\oldstylenums3c} Recommendation},
   month = dec,
   year = 2012,
 }
-
+@online{owlold,
+  author = {
+       Mike Dean and
+    Guus Schreiber and
+    Sean Bechhofer and
+    Frank van Harmelen and
+    Jim Hendler and
+    Ian Horrocks and
+    Deborah L. McGuinness and
+    Peter F. Patel-Schneider and
+    Lynn Andrea Stein
+    },
+  title = {{\sc owl} {Web Ontology Language}},
+  note = {\url{https://www.w3.org/TR/owl-ref/}},
+  howpublished = {{\sc w\oldstylenums3c} Recommendation},
+  month = feb,
+  year = 2004,
+}
 
 
 @online{OWLRL,
@@ -1694,6 +1711,7 @@ Direct Semantics (Second Edition)},
   month = dec,
   year = 2012,
 }
+
 @online{owltordf,
   author = {        Peter F. Patel-Schneider and
     Boris Motik and
@@ -1838,15 +1856,7 @@ month = feb,
 year = 2011,
 }
 
-@online{owlold,
-  author = {    Deborah L. McGuinness and
-    Frank van Harmelen },
-  title = {{\sc owl} {Web Ontology Language}},
-  note = {\url{hhttps://www.w3.org/TR/owl-features/}},
-  howpublished = {{\sc w\oldstylenums3c} Recommendation},
-  month = feb,
-  year = 2004,
-}
+
 @Article{hermit,
     author = "Boris Motik and Rob Shearer and Ian Horrocks",
     title = "{Hypertableau Reasoning for Description Logics}",
@@ -2027,3 +2037,102 @@ month={July},}
   year={2016},
   school={Dissertation, Karlsruhe, Karlsruher Institut f{\"u}r Technologie (KIT), 2016}
 }
+
+@article{henkin_1950, 
+title={Completeness in the theory of types}, 
+volume={15}, 
+DOI={10.2307/2266967}, 
+number={2}, 
+journal={Journal of Symbolic Logic}, 
+publisher={Cambridge University Press}, 
+author={Henkin, Leon}, 
+year={1950}, 
+pages={81–91}}
+
+@InProceedings{herbrandLogic,
+author="Genesereth, Michael
+and Kao, Eric",
+editor="Bassiliades, Nick
+and Gottlob, Georg
+and Sadri, Fariba
+and Paschke, Adrian
+and Roman, Dumitru",
+title="The Herbrand Manifesto",
+booktitle="Rule Technologies: Foundations, Tools, and Applications",
+year="2015",
+publisher="Springer International Publishing",
+address="Cham",
+pages="3--12",
+abstract="The traditional semantics for relational logic (sometimes called Tarskian semantics) is based on the notion of interpretations of constants
+in terms of objects external to the logic. Herbrand semantics is an alternative that is based on truth assignments for ground sentences without reference 
+to external objects. Herbrand semantics is simpler and more intuitive than Tarskian semantics; and, consequently, it is easier to teach and learn.
+Moreover, it is stronger than Tarskian semantics. For example, while it is not possible to finitely axiomatize integer arithmetic with Tarskian semantics, 
+this can be done easily with Herbrand semantics. The downside is a loss of some common logical properties, such as compactness and inferential completeness. 
+However, there is no loss of inferential power---anything that can be deduced according to Tarskian semantics can also be deduced according to Herbrand semantics. 
+Based on these results, we argue that there is value in using Herbrand semantics for relational logic in place of Tarskian semantics. 
+It alleviates many of the current problems with relational logic and ultimately may foster a wider use of relational logic in human reasoning and computer applications.",
+isbn="978-3-319-21542-6"
+}
+
+@online{herbrand,
+author= {Michael Genesereth
+and Eric Kao },
+note= {\url{http://logic.stanford.edu/herbrand/herbrand.html}},
+title= {{Herbrand Semantics}},
+year = 2015,
+}
+
+@online{riffld,
+  author = {
+    Harold Boley and
+    Michael Kifer
+  },
+  editor={  },   
+  title = {RIF Framework for Logic Dialects (Second Edition))},
+  note = {\url{https://www.w3.org/TR/rif-fld/}},
+  howpublished = {{\sc w\oldstylenums3c} Recommendation},
+  day = 5,
+  month = feb,
+  year = 2013,
+}
+@article{rdfstar,
+  author    = {Olaf Hartig and
+               Bryan Thompson},
+  title     = {Foundations of an Alternative Approach to Reification in {RDF}},
+  journal   = {CoRR},
+  volume    = {abs/1406.3399},
+  year      = {2014},
+  url       = {http://arxiv.org/abs/1406.3399},
+  archivePrefix = {arXiv},
+  eprint    = {1406.3399},
+  timestamp = {Mon, 13 Aug 2018 16:46:58 +0200},
+  biburl    = {https://dblp.org/rec/bib/journals/corr/HartigT14},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+@inproceedings{rdfstarposter,
+  author    = {Olaf Hartig},
+  title     = {RDF* and SPARQL*: An Alternative Approach to Annotate Statements in
+               {RDF}},
+  booktitle = {Proceedings of the {ISWC} 2017 Posters {\&} Demonstrations and
+               Industry Tracks co-located with 16th International Semantic Web Conference
+               {(ISWC} 2017), Vienna, Austria, October 23rd - to - 25th, 2017.},
+  year      = {2017},
+  url       = {http://ceur-ws.org/Vol-1963/paper593.pdf},
+  timestamp = {Mon, 23 Oct 2017 18:09:10 +0200},
+  biburl    = {https://dblp.org/rec/bib/conf/semweb/Hartig17},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+@inproceedings{mccarthy,
+ author = {McCarthy, John},
+ title = {Notes on Formalizing Context},
+ booktitle = {Proceedings of the 13th International Joint Conference on Artifical Intelligence - Volume 1},
+ series = {IJCAI'93},
+ year = {1993},
+ location = {Chambery, France},
+ pages = {555--560},
+ numpages = {6},
+ url = {http://dl.acm.org/citation.cfm?id=1624025.1624103},
+ acmid = {1624103},
+ publisher = {Morgan Kaufmann Publishers Inc.},
+ address = {San Francisco, CA, USA},
+} 
