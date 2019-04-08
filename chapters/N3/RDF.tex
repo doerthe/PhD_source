@@ -79,8 +79,8 @@ These symbols can now be combined into triples and graphs:
 \begin{itemize}
 \item An \emph{\rdf triple} \texttt{s p o.} consists of three components: the \emph{subject}  $\texttt{s}\in \mathrm{IRI}\cup\mathrm{B}$, 
    the \emph{predicate} $\texttt{p}\in\mathrm{IRI}$, and
-   the \emph{object} $\texttt{o}\in\mathrm{IRI}\cup\mathrm{B}\cup\mathrm{L}$. We denote the set of all \rdf triples by $T$.
-\item An \emph{\rdf graph} is a set of \rdf triples.   We denote the set of all \rdf graphs by $G=2^T$.
+   the \emph{object} $\texttt{o}\in\mathrm{IRI}\cup\mathrm{B}\cup\mathrm{L}$. We denote the set of all \rdf triples by $\mathcal{T}$.
+\item An \emph{\rdf graph} is a set of \rdf triples.   We denote the set of all \rdf graphs by $\mathcal{G}=2^\mathcal{T}$.
 \end{itemize}
 \end{definition}
 % In contrast to \nthree where all kinds of symbols can occur in all positions of a triple, \rdf imposes restrictions on the kinds of symbols which can be used as subject or predicate: 
@@ -136,13 +136,13 @@ This function  maps  each property to the set of pairs of resources (which can a
 % These resources can at the same time properties. 
 For ground graphs, ie graphs which do not contain blank nodes, we get the following definition:
 \begin{definition}[Semantic conditions for ground graphs]
-A simple interpretation $I$ can be applied to an element $E\in \mathrm{IRI}\cup\mathrm{L}\cup\mathrm{T}\cup\mathrm{G}$ as follows: 
+A simple interpretation $I$ can be applied to an element $E\in \mathrm{IRI}\cup\mathrm{L}\cup\mathcal{T}\cup\mathcal{G}$ as follows: 
 \begin{enumerate}
  \item If $E$ is a literal then $\mathrm{I}(E)=\mathrm{IL}(E)$
- \item If $E$ is a IRI the $\mathrm{I}(E)=\mathrm{IS}(E)$
- \item If $E$ is a ground triple \texttt{s p o.} then $\mathrm{I}(E)=\text{true}$ if $(\mathrm{I}(\texttt{s}), \mathrm{I}(\texttt{o}))\in \mathrm{IEXT}(\mathrm{I}(\texttt{p}))$, otherwise 
+ \item If $E$ is a IRI then $\mathrm{I}(E)=\mathrm{IS}(E)$
+ \item If $E$ is a ground triple \texttt{s p o.} then $ \mathrm{I}(E)=\text{true}$ if $(\mathrm{I}(\texttt{s}), \mathrm{I}(\texttt{o}))\in \mathrm{IEXT}(\mathrm{I}(\texttt{p}))$, otherwise 
  $\mathrm{I}(E)=\text{false}$
- \item If $E$ is a ground graph then $\mathrm{I}(E)=\text{false}$ if there exists a triple $e'$ in $E$ for which $\mathrm{I}(E')=\text{false}$, otherwise $\mathrm{I}(E)=\text{true}$ 
+ \item If $E$ is a ground graph then $\mathrm{I}(E)=\text{false}$ if there exists a triple $E'$ in $E$ for which $\mathrm{I}(E')=\text{false}$, otherwise $\mathrm{I}(E)=\text{true}$ 
  \end{enumerate}
 \end{definition}
 Note, that the mapping $\mathrm{IL}$ from Definition~\ref{si} is only a partial function, ie it is not defined for all literal values which are syntactically possible. 
@@ -151,12 +151,106 @@ to \url{https://www.w3.org/TR/rdf11-mt/\#literals-and-datatypes}.} and according
 Triples whose objects are not in the domain of the function $\mathrm{IL}$ are according to point 3 in the above interpretation false.
 
 Having a notation for the meaning of ground terms we now take a closer look on how implicit existential quantification in \rdf is handled:
-\begin{definition}[Semantic condition for blank nodes]
- If $E$ is an \rdf graph then  $\mathrm{I}(E)=\text{true}$ if $[\mathrm{I}+\mathrm{A}](E)=\text{true}$ for some mapping $\mathrm{A}: \mathrm{B} \rightarrow \mathrm{IR}$, 
+\begin{definition}[Semantic condition for blank nodes]\label{rdfbl}
+ If $E\in \mathcal{G}$ is an \rdf graph then  $\mathrm{I}(E)=\text{true}$ if $[\mathrm{I}+\mathrm{A}](E)=\text{true}$ for some mapping $\mathrm{A}: \mathrm{B} \rightarrow \mathrm{IR}$, 
  otherwise $\mathrm{I}(E)=\text{false}$.
 \end{definition}
-Since \rdf -- or at least the part of \rdf which is covered in \rdf semantics -- does not allow for nested structures, blank nodes are simply quantified on top level.
+A graph is true under an interpretation if there exists one single mapping which assigns resources to all blank nodes occurring in it such that the interpretation of 
+the ground graph is true. Here, we can use such simple single mapping because \rdf{} -- or at least the part of \rdf which is covered by \rdf semantics -- does 
+not support nested structures.
+In \nthree, the situation is more complicated:
+As discussed in the previous section, 
+a blank node occurring directly in an \nthree formula and a blank node occurring in a nested subformula which share the same name
+%a blank node occurring in a subgraph of a graph which shares the same name 
+% a blank node occurring in a nested subgraph of an \nthree graph which shares the name with a blank node occurring directly in that graph
+% with the same name occurring in a nested \nthree graph
+can refer to different
+resources. We illustrated that on example Formula~\ref{eq1}:
+\[
+\verb!_:x :says {_:x :knows :Albert.}.!
+ \]
+A valid interpretation of this formula was that there is a speaker who talks about someone else who knows Albert. 
+% Having a formula like for example 
+% \[
+% \verb!:John :says {:Kurt :knows :Albert.}.!
+%  \]
+% in mind,
 
+Seeing this example, the reader might expect that adding a step of standardisation apart,\footnote{See also: \url{https://www.w3.org/TR/rdf11-mt/\#dfn-standardize}.} 
+ie  a step which simply renames black nodes which are subject to the problem described, enables us to directly use Definition~\ref{rdfbl} to define the meaning of blank nodes 
+in \nthree. This is not the case: According to the \wwwc team submission the blank node is quantified \emph{within} the formula it occurs in 
+(see Quote~II above which was taken from~\cite{Notation3}). This means that the subformula carries the existential quantifier and not the formula as a whole as it would be the case if we followed
+the strategy of combining standardisation apart with Definition~\ref{rdfbl}. 
+To understand the difference, take a look at the following example:
+% 
+% But if we carefully look at the interpretation of the formula we gave above, it even if we rename\footnote{See also standardization apart: \url{https://www.w3.org/TR/rdf11-mt/\#dfn-standardize}.}
+% 
+% 
+% To formalise the interpretations of blank nodes in \nthree, we need a more complicated definition: as Example~\ref{eq1} 
+% ($\verb!_:x :says {_:x :knows :Albert.}.!$) showed, the same blank node name 
+% 
+\begin{equation}\label{denies}
+\verb!:Kurt :denies {_:x rdf:type :Unicorn}. !
+\end{equation}
+An interpretation which puts the existential quantifier on top level would be:
+\[
+\exists x : \text{denies}(\text{Kurt}, (\text{type}(x, \text{Unicorn})))\tag{\ref{denies}a} \label{dtop}
+\]
+\begin{center}\textit{
+There exists something of which Kurt denies that it is a unicorn.
+}
+\end{center}
+So, if Kurt for example knows for sure that his friend Albert is not a unicorn then this statement is true. There is no statement made whether or not Kurt beliefs 
+in the existence of unicorns in general. This is different for the interpretation which assumes the quantifier to be nested. Here we get:
+\[
+ \text{denies}(\text{Kurt}, (\exists x : \text{type}(x, \text{Unicorn})))\tag{\ref{denies}b} \label{dnest}
+\]
+\begin{center}\textit{
+Kurt denies that unicorns exist.
+}
+\end{center}
+So, it in case the statement means that Kurt does not believe in the existence of unicorns. The two interpretations are fundamentally different and it is important where we put 
+the quantifier for the existentially quantified variable.
+
+We finish the subsection by defining the concepts of satisfaction and simple entailment:
+\begin{definition}[Satisfaction and simple entailment]
+Let $E,F,G\in \mathcal{G}$ be \rdf graphs
+\begin{itemize}
+\item An interpretation  $\mathrm{I}$ \emph{(simply) satisfies} E, written as $\mathrm{I}\models E$, if $\mathrm{I}(E)=\text{true}$.
+\item We call E (simply) satisfiable if there exists a simple interpretation $\mathrm{I}$ such that $\mathrm{I}\models E$, otherwise we call it \emph{(simply) unsatisfiable}.
+\item $G$ simply entails $E$, written as $G\models E$, if for every interpretation $I$ which satisfies $G$ ($I\models G$), also satisfies $E$ ($I\models E$). 
+\item If $E\models F$ and $F\models E$ we call $F$ and $G$ \emph{equivalent}.
+\end{itemize}
+\end{definition}
+% 
+% We now come back to implicit existential quantification: \rdf -- or at least in the part of \rdf which is covered by \rdf semantics -- does not support nested constructs. Therefore
+% 
+% \begin{equation}
+% \verb!:Kurt :denies {_:x rdf:type :Unicorn}. !
+% \end{equation}
+% 
+% 
+% 
+% We now come back to existential quantification in \rdf: 
+% Since \rdf{} -- or at least the part of \rdf which is covered in \rdf semantics -- does not allow for nested structures, blank nodes are simply quantified on top level.
+% 
+% The case of \nthree is more complicated here.
+% To understand that we come back to example Formula~\ref{eq1}:
+% \[\tag{\ref{eq1}}
+% \verb!_:x :says {_:x :knows :Albert.}.!
+%  \]
+% As discussed above, we need to understand the two occurrences of \texttt{\_:x} as two different blank nodes. If we assume, that the interpretation function for ground graphs 
+% can be extended in 
+% a way that is also covers cited graphs and that we can find an interpretation that satisfies the formula 
+% \[
+% \verb!:John :says {:Kurt :knows :Albert.}.!
+%  \]
+% it is still not enough to 
+% 
+% \[
+% \exists x_1 : \text{says}(x_1, (\exists x_2: \text{knows}(x_2, \text{Albert})))\tag{\ref{eq1}b} \label{zw}\]
+% \begin{center}\textit{``There exists someone who says that there exists someone (possibly someone else) who knows Albert.''}\end{center}
+%  
 
 \subsection{Cited formulas in RDF}
 here i want to write a little bit about trig and the lack of semantics for it - which is why it can't really help us to define N3's semantics. I want still to emphasize that 
