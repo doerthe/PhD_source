@@ -181,7 +181,7 @@ ie  a step which simply renames black nodes which are subject to the problem des
 in \nthree. This is not the case: According to the \wwwc team submission the blank node is quantified \emph{within} the formula it occurs in 
 (see Quote~II above which was taken from~\cite{Notation3}). This means that the subformula carries the existential quantifier and not the formula as a whole as it would be the case if we followed
 the strategy of combining standardisation apart with Definition~\ref{rdfbl}. 
-To understand the difference, take a look at the following example:
+To understand the difference, take a look at the following example:\footnote{\texttt{rdf:} stands for  \url{http://www.w3.org/1999/02/22-rdf-syntax-ns\#}. }
 % 
 % But if we carefully look at the interpretation of the formula we gave above, it even if we rename\footnote{See also standardization apart: \url{https://www.w3.org/TR/rdf11-mt/\#dfn-standardize}.}
 % 
@@ -209,7 +209,7 @@ in the existence of unicorns in general. This is different for the interpretatio
 Kurt denies that unicorns exist.
 }
 \end{center}
-So, it in case the statement means that Kurt does not believe in the existence of unicorns. The two interpretations are fundamentally different and it is important where we put 
+So, in this case the statement means that Kurt does not believe in the existence of unicorns. The two interpretations are fundamentally different and it is important where we put 
 the quantifier for the existentially quantified variable.
 
 We finish the subsection by defining the concepts of satisfaction and simple entailment:
@@ -251,9 +251,70 @@ Let $E,F,G\in \mathcal{G}$ be \rdf graphs
 % \exists x_1 : \text{says}(x_1, (\exists x_2: \text{knows}(x_2, \text{Albert})))\tag{\ref{eq1}b} \label{zw}\]
 % \begin{center}\textit{``There exists someone who says that there exists someone (possibly someone else) who knows Albert.''}\end{center}
 %  
+The semantics of  \rdf covers two other kinds of interpretations: D-interpretations, which handle literals and their datatypes, and \rdf interpretations. The latter define the semantics
+of the \rdf vocabulary which contains concepts like the  predicate \texttt{rdf:type} from above and \texttt{rdf:Property}, the class of all properties. The definitions done in this context can directly be added to a 
+possible definition of the semantics of \nthree, entailments defined in this context can be covered by adding rules for that. We therefore omit the discussion of D-interpretations and \rdf interpretations in this thesis.
+
+
 
 \subsection{Cited formulas in RDF}
+When we talked about blank nodes in nested \nthree formulas above we mentioned that this or similar concepts are not covered in the semantics of \rdf. However, the syntax of \rdf~\cite{rdf} does contain concepts which can -- 
+depending on the semantics we assume for them -- be understood in a similar way as nested formulas in \nthree. We discuss these below and take a closer look on how they handle implicit existential quantification.
+
+\subsubsection{Reification}
+In order to allow users to add metadata to triples, \rdf provides a vocabulary: 
+The \rdf reification vocabulary consists of the concepts \texttt{rdf:subject}, \texttt{rdf:predicate}, \texttt{rdf:object} and \texttt{rdf:Statement}. These can be used to refer to a triple or statement. 
+The very first \nthree triple 
+we have seen in this thesis, Formula~\ref{simple}, 
+\[
+ \verb! :Kurt :knows :Albert.!
+\]
+can be reified as:
+\begin{equation} \label{reiex}
+\begin{split}
+\texttt{ :triple } & \texttt{a rdf:Statement;}\\
+&\texttt{rdf:subject :Kurt;}\\
+&\texttt{rdf:predicate :knows;}\\
+&\texttt{rdf:object :Albert.}
+\end{split}
+\end{equation}
+The \iri\texttt{:triple} now refers to Triple~\ref{simple} and can be used in other contexts. To have a similar notation as Formula~\ref{ref} from above
+\[
+ \verb!:John :says {:Kurt :knows :Albert.}.!
+\]
+we can for example write
+\begin{equation}
+ \texttt{:John :says :triple.}
+\end{equation}
+The meaning of this construct is only informally defined\footnote{See: \url{https://www.w3.org/TR/rdf11-mt/\#reification}} and \rdf reification is only meant to refer to triples and unlike nested formulas in \nthree 
+not to conjunctions of triples. But there is another detail which makes \rdf reification only partly comparable with nested formulas in \nthree: The quantifier of implicit existential quantification of a reified triple 
+is always the formula as a whole and cannot be nested in any way. To illustrate that we come back to our example Formula~\ref{denies}. The most straight forward way to represent this formula using reification would be:
+% Apart from the general problem that the semantics of \rdf reification is not defined and that reification only operates on triples and not as nested graphs in \nthree on conjunctions of triples the two concepts also differ 
+% in the way the deal with implicit existential quantification.
+\begin{equation}
+ \begin{split}
+ \texttt{:Kurt }\hspace{0.7cm} & \texttt{:denies :triple2.}\\
+  \texttt{ :triple2 } & \texttt{a rdf:Statement;}\\
+&\texttt{rdf:subject \_:x;}\\
+&\texttt{rdf:predicate rdf:type;}\\
+&\texttt{rdf:object :Unicorn.}
+ \end{split}
+\end{equation}
+According to Definition~\ref{rdfbl}, the blank node \texttt{\_:x} in the above statement is quantified on on top level. This means that we might be able to define the formal semantics of \rdf reification in a way 
+such that the meaning of the formula 
+corresponds to Interpretation~\ref{dtop} but we cannot formalise it in a way that it results in Interpretation~\ref{dnest}. Here, nested \nthree formulas fundamentally differ from \rdf reification.
+
+% and since the semantics of \rdf reification can only extend the existing definitions 
+% for \rdf semantics but not change them,
+
+% 
+% Above we discussed how implicit existential quantification on nested formulas or graphs is defined in \nthree. We mentioned that the 
+% concept of nested graphs is not covered in the semantics of \rdf. What we did not discuss yet is, that the syntax of \rdf does allow the usage of a similar concept: named graphs.
+
+\subsubsection{Named graphs}
 here i want to write a little bit about trig and the lack of semantics for it - which is why it can't really help us to define N3's semantics. I want still to emphasize that 
 it is likely that 
 the blank nodes in trig are shared with the overall graph and that this is a problem with the position of the quantifier. This last statement I want to take as a motivation to have a 
 logic with explicit quantification.
+
+\subsubsection{RDF*}
