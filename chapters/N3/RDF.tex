@@ -283,8 +283,14 @@ The \iri\texttt{:triple} now refers to Triple~\ref{simple} and can be used in ot
  \verb!:John :says {:Kurt :knows :Albert.}.!
 \]
 we can for example write
-\begin{equation}
- \texttt{:John :says :triple.}
+\begin{equation} 
+\begin{split}
+\texttt{:John }\hspace{0.5cm}&\texttt{:says :triple.}\\
+\texttt{ :triple } & \texttt{a rdf:Statement;}\\
+&\texttt{rdf:subject :Kurt;}\\
+&\texttt{rdf:predicate :knows;}\\
+&\texttt{rdf:object :Albert.}
+\end{split}
 \end{equation}
 The meaning of this construct is only informally defined\footnote{See: \url{https://www.w3.org/TR/rdf11-mt/\#reification}} and \rdf reification is only meant to refer to triples and unlike nested formulas in \nthree 
 not to conjunctions of triples. But there is another detail which makes \rdf reification only partly comparable with nested formulas in \nthree: The quantifier of implicit existential quantification of a reified triple 
@@ -300,9 +306,10 @@ is always the formula as a whole and cannot be nested in any way. To illustrate 
 &\texttt{rdf:object :Unicorn.}
  \end{split}
 \end{equation}
-According to Definition~\ref{rdfbl}, the blank node \texttt{\_:x} in the above statement is quantified on on top level. This means that we might be able to define the formal semantics of \rdf reification in a way 
+According to Definition~\ref{rdfbl}, the blank node \texttt{\_:x} in the above statement is quantified on on top level. 
+This means that we might be able to define the formal semantics of \rdf reification  
 such that the meaning of the formula 
-corresponds to Interpretation~\ref{dtop} but we cannot formalise it in a way that it results in Interpretation~\ref{dnest}. Here, nested \nthree formulas fundamentally differ from \rdf reification.
+corresponds to Interpretation~\ref{dtop} but we cannot find a formalisation which results in Interpretation~\ref{dnest}. Here, nested \nthree formulas fundamentally differ from \rdf reification.
 
 % and since the semantics of \rdf reification can only extend the existing definitions 
 % for \rdf semantics but not change them,
@@ -312,9 +319,32 @@ corresponds to Interpretation~\ref{dtop} but we cannot formalise it in a way tha
 % concept of nested graphs is not covered in the semantics of \rdf. What we did not discuss yet is, that the syntax of \rdf does allow the usage of a similar concept: named graphs.
 
 \subsubsection{Named graphs}
-here i want to write a little bit about trig and the lack of semantics for it - which is why it can't really help us to define N3's semantics. I want still to emphasize that 
-it is likely that 
-the blank nodes in trig are shared with the overall graph and that this is a problem with the position of the quantifier. This last statement I want to take as a motivation to have a 
-logic with explicit quantification.
+Next to reification which can be used to refer to triples in \rdf, \rdf syntax also provides the option to use named graphs. For this the RDF Dataset Language TriG~\cite{TriG} was defined. With TriG it is possible to 
+list a graph -- a very similar construct to \nthree's nested formula -- next to a name and then use the name in other triples. A possible expression using TriG would be:
+\begin{equation}
+ \begin{split}
+& \texttt{:graph } \texttt{\{ \_:x rdf:type :Unicorn\}}\\
+& \texttt{:Kurt } \texttt{:denies :graph.}
+%   \texttt{ :triple2 } & \texttt{a rdf:Statement;}\\
+% &\texttt{rdf:subject \_:x;}\\
+% &\texttt{rdf:predicate rdf:type;}\\
+% &\texttt{rdf:object :Unicorn.}
+ \end{split}
+\end{equation}
+The problem with that construct is now, that not only the semantics of named graphs is not formally defined, there is not even a consensus within the Semantic Web community how 
+such named graphs need to be interpreted: Is \texttt{:graph} open or closed in the above example? If Kurt denies \texttt{:graph} does he then only deny the statement we see above or does 
+\texttt{:graph} contain more triples? Where exactly is the scope of the blank node? A list of possible interpretations of named graphs is gathered on a Web site~\cite{TriGsemantics}. 
+Here, it is also recommended to indicate the intended meaning of a named graph when using it. As long as the semantics of TriG is not fixed, it is not possible to say how the scoping 
+of blank nodes in TriG differs from the way they are handled in \nthree. Depending on how we formalise the meaning of cited formulas in the latter, it might be possible to use \nthree to 
+express the relationship between a graph name (\texttt{:graph}) and the graph pattern which stands next to it (\texttt{\{ \_:x rdf:type :Unicorn\}}).
+
+% also a list of 
+% different -- sometimes contradicting -- interpretations which are possible for that construct~\cite{TriGsemantics}. 
+% 
+% 
+% here i want to write a little bit about trig and the lack of semantics for it - which is why it can't really help us to define N3's semantics. I want still to emphasize that 
+% it is likely that 
+% the blank nodes in trig are shared with the overall graph and that this is a problem with the position of the quantifier. This last statement I want to take as a motivation to have a 
+% logic with explicit quantification.
 
 \subsubsection{RDF*}
