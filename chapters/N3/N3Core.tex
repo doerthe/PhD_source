@@ -1,12 +1,31 @@
 \section{N3 Core Logic}\label{core}
-The examples in the last section explain how \nthree formulas are interpreted differently by different reasoners. To point out these variations,
+The examples in Section~\ref{quantsec} explain how \nthree formulas are interpreted differently by different reasoners. 
+To point out these variations,
 we used natural language together with a
-first-order-logic-like structure. However, both the natural language and logical structure do not have a fixed definition of their semantics and can 
+first-order-logic-like structure. However, both the natural language and the logical structure do not have a fixed definition of their semantics and can 
 thus still be understood in different 
-ways. In order to dispose of this ambiguity when comparing interpretations, 
- we  now define a new \emph{core logic} of \nthree. 
-This logic  supports all important features of \nthree such as the possibility to refer to formulas or to use quantified variables in predicate position, 
-but only allows \emph{explicit} quantification. This logic can then be used to make \nthree's implicit quantification explicit.
+ways. 
+We therefore need a formal definition of \nthree's semantics. 
+% In order to fix that problem and to formally define the semantics of \nthree
+To find a good way for defining that we analysed \rdf semantics and its handling of blank nodes: 
+In \rdf itself but also in the different mechanisms defined to refer to triples or graphs the concept of nested existential quantification can rarely be found and we can therefore 
+not follow any existing approach for \rdf. On the other hand, the general concept of nested universal and existential quantification 
+is present in first order logic (FOL), for example in nested rules.  
+First order logic, however, does not support the concept of implicit quantification: For all quantified variables, the quantifiers need to be stated explicitly. 
+Our approach is now to define a \emph{core logic} for \nthree which is oriented on FOL but also supports all important features of \nthree which are not present there 
+% like for example cited formulas.
+% 
+% 
+% This logic  supports all important features of \nthree 
+such as the possibility to refer to formulas or to use quantified variables in predicate position. 
+This new \emph{\nthree Core Logic} only allows \emph{explicit} quantification and can be used to clarify differences between existing \nthree interpretations such as the ones discussed in 
+Section~\ref{quantsec}:
+% 
+% 
+% In order to dispose of this ambiguity when comparing interpretations, 
+%  we  now define a new \emph{core logic} of \nthree. 
+%This logic can then be used
+We make \nthree's implicit quantification explicit.
 
 
 \begin{figure}
@@ -43,31 +62,40 @@ but only allows \emph{explicit} quantification. This logic can then be used to m
 %    &   $\bot \rightarrow $ \texttt{f} &\\
     \hline
 \end{tabular}
-\caption{Syntax of the core language $\mathcal{L}$ over $\mathcal{V}\cup\mathcal{C}$.\label{syntax}}
+\caption{Syntax of the \nthree Core Language $\mathcal{L}$ over $\mathcal{V}\cup\mathcal{C}$.\label{syntax}}
 \end{figure}
 
 \subsection{Syntax}
-Given disjoint countable sets of variables $\mathcal{V}$ and constants $\mathcal{C}$ we define the core language $\mathcal{L}$ of \nthree over 
+Given disjoint countable sets of variables $\mathcal{V}$ and constants $\mathcal{C}$ we define the \nthree Core Language $\mathcal{L}$ of \nthree over 
 $\mathcal{C}\cup\mathcal{V}$ as displayed in Figure \ref{syntax}. 
-In core logic interpretation \ref{zwei} is expressed as:
+Before we discuss the details of this definition, we first give an example. If we go back to Formula~\ref{eq1} above:
+\[
+\verb!_:x :says {_:x :knows :Albert.}.!
+ \]
+We can express Interpretation~\ref{zwei} as:
 \[
  \exists \texttt{x. x says <x knows Albert>}
 \]
-And Interpretation \ref{zw}:
+And Interpretation \ref{zw} as:
 \[
  \exists \texttt{x1. x1 says <}\exists\texttt{x2. x2 knows Albert>} 
 \]
 %\rv{Nit, but unfortunate choice of the <> symbols, which are used in N3 and elsewhere on the Web to denote IRIs}
 %\da{what do you recommend? [] and () are also taken and I need brackets.}
-Note that this notation is close to the original \nthree notation. To make a clear distinction between core logic and \nthreelogic, 
+Note that this notation is close to the original \nthree notation. To make a clear distinction between \nthree Core Logic and \nthreelogic, 
 we use angle brackets instead of curly brackets and
 a different kind of arrow. 
 For the same reason, we do not represent constants and variables using \iri{}s (ie we write \texttt{x} instead of \texttt{:x}) in our examples.%
 \footnote{Note that the representation of the constants and variables only depends on the choice of $\mathcal{C}$ and $\mathcal{V}$.} 
-The main difference between \nthreelogic and core logic is the symbol used for explicit quantification in the latter, 
+% Note, that the distinction 
+% between literals and \iri{}s as we made it above when introducing the syntax of \rdf (see Definitions~\ref{rdfsymbs} and~\ref{rdftrips}) is not necessary here since \nthree allows literal 
+% to appear in all positions of a triple. We therefore use the simple concept of constants which is meant to cover both concepts.
+The main difference between \nthreelogic and \nthree Core Logic is the symbol used for explicit quantification in the latter, 
 which is taken from first order logic to emphasize 
 that the quantifiers here are interpreted in the order they occur.
 
+Compared to the \rdf syntax (given in Definition~\ref{rdftrips} above) we observe the expected differences -- notations for rules and citations are added -- but there are also some details
+which might be surprising at first sight: Our \nthree Core Logic contains the boolean constant \texttt{false} and we explicitly include lists at the syntax level.
 
 
 
@@ -114,7 +142,7 @@ the variable \texttt{x} occurs bound, while \texttt{y} is free.
 
 
 \subsection{Semantics}
-To define the semantics of the core language $\mathcal{L}$ over $\mathcal{V}\cup\mathcal{C}$ we first introduce the notion of structure. 
+To define the semantics of the \nthree Core Language $\mathcal{L}$ over $\mathcal{V}\cup\mathcal{C}$ we first introduce the notion of structure. 
 
 \begin{definition}[Structure]
 A structure over a language $\mathcal{L}$ %alphabet $\mathcal{A}$ 
@@ -316,3 +344,4 @@ We finish this section by defining the classical concepts of logical consequence
  Two formulas $\phi$ and $\psi$ are called logically equivalent ($\phi \equiv \psi$) iff $\phi \models \psi$ and $\psi\models \phi$.
 \end{definition}
 
+\todo{make a bridge between names graphs and citations in \nthree: maybe I can motivate the way I handle them here to be able to cover more of the options listed in TriG semantics?}

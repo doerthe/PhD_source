@@ -356,7 +356,9 @@ To incorporate triples into triples, \rdf{}* uses angle brackets \texttt{<{}<  >
 \end{equation}
 In contrast to the  notion using curly brackets \texttt{\{ \}} of \nthree, the angle brackets \texttt{<{}<  >{}>} of \rdf{}* can only be used to refer to triples not to graphs. 
 As \rdf{}* is currently still at proposal stage, 
-it does not have fixed semantics yet. To define the meaning of a triple similar to the one we show above there were two possible formalisations were discussed: the 
+it does not have fixed semantics yet.
+
+To define the meaning of a triple similar to the one we show above two possible formalisations were discussed: the 
 \texttt{<{}<  >{}>}-notation could either  be understood as syntactic sugar for reification -- which leaves us, as discussed above, without a formal 
 definition -- or it can be a proper extension of \rdf. 
 To establish the latter solution, the creators of \rdf{}*  introduce the concept of \emph{redundancy}~\cite{rdfstar}: If Formula~\ref{starex} is stated together with the \rdf triple
@@ -364,9 +366,19 @@ To establish the latter solution, the creators of \rdf{}*  introduce the concept
  \texttt{\_:x rdf:type :Unicorn.}
 \end{equation}
 then this last triple is redundant. This definition is motivated by the idea that triples referencing triples are mainly used to add metadata to valid triples. 
-Following that logic, stating Formula~\ref{starex} already implies that Formula~\ref{star} is true. In the informal definition of \nthree's semantics we do not find such strong assumptions 
-and this interpretation of \rdf{}* and \nthree really differ in that aspect. Another observation we make for both alternatives to formalise 
-the meaning of triples containing triples 
-in \rdf{}* is that 
-both of them understand blank nodes occurring in a referenced triple as being quantified at the top level. We can therefore not learn from these formalisations how nested implicit existential
-quantification can be formalised.
+Following that logic, stating Formula~\ref{starex} already implies that Formula~\ref{star} is true. In the informal definition of \nthree's semantics we do not find such strong assumptions. 
+In that aspect this interpretation of \rdf{}* and \nthree really differ. 
+
+If we come back to implicit existential quantification we observe that both alternatives to formalise the semantics of \rdf{}*
+assume nested existential variables to be quantified on top level: reification does not support the concept of nesting and from the fact that under the second possible formalisation
+Formula~\ref{starex} implies Formula~\ref{star} we can conclude that is is not possible to express nested existential quantification with \rdf{}*.
+% 
+% , the  scope of a nested implicitly existentially quantified variable is always on the top formula: for reification, we already discussed that 
+% Another observation we make for both alternatives to formalise 
+% the meaning of triples containing triples 
+% in \rdf{}* is that 
+% both of them understand blank nodes occurring in a referenced triple as being quantified at the top level: reification a 
+% We can therefore not learn from these formalisations how nested implicit existential
+% quantification can be formalised.
+The alignment of \rdf{}* and \nthree is a desirable goal which we aim to achieve in the future. But for the moment, 
+there is no direct connection between a referenced triple in \rdf{}* and a cited \nthree graph containing one single triple.  
