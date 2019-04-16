@@ -676,7 +676,10 @@ We give examples for the usage of both of them.
 % These variables are understood as implicitly quantified. This means, they are either universally or existentially quantified, but the exact 
 % position and scope of these quantifiers is not explicitly written down. 
 %Just like \rdf, \nthree allows the usage of implicitly existentially quantified variables, called \emph{blank nodes}.
-Existential variables or blank nodes are present in \nthree as well as in \rdf  and stand for an existentially quantified variable. 
+Existential variables or blank nodes are present in \nthree as well as in \rdf%
+\footnote{Here and later on in this thesis we always represent \rdf using Turtle-syntax~\cite{turtle}. Other syntaxes for \rdf like 
+JSON-LD~\cite{jsonld} or XML syntax~\cite{rdfxml} represent blank nodes differently.}  
+and stand for an existentially quantified variable. 
 They are either represented by a string staring with ``\verb!_:!'' or they are expressed using square brackets ``\texttt{[~]}''. The formula
 \begin{equation}
  \texttt{ \_:x :knows :Albert.}
