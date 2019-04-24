@@ -1,28 +1,35 @@
-\section{RDF and N3Logic}
+\section{Blank nodes in RDF}
 % Having seen the uncertainties regarding implicit quantification in the last section  we want to take one more step before approaching the main topic of this chapter which is providing a 
 % formal definition of \nthree's semantic
 %The goal of this chapter is to formalise the semantics for \nthreelogic. Before we provide a logic  
 The previous section showed that the meaning of implicit quantification in \nthree is not always obvious. The problems we encountered arise from the fact 
 that is is not easy to informally express where exactly universals and existentials are quantified. We therefore want to provide a formalisation.
-To better understand how implicit quantification can be covered in formal semantics we further explore 
-% When we define a formal model for 
-% \nthreelogic we need to define the meaning of this concept carefully. 
-% Before we discuss how the uncertainties regarding implicit quantification as exemplified in the previous section can be addressed, we take one step back and have a closer 
-% look on how the concept of 
-% implicit quantification is handled in 
- the logic \nthree is extending, \rdf. Here, we do not find implicit universal quantification -- this is a concept that \nthreelogic adds to the \rdf 
+To better understand how the specific details of \nthree and in particular implicit quantification 
+can be formalised, we take a closer look at the logic it is extending: \rdf.
+% \rdf does not support implicit univeral quantification -- this concept is only present in \nthree -- but it understands blanknodes just the same way \nthree does: as implicitely 
+% existentially quantified variables.
+%
+% 
+% To better understand how implicit quantification can be covered in formal semantics we further explore 
+% % When we define a formal model for 
+% % \nthreelogic we need to define the meaning of this concept carefully. 
+% % Before we discuss how the uncertainties regarding implicit quantification as exemplified in the previous section can be addressed, we take one step back and have a closer 
+% % look on how the concept of 
+% % implicit quantification is handled in 
+%  the logic \nthree is extending, \rdf.
+Here, we do not find implicit universal quantification -- this is a concept that \nthreelogic adds to the \rdf 
 model -- but implicit existential quantification 
 is also present: as in \nthree blank nodes are understood as implicitly existentially quantified variables.
-%
-%\rdf does not support implicit universal quantification but \nthree's concept of blank nodes to specify implicitly existentially quantified variables is inherited from \rdf.
-%  We therefore  
-%  take a closer look to that concept.
-% Since \nthreelogic is based on \rdf and extends this logic, it makes sense to take a closer look 
-% on how the model theory of \rdf is defined and in particular on how implicit quantification is formalised here. \rdf does not support 
-% implicit universal quantification but the concept of blank nodes which indicate implicit existential quantification is also present here and we discuss that below after introducing
-% the more general concepts. %All
-%Before specifying a model theory for N3 we want to use this section to take a closer look to the logic it is most closely related to, \rdf. We briefly summarise here, how \rdf semantics is defined. 
-We discuss which of the ideas and concepts we encounter in the formalisation of \rdf can also be used to define the semantics of \nthreelogic.
+% %
+% %\rdf does not support implicit universal quantification but \nthree's concept of blank nodes to specify implicitly existentially quantified variables is inherited from \rdf.
+% %  We therefore  
+% %  take a closer look to that concept.
+% % Since \nthreelogic is based on \rdf and extends this logic, it makes sense to take a closer look 
+% % on how the model theory of \rdf is defined and in particular on how implicit quantification is formalised here. \rdf does not support 
+% % implicit universal quantification but the concept of blank nodes which indicate implicit existential quantification is also present here and we discuss that below after introducing
+% % the more general concepts. %All
+% %Before specifying a model theory for N3 we want to use this section to take a closer look to the logic it is most closely related to, \rdf. We briefly summarise here, how \rdf semantics is defined. 
+% We discuss which of the ideas and concepts we encounter in the formalisation of \rdf can also be used to define the semantics of \nthreelogic.
 
 \subsection{RDF semantics}
 We start by discussing \rdf's formal semantics. 
@@ -60,21 +67,23 @@ As mentioned earlier, \rdf and \nthree (see Section~\ref{n3logic}) distinguish b
 % Internationalized Resource Identifiers (\iri{}s), literals, and blank nodes.
 % In practice, \iri{}s are Unicode strings that conform to the syntax defined in RFC 3987~\cite{iri}, literals 
 
-\begin{definition}[RDF alphabet]
+\begin{definition}[RDF alphabet]\label{rdfsymbs}
 The alphabet of \rdf consists of the following disjoint sets of symbols:
 the set $\mathrm{IRI}$ of \iri symbols, the set $\mathrm{L}$ of literals and the set $\mathrm{B}$ of blank node symbols. 
 \end{definition}
 
-In practice, \iri{}s are all Unicode strings that conform to the syntax defined in RFC 3987~\cite{iri}, 
-literals express concrete values such as numbers, strings or dates and consist of a lexical form combined with a datatype \iri and -- depending on the concrete datatype -- possibly 
+\iri{}s are all Unicode strings that conform to the syntax defined in RFC 3987~\cite{iri}. 
+Literals express concrete values such as numbers, strings or dates and consist of a lexical form combined with a datatype \iri and -- depending on the concrete datatype -- possibly 
 an additional
 language 
-tag,\footnote{Our examples often contain literals without a specific datatype. In these cases the datatype  \url{http://www.w3.org/2001/XMLSchema\#string} is assumed.
-\texttt{"example"} stands for \texttt{"example"\textasciicircum\textasciicircum<http://www.w3.org/2001/XMLSchema\#string>}.} and blank nodes 
-are either expressed by using square brackets \texttt{[~]} or by strings starting with underscore and column \texttt{\_:}.
+tag.\footnote{Our examples often contain literals without a specific datatype. In these cases the datatype  \url{http://www.w3.org/2001/XMLSchema\#string} is assumed.
+\texttt{"example"} stands for \texttt{"example"\textasciicircum\textasciicircum<http://www.w3.org/2001/XMLSchema\#string>}.}
+The only syntactic condition the \rdf specification puts on blank nodes is that they need to be disjoint from \iri{}s and literals.
+In this thesis we follow the turtle syntax~\cite{turtle} which means that we
+either  express blank nodes using square brackets ``\texttt{[~]}'' or strings starting with underscore and column ``\texttt{\_:}''.
 These symbols can now be combined into triples and graphs:
 
-\begin{definition}[Triples and graphs]
+\begin{definition}[Triples and graphs]\label{rdftrips}
  For the \rdf alphabet consisting of \iri symbols $\mathrm{IRI}$, literals $L$ and blank nodes $B$ we define:
 \begin{itemize}
 \item An \emph{\rdf triple} \texttt{s p o.} consists of three components: the \emph{subject}  $\texttt{s}\in \mathrm{IRI}\cup\mathrm{B}$, 
@@ -92,7 +101,8 @@ constants and predicates. The definition allows all \iri{}s in all positions. It
 \begin{equation}\label{urisubpred}
 \texttt{ :Kurt :knows :Albert. :knows a :Predicate. }
 \end{equation}
-This also influences the notion of a \emph{simple interpretation} in \rdf:
+This also influences how the interpretation of \rdf triples and graphs is defined:
+%the notion of a \emph{simple interpretation} in \rdf:
 
 
 %For \rdf graphs we now define the notion of a \emph{simple interpretation}:
@@ -150,14 +160,138 @@ The reason for that is that \rdf also covers the semantics of datatypes\footnote
 to \url{https://www.w3.org/TR/rdf11-mt/\#literals-and-datatypes}.} and according to that it is possible that a literal does have a referent. 
 Triples whose objects are not in the domain of the function $\mathrm{IL}$ are according to point 3 in the above interpretation false.
 
-Having a notation for the meaning of ground terms we now take a closer look on how implicit existential quantification in \rdf is handled:
+Having a notation for the meaning of ground terms we now take a closer look on blank nodes: %how implicit existential quantification in \rdf is handled:
 \begin{definition}[Semantic condition for blank nodes]\label{rdfbl}
  If $E\in \mathcal{G}$ is an \rdf graph then  $\mathrm{I}(E)=\text{true}$ if $[\mathrm{I}+\mathrm{A}](E)=\text{true}$ for some mapping $\mathrm{A}: \mathrm{B} \rightarrow \mathrm{IR}$, 
  otherwise $\mathrm{I}(E)=\text{false}$.
 \end{definition}
+\rdf treats blank nodes as implicitly existentially quantified variables. 
 A graph is true under an interpretation if there exists one single mapping which assigns resources to all blank nodes occurring in it such that the interpretation of 
-the ground graph is true. Here, we can use such simple single mapping because \rdf{} -- or at least the part of \rdf which is covered by \rdf semantics -- does 
-not support nested structures.
+the ground graph is true. If we had to make the implicit quantification in \rdf{} -- or at least of the part which is covered by \rdf semantics -- explicit, we would need to 
+always put the quantifier on the top formula. In that sense \rdf is simpler than \nthree: \rdf semantics does not cover such nested constructs as we explained earlier when 
+discussing Formula~\ref{eq1}.
+
+% Here, we can use such simple single mapping because \rdf{} -- or at least the part of \rdf which is covered by \rdf semantics -- does 
+% not support nested structures.
+
+
+We finish the subsection by defining the concepts of satisfaction and simple entailment:
+\begin{definition}[Satisfaction and simple entailment]
+Let $E,F,G\in \mathcal{G}$ be \rdf graphs
+\begin{itemize}
+\item An interpretation  $\mathrm{I}$ \emph{(simply) satisfies} E, written as $\mathrm{I}\models E$, if $\mathrm{I}(E)=\text{true}$.
+\item We call E (simply) satisfiable if there exists a simple interpretation $\mathrm{I}$ such that $\mathrm{I}\models E$, otherwise we call it \emph{(simply) unsatisfiable}.
+\item $G$ simply entails $E$, written as $G\models E$, if for every interpretation $I$ which satisfies $G$ ($I\models G$), also satisfies $E$ ($I\models E$). 
+\item If $E\models F$ and $F\models E$ we call $F$ and $G$ \emph{equivalent}.
+\end{itemize}
+\end{definition}
+% 
+% We now come back to implicit existential quantification: \rdf -- or at least in the part of \rdf which is covered by \rdf semantics -- does not support nested constructs. Therefore
+% 
+% \begin{equation}
+% \verb!:Kurt :denies {_:x rdf:type :Unicorn}. !
+% \end{equation}
+% 
+% 
+% 
+% We now come back to existential quantification in \rdf: 
+% Since \rdf{} -- or at least the part of \rdf which is covered in \rdf semantics -- does not allow for nested structures, blank nodes are simply quantified on top level.
+% 
+% The case of \nthree is more complicated here.
+% To understand that we come back to example Formula~\ref{eq1}:
+% \[\tag{\ref{eq1}}
+% \verb!_:x :says {_:x :knows :Albert.}.!
+%  \]
+% As discussed above, we need to understand the two occurrences of \texttt{\_:x} as two different blank nodes. If we assume, that the interpretation function for ground graphs 
+% can be extended in 
+% a way that is also covers cited graphs and that we can find an interpretation that satisfies the formula 
+% \[
+% \verb!:John :says {:Kurt :knows :Albert.}.!
+%  \]
+% it is still not enough to 
+% 
+% \[
+% \exists x_1 : \text{says}(x_1, (\exists x_2: \text{knows}(x_2, \text{Albert})))\tag{\ref{eq1}b} \label{zw}\]
+% \begin{center}\textit{``There exists someone who says that there exists someone (possibly someone else) who knows Albert.''}\end{center}
+%  
+The semantics of  \rdf covers two other kinds of interpretations: D-interpretations which handle literals and their datatypes and \rdf interpretations 
+which add a few properties and resources with a predefined meaning to the logic. These concepts are captured by the \rdf vocabulary and contain among others the predicate \texttt{rdf:type} which we used above and 
+\texttt{rdf:Property}, the class of all properties. 
+% The semantic definitions for some elements of the vocabulary are very strict, \texttt{rdf:type} is thoroughly defined, for some others the specification only includes 
+% the intended use.   
+% 
+% The latter define the semantics
+% of the \rdf vocabulary which contains concepts like the  predicate \texttt{rdf:type} from above and \texttt{rdf:Property}, the class of all properties. 
+The definitions done in this context can directly be added to a 
+possible definition of the semantics of \nthree, entailments defined in this context can be covered by adding rules for that. 
+%
+We therefore omit the discussion of D-interpretations and \rdf interpretations in this thesis.
+
+\subsection{Structural blank nodes}
+Next to the definition of \rdf's semantics covered by the concept of simple, D-, and \rdf interpretations, 
+the \rdf specification also includes an informal part explaining the intended use of several elements of the \rdf vocabulary. 
+Especially %together with 
+the concepts explained in this informal part often require constructs using blank nodes which are not really 
+meant to express the existence of a resource in the domain of discourse but 
+serve a technical purpose: All knowledge in \rdf needs to be expressed in triples. In some cases these triples are rather artificial and 
+need to make use of auxiliary blank nodes. In this thesis we call these blank nodes \emph{structural blank nodes}. 
+We further explain how such blank nodes are used on the example of \emph{\rdf collections}. 
+%which are used to describe list structures in \rdf.
+
+% 
+% Many of the concepts which can be represented employing this vocabulary contain blank nodes which -- as discussed above -- need to be understood
+% as implicitly existentially quantified variables.
+% 
+% We do not discuss  all of them here, but we want to take a closer look to the concept of \emph{\rdf collections}. 
+Collections are used to describe list structures in \rdf.
+\rdf follows a similar idea as for example Prolog~\cite{Prolog,nilsson} or LISP~\cite{lisp} which both represent lists using a binary 
+function. %\footnote{Note that both standards do not strictly distinguish between relations and functions. We chose to use the term ``relation'' in this context.}
+Starting with the empty list, the binary function can be used to recursively construct new lists from existing lists by simply adding new elements at their beginning.
+To illustrate the idea let us assume that \texttt{f} is the binary function we use in this context and \texttt{nil} is the empty list. If we want to represent a list consisting of 
+\emph{Kurt}, \emph{Albert} and \emph{John} we write:
+\begin{equation}\label{flist}
+ \texttt{f}(\textit{Kurt}, \texttt{f}(\textit{Albert}, \texttt{f}(\textit{John}, \texttt{nil})))
+\end{equation}
+As \rdf does not allow the use of compound terms in subject or object position of a triple -- we can only use simple \iri{}s, literals or blank nodes -- the above notation cannot be directly
+translated to \rdf. % but requires the usage of additional blank nodes.
+
+To express lists \rdf provides the terms \texttt{rdf:first}, \texttt{rdf:rest} and \texttt{rdf:nil}. 
+The term \texttt{rdf:nil} corresponds to the term \texttt{nil} from the example above and represents the empty list. The first and the second argument from the above function 
+\texttt{f} are expressed by the predicates \texttt{rdf:first} and \texttt{rdf:rest}, respectively. In order to connect these two arguments, blank nodes are used. The list 
+from Formula~\ref{flist} can be represented in \rdf as follows:
+% 
+% 
+% , \rdf represents lists by using first-rest pairs: 
+% The term \texttt{rdf:nil} stands for the empty list which has no elements.  To extend any existing list, we can use the predicates \texttt{rdf:first}
+% in combination with the list-element we want to add
+% and \texttt{rdf:rest} together with the existing list. A list consisting of \texttt{:Kurt}, \texttt{:Albert} and \texttt{:John} then looks as follows:
+\begin{equation}\label{firstrest}
+\begin{split}
+&\texttt{\_:c1 rdf:first :Kurt.}\\
+&\texttt{\_:c1 rdf:rest \_:c2.}\\
+&\texttt{\_:c2 rdf:first :Albert.}\\
+&\texttt{\_:c2 rdf:rest \_:c3.}\\
+&\texttt{\_:c3 rdf:first :John.}\\
+&\texttt{\_:c3 rdf:rest rdf:nil.}  
+\end{split}
+\end{equation}
+Strictly following the definitions in the previous section the above expression means that \emph{there exist} the lists \texttt{c1}, \texttt{c2} and \texttt{c3} 
+and that the first element of list \texttt{c1} is \texttt{:Kurt} and the 
+rest of the list is \texttt{c2}, that the list \texttt{c2} has \texttt{:Albert} as first element and list \texttt{c3} as rest and that \texttt{c3} has \texttt{:John} 
+as first element and the empty list as 
+rest. Using \texttt{\_:c1} in a triple is therefore not the same as directly using a list as for example in the formats mentioned above.
+%This is not exactly the same as simply naming the list. % and it is for example not clear whether 
+
+% These can be used to construct   
+% This principle is not new and also for example also present in Prolog~\cite[p.119 ff]{nilsson}
+For lists as the one above, \rdf provides an extra notation. The collection given in Formula~\ref{firstrest} can also be expressed by simply listing its elements in brackets ``\texttt{( )}'':
+\begin{equation}
+\texttt{(:Kurt :Albert :John) } 
+\end{equation}
+This notation is syntactic sugar for the above and even when brackets are used instead of first-rest-ladders in \rdf we still have implicit blank nodes and thereby there is also implicit 
+existential quantification present.
+
+\subsection{Referencing formulas in RDF}
 In \nthree, the situation is more complicated:
 As discussed in the previous section, 
 a blank node occurring directly in an \nthree formula and a blank node occurring in a nested subformula which share the same name
@@ -212,52 +346,12 @@ Kurt denies that unicorns exist.
 So, in this case the statement means that Kurt does not believe in the existence of unicorns. The two interpretations are fundamentally different and it is important where we put 
 the quantifier for the existentially quantified variable.
 
-We finish the subsection by defining the concepts of satisfaction and simple entailment:
-\begin{definition}[Satisfaction and simple entailment]
-Let $E,F,G\in \mathcal{G}$ be \rdf graphs
-\begin{itemize}
-\item An interpretation  $\mathrm{I}$ \emph{(simply) satisfies} E, written as $\mathrm{I}\models E$, if $\mathrm{I}(E)=\text{true}$.
-\item We call E (simply) satisfiable if there exists a simple interpretation $\mathrm{I}$ such that $\mathrm{I}\models E$, otherwise we call it \emph{(simply) unsatisfiable}.
-\item $G$ simply entails $E$, written as $G\models E$, if for every interpretation $I$ which satisfies $G$ ($I\models G$), also satisfies $E$ ($I\models E$). 
-\item If $E\models F$ and $F\models E$ we call $F$ and $G$ \emph{equivalent}.
-\end{itemize}
-\end{definition}
-% 
-% We now come back to implicit existential quantification: \rdf -- or at least in the part of \rdf which is covered by \rdf semantics -- does not support nested constructs. Therefore
-% 
-% \begin{equation}
-% \verb!:Kurt :denies {_:x rdf:type :Unicorn}. !
-% \end{equation}
-% 
-% 
-% 
-% We now come back to existential quantification in \rdf: 
-% Since \rdf{} -- or at least the part of \rdf which is covered in \rdf semantics -- does not allow for nested structures, blank nodes are simply quantified on top level.
-% 
-% The case of \nthree is more complicated here.
-% To understand that we come back to example Formula~\ref{eq1}:
-% \[\tag{\ref{eq1}}
-% \verb!_:x :says {_:x :knows :Albert.}.!
-%  \]
-% As discussed above, we need to understand the two occurrences of \texttt{\_:x} as two different blank nodes. If we assume, that the interpretation function for ground graphs 
-% can be extended in 
-% a way that is also covers cited graphs and that we can find an interpretation that satisfies the formula 
-% \[
-% \verb!:John :says {:Kurt :knows :Albert.}.!
-%  \]
-% it is still not enough to 
-% 
-% \[
-% \exists x_1 : \text{says}(x_1, (\exists x_2: \text{knows}(x_2, \text{Albert})))\tag{\ref{eq1}b} \label{zw}\]
-% \begin{center}\textit{``There exists someone who says that there exists someone (possibly someone else) who knows Albert.''}\end{center}
-%  
-The semantics of  \rdf covers two other kinds of interpretations: D-interpretations, which handle literals and their datatypes, and \rdf interpretations. The latter define the semantics
-of the \rdf vocabulary which contains concepts like the  predicate \texttt{rdf:type} from above and \texttt{rdf:Property}, the class of all properties. The definitions done in this context can directly be added to a 
-possible definition of the semantics of \nthree, entailments defined in this context can be covered by adding rules for that. We therefore omit the discussion of D-interpretations and \rdf interpretations in this thesis.
 
 
 
-\subsection{Cited formulas in RDF}
+
+
+
 When we talked about blank nodes in nested \nthree formulas above we mentioned that this or similar concepts are not covered in the semantics of \rdf. However, the syntax of \rdf~\cite{rdf} does contain concepts which can -- 
 depending on the semantics we assume for them -- be understood in a similar way as nested formulas in \nthree. We discuss these below and take a closer look on how they handle implicit existential quantification.
 
