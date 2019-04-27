@@ -440,7 +440,7 @@ The first order like structure we use here is only meant to clarify the exact po
 % Next to the fact that \rdf reification is only meant to refer to triples but not to their conjunctions this  way of interpreting blank nodes in referenced triples is the main difference 
 % between \rdf reification and citation of formulas in \nthree.
 %
- In this aspect  %and in the fact that reification is only meant for triples but not for graphs or conjunctions of triples 
+ In this aspect  and in the fact that reification is only meant to reference triples but their conjunctions 
  \rdf reification differs from citation in \nthree.
 
 % The \iri\texttt{:triple} now refers to Triple~\ref{simple} and can be used in other contexts. To have a similar notation as Formula~\ref{ref} from above
@@ -486,7 +486,10 @@ The first order like structure we use here is only meant to clarify the exact po
 % concept of nested graphs is not covered in the semantics of \rdf. What we did not discuss yet is, that the syntax of \rdf does allow the usage of a similar concept: named graphs.
 
 \subsubsection{Named graphs}
-Next to reification which can be used to refer to triples in \rdf, \rdf syntax also provides the option to use named graphs. For this the RDF Dataset Language TriG~\cite{TriG} was defined. With TriG it is possible to 
+Next to reification which can be used to refer to triples in \rdf, \rdf syntax also provides the option to reference graphs. 
+%
+% use named graphs. 
+For this purpose the RDF Dataset Language TriG~\cite{TriG} was defined. With TriG it is possible to 
 list a graph -- a very similar construct to \nthree's nested formula -- next to a name and then use the name in other triples. A possible expression using TriG would be:
 \begin{equation}
  \begin{split}
@@ -502,7 +505,7 @@ The problem with that construct is now, that not only the semantics of named gra
 such named graphs need to be interpreted: Does \texttt{:graph} denote a graph? If yes, is that graph open or closed in the above example? If Kurt denies \texttt{:graph} does he then only deny the statement we see above or does 
 \texttt{:graph} contain more triples? Where exactly is the scope of the blank node? A list of possible interpretations of named graphs is gathered on a Web site~\cite{TriGsemantics}. 
 Here, it is also recommended to indicate the intended meaning of a named graph when using it. As long as the semantics of TriG is not fixed, it is not possible to say how the scoping 
-of blank nodes in TriG differs from the way they are handled in \nthree. Depending on how we formalise the meaning of cited formulas in the latter, it might be possible to use \nthree to 
+of blank nodes in TriG relates to scoping in \nthree. Depending on how we formalise the meaning of cited formulas in the latter, it might be possible to use \nthree to 
 express the relationship between a graph name (\texttt{:graph}) and the graph pattern which stands next to it (\texttt{\{ \_:x rdf:type :Unicorn\}}).
 
 % also a list of 
@@ -515,17 +518,20 @@ express the relationship between a graph name (\texttt{:graph}) and the graph pa
 % logic with explicit quantification.
 
 \subsubsection{RDF*}
-Another way of referring to \rdf triples in an \rdf graph is \rdf{}*\cite{rdfstar,rdfstarposter}. \rdf{}* is not covered by the \wwwc recommendation of \rdf, but it recently gained popularity in the community and 
+Another way of referring to \rdf triples in an \rdf graph is \rdf{}*\cite{rdfstar,rdfstarposter}. \rdf{}* is not covered by the \wwwc recommendation of \rdf, 
+but it recently gained popularity in the community and 
 it is therefore very likely that it will be part of the next version of \rdf. We therefore include it in this discussion.
-To incorporate triples into triples, \rdf{}* uses angle brackets \texttt{<{}<  >{}>}. An example for such a construct is:
+To incorporate triples into triples, \rdf{}* uses angle brackets \texttt{<{}<  >{}>} in a similar way \nthree uses curly brackets \texttt{\{ \}} for graphs. 
+An example for such a construct is:
 \begin{equation}\label{starex}
 \verb!:Kurt :denies <<_:x rdf:type :Unicorn>>. !
 \end{equation}
-In contrast to the  notion using curly brackets \texttt{\{ \}} of \nthree, the angle brackets \texttt{<{}<  >{}>} of \rdf{}* can only be used to refer to triples not to graphs. 
+%In contrast to the  notion using curly brackets \texttt{\{ \}} of \nthree, the angle brackets \texttt{<{}<  >{}>} of \rdf{}* can only be used to refer to triples not to graphs. 
 As \rdf{}* is currently still at proposal stage, 
-it does not have fixed semantics yet.
-
-To define the meaning of a triple similar to the one we show above two possible formalisations were discussed: the 
+its semantics is not fixed yet. Currently two possible ways of interpreting expressions like the one above are discussed:
+% 
+% To define the meaning of a triple similar to the one we show above two possible formalisations were discussed: 
+The 
 \texttt{<{}<  >{}>}-notation could either  be understood as syntactic sugar for reification -- which leaves us, as discussed above, without a formal 
 definition -- or it can be a proper extension of \rdf. 
 To establish the latter solution, the creators of \rdf{}*  introduce the concept of \emph{redundancy}~\cite{rdfstar}: If Formula~\ref{starex} is stated together with the \rdf triple
@@ -533,11 +539,19 @@ To establish the latter solution, the creators of \rdf{}*  introduce the concept
  \texttt{\_:x rdf:type :Unicorn.}
 \end{equation}
 then this last triple is redundant. This definition is motivated by the idea that triples referencing triples are mainly used to add metadata to valid triples. 
-Following that logic, stating Formula~\ref{starex} already implies that Formula~\ref{star} is true. In the informal definition of \nthree's semantics we do not find such strong assumptions. 
-In that aspect this interpretation of \rdf{}* and \nthree really differ. 
+Following that logic, stating Formula~\ref{starex} already implies that Formula~\ref{star} is true. 
 
-If we come back to implicit existential quantification we observe that both alternatives to formalise the semantics of \rdf{}*
-assume nested existential variables to be quantified on top level: reification does not support the concept of nesting and from the fact that under the second possible formalisation
+In this last aspect, \rdf{}* differs from \nthree: The journal paper introducing \nthree clearly states that quoted formulas in \nthree are not necessarily true~\cite[p 11]{N3Logic}. 
+We furthermore encounter differences in the interpretation of blank nodes occurring in referenced triples: While \nthree assumes such blank nodes to be existentially quantified 
+on the nested formula both possible interpretations of referenced triples in \rdf{}* assume them to be quantified on the top graph.
+% 
+% 
+% In the informal definition of \nthree's semantics we do not find such strong assumptions. 
+% In that aspect this interpretation of \rdf{}* and \nthree really differ. 
+% 
+% If we come back to implicit existential quantification we observe that both alternatives to formalise the semantics of \rdf{}*
+% assume nested existential variables to be quantified on top level:
+Reification does not support the concept of nesting at all and from the fact that under the second possible formalisation
 Formula~\ref{starex} implies Formula~\ref{star} we can conclude that is is not possible to express nested existential quantification with \rdf{}*.
 % 
 % , the  scope of a nested implicitly existentially quantified variable is always on the top formula: for reification, we already discussed that 
@@ -547,5 +561,5 @@ Formula~\ref{starex} implies Formula~\ref{star} we can conclude that is is not p
 % both of them understand blank nodes occurring in a referenced triple as being quantified at the top level: reification a 
 % We can therefore not learn from these formalisations how nested implicit existential
 % quantification can be formalised.
-The alignment of \rdf{}* and \nthree is a desirable goal which we aim to achieve in the future. But for the moment, 
-there is no direct connection between a referenced triple in \rdf{}* and a cited \nthree graph containing one single triple.  
+% The alignment of \rdf{}* and \nthree is a desirable goal which we aim to achieve in the future. But for the moment, 
+% there is no direct connection between a referenced triple in \rdf{}* and a cited \nthree graph containing one single triple.  
