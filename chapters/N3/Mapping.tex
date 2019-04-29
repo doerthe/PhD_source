@@ -1,12 +1,19 @@
+% We then map the interpretations of Cwm and EYE to that core logic.
+% This mapping is then implemented in a program which we then use to test, whether the problem we encountered is only present in our constructed test cases or whether it can also be observed in files 
+% used for practical applications.
+% We discuss several solutions for the problem and then show how, once such a solution is selected, the semantics of \nthreelogic can be defined in alignment with \rdf.
+% We set our findings into the context of related work to then conclude the chapter.
+% 
 
-\section{Interpretations of N3}\label{n3}
-The core logic enables us to give more formal descriptions of the \nthree interpretations explained in Section \ref{quantsec}.
-To be able to map an \nthree formula to its possible interpretation we make use of attribute grammars~\cite{attributegrammar,ag2}. 
-Below, we explain this concept and specify the different attributes needed for this mapping.
+
+%\section{Interpretations of N3}\label{n3}
 
 
 
-\subsection{N3 Syntax}\label{n3synsec}
+
+\section{N3 Syntax}\label{n3synsec}
+%Below, we explain this concept and specify the different attributes needed for this mapping.
+
 % \begin{figure}
 % \centering
 % \begin{tabular}{lllr}
@@ -129,8 +136,27 @@ Below, we explain this concept and specify the different attributes needed for t
 \caption{Overview N3 Syntax \label{N3S}}
 \end{figure}
 
+\nthree Core Logic as defined above enables us to give more formal descriptions of the \nthree interpretations explained in Section \ref{quantsec}.
+Next, we also want to formalise the connection between \nthree syntax and its possible interpretations. In order to do so, we make use of syntax trees and define attribute 
+grammars~\cite{attributegrammar,ag2} -- a formalism allowing us to pass information through the syntax tree of a formula.
+Before we discuss this in detail, we first provide a context-free grammar for \nthree and explain how 
+the interpretations of \nthree illustrated so far are related to the syntax trees which can be constructed using that grammar.
+%the concept of 
+% passing information through syntax trees can be helpful for our problem at hand: the formalisation of \nthree's implicit quantification.
+% of formulas 
+% containing implicit universal quantification 
+% can help use to compute their interpretations.
 
-We start by giving a more accurate definition of \nthree's syntax. An \nthree alphabet contains all symbols which can appear in the concrete representation of an \nthree formula:
+% which we are going to
+% introduce in the following section. In this section we define the syntax of \nthree and illustrate t
+%Before we can do that, we first formaly define the syntax of \nthree.
+% 
+% To make the connection between \nthree syntax and its possible interpretation we use of attribute grammars~\cite{attributegrammar,ag2}. Such grammars can be used to pass information through 
+% the syntax tree of a formula 
+
+We start with the definition of the
+%An \nthree 
+alphabet. This contains all symbols which can appear in the concrete representation of an \nthree formula:
 \begin{definition}[\nthree Alphabet] \label{alphabet}
 Let $C$ be a set of constants, $U$ a set of universal variables and $E$ a set of existential variables. Let these sets be mutually disjoint and disjoint 
 with \{\texttt{\{}, \texttt{\}}, \texttt{(}, \texttt{)}, \texttt{=>}, \texttt{false}, \texttt{.}\}.
@@ -156,25 +182,28 @@ element of $C$.
 % If we write down \nthree formulas,
 % the end of a triple is typically marked by a dot like for example in Formula~\ref{simple}.
 
-It is easy to see that \nthree syntax is very similar to the syntax of the core logic. Some differences only apply to the choice of symbols:   
+As discussed earlier, \nthreelogic mainly differs from \nthree Core Logic in the symbols used --
+%It is easy to see that \nthree syntax is very similar to the syntax of the core logic. Some differences only apply to the choice of symbols:   
 the curly brackets \texttt{\{\}} can be translated 
-into angle brackets \verb!< >! and the \nthree arrow \texttt{=>} into a simple~$\rightarrow$. 
-The formula
-%To motivate our translation function we begin with some examples. A simple formula
-\begin{equation}\label{f1}
- \verb!{:s1 :p1 :o1.} => {:s2 :p2 :o2.}.!
-\end{equation}
-can be expressed as
-\begin{equation}\tag{\ref{f1}'}
- \verb! <s1 p1 o1>! \rightarrow \verb!<s2 p2 o2>!
- \end{equation}
- 
-A major difference between core logic and \nthree as displayed here is the lack of explicit 
-quantification in the latter\footnote{As explained in Section~\ref{remarkExplicitQuantification} we exclude the discussion of 
-\nthree's explicit quantification from this chapter. It is therefore also not reflected in the grammar.} %in \nthree as discussed in this paper
+into angle brackets \verb!< >!, the \nthree arrow \texttt{=>} into a simple~$\rightarrow$ -- 
+% The formula
+% %To motivate our translation function we begin with some examples. A simple formula
+% \begin{equation}\label{f1}
+%  \verb!{:s1 :p1 :o1.} => {:s2 :p2 :o2.}.!
+% \end{equation}
+% can be expressed as
+% \begin{equation}\tag{\ref{f1}'}
+%  \verb! <s1 p1 o1>! \rightarrow \verb!<s2 p2 o2>!
+%  \end{equation}
+%  
+% A major difference between core logic and \nthree as displayed here is the lack of explicit 
+% quantification in the latter
+and in the way quantification is expressed: \nthreelogic only supports implicit quantification\footnote{As explained in Section~\ref{remarkExplicitQuantification} we exclude the discussion of 
+\nthree's explicit quantification from this formalisation. It is therefore also not reflected in the grammar.} while in \nthree Core logic only explicit quantification 
+is allowed. %in \nthree as discussed in this paper
 %\rv{the footnote contradicts the main text; you probably need to be more precise}
-and the existence of two different kinds of variables instead. % which will be the main challenge of the translation tackled in the following sections.
-To translate these implicitly quantified variables of \nthree into the explicit ones of the core logic we use 
+%and the existence of two different kinds of variables instead. % which will be the main challenge of the translation tackled in the following sections.
+To translate the implicitly quantified variables of \nthree into the explicit ones of \nthree Core Logic we use 
 the structure of the syntax tree. 
 
 
@@ -267,11 +296,12 @@ top formula. This $\text{parent}_c$ formula carries the universal quantifier for
 \forall \texttt{x. <x q b>}\rightarrow  \texttt{<a r c>.}
  \tag{\ref{for}'}
 \end{equation}
-Attribute grammars provide a formalism to describe the above process of \emph{going through the syntax tree} in a more precise way. 
+The above process of \emph{going through the syntax tree} can be described in a more precise way by using 
+attribute grammars. % provide a formalism to describe . 
+This concept will be introduced in the following section.
 
 
-
-\subsection{Attribute Grammars}\label{ag}
+\section{Attribute Grammars}\label{ag}
 \begin{figure}\centering
 \small
 \begin{tabular}{llclcl}
@@ -295,8 +325,8 @@ Attribute grammars provide a formalism to describe the above process of \emph{go
 \normalsize
 \caption{Context-free grammar producing integers of arbitrary length (left) and definition of the attribute \textit{ds} which composes the digit sum (right). \label{simplegrammar}}
 \end{figure}
-In this section we give an introduction to attribute grammars~\cite{attributegrammar,ag2}. 
-Attribute grammars are defined on top of context-free grammars like the one given above and extend this concept by so-called \emph{attributes}. 
+%In this section we give an introduction to attribute grammars~\cite{attributegrammar,ag2}. 
+Attribute grammars~\cite{attributegrammar,ag2} are defined on top of context-free grammars like the one given above and extend this concept by so-called \emph{attributes}. 
 Such attributes 
 are defined on the nodes of the syntax tree 
  and can take values.
@@ -310,7 +340,7 @@ The definitions used follow the notation of Paakki~\cite{Paakki}.
 
 
 
-\subsubsection{Example}
+\subsection{Example}
 %Before further working with this grammar,
 %we use an easier context free grammar to illustrate the idea of attribute grammars. Consider the following context free grammar in  which can be used to generate an integer:
 Before providing a formal definition, we illustrate the idea of attribute grammars on a simpler example than the grammar provided above. 
@@ -433,7 +463,7 @@ which is then passed to the start node \texttt{s} by the rule $\texttt{s}.\texti
 And 28 is indeed the digit sum of 9487.
 
 
-\subsubsection{Terminology}
+\subsection{Terminology}
 % \begin{definition}
 % Let  $G=\langle N, \mathcal{A}, P, S\rangle$ be a context free grammar.
 % \begin{itemize}
@@ -561,13 +591,13 @@ $(X_i.a \leftarrow f(y_1,\ldots,y_k))\in R(p)$ where $f$ is a function and $y_j\
 In terms of a syntax tree generated by the grammar synthesized and inherited attributes have exactly the properties mentioned above:  
 inherited attributes pass information \emph{down} in the syntax tree, synthesized attributes pass information \emph{upwards}.
 We assume the values of synthesized attributes for terminal symbols to be defined externally. The start symbol cannot take an inherited attribute.\footnote{The attentive
-reader might have noticed another difference in the structure of the context-free grammar of the core logic (Figure~\ref{syntax}) and the syntax of \nthree (Figure~\ref{N3S}):
-the latter has an extra start symbol. The reason for this is rather technical: the attribute grammar we define in the following sections makes use of inherited attributes
+reader might have noticed another difference in the structure of the context-free grammar of \nthree Core Logic (Figure~\ref{syntax}) and of \nthree (Figure~\ref{N3S}):
+the latter has an extra start symbol. This has a technical reason: the attribute grammar we define in the following sections makes use of inherited attributes
 defined on the symbol \texttt{f}. Such attributes cannot be defined on a start symbol.
 } 
 
 
-\subsection{Definition of an N3 Attribute Grammar}
+\section{From N3 syntax to N3 Core Logic}
 \begin{figure}\centering
 \small
 \begin{tabular}{llll}
@@ -602,8 +632,9 @@ The context-free grammar of \nthree is given in Figure~\ref{N3S} which also cont
 The start symbol is~\texttt{s}.
 
 On top of this grammar we now define an attribute grammar in order to be able to produce the two different translations %
-of an \nthree formula in core logic, one according to Cwm and the team submission and the other according to EYE.
-As a first step we define the sets of attributes for all symbols $X\in N$.
+of an \nthree formula in \nthree Core Logic, one according to Cwm and the other according to EYE.
+As a first step we provide an overview of the attributes we define, state whether they are inherited or synthesized and list for which nodes $X\in N$ they are defined.
+This  information is displayed in Table~\ref{attributes}. 
 % For all $X\in (N\cup \mathcal{X})\setminus \{\texttt{f}, \texttt{s}\}$ these are 
 % \[
 %  S(X)=\{\eq, v_1, v_2, u, m_c, m_e\} \text{ and } I(X)=\{s\}
@@ -615,19 +646,22 @@ As a first step we define the sets of attributes for all symbols $X\in N$.
 % For \texttt{f} these are
 % \[
 %  S(\texttt{f})=\{\eq, v_1, v_2, u, m_c, m_e\} \text{ and } I(\texttt{f})=\{s, q\}
-% \]
-These are displayed in Figure~\ref{attributes}. 
-For each of these attributes we also indicated the purpose or context they are used for. This context can be grouped in four parts:  the collection of the variables which are existentially 
+% \] 
+For each of these attributes we also indicate the purpose or context they are used for. This context can be grouped in four parts:  the collection of the variables which are existentially 
 quantified under a (sub-)formula (1), the collection
 of the universal variables quantified under a (sub-)formula -- once for Cwm (2) and once for EYE (3) -- and attributes to construct the concrete 
-expression in core logic which is the translation of the \nthree 
-formula dependent on the reasoner (4).
-In the following we will go through these four groups one by one, explain the need for the different attributes and provide their definition. We start with attribute $\eq$, which is used for existential scoping. 
+%expression in 
+\nthree Core Logic expressions
+%which is the translation of the \nthree 
+%formula dependent on 
+reflecting the reasoners' interpretations (4).
+%In the following 
+We go through these four groups one by one, explain the need for the different attributes and provide their definition. We start with attribute $\eq$, which is used for existential scoping. 
 %We will explain and define these attributes in this and the following sections.
 %We begin with the attribute 
 %for existential variables.
 
-\subsubsection{Existentials}\label{exsec}
+\subsection{Existentials}\label{exsec}
 % tree without labels
 % \begin{figure}
 % \begin{center}
@@ -773,7 +807,7 @@ make the presentation of the formula easier.}
 % \end{equation}
 The direct formula of variable \texttt{\_:y} is the sub-formula \texttt{\_:y :k :a.} The direct formula of \texttt{\_:x} is
 the formula as a whole.
-Translated into core logic the formula means:
+Translated into \nthree Core Logic the formula means:
 \begin{equation}\tag{\ref{eq99}'}\label{eq99'}
  \exists \texttt{x.x s <}\exists \texttt{y.y k a>.}
 \end{equation}
@@ -1510,7 +1544,7 @@ Formula~\ref{eq99'}.
 % %\end{minipage}
 % \end{figure}
 
-\subsubsection{Universals in Cwm}\label{unicwm}
+\subsection{Universals in Cwm}\label{unicwm}
 % \begin{figure}
 % \begin{minipage}{\linewidth}
 % \begin{center}
@@ -1928,7 +1962,7 @@ of Formula~\ref{fff}. The tree and the corresponding attribute values are displa
 % \end{tabular}
 
 
-\subsubsection*{Passing Variables to their Direct Formula}
+\subsubsection{Passing Variables to their Direct Formula}
 Attribute $v_1$ works the exact same way as attribute $eq$ with the only difference that at term level the universals
 get captured in a singleton set ($\texttt{t}.v_1\leftarrow\{\texttt{uv}\}$)  instead of the existentials. These universals are then passed upwards to their $\text{parent}_c$ formulas.
 % In our example, formula $\texttt{f}^4$ is the parent formula of the first occurrence of \texttt{?x} and of \texttt{?y}, $\texttt{f}^5$ and $\texttt{f}^3$ are the parents of the other 
@@ -1977,7 +2011,7 @@ formula $\texttt{f}^5$ has \texttt{?x}.
 % and 
 % formula $\texttt{f}^5$ has \texttt{?x}.
 
-\subsubsection*{Passing Variables to their Parent Formula}
+\subsubsection{Passing Variables to their Parent Formula}
 Attribute $v_2$ now passes  the universal variables which are collected under their direct formula using  $v_1$ to their $\text{parent}_c$ formula.
 %, we need another attribute, $v_2$. 
 This attribute works in a similar way as the previous one:
@@ -2060,7 +2094,7 @@ $\text{parent}_c$ formulas.
 
 %With this result and the knowledge that universal variables are quantified on their parent formula we go back to the interpretation of Formula~\ref{fff}. 
 
-\subsubsection*{Passing Scoped Variables to the Descendants}
+\subsubsection{Passing Scoped Variables to the Descendants}
 When we introduced the concept of a parent formula according to Cwm in Section~\ref{quantsec} we already discussed an important exception from the rule that the quantifier 
 for every universal variable is always the $\text{parent}_c$ formula: If the $\text{parent}_c$ formula of a universal variable is already in scope of a quantifier for a 
 variable with the same name, then this quantifier also counts for the variable of the child formula (this was explained on Formula~\ref{mixedlevels}). 
@@ -2230,7 +2264,7 @@ For all nodes in our syntax tree for which the attribute $s$ is defined we now c
 % \texttt{=>\{?x :p :a.\}}
 % \end{multline}
 
-\subsubsection*{Determining the Universally Quantified Variables for a Formula }
+\subsubsection{Determining the Universally Quantified Variables for a Formula }
 In order to use the information captured by the previous attributes one step is missing: we still need to determine the exact set of universal variables quantified
 on a specific formula. For this we define attribute $q$:  %  whose attribute value captures exactly this information: 
 for each formula node \texttt{f} the value of $q$ is  
@@ -2558,7 +2592,7 @@ The attribute to perform this task is defined below in Section~\ref{all}.
 
 
 
-\subsubsection{Universals in EYE}
+\subsection{Universals in EYE}
 After having defined several attributes to handle implicit universal quantification according to Cwm in the previous section, 
 we do the same for the reasoner
 EYE in this section. EYE understands the term \emph{parent formula} from the \wwwc team submission 
@@ -2748,7 +2782,7 @@ we do not discuss these rules in detail and only capture for further considerati
 % The attribute value for the start node is 
 % the set of all universal attributes occurring in the formula.
 
-\subsubsection{Generation of the translation}\label{all}
+\subsection{Generation of the translation}\label{all}
 \begin{figure*}
 \begin{minipage}{\textwidth}
 \begin{center}\scriptsize
@@ -2787,15 +2821,15 @@ we do not discuss these rules in detail and only capture for further considerati
 
 \end{tabular}
 \end{center}   \normalsize
-\caption{Attribute rules for constructing the translation of a formula into core logic according to Cwm ($m_c$) and according to EYE ($m_e$).\label{trans}}
+\caption{Attribute rules for constructing the translation of a formula into \nthree Core Logic according to Cwm ($m_c$) and according to EYE ($m_e$).\label{trans}}
 \end{minipage}
 \end{figure*}
 
-In order to obtain the different translations from \nthree to core logic, 
-one last step is needed: the core logic formulas need to be generated. %Before defining attributes to perform this task, we first define  auxiliary functions. 
+In order to obtain the different translations from \nthree to \nthree Core Logic, 
+one last step is needed: the \nthree Core Logic formulas need to be generated. %Before defining attributes to perform this task, we first define  auxiliary functions. 
 %The attributes performing this task make use of auxiliary functions.
 We use synthesized attributes to perform this task. To clarify the difference between the signs used in the core formula produced and the
-logical symbols we use to describe this production, we underline all terminal symbols belonging to the core logic. 
+logical symbols we use to describe this production, we underline all terminal symbols belonging to \nthree Core Logic. 
 
 We start by defining the following auxiliary functions 
 which add quantifiers to any set of symbols of the alphabet: %to add the quantifiers missing in \nthreelogic to the newly generated formulas of the Core Logi
@@ -2816,7 +2850,7 @@ $\operatorname{\textit{select}}\circ \operatorname{\textit{ex}}$ and $\operatorn
 respectively. For the empty set the selection function returns the empty string.
 
 With the help of these functions we can define attributes which take the signs of the \nthree formula, 
-replace them by the respective sign of the core logic,
+replace them by the respective sign of \nthree Core Logic,
 and add, where necessary, explicit quantifiers.  We use two different attributes:
 \begin{description}
  \item[$m_c$] The value of $m_c$ is the translation of the symbols of the alphabet occurring under a node according to Cwm. 
@@ -2845,7 +2879,7 @@ all universal variables occurring under a formula.
 With these rules the quantifiers for a formula are only added when it is sure that the formula stands on its own and is not part of a conjunction. To understand the reason for
 that behaviour, recall the example in Formula~\ref{ffff}: there, the universal quantifier for \texttt{y} caused by the second conjunct also counted for the first and needed thus to stand in
 front of both formulas. In case \texttt{f} is produced using the last rule \texttt{s~::=~f} we know that there are no more conjuncts for the formula and the quantifiers can be added.
-For each formula, the translation to core logic generated using the attributes $m_c$ and $m_e$ is the attribute value of $\texttt{s}.m_c$, respectively $\texttt{s}.m_e$.
+For each formula, the translation to \nthree Core Logic generated using the attributes $m_c$ and $m_e$ is the attribute value of $\texttt{s}.m_c$, respectively $\texttt{s}.m_e$.
 
 We finish this section by an example: we again consider the syntax tree of Formula~\ref{fff} displayed in Figure~\ref{treeunisimple}, this time to construct the translations
 using the attributes $m_c$ and $m_e$. 
