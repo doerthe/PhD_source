@@ -1,9 +1,11 @@
 
 %What can we do?
-\section{The impact of the difference}\label{eva}
-In the previous sections we 
+\chapter{The impact of the difference}\label{eva}
+In the previous chapter we 
 specified how existing interpretations of formulas in \nthreelogic differ in their handling of implicit quantification. Here, 
-we take a closer look at these differences. 
+we take a closer look at the practical impact of these differences: 
+Is the problem we discussed only relevant in theoretical contexts -- for example for defining the semantics of \nthreelogic{} -- or do the interpretations 
+of files written for practical applications also diverge?
 % and address research questions (iii) and (iv) from the introduction:\todo{incorporate more or remove}
 % \begin{itemize}
 %   \item[(iii)] How often does the conceptual difference between the handling of implicit quantification of \nthreelogic lead to conflicting interpretations 
@@ -12,14 +14,27 @@ we take a closer look at these differences.
 %  subject to the problem?
 % \end{itemize}
 % %
-How do they impact 
-practical cases? In which kinds of applications are they relevant?
-In order to answer these questions, we implemented the attribute grammar introduced above and tested for several formulas
-whether the two interpretations we formalised 
-differ on these examples. %We have applied this program to different datasets.
-An explanation of the implementation, the datasets used and the results of our tests -- quantitative and qualitative -- is given below. 
+In which cases can we encounter differences? How can problems be avoided?
+% 
+In order to answer these questions we implemented the attribute grammar defined above and applied it to several \nthree files written for industrial set-ups.
+Below, we explain our tests and discuss the observations we made: The interpretations of our files differ in some cases. These differences are
+caused by the use of built-in functions, by proof 
+structures, but also by simply using nested formulas without such special contexts. Especially the last case is problematic: Users not making use of special constructs like 
+reasoner-specific built-ins do most probably not write their files to be used with one reasoner but expect interoperability.
+The problem thus needs to be addressed.
+We therefore finish the chapter with a discussion how such a solution could look like.
 
-\subsection{Implementation}\label{imp}
+% 
+% Here we would like to know whether the differences we How do they impact 
+% practical cases? In which kinds of applications are they relevant?
+%
+% In order to answer these questions, we implemented the attribute grammar introduced above and tested for several formulas
+% whether the two interpretations we formalised 
+% differ on these examples. %We have applied this program to different datasets.
+% An explanation of the implementation, the datasets used and the results of our tests -- quantitative and qualitative -- is given below. 
+% We come to the conclusion that 
+
+\section{Implementation}\label{imp}
 For our evaluation we have implemented the attribute grammar as specified above. 
 In order to stay close to our format, we used the Utrecht University Attribute Grammar (UUAG) and its compiler 
 the Utrecht University Attribute Grammar Compiler (UUAGC)~\cite{uuag}. This framework enables the user to specify attribute grammars which 
@@ -65,7 +80,7 @@ compares the meaning of an entire file and then displays the concrete difference
 
 %Question: which impact does the different scoping have for real use cases? 
 
-\subsection{Datasets used}\label{data}
+\section{Datasets used}\label{data}
 To test whether the differences described above can be observed in practical applications,
 we used two kinds of datasets: a test dataset of the reasoner 
 EYE and several datasets used in previous research projects.
@@ -106,7 +121,7 @@ The aim of the rules from the \emph{Facts4Workers} use-case\footnote{Available a
 is to deal with the diverse infrastructure of modern factories in which different machines are able to perform a huge variety of tasks.
 These tasks are described via rules which can be combined to fulfil a desired goal. The idea behind that is further explained in Section~\ref{restdesc}.
 %
-The last set of rules\footnote{Available at \url{https://github.com/IDLabResearch/data-validation}. },
+The last set of rules,\footnote{Available at \url{https://github.com/IDLabResearch/data-validation}. }
 used in the project \emph{DiSSeCt}, is designed to check \rdf datasets for user-specified constraints. These are the topic of Section~\ref{validation}.
 %
 We chose these datasets because they were produced to be used in practical rather complex applications and not to merely test the reasoner. 
@@ -117,7 +132,7 @@ For our tests, we selected only the files which contain universal variables. For
 and for DiSSeCt 84 files.
 
 
-\subsection{Results}\label{results}
+\section{Results}\label{results}
 \begin{table}
 \begin{center}
 \begin{tabular}{rrrr}
@@ -165,7 +180,7 @@ we explain what we mean by \emph{proofs}, \emph{built-ins} and \emph{nesting} in
 %\subsection{Qualitative Results}
 %Where did we find the differences?
 %Mostly in proofs. But also rule producing rules in ORCA. Give examples.
-\subsubsection{Proofs}\label{pro}
+\subsection{Proofs}\label{pro}
 In Section~\ref{proofintro} we already explained that there is a proof vocabulary defined for \nthree. The reasoners Cwm and EYE 
 make practical use of this vocabulary: From both reasoners the user can request a formal proof as an explanation of the derivations made. Such a proof contains 
 all proof steps applied on the data provided to the reasoner leading to the output of the reasoner. We will further explain these steps and the underlying calculs in Chapter~\ref{proof}.
@@ -231,7 +246,7 @@ subject to the problem described. In our datasets, this is the case for all proo
 % 
 % Is that ever right? Here I should come to a conclusion.
 %\subsection{Findings}
-\subsubsection{Built-ins}
+\subsection{Built-ins}
 % \begin{lstlisting}[
 %   float=t,
 %   caption={Rule including the predicate \texttt{log:includes}. },
@@ -338,7 +353,7 @@ The different interpretation of universals changes the reasoning result.
  <m stoppedBecause p1> eventid i2. 
 >
 \end{lstlisting}
-\subsubsection{Nesting}\label{nest}
+\subsection{Nesting}\label{nest}
 
 Our examples contain a third kind of difference:
 rules which either operate on other rules or on graph structures. Many examples for this can be found in the 
@@ -370,7 +385,7 @@ and the implementation of this use case  does not work with Cwm.
 
 
 
-\subsubsection{Distribution of Cases}\label{cases}
+\subsection{Distribution of Cases}\label{cases}
 Having seen examples for common cases causing differences in the interpretation of \nthree formulas, we return to the numbers of Table~\ref{result}.
 %: How are these
 %cases distributed within the datasets? 
@@ -435,7 +450,7 @@ Figure~\ref{datasets} below where we also explain how the values were calculated
 
 
 
-\subsubsection*{Disagreements per Formula Type}
+\subsubsection{Disagreements per Formula Type}
 In order to understand how many of the built-ins present in our datasets are causing problems, 
 we extended the attribute grammar by additional attributes. We give the definition of these attributes in Appendix~\ref{cbi}. Here, 
 we only want to briefly discuss the idea: If a triple has a built-in function in predicate position we test whether subject and object of that triple contains universal 
@@ -509,7 +524,7 @@ We observe that, when deep nesting is already present in a file, we suffer from 
 This is not very surprising since most nested graphs occur in rules which most likely also contain universals, but this figure shows once again, that when using nested graphs, users need to be careful 
 with universal variables.
 
-\subsubsection*{Categorisation of Errors}
+\subsubsection{Categorisation of Errors}
 As a last point in this subsection we display how the different problem types are distributed over the files counted in Table~\ref{result}.   
 The reasons for conflicting interpretations of a formula 
 can be overlapping. 

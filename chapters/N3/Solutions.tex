@@ -81,11 +81,13 @@ EYE interprets equally.
 As discussed above, in the current situation the user writing rules needs to either know beforehand with which reasoning engine he wants to use his rules, or he needs to apply the strategy discussed 
 above of adding dummy rules which lift the quantifier of deeply nested implicitly universally quantified variables to the top level. 
 Given that \nthreelogic was created for the Semantic Web where interoperability is a very crucial feature, this situation is not acceptable and  
-the community needs to come to an agreement. For such an agreement, we see three options which we discuss below.
+the community needs to come to an agreement.\footnote{The first step towards such an agreement has already been taken by forming a \wwwc community group:
+\url{https://www.w3.org/community/n3-dev/}. Issues are discussed at: \url{https://github.com/w3c/N3/issues/}.
+} For such an agreement, we see three options which we discuss below.
 \subsubsection{Semantics with Nested Universal Quantifiers}
-One possible solution could be 
-to follow Cwm and use the mapping from \nthree to \nthree Core Logic given earlier as a definition \nthree's semantics and strictly follow that
-interpretation. 
+One possible solution is to follow Cwm.
+In that case we could use the specification 
+provided above as the official semantics of \nthree.
 
 One problem with that solution is that it is rather difficult to formalise. 
 We needed to define an attribute grammar with four attributes to be able to handle Cwm's implicit universal 
@@ -131,7 +133,7 @@ We therefore favour the interpretation putting the quantifier of implicitly univ
 % Such a change in the intended meaning of a implicit universal quantification would need to be discussed in the community.
 
 \subsubsection{Exclude Implicit Universal Quantification}
-The third solution for the problem explained in this paper would be 
+The third solution for the problem explained in this thesis would be 
 to either not allow implicit universal quantification at all or to at least only allow it in non-nested structures such that the scoping of every implicitly universally quantified variable is clearly
 defined in both interpretations. Instead, 
 explicit quantification could be employed.
@@ -139,8 +141,9 @@ explicit quantification could be employed.
 The problem here is that, as explained in Section~\ref{remarkExplicitQuantification},
 the meaning of explicit quantification is not clearly defined in the \wwwc team submission either. Problems especially arise if explicit universal quantification is used in combination with explicit
 existential quantification -- to be consistent with the implicit case universal quantification always dominates existential quantification if both occur on the same level -- and if constants and 
-quantified variables are not clearly distinguished. In order at least make this last opportunity an applicable option, these uncertainties need to be clarified. One possible way to do that would be to
-extend the attribute grammar discussed in this paper.
+quantified variables are not clearly distinguished. In order at least make this last opportunity an applicable option, these uncertainties need to be clarified. 
+One possible way to do that would be to
+extend the attribute grammar discussed here.
 
 % In order to at least provide the opportunity to apply this last solution to the problem at hand, we plan to extend our interpretation of \nthree to also support 
 % explicit quantification. By adding this and other features of \nthree currently not covered in our formalisation, we aim to provide one step further towards the full formal understanding 
