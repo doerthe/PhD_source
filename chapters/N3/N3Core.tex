@@ -353,4 +353,17 @@ We finish this section by defining the classical concepts of logical consequence
  Two formulas $\phi$ and $\psi$ are called logically equivalent ($\phi \equiv \psi$) iff $\phi \models \psi$ and $\psi\models \phi$.
 \end{definition}
 
-
+% \subsection{Relation to \rdf}
+% \todo{differences to \rdf: lists, false, no grounding first.}
+% A difference between both formalisations is present when it comes to the handling of implicitly quantified variables: 
+% In \rdf semantics a mapping (A) from the set of blank nodes to the universe of discourse and not to the set of ground terms is used 
+% to model the implicit existential quantification expressed by a blank node.
+% %Since \nthree allows variables in predicate position, 
+% %we ground variables first before using these functions while existentials in \rdf are mapped directly into the set of resources. 
+% Another difference
+% between the two specifications can be found in the handling of lists: Lists denoted by the \texttt{()}-notation 
+% are considered to be first-class citizens of \nthree~\cite{Notation3}. In \rdf this notation 
+% is a short cut of the first-rest notation 
+% using blank nodes. Therefore, our core logic specifically deals with lists while in \rdf the meaning of the first-rest predicates is covered instead. 
+% To support the definitions of \rdf semantics in core logic, rules can be used~\cite[p.6f]{N3Logic}. The predicates \texttt{rdf:first} and \texttt{rdf:rest} are handled as built-in functions in \nthree. 
+% 

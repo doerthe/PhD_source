@@ -956,17 +956,11 @@ We explain these rules by going through the tree %The attribute values for each 
 beginning at the bottom.
 %To better understand how the rules work, we compute the attribute values for the nodes of the syntax tree in Figure~\ref{extreesimple}.
 
-The production rule (\texttt{t ::= ex}) results in an existential variable and this variable is not quantified under that node.
+The production rule \texttt{t ::= ex} results in an existential variable and this variable is not quantified under that node.
 %When this rule is applied, there is thus Under the node \texttt{t} whose descendent is produced by this rule, there is thus
 %exactly one existential variable occurring freely under that node, the existential \texttt{ex}. 
-Therefore, the corresponding attribute rule ($\texttt{t}.\eq \leftarrow \{\texttt{ex}\}$) collects this variable in a singleton set 
-(values $\texttt{t}^1.\eq$ and $\texttt{t}^4.\eq$). 
-%we have the attribute rule .
-%For $\texttt{t}^1$ and $\texttt{t}^4$ we get: %whose rule (\texttt{t~::=~ex}) produces existential variables we get via $\texttt{t}.\eq \leftarrow \{\texttt{ex}\}$:
-%\[
-% \texttt{t}^1.\eq \leftarrow \{\texttt{ex}\}=\{\texttt{\_:x}\}\quad \text{and} \quad  \texttt{t}^4.\eq \leftarrow\{\texttt{ex}\}= \{\texttt{\_:y}\}
-%\]
-%Here the attribute value stores the existential variable occurring under the node for which the direct formula has not been found yet. 
+Therefore, the corresponding attribute rule $\texttt{t}.\eq \leftarrow \{\texttt{ex}\}$ collects this variable in a singleton set 
+(values $\texttt{t}^1.\eq$ and $\texttt{t}^4.\eq$).  
 The attribute rules for other production rules directly resulting in only symbols of the alphabet do not pass any values since there are
 no free existential variables occurring under them. 
 For the applications of \texttt{t ::= c} %in our syntax tree we get via 
@@ -1863,8 +1857,8 @@ level 7/.style={level distance=30pt},
 
 
 The interpretations of \nthree's implicit universal quantification differs between reasoners. 
-With a few exceptions\footnote{The developer of Cwm, Tim Berners-Lee, confirmed that these exceptions were not intended
-and rather need to be seen as mistakes in the implementation.}, which we also discuss in Appendix~\ref{bugsincwm}, 
+With a few exceptions,\footnote{The developer of Cwm, Tim Berners-Lee, confirmed that these exceptions were not intended
+and rather need to be seen as mistakes in the implementation.} which we also discuss in Appendix~\ref{bugsincwm}, 
 Cwm implements interpretation $\emph{parent}_c$ %(from Sections~\ref{universals} and \ref{parentformula}) 
 of the 
 concept \emph{parent formula} from the \wwwc team submission while 

@@ -674,24 +674,25 @@ citecolor = black]{hyperref} % make links
 
 %\part{Semantics}
 
-\chapter{Towards a formal model for N3 Logic}\label{problem}\label{semantics}
+\chapter{Implicit Quantification}\label{problem}\label{semantics}
 \input{chapters/N3/intro}
 %\input{chapters/N3/Syntax} 
 \input{chapters/N3/Finding_the_meaning}
 \input{chapters/N3/RDF}
+\section{Logics with implicit quantification}
+\input{chapters/N3/RW-ImplicitQuantification}
+
+
 \input{chapters/N3/N3Core}\label{ela}
-\input{chapters/N3/RelatedWork}
-
-
-\chapter{Mapping to Core Logic}
+%\chapter{Mapping to Core Logic}
 \input{chapters/N3/Mapping}
+\input{chapters/N3/RelatedWork}
 \input{chapters/N3/RW-Mapping}
+
 
 \input{chapters/N3/Impact}
 \input{chapters/N3/Solutions}
-\input{chapters/N3/RW-ImplicitQuantification}
-\input{chapters/N3/directsemantics}\label{exsem}
-
+% \input{chapters/N3/directsemantics}\label{exsem}
 
 
 
@@ -708,8 +709,9 @@ citecolor = black]{hyperref} % make links
 \chapter{Querying and ontology reasoning with Notation3 Logic}\label{others}
 \section{General Discussion}\label{gen}
 \section{Use case: Nurse Call System}\label{orca}
-%\input{chapters/N3_and_others/validation}
-\section{Use case: Data Validation}
+%\input{chapters/N3_and_others/orca1}
+\input{chapters/N3_and_others/validation}
+%\section{Use case: Data Validation}
 \label{validation}
 
 \texttt{pred:literal-not-identical} instead of general string comparison
@@ -721,6 +723,8 @@ scoped negation as failure
 
 \section{A Proof Calculus for N3}\label{cal}
 OWL: expressing proofs is difficult (I guess possible but as far as I know not done). N3 is good because it is rather  easy to express proofs.
+
+In OWL, you normally express explanations, these are small sets of axioms from which new knowledge follows.
 %\input{chapters/Proofs/proofcalculus}
 %\section{Applications of Proofs}
 %\input{chapters/Proofs/PP}
@@ -732,6 +736,7 @@ OWL: expressing proofs is difficult (I guess possible but as far as I know not d
 
 \chapter{Going beyond: modeling change}
 \section{Weighted Transition Logic}
+not sure whether or not I have time to write this section. If not I should write a journal after the PhD.
 
 
 \chapter{Conclusion}\label{concl}\label{conclusion}

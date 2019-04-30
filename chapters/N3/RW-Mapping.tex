@@ -1,0 +1,22 @@
+
+\subsection{Mappings from Representations to Core Logics}
+The approach of translating a logical representation into a well defined core logic to explain its semantics has been inspired by the formal description of 
+programming languages where this practice is quite 
+common. In programming languages, normally the lambda calculus and its extensions are used as a core logic. The general idea is, for example, explained by Pierce~\cite{Pierce}
+and has been implemented for several programming languages: Sulzmann et al~\cite{Sulzmann} define System $F_C$, an extension of the polymorphic lambda calculus System F, to provide 
+a way to express even rather complicated constructs contained in Haskell and other functional languages, as for example generalised algebraic data types (GADTs) and associated types,
+in terms of a well defined logic.
+Next to the definition and discussion of the basic properties of that logic, the authors also show how to translate the above mentioned examples from a
+source language  into System $F_C$.
+Igarashi et al~\cite{Igarashi} follow a similar approach for the programming language Java. To have a logical representation of the core features of Java, they define 
+Featherweight Java. This logic can be used to describe and prove essential properties of the programming language. They furthermore discuss how the formalism can be extended 
+by adding generic types and methods.
+
+In the Semantic Web context a similar approach to the one represented in this paper can be found for the definition of SPARQL's semantics: 
+instead of defining the semantics directly 
+on the language itself, expressions of SPARQL are first mapped to the SPARQL algebra %~\cite{cyganiak2005relational} 
+for which an evaluation 
+semantics is defined.\footnote{\url{https://www.w3.org/TR/2013/REC-sparql11-query-20130321/\#sparqlDefinition}}
+Another similar, although slightly different, approach can be found for \rdf. De Bruijn et al~\cite{erdf} embed \rdf into F-Logic and first order logic. The difference to our
+approach is that this embedding is not done to define the semantics of \rdf{} -- this is defined directly -- but to research its relation to other logics.
+The authors show that \rdf can be represented in the two frameworks.
