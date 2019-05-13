@@ -21,8 +21,9 @@ citecolor = black]{hyperref} % make links
 \usepackage{a4wide}						% iets meer tekst op 1 pagina
 \usepackage[dutch,english]{babel}	  	% nederlands en engels inladen
 \usepackage{amsmath}					% AMS-wiskundige symbolen
-\usepackage{amssymb} 					% invoegen van reele getallen etc
-%\usepackage[]{graphicx}					% figuren invoegen
+\usepackage{amssymb} 
+% invoegen van reele getallen etc
+\usepackage[]{graphicx}					% figuren invoegen
 % if you want to speed up things:
 % \usepackage[draft]{graphicx}					% figuren invoegen
 \usepackage{float}						% positie figuren etc.
@@ -677,7 +678,7 @@ citecolor = black]{hyperref} % make links
 \chapter{Implicit Quantification}\label{problem}\label{semantics}
 \input{chapters/N3/intro}
 %\input{chapters/N3/Syntax} 
-\input{chapters/N3/Finding_the_meaning}
+ \input{chapters/N3/Finding_the_meaning}
 \input{chapters/N3/RDF}
 \section{Logics with implicit quantification}
 \input{chapters/N3/RW-ImplicitQuantification}
@@ -708,16 +709,17 @@ citecolor = black]{hyperref} % make links
 
 \chapter{Querying and ontology reasoning with Notation3 Logic}\label{others}
 \input{chapters/N3_and_others/intro}
-\section{General Discussion}\label{gen}
-\section{Use case: Nurse Call System}\label{orca}
-\input{chapters/N3_and_others/orca1}
-\input{chapters/N3_and_others/orca2}
+%\section{General Discussion}\label{gen}
+\section{Use case 1: A semantic nurse call system}\label{orca}
+\input{chapters/N3_and_others/orca}
+% \input{chapters/N3_and_others/orca1}
+% \input{chapters/N3_and_others/orca2}
 \input{chapters/N3_and_others/validation}
 %\section{Use case: Data Validation}
 \label{validation}
 
 \texttt{pred:literal-not-identical} instead of general string comparison
-
+\section{Conclusion}
 
 
 scoped negation as failure
@@ -726,6 +728,8 @@ scoped negation as failure
 \section{A Proof Calculus for N3}\label{cal}
 OWL: expressing proofs is difficult (I guess possible but as far as I know not done). N3 is good because it is rather  easy to express proofs.
 
+Say that rule-producing rules are not covered by the calculs. Rules as data vs rules as applicable steps.
+
 In OWL, you normally express explanations, these are small sets of axioms from which new knowledge follows.
 %\input{chapters/Proofs/proofcalculus}
 %\section{Applications of Proofs}
@@ -733,7 +737,7 @@ In OWL, you normally express explanations, these are small sets of axioms from w
 %\subsection{Sensdesc}
 \section{Proofs in Use: RESTdesc}\label{restdesc}
 \section{Proofs in Use: SENSdesc}\label{sensdesc}
-
+\input{chapters/Proofs/sensdesc}
 
 
 \chapter{Going beyond: modeling change}
