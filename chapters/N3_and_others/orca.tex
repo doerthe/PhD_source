@@ -63,7 +63,7 @@ For bigger amounts of data or too complex decision trees, the reasoning times of
 Given the shortcomings of the solution using OWL-DL reasoning and SPARQL it makes sense to implement the solution following another approach. 
 Below, we describe how we used \nthreelogic to solve the problem.
 
-\subsubsection{OWL RL in \nthree}
+\subsubsection{OWL RL in \nthree}\label{owlrln3}
 If we use a traditional OWL DL reasoner like for example Pellet \cite{Pellet} or HermiT \cite{hermit} to reason over an existing ontology 
 this reasoner 
 natively understands the concepts which are part of the OWL DL profile and applies 
@@ -328,9 +328,15 @@ Formula~\ref{2} can change -- patients will make new calls -- statements as Form
 % and we can thus already perform this part of the unification before 
 % we encounter 
 The terminology does not change during the reasoning process,
-calls are tasks for our ontology. Our solution makes use of this observation: What is valid for the triple in Formula~\ref{1} also counts for 
-the other triples specifying the terminology. In description logic these kinds of triples together form the TBox \cite[chapter 1]{dl}, the terminological knowledge.
-Here the broader concepts (classes) of the ontology and their relationships among each other are specified while the ABox contains triples over individuals.
+calls are tasks for our ontology. %Our solution makes use of this observation: 
+%The ontology contains more triples like Formula~\ref{1} which specify the terminology: % as for example classes and their relationships among each other.
+Triples as the above specifying the terminology of an DL ontology are known as the TBox \cite[chapter 1]{dl}. 
+%A description logic ontology consists of two parts: the TBox and the ABox \cite[chapter 1]{dl}.
+% What is valid for Formula~\ref{1} also counts for 
+% the other triples specifying the terminology. 
+%In description logic these kinds of triples together form the TBox \cite[chapter 1]{dl}, the terminological knowledge.
+Here the broader concepts (classes) and their relationships among each other are specified  
+while the ABox contains triples over individuals.
 We consider the
 TBox as static knowledge which can be used for pre-processing. The idea of our solution is to do as much unification as possible before dealing with (possibly) dynamic data. 
 We produce more specialized rules, in the case mentioned above, for example the rule
@@ -388,30 +394,48 @@ After that we will describe the translation step in more detail.
 
 
 Before translating the TBox into rules we have to replace all blank nodes by \uris or literals. To understand the reason for this skolemization step, 
-consider the example in Listing~\ref{task}.
+consider Listing~\ref{task}.
 The example contains triples which further describe the class \texttt{:Call} from Formula~\ref{2}.
 A call is a patient task and an unplanned task, or to be more specific:
-the class \texttt{:Call} is subclass of an anonymous class which is the intersection of 
+There exists an anonymous class of which the class \texttt{:Call} is a subclass and which is the intersection of 
 the classes \texttt{:PatientTask} and \texttt{:UnplannedTask}. 
-Even though \nthree supports rules which contain blank nodes, it is exactly this anonymous class which causes problems. 
-Being unlabeled, the blank node can be referred by an arbitrary new blank node name. A translation as done in Formula~\ref{4} would result in a rule like:
-\[
-\verb!{ ?X a :Call. } => { ?X a _:newblank.}.! 
-\tag{5}\label{newblank}
-\]
+%Even though \nthree supports rules which contain blank nodes,
+It is exactly this anonymous class which causes problems. As we discussed in Section~\ref{strucblanks}
+blank nodes are not simply variables, they are variables with an implicit existential quantifier and a specific scope. 
+If we take the triple
+\begin{equation}
+ \texttt{:Call rdfs:subClassOf \_:y.}
+\end{equation}
+from line 6 of Listing~\ref{task}\footnote{Remember that \texttt{[ ]} stands for a ``fresh'' blank node, we chose to name it \texttt{\_:y} to make it easier to refer to it.}
+and try to construct a rule from it in an analogous way as we did with Formula~\ref{1} and its resulting Rule~\ref{4} we would most probably come up with something like: 
+%Being unlabelled, the blank node can be referred by an arbitrary new blank node name. A translation as done in Formula~\ref{4} would result in a rule like:
+\begin{equation}
+\verb!{ ?X a :Call. } => { ?X a _:y.}.! 
+\label{newblank}
+\end{equation}
+But here the blank node \texttt{\_:y} is quantified in the consequence of the rule, in \nthree Core Logic this translates to:
+\begin{equation}\tag{\ref{newblank}'}
+ \forall\texttt{x: <type(x,Call)>}\rightarrow \texttt{<}\exists\texttt{y: type(x,y)>}
+\end{equation}
 This rule means, that every instance of the class \texttt{:Call} is also instance of \textit{some} other class. 
-This knowledge can already be gained by Formula~\ref{4} and does 
-not have much influence 
-on further reasoning. And even if the blank node in Listing~\ref{task} would be labeled by, for example, \texttt{\_:intersection1} a new rule
-\[
-\verb!{ ?X a :Call. } => { ?X a _:intersection1.}.! 
-\tag{6}\label{union}
-\]
-would have no other meaning than Formula~\ref{4} as in \nthree the scope of a blank node is always only the graph, i.e. the curly brackets \texttt{\{ \}}, 
-in which it occurs  \cite{Notation3, arndt_ruleml_2015}. 
-The consequence of the rule would not refer to our intersection of patient tasks and unplanned tasks.
+This knowledge can already be derived from Formula~\ref{4} where we have an example of such a class. 
+% 
+% and does 
+% not have much influence 
+% on further reasoning. And even if the blank node in Listing~\ref{task} would be labeled by, for example, \texttt{\_:intersection1} a new rule
+% \begin{equation}
+% \verb!{ ?X a :Call. } => { ?X a _:intersection1.}.! 
+% \label{union}
+% \end{equation}
+% would have no other meaning than Formula~\ref{4} as in \nthree the scope of a blank node is always only the graph, i.e. the curly brackets \texttt{\{ \}}, 
+% in which it occurs  \cite{Notation3, arndt_ruleml_2015}. 
+With the local scoping of the blank node in the consequence of the rule, it is impossible to make the connection  between the class mentioned in the rule and the  
+%The consequence of the rule would not refer to our 
+intersection class of patient tasks and unplanned tasks by using blank nodes. We need to choose a constant representing the intersection class mentioned in Listing~\ref{task} 
+which does not not change its scoping when used in the consequence of the rule. 
 
-We perform the grounding step by using the EYE reasoner. The reasoner provides the option to obtain a skolemized version of any input
+As \owl ontologies use a lot of such structural blank nodes which here can be understood as anonymous classes, we perform a grounding step.
+Our implementation uses the EYE reasoner which provides the option to obtain a skolemized version of any input
 \nthree file(s). 
 The switch \verb!--no-qvars! replaces every blank node by a unique skolem \iri following the naming convention as described in the \rdf specification \cite{rdf}.
 It additionally makes sure that equally named blank nodes only get assigned the same skolem \iri if they actually refer to 
@@ -432,14 +456,14 @@ new identifiers for (formally) anonymous classes in different rules.
 
 
 
-As explained above, the next step after having produced a grounded version of the ontology's TBox is to produce the new specialized rules. Here, we make use of a property of Notation3:
-rules can not only be applied to derive new triples but also to derive new rules. 
-To illustrate that we consider a simple rule: 
-
-
-\[
- \texttt{\{}\underbrace{\texttt{:Call rdfs:subClassOf :Task.}}_{\text{\normalsize satisfied ontology triple(s)}} \texttt{\}=>\{}\underbrace{\texttt{\{?X a :Call\}=>\{?X a :Task.\}.}}_{\text{\normalsize produced new rule(s)}}\texttt{\}.}
- \]
+As explained above, the next step after having produced a grounded version of the ontology's TBox is to produce the new specialized rules. 
+Here we use rule-producing rules. %, we make use of a property of Notation3:
+%we use rules can not only be applied to derive new triples but also to derive new rules. 
+To understand the idea, consider the following example: 
+%We explain the 
+\begin{multline}\notag
+ \texttt{\{}\underbrace{\texttt{:Call rdfs:subClassOf :Task.}}_{\text{\normalsize satisfied ontology triple(s)}} \texttt{\}}\\\texttt{=>\{}\underbrace{\texttt{\{?X a :Call\}=>\{?X a :Task.\}.}}_{\text{\normalsize produced new rule(s)}}\texttt{\}.}
+ \end{multline}
 %
 Just as simple rules enable the reasoner to derive new triples from the fact that its antecedent is fulfilled, the rule above, applied on Formula~\ref{1}, derives a new rule, namely 
 Formula~\ref{4}.
@@ -463,9 +487,9 @@ rule\footnote{The rule is motivated by the cls-int2 rule in Table 6 on \cite{OWL
 Note that this rule uses a built-in predicate of Notation3, \texttt{list:in}. A triple using \texttt{list:in} as a predicate is true  if and only if 
 the object is a list and the subject is an entry of that list. 
 If we apply this rule to the (now skolemized) intersection expressed in Listing \ref{task}
-\[
-\texttt{:InterClass1 owl:intersectionOf ( :PatientTask :UnplannedTask ).}
-\] 
+\begin{multline}\notag
+\texttt{:InterClass1 owl:intersectionOf}\\\texttt{ (:PatientTask :UnplannedTask ).}
+\end{multline}
   
 \noindent two rules will be produced by that:  
 \[\texttt{\{?x a :InterClass1\} => \{?x a :PatientTask.\}.}\]
@@ -474,19 +498,26 @@ and
 \end{center}
 \[\texttt{\{?x a :InterClass1\} => \{?x a :UnplannedTask.\}.}\]
 
-The above example illustrates 
-another useful property of Notation3: 
-Notation3 treats lists themselves, not only their reified version, as elements of the language. There are many built-in predicates 
+The above example illustrates how useful it is that Notation3 treats lists as first-class citizens and does not rely on reification here (see Sections \ref{strucblanks} and \ref{core}). 
+% another useful property of Notation3: 
+% Notation3 treats lists themselves, not only their reified version, as elements of the language.
+There are many built-in predicates 
 which enable the user to write 
-clear rules regarding lists and to refer to all elements of a given list. For working with OWL ontologies this is a real advantage as lists are normally used
+clear rules operating on lists. For working with OWL ontologies this is a real advantage as lists are normally used
 together with many OWL concepts 
 like the above \texttt{owl:intersectionOf} or 
 for example \texttt{owl:unionOf}.
 
-To produce new rules by applying the rules described above, the rule producing rules have to be applied as filter rules for the reasoner. Notation3 reasoners
-normally take one ore more input files---consisting of rules and facts---and a query file containing rules into account. Based in the input files the reasoner 
-outputs the logical consequences of the filter rules. In our present case these are the specialized rules.
-The rules produced by the two described steps do now replace the TBox of the ontology and can be used for further reasoning.
+If we apply the rule-producing rules as filter rules (see Section \ref{prn3}) in an \nthree reasoning run having the ground version of the ontology's TBox as input, the reasoner
+produces a file only containing our specialized rules
+% To produce new rules by applying the rules described above, the rule-producing rules have to be applied as filter rules for the reasoner (Section \ref{prn3}).
+% 
+% Notation3 reasoners
+% normally take one ore more input files -- consisting of rules and facts -- and a query file containing rules into account. Based in the input files the reasoner 
+% outputs the logical consequences of the filter rules. 
+% In our present case these are the specialized rules.
+%These rules produced by the two described steps do now 
+These rules now replace the TBox and can be used for further reasoning.
 
 
 \begin{lstlisting}[
@@ -507,33 +538,38 @@ The rules produced by the two described steps do now replace the TBox of the ont
 
 
 \subsection{Evaluation}\label{ev}
-\todo{Add owl solution}
 The aforementioned methodology replaces generic and complex constructs in the TBox
 by specialized rules that provide the same functionality.
-To test how much performance we gain by using this pre-processing step
-we tested a scenario of our use case with two rule sets: the first traditional rule set processes the triples of the original TBox while reasoning and 
-acts on top of those together with the actual ABox data,
-the second precomputed rule set contains the specialized rules which already take all TBox triples into account, 
-therefore in this case the original TBox is not needed for 
-further reasoning.
-All experiments were run on the same technology stack\footnote{Hardware: Intel(R) Xeon(R) E5620@2.40GHz CPU with 12 GB RAM. Software: Debian ``Wheezy'', 
-EYE-Autumn15 09261046Z and SWI-Prolog~6.6.6}.
+To test how much performance we gain by using this pre-processing step 
+and by using rules to implement the decision tree compared to the original implementation using OWL DL reasoning and SPARQL querying
+% compared to using the traditional \nthree rule set and to applying DL reasoning,
+we tested a scenario of our use case with three implementations: the first using the DL reasoner Pellet \cite{Pellet} and SPARQL-querying, 
+the second using the traditional rule set processing the triples of the original TBox while reasoning %and 
+%acts on top of those together with the actual ABox data,
+and the third using the precomputed rule set of specialized rules which replaces the TBox of the ontology. %already take all TBox triples into account, 
+% therefore in this case the original TBox is not needed for 
+% further reasoning.
+All experiments were run on the same hardware settings,\footnote{Intel(R) Xeon(R) E5620@2.40GHz CPU with 12 GB RAM, Debian ``Wheezy''} using two different 
+technology stacks.\footnote{
+For the implementation with OWL DL+SPARQL: Pellet 3.0 and OWL-API 3.4.5. For the two implementations using \nthree: EYE-Autumn15 09261046Z and SWI-Prolog~6.6.6.}
+% technology stack.\footnote{ 
+% vs. EYE-Autumn15 09261046Z and SWI-Prolog~6.6.6}
 
 
 \subsubsection{Ontology and Data}\label{ont}
-To represent the data as described above we make use of the ACCIO ontology which was designed to represent all aspects of patient care in a hospital. 
-The ontology contains ca. 
+To represent the data as described above we make use of the ACCIO ontology\footnote{Available at: \url{https://github.com/IBCNServices/Accio-Ontology/tree/gh-pages}} which was designed to represent all aspects of patient care in a hospital. 
+At the time of testing the ontology contained ca. 
 3,500 triples (414 named classes, 157 object properties,  38 data type properties).
 A full description is given by Ongenae et al. \cite{accioont}. 
 
 This ontology was filled with data describing wards in a hospital.
-This data was simulated, based on real-life situations, as deducted from user studies~\cite{accioont}.
+This data was simulated, based on real-life situations, as deducted from user studies~\cite{accioontold}.
 The data was scaled by increasing the amount of wards from 1 to 10 to fill the ABox with more data. The description of such a ward contains
 approximately 1,000 static triples. Additionally, there was dynamic data such as for example the location of nurses or the status of calls taken into account.
 
 \subsubsection{Test scenario}
-We compared the reasoning times of the two rule sets by running a scenario, based on a real-life situation.
-This scenario consists of a sequence of events, which we list below, where the expected outcome of the reasoning is indicated in brackets. 
+We compared the reasoning times of the three implementations by running a scenario, based on a real-life situation.
+This scenario consists of a sequence of events, which we list below. The expected outcome of the reasoning is indicated in brackets. 
 
 \begin{enumerate}
 \item
@@ -555,19 +591,26 @@ The nurse leaves the room (\emph{update location and nurse status and turn off l
 \end{enumerate}
 
 \subsubsection{Results}
-The aforementioned scenario was run 35 times, consisting of 3 warm-up runs and 2 cool-down runs, for 1 ward and 10 wards, for both rule sets.
-By averaging the 30 remaining reasoning times per amount of wards and per rule set, we provide the results as shown as a table in Figure~\ref{fig:resultstable}, and depicted in Figure~\ref{figure:results}. 
-
 \begin{figure}  
 \begin{center}
-\tabcolsep 1.8pt
-\def\arraystretch{1.1}
-\begin{tabular}[b]{l| rrrrrrrr | rrrrrrrr}
+%\tabcolsep 3pt
+%\def\arraystretch{1.1}
+\begin{tabular}[b]{l| rrrrrrrr }
  \hline
- \bf wards&\multicolumn{8}{c|}{\bf 1 ward} & \multicolumn{8}{|c}{\bf 10 wards} \\
- \bf event&\bf1&\bf2&\bf3&\bf4&\bf5&\bf6&\bf7&\bf8&\bf1&\bf2&\bf3&\bf4&\bf5&\bf6&\bf7&\bf8\\ 
-  \hline
-  \bf traditional 
+ \bf wards&\multicolumn{8}{c}{\bf 1 ward} \\
+ \bf event&\bf1&\bf2&\bf3&\bf4&\bf5&\bf6&\bf7&\bf8\\ 
+   \hline
+\bf  DL+SPARQL
+  &45.8
+  &21.4
+  &0.1
+  &2.4
+  &2.4
+  &3.0
+  &1.6
+  &2.2
+  \\
+\bf   RL+Rules 
 &2.1&
 2.1&
 2.4&
@@ -576,6 +619,32 @@ By averaging the 30 remaining reasoning times per amount of wards and per rule s
 2.2&
 2.4&
 2.1
+\\
+ \bf  prep+RL+Rules &
+0.4&
+0.6&
+0.7&
+0.4&
+0.4&
+0.4&
+0.5&
+0.4
+ \\
+  \hline
+ \bf wards& \multicolumn{8}{c}{\bf 10 wards} \\
+ \bf event& \bf1&\bf2&\bf3&\bf4&\bf5&\bf6&\bf7&\bf8\\
+     \hline
+ \bf DL+SPARQL
+  &1125.7
+&755.6
+&0.1
+&67.0
+&66.7
+&25.6
+&174.9
+&65.8
+  \\
+  \bf RL+rules 
  & 30.7&
 30.7&
 34.9&
@@ -585,16 +654,8 @@ By averaging the 30 remaining reasoning times per amount of wards and per rule s
 35.0&
 30.5
 \\
-  \bf preprocessed &
-0.4&
-0.6&
-0.7&
-0.4&
-0.4&
-0.4&
-0.5&
-0.4
- & 6.8&
+ \bf  prep+RL+rules &
+  6.8&
 10.7&
 12.2&
 8.1&
@@ -606,9 +667,106 @@ By averaging the 30 remaining reasoning times per amount of wards and per rule s
   \hline
 \end{tabular}
 \end{center}
-\caption{Reasoning times using traditional rules and preprocessed rules in seconds. Preprocessing significantly reduces reasoning times.}
+\caption{Reasoning times using (1) DL+SPARQL querying, 
+(2) RL+rules in \nthree, and (3) a preprocessed version of the latter in seconds. OWL RL combined with rules performs better than OWL DL and SPARQL.
+Preprocessing further reduces reasoning times.}
 \label{fig:resultstable}
 \end{figure}
+The aforementioned scenario was run 35 times, consisting of 3 warm-up runs and 2 cool-down runs, for 1 ward and 10 wards, for both rule sets.
+By averaging the 30 remaining reasoning times per amount of wards and Implementation type, we provide the results shown as a table in Figure~\ref{fig:resultstable}. 
+
+
+The reasoning times of our strategies using \nthree are in most cases better than the reasoning times of DL+SPARQL. 
+%When we review the reasoning times per call for one ward (Figure~\ref{fig:results1ward}), we 
+We furthermore observe, that the \nthree implementations have far 
+more predictable reasoning times, as they are more robust against more complex decision trees
+(eg the decision trees of the first two events are notably more complex than the other events' decision trees).
+The implementation using DL+SPARQL is much faster than both \nthree implementations in the third event, because this event does not trigger any reasoning for DL+SPARQL, however, 
+%in the EYE implementation a full reasoning cycle is performed for every incoming event.
+a full reasoning cycle is performed by the \nthree-implementations. 
+With an average reasoning time of about 2 seconds, the \nthree implementation without pre-processing achieves the real-time constraint within small-scale datasets.
+
+%and depicted in Figure~\ref{figure:results}.
+%To better understand the impact and depicted in Figure~\ref{figure:results}. 
+
+% \begin{figure}  
+% \begin{center}
+% \tabcolsep 1.8pt
+% \def\arraystretch{1.1}
+% \begin{tabular}[b]{l| rrrrrrrr | rrrrrrrr}
+%  \hline
+%  \bf wards&\multicolumn{8}{c|}{\bf 1 ward} & \multicolumn{8}{|c}{\bf 10 wards} \\
+%  \bf event&\bf1&\bf2&\bf3&\bf4&\bf5&\bf6&\bf7&\bf8&\bf1&\bf2&\bf3&\bf4&\bf5&\bf6&\bf7&\bf8\\ 
+%    \hline
+%   \bf DL+SPARQL
+%   &45.8
+%   &21.4
+%   &0.1
+%   &2.4
+%   &2.4
+%   &3.0
+%   &1.6
+%   &2.2
+%   &1125.7
+% &755.6
+% &0.1
+% &67.0
+% &66.7
+% &25.6
+% &174.9
+% &65.8
+%   \\
+%   \bf RL+Rules 
+% &2.1&
+% 2.1&
+% 2.4&
+% 2.1&
+% 2.1&
+% 2.2&
+% 2.4&
+% 2.1
+%  & 30.7&
+% 30.7&
+% 34.9&
+% 30.6&
+% 30.6&
+% 30.7&
+% 35.0&
+% 30.5
+% \\
+%   \bf prep RL+Rules &
+% 0.4&
+% 0.6&
+% 0.7&
+% 0.4&
+% 0.4&
+% 0.4&
+% 0.5&
+% 0.4
+%  & 6.8&
+% 10.7&
+% 12.2&
+% 8.1&
+% 8.0&
+% 6.7&
+% 9.3&
+% 8.1
+%  \\
+%   \hline
+% \end{tabular}
+% \end{center}
+% \caption{Reasoning times using DL reasoning in combination with SPARQL querying (1), 
+% RL-reasoning and rules in \nthree (2) and a preprocessed version of the latter (3) in seconds. The implementations using rule-based reasoning perform better than the one based on DL and SPARQL.
+% Preprocessing significantly reduces reasoning times.}
+% \label{fig:resultstable}
+% \end{figure}
+
+
+
+
+
+
+
 
 % \begin{figure}[!ht]\centering
 % 
@@ -629,27 +787,53 @@ By averaging the 30 remaining reasoning times per amount of wards and per rule s
 %   \end{figure}
 %   
   
-\begin{figure}
+
+To better understand the impact of the preprocessing step, we further compare the reasoning times of the two implementations using \nthree. These are depicted 
+in Figure~\ref{figure:results}.
+The figure shows that preprocessing the rules improves reasoning times significantly,  consistently requiring only a quarter of the reasoning time.
+This trend manifests itself regardless of the amount of dynamic data involved.
+Whereas the traditional rule set can no longer be used in a hospital with 10 wards the 
+preprocessed rule set still provides reasonable reasoning times. 
+ \begin{figure}
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{Rplot26}
+  \includegraphics[width=\linewidth]{Rplot11}
   \caption{1 ward, reasoning time per event.}
   \label{fig:results1ward}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{Rplot27}
+  \includegraphics[width=\linewidth]{Rplot13}
   \caption{10 wards, reasoning time per event.}
   \label{fig:results10ward}
 \end{subfigure}
-\caption{Comparison of reasoning times using preprocessed and traditional rules. The preprocessing step improves reasoning times.}
+\caption{Comparison of reasoning times using preprocessed and traditional RL rules in \nthree. The preprocessing step improves reasoning times.}
 \label{figure:results}
 \end{figure} 
  
+\subsection{Discussion}
+Our analysis has shown that the implementation using \owl RL and rules performs much faster than the one using OWL DL and SPARQL querying. The results could be 
+further improved by using rule-producing rules, a special feature of \nthree. In this particular use case we can positively answer our initial question whether \nthree reasoning can 
+solve the same practical problems as \owl DL reasoning and SPARQL querying with comparable performance. We can even say more: Here, the \nthree solutions outperform \owl DL and SPARQL.
+But we also need to be careful: The OWL DL profile is of course more expressive than OWL RL and our good results were achieved by ignoring some derivations. 
+In our use case these derivations were not relevant for the queries we wanted to answer and here we also see the actual advantage of using \nthree: We can customise the reasoning according to our needs.
+From the various informations which are stated by means of an \owl DL ontology we chose which ones we wanted to use for further reasoning. If we need to be more expressive than \owl RL we can 
+extend our rules set and use -- for example -- rules with new blank nodes in the consequent to support \owl ER \cite{owlex}, an \owl profile  which can be supported by existential rules. 
+Powerful built-in functions provide us with even more options. By limiting the information we actually use for our conclusions, we can even reason over \owl Full ontologies 
+and thereby accept an \owl format which is semantically compatible with \rdf.
+% 
+% 
+% But these derivations 
+% were not relevant for the queries we applied in our use case. Even though it was originally planned to solve the problem using OWL DL -- the ontology was created having this and 
+% similar use cases in mind -- it was enough to only use OWL RL.  In our implementation we thereby chose which of the information available we want to use further snd here we also see the advantage 
+% of using \nthree: OWL DL ontologies 
 
-The figures show how preprocessing the rules improves reasoning times significantly,  consistently requiring only a quarter of the reasoning time.
-This trend manifests itself regardless of the amount of dynamic data involved.
-Whereas the traditional rule set can no longer be used in a hospital with 10 wards the 
-preprocessed rule set still provides reasonable reasoning times. 
- 
+%semantic compatibility with \rdf.
+
+% Above we compare the reasoning times of a very complex profile, \owl DL, with the less expressive profile \owl RL and it is therefore not surprising that the reasoning 
+% is much faster.
+% 
+% I should say that we compared different things and that OWL DL is more expressive, but that the question here was rather focussed on practical cases and the conclusion we can draw is that we do not 
+% always need OWL DL even when a solution was initially using that powerful profile. often, less expressive profiles are enough and these can be defined in a way which is semantically 
+% compatible with \rdf.  
