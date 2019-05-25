@@ -1,7 +1,17 @@
 % This section consists of three parts: first, we present the use case and the challenges related to it, then we explain how the use case can be approached using \nthree reasoning and as a last part 
 % we evaluate our implementation against an implementation which has been done earlier where \owl-DL reasoning and SPARQL querying was employed.
-Our first use case is a semantic nurse call system in a hospital:
-The system is aware of certain details about personnel and patients represented in an OWL-DL ontology.
+Below, we first introduce our use case -- a semantic nurse call system -- and discuss the technical challenges connected to it. We then explain how this use case can be tackled by applying
+ontology reasoning and querying and present our implementation 
+with \nthreelogic:
+%.
+%Our solution involves OWL RL reasoning using the reasoner EYE. We explain how 
+We use \owl RL reasoning to be able to incorporate knowledge specified in an \owl ontology (ontology reasoning) and write extra rules to support decision 
+trees (querying). We first perform the \owl RL reasoning by directly applying the rules specified on the Web site introducing this profile~\cite{OWLRL} and then add a preprocessing step to further improve performance.  
+We compare both implementations with an implementation using \owl DL reasoning and SPARQL querying.
+
+\subsection{Use case description}
+Our use case is a semantic nurse call system in a hospital:
+The system is aware of certain details about personnel and patients. % represented in an OWL-DL ontology.
 Such information can include: personal skills of a staff member, staff competences, patient information, special patient needs, and/or the 
 personal relationship between staff members and patients. 
 Furthermore, there is dynamic information available, for example, the current location of staff members and their status (busy or free). 
@@ -10,10 +20,8 @@ call system should be able to assign the best staff member to answer that call. 
 varies between hospitals and can be quite complex. 
 The system additionally controls different devices. If for example staff members enter a room with a patient, 
 a light should be switched on; if they log into the room's terminal, they should have access to the medical lockers in the room. 
-
-\subsection{Technological challenges}
 %Our use case is a nurse call system in a hospital.
-The event-driven reasoning system for this use case has to fulfill certain requirements.
+The event-driven reasoning system for this use case has to fulfil certain requirements.
 \begin{description}
 \item[scalability] It should cope with data sets ranging from 1000 to 100,000 relevant triples (ie triples necessary to be included for the reasoning to be correct). 
 Especially in bigger hospitals the number of staff members and patients and thereby also the amount of available information about those can be quite big. 
@@ -34,12 +42,7 @@ a patient should not wait too long till his possibly pressing request is answere
 % their reasoning is too slow to meet the scalability and the real-time constraint \cite{ORCA}. \todo{that is the paper used for the first part of this section, so remove reference!}
 % Therefore, we chose a rule-based solution. 
 %Especially the last argument motivates us to solve the described problem using semantic web technologies as they natively fulfill the semantics requirement.
-In a first attempt it has been tried to approach this use case using OWL-DL reasoning:
-The represented knowledge can be interpreted by OWL-DL reasoners such as for example Pellet \cite{Pellet}. % or HermiT \cite{hermit}.
-Complex decision trees can be handled by subsequent SPARQL queries. It is easy to add new queries or to change the order of existing queries 
-and to thereby accommodate for the configuration constraint.
-But our tests have shown that such systems inherently are not fast and reliable enough to fulfil the scalability and real-time requirements.
-For bigger amounts of data or too complex decision trees, the reasoning times of traditional OWL-DL reasoners grow exponentially, which is not scalable.
+
 
 
  
@@ -59,11 +62,55 @@ For bigger amounts of data or too complex decision trees, the reasoning times of
 % -- syntactically represented Turtle and therefore compatible with \nthree{} -- and add custom rules do model the decision tree. 
 % Below, we explain our solution in detail.
 
-\subsection{Ontology reasoning and querying}
-Given the shortcomings of the solution using OWL-DL reasoning and SPARQL it makes sense to implement the solution following another approach. 
-Below, we describe how we used \nthreelogic to solve the problem.
+\subsection{Benefits of a semantic approach}
+There are several options to implement a nurse call system as described above. Following a more classical approach, the system could be written in 
+an object-oriented programming language 
+such as Java or C++. An implementation like this can easily fulfil the real-time and scalability constraints.
+But such systems are traditionally hard-coded: they are implemented for a specific use case, and even though 
+they might be able to support the required functional complexity, this implementation would be static. The possibility to configure complex decision trees
+as postulated by the complexity requirement is rather hard to fulfil using traditional programming. Even more difficult to satisfy is the semantic requirement:
+most object oriented languages do not support enough logic to ``understand'' the available information. Knowledge must be stated explicitly, 
+as even simple connections between statements such as ``\textit{nurse x has location y}'' and ``\textit{y is location of nurse x}'' cannot be found easily.
 
-\subsubsection{OWL RL in \nthree}\label{owlrln3}
+Especially the last argument motivates us to solve the described problem using Semantic Web technologies as they natively fulfil the semantics requirement.
+Knowledge can be represented in an OWL ontology which is understood by OWL DL reasoners. % such as for example Pellet \cite{Pellet}. % or HermiT \cite{hermit}.
+Complex decision trees can be handled by subsequent SPARQL queries. It is easy to add new queries or to change the order of existing queries 
+and to thereby accommodate for the configuration constraint.
+But our tests (see Section~\ref{ev} below) have shown that such systems inherently are not fast and reliable enough to fulfil the scalability and real-time requirements.
+For bigger amounts of data or too complex decision trees, the reasoning times of traditional OWL DL reasoners grow exponentially, which is not scalable.
+
+To keep the benefits of an OWL DL based implementation in a scalable and real-time way, we propose a rule-based solution. % using \nthreelogic.
+ By using rules to reason over the ontology
+%  and 
+%  resolution instead of classical tableaux reasoning, 
+ we can significantly decrease reasoning times.
+%  and still cover a major subset
+%  of OWL 2. This approach benefits from the high performance of rule based reasoners. 
+% Even for bigger datasets the reasoning times are still faster than with the OWL DL based approach. %very fast, as we will see later in this paper.  %and is able to reason very fast even over large datasets. 
+% %Because of its high performance (see benchmarks mentioned in \cite{eyepaper}), we chose the EYE reasoner for our purposes. As the reasoner is 
+% %able to cope with large datasets, our approach meets 
+Complex decision trees can directly be implemented in rules. %, as those form the most natural 
+ As rules are the most natural representations of such trees, 
+ it is easy for a user to understand and change the priorities of different assignments 
+ or to configure new rules. A further advantage of our approach is that all logic is represented in one single way. Instead of
+ OWL DL reasoning plus SPARQL querying, we can implement the use case by only employing \nthreelogic. With the aforementioned system, we can meet all necessary requirements.
+% 
+% % 
+% 
+% 
+% 
+% In a first attempt it has been tried to approach this use case using OWL-DL reasoning:
+% The knowledge can be expressed using an OWL DL ontology und interpreted by OWL DL reasoners such as for example Pellet \cite{Pellet}. % or HermiT \cite{hermit}.
+% Complex decision trees can be handled by subsequent SPARQL queries. It is easy to add new queries or to change the order of existing queries 
+% and to thereby accommodate for the configuration constraint.
+% But our tests (see Section~\ref{ev} below) have shown that such systems inherently are not fast and reliable enough to fulfil the scalability and real-time requirements.
+% For bigger amounts of data or too complex decision trees, the reasoning times of traditional OWL DL reasoners grow exponentially, which is not scalable.
+% 
+%Given the shortcomings of the solution using OWL DL reasoning and SPARQL it makes sense to implement the solution following another approach. 
+%Below, we describe how we used \nthreelogic to solve the problem.
+Below, we describe the details of our solution.
+
+\subsection{OWL RL in \nthree}\label{owlrln3}
 If we use a traditional OWL DL reasoner like for example Pellet \cite{Pellet} or HermiT \cite{hermit} to reason over an existing ontology 
 this reasoner 
 natively understands the concepts which are part of the OWL DL profile and applies 
@@ -202,7 +249,7 @@ Formula~\ref{3}.
 %
 
 
-\subsubsection{Decision trees}
+\subsection{Decision trees}
 %REMARK: Still not sure whether we need this section?
 %The decision trees which have to be implement
 %As mentioned above, decision trees as needed in for real life use cases can be quite complex. 
@@ -291,8 +338,10 @@ Rules with the same number are treated equally.
 
 
 
-\subsection{Improving the solution by pre-producing TBox-rules}\label{reasoning}
-In a first attempt we implemented the reasoning and querying as explained above and could already perform better than the solution employing \owl reasoning and SPARQL querying. 
+\subsection{Improving performance by pre-producing TBox-rules}\label{reasoning}
+
+In a first attempt we implemented the reasoning and querying as explained above and could already perform better than the solution employing \owl reasoning and SPARQL querying 
+(see Section~\ref{ev} below). 
 However, we could not meet the requirements mentioned above: our reasoning did not scale well and and it did not fulfil the real-time constraint. 
 For that reason, we used an optimisation strategy 
 which takes advantage of a specific feature of \nthree: 
@@ -330,7 +379,7 @@ Formula~\ref{2} can change -- patients will make new calls -- statements as Form
 The terminology does not change during the reasoning process,
 calls are tasks for our ontology. %Our solution makes use of this observation: 
 %The ontology contains more triples like Formula~\ref{1} which specify the terminology: % as for example classes and their relationships among each other.
-Triples as the above specifying the terminology of an DL ontology are known as the TBox \cite[chapter 1]{dl}. 
+Triples as the above specifying the terminology of an DL ontology are known as the TBox \cite[ch. 1]{dl}. 
 %A description logic ontology consists of two parts: the TBox and the ABox \cite[chapter 1]{dl}.
 % What is valid for Formula~\ref{1} also counts for 
 % the other triples specifying the terminology. 

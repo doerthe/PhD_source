@@ -71,6 +71,7 @@ citecolor = black]{hyperref} % make links
 %\usepackage{chemfig} 
 %\usepackage{combelow} % Typeset "comma-below" letters, as in Romanian
 %\usepackage{memhfixc} % for \cleartorecto and \cleartoverso
+\usepackage{bibentry}
 
 \usepackage{afterpage} 
 % create new blank pages with no style until the next uneven page, not do always work?
@@ -175,6 +176,15 @@ citecolor = black]{hyperref} % make links
 \markboth{#1}{}
 }
 
+% \usepackage{biblatex}
+% \DeclareCiteCommand{\fullcite}
+%   {\defcounter{maxnames}{\blx@maxbibnames}%
+%     \usebibmacro{prenote}}
+%   {\usedriver
+%      {\DeclareNameAlias{sortname}{default}}
+%      {\thefield{entrytype}}}
+%   {\multicitedelim}
+%   {\usebibmacro{postnote}}
 
 
 
@@ -339,7 +349,6 @@ citecolor = black]{hyperref} % make links
 
 
 
-
 % Acronyms
 % Acronyms
 \usepackage{xspace}
@@ -373,6 +382,7 @@ citecolor = black]{hyperref} % make links
 \newcommand{\bi}{bi}%just to be able to change the name :)
 \newcommand{\biu}{b}
 \newcommand{\col}{:}
+
 
 \newcommand*\circled[1]{\tikz[baseline=(char.base)]{
             \node[shape=circle,draw,inner sep=1pt] (char) {#1};}}
@@ -586,7 +596,7 @@ citecolor = black]{hyperref} % make links
 %\bibliographystyle{unsrtnat} 
 
 \begin{document}		
-
+    \nobibliography*
 \frontmatter
 
     % front page %
@@ -665,6 +675,8 @@ citecolor = black]{hyperref} % make links
 \mainmatter
  %   \part{Variational determination of the two-particle density matrix: the case of doubly-occupied space}
 
+
+ 
 %\part{Introduction} 
 \input{chapters/introduction}\label{intro}
 
@@ -684,17 +696,44 @@ citecolor = black]{hyperref} % make links
 \input{chapters/N3/RW-ImplicitQuantification}
 
 
+\newpage
+This chapter was partly based on the publications:
+\vspace{0.3cm}
+
+\bibentry{arndt_jws_2019}
+
+\vspace{0.3cm}
+
+\bibentry{arndt_ruleml_2015}
+
+
 \input{chapters/N3/N3Core}\label{ela}
 %\chapter{Mapping to Core Logic}
 \input{chapters/N3/Mapping}
 \input{chapters/N3/RelatedWork}
 \input{chapters/N3/RW-Mapping}
+\newpage
+This chapter was partly based on the publications:
+\vspace{0.5cm}
 
+\bibentry{arndt_jws_2019}
+
+\vspace{0.3cm}
+
+\bibentry{arndt_ruleml_2015}
 
 \input{chapters/N3/Impact}
 \input{chapters/N3/Solutions}
 % \input{chapters/N3/directsemantics}\label{exsem}
+\newpage
+This chapter was partly based on the publications:
+\vspace{0.3cm}
 
+\bibentry{arndt_jws_2019}
+
+\vspace{0.3cm}
+
+\bibentry{arndt_ruleml_2015}
 
 
 %\input{chapters/N3/Conclusion}
@@ -718,19 +757,42 @@ citecolor = black]{hyperref} % make links
 %\section{Use case: Data Validation}
 \label{validation}
 
-\texttt{pred:literal-not-identical} instead of general string comparison
+
 \section{Conclusion}
 
 
 scoped negation as failure
-\chapter{Proofs and applications}\label{proof}
 
+\newpage
+This chapter was partly based on the publications:
+\vspace{0.5cm}
+
+\bibentry{arndt_ruleml_industry_2015}
+
+\vspace{0.3cm}
+
+\bibentry{arndt_owled_2015}
+
+\vspace{0.3cm}
+
+\bibentry{arndt_rulemlrr_2017}
+
+\vspace{0.3cm}
+
+\bibentry{ben}
+
+\chapter{Proofs and applications}\label{proof}
 \section{A Proof Calculus for N3}\label{cal}
+\input{chapters/Proofs/proofs}
 OWL: expressing proofs is difficult (I guess possible but as far as I know not done). N3 is good because it is rather  easy to express proofs.
 
 Say that rule-producing rules are not covered by the calculs. Rules as data vs rules as applicable steps.
 
 In OWL, you normally express explanations, these are small sets of axioms from which new knowledge follows.
+
+\input{chapters/Proofs/pragmatic-proof}
+
+
 %\input{chapters/Proofs/proofcalculus}
 %\section{Applications of Proofs}
 %\input{chapters/Proofs/PP}
@@ -776,6 +838,7 @@ not sure whether or not I have time to write this section. If not I should write
 \backmatter
 
     \bookmarksetupnext{level=part} % puts the bookmark at the same level as a part
+
     \bibliography{refs}
 
 \end{document}

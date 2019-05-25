@@ -1,16 +1,14 @@
-\section{Use Case: Data Validation}
-
-\subsection{Introduction}
-
-The amount of publicly available Linked Open Data (LOD) sets is constantly growing\footnote{See, eg statistics at: \url{http://lod-cloud.net/}.},
-however, the diversity of the data employed in applications is mostly very limited:
-only a handful of \rdf data is used frequently~\cite{rietveld2015lod}.
+\section{Use case 2: Data validation}
+Our second use case is about data validation.
+Even though the amount of publicly available Linked Open Data (LOD) sets is constantly growing\footnote{See, eg statistics at: \url{http://lod-cloud.net/}.}, 
+the diversity of the data employed in applications is mostly very limited:
+Only a handful of \rdf data is used frequently~\cite{rietveld2015lod}.
 One of the reasons for this is that the datasets' quality and consistency varies significantly,
 ranging from expensively curated to relatively low quality data~\cite{zaveri2015quality},
 and thus need to be validated carefully before use.
 
 One way to assess data quality is to check them against constraints: 
-users can verify that certain data are fit for their use case,
+Users can verify that certain data are fit for their use case,
 if the data abide to their requirements.
 First approaches to do that were implementations with hard coded validation rules,
 such as Whoknows?~\cite{ketterl2011whoknows}.
@@ -21,13 +19,13 @@ This detaches the specification of the constraints from its implementation.
 Constraint languages allow users dealing with RDF data and vocabularies
 to express, communicate, and test their particular expectations.
 Such languages can either be (i) existing frameworks designed for different purposes, eg 
-the query language SPARQL~\cite{hartmann2016,kontokostas2014test},
-or the description logic based Web Ontology Language (OWL)~\cite{owlValidation},
+ SPARQL~\cite{hartmann2016,kontokostas2014test},
+or OWL~\cite{owlValidation},
 or they can be (ii) languages only designed for validation, eg
 ShEx~\cite{shex},
 ReSh~\cite{resh},
 Description Set Profiles (DSP)~\cite{dsp},
-or the forthcoming \wwwc recommendation candidate Shapes Constraint Language (SHACL)~\cite{shacl}.
+or the \wwwc recommended Shapes Constraint Language (SHACL)~\cite{shacl}.
 These different languages can be compared
 by testing them on commonly supported constraints~\cite{bosch2015rdf,kontokostas2014test},
 as conducted by Hartmann (n\'e Bosch) et al~\cite{bosch2015}.
@@ -35,42 +33,45 @@ as conducted by Hartmann (n\'e Bosch) et al~\cite{bosch2015}.
 Depending on the users' needs, constraint languages have to be able to cope with very diverse kinds of constraints which 
 imply certain \emph{logical requirements}.
 Such requirements were investigated by Hartmann et al~\cite{bosch2015} who
-identified the Closed World Assumption (CWA) and the Unique Name Assumption (UNA) as crucial for validation. Since both are not 
+identified the Closed World Assumption (CWA) (see also Section~\ref{closedworld}) and the Unique Name Assumption (UNA) -- the assumption that each resource in the domain of discourse 
+does have exactly one unique name in the logical language -- as crucial for validation. Since both are not 
 supported by many Web Logics, Hartmann et al
  particularly emphasize
 the difference between reasoning and validation languages
 and favour SPARQL based approaches for validation
-which -- if needed -- can be combined with OWL DL or QL reasoning.
-In this paper, we take a closer look into these findings from a rule-based perspective:  
+which -- if needed -- can be combined with \rdf, \rdf{}S or \owl entailment.
+In this section, we take a closer look into these findings from a rule-based perspective:  
 We show that neither UNA nor CWA are necessary for validation if a rule-based framework containing predicates 
 to compare \uris and literals, and supporting
 Scoped Negation as Failure (SNAF) is used. This enables us to --
 instead of combining separate, successive systems --
 do both \rdf validation \emph{and} reasoning in only one system which acts directly on a constraint language. 
 We show the feasibility of this approach by providing an
-implementation. 
-This proof-of-concept is implemented in Notation3 Logic~(\nthreelogic)
-and tackles the subset of the constraints
+implementation in Notation3 Logic.
+We tackle those constraints
 identified by Hartmann et al~\cite{bosch2015} 
-which are covered in RDFUnit \cite{kontokostas2014test}.
+which are also covered in RDFUnit \cite{kontokostas2014test}, a validation system which is purely based on SPARQL querying.
+We then compare our implementation to the latter. 
+Our solution functionally outperforms RDFUnit and our execution time is 
+faster for small datasets containing 100.000 triples or less. We can thus perform a task which is often solved by using SPARQL querying with \nthreelogic and obtain comparable results. 
 
-The remainder of this paper is structured as follows:
-In Section \ref{rw} we discuss related work.
-In Section \ref{cons} we give an overview of common \rdf validation constraints.
-In Section \ref{logic}, we discuss
-how different requirements for \rdf validation are met by rule-based logics.
-Section \ref{n3} explains the details of our proof of concept
-and Section \ref{conc} concludes the paper and provides an outlook 
-for future work.
+% The remainder of this paper is structured as follows:
+% In Section \ref{rw} we discuss related work.
+% In Section \ref{cons} we give an overview of common \rdf validation constraints.
+% In Section \ref{logic}, we discuss
+% how different requirements for \rdf validation are met by rule-based logics.
+% Section \ref{n3} explains the details of our proof of concept
+% and Section \ref{conc} concludes the paper and provides an outlook 
+% for future work.
 
 
 
 
-\subsection{Related Work}\label{rw}
+\subsection{An overview of \rdf validation}\label{rw}
 
 %intro
-In this section, first,
-we will present the state of the art around validation constraint languages.
+Below
+we first present the state of the art around validation constraint languages.
 Then, we will give an overview
 of different languages and approaches used for \rdf validation.
 
@@ -83,7 +84,7 @@ the adherence to a data schema~\cite{zaveri2015quality}.
 In the case of \rdf data, this implies adhering to certain constraints.
 These have been carefully investigated by several authors (eg Hartmann et al~\cite{hartmann2016}).
 %Languages to express constraints
-The formulation of (a subset of) these constraints can be done using existing languages (eg the Web Ontology Language (OWL)~\cite{owl}, 
+The formulation of (a subset of) these constraints can be done using existing languages (eg OWL)~\cite{owl}, 
 the SPARQL Inferencing Notation (SPIN)~\cite{Knublauch2011}, or SPARQL~\cite{sparql})),
 or via dedicated languages
 (eg Shape Expressions (ShEx)~\cite{shex}, Resource Shapes (ReSh)~\cite{resh}, Description Set Profiles (DSP)~\cite{dsp}, 
@@ -122,7 +123,8 @@ further increasing the possibly of experiencing conflicts between the two contra
 Hartmann proposes a dedicated ontology
 to express integrity constraints, and as such,
 this method does not involve changing existing semantics.
-For both, involving reasoning is not possible without inclusion of a secondary system.
+For both, only very limited reasoning can be included directly in the system.
+%involving reasoning is not possible without inclusion of a secondary system.
 
 
 
@@ -154,18 +156,19 @@ As can be seen, these types are not mapped one-to-one.
 One constraint from RDFUnit maps to
 at least one constraint as identified by Hartmann, 
 except for PVT and TRIPLE, which are both not very complex constraints and could thus easily be added to the work of Hartmann et al. 
-In this paper, we mainly focus on these 17 constraints which are all covered by our implementation.
-To make the topic of constraint validation more concrete, we discuss the examples (TYPEDEP), (INVFUNC) and (MATCH) in more detail  later in this paper 
-and refer the interested reader to the above mentioned sources. 
+Here, we mainly focus on these 17 constraints which are all covered by our implementation.
+To make the topic of constraint validation more concrete, we discuss the examples (TYPEDEP), (INVFUNC) and (MATCH) in more detail  below
+and refer the reader interested  in the other constraint types to the above mentioned sources. 
 
 \begin{table}
-\caption{Constraints Alignment.
+\caption{\small Constraints Alignment.
 The first column lists the codes as used in RDFUnit;
-the second column lists the constraints of Hartmann  following the numbering \cite[appendix]{hartmann2016}; and
-the third column lists the description taken from RDFUnit.
+the second the constraints of Hartmann  following his numbering \cite[appendix]{hartmann2016}; and
+the third the description taken from RDFUnit.\normalsize
 }
 \label{table:align}
-\begin{tabular}{ p{0.2\textwidth} p{0.15\textwidth} p{0.65\textwidth}  } \toprule
+\footnotesize
+\begin{tabular}{ p{0.2\linewidth} p{0.14\linewidth} p{0.55\linewidth}  } \toprule
 \textbf{RDFUnit} & \textbf{Constraint Code} & \textbf{Description} \\ \midrule
  %\hline %\hline 
 COMP & A11  &Comparison between two literal values of a resource\\ \midrule
@@ -201,6 +204,7 @@ OWL-ASYMP & A57 & Asymmetric property constraint\\ \midrule %\hline
 OWL-IRREFL & A64 & Irreflexive property constraint \\ \bottomrule
 \end{tabular}
 \end{table}
+\normalsize
 
 
 
@@ -216,7 +220,8 @@ we discuss why rule-based logic is a reasonable choice to validate \rdf datasets
 \subsubsection{Reasoning}\label{reasoning}
 We start our discussion with reasoning. Hartmann \cite[p. 181]{hartmann2016} points out that performing reasoning in combination with \rdf validation brings several benefits:
 constraint violations may be solved, violations which otherwise would stay undetected can be found, and datasets do not need to contain 
-redundant data to be accepted by a validation engine. To better understand these benefits, consider the following ontology example:
+redundant data to be accepted by a validation engine. To better understand these benefits, consider the following ontology example:\footnote{As above, the prefix \texttt{rdfs:} 
+stands for \url{http://www.w3.org/2000/01/rdf-schema\#}.}
 \begin{equation}\label{subc}
  \texttt{:Reseacher rdfs:subClassOf :Person.}
 \end{equation}
@@ -245,8 +250,8 @@ would not be detected as an instance of
 Hartmann's and many other validation approaches thus suggest to first perform a reasoning step and then do an extra validation step via SPARQL querying. 
 The advantage of using rule-based reasoning instead is
 that validation can take place during the reasoning process \emph{in one single step}. 
-Relying on a rule which supports \texttt{rdfs:subClassOf} as for example presented 
-in~\cite{arndt_ruleml_industry_2015}\todo{make reference to other chapter} the aforementioned problem could be detected.
+Relying on a rule which supports \texttt{rdfs:subClassOf} as  presented 
+in~Section~\ref{owlrln3} the aforementioned problem could be detected.
 In general, OWL-RL~\cite{OWLRL} can be applied since it is supported by every rule language.
 If higher complexity is needed, rule languages with support for existential quantification can be used for OWL QL reasoning.
 
@@ -257,9 +262,9 @@ Hartmann et al claim that the Closed World Assumption is needed to perform valid
 Given that most Web logics assume the Open World Assumption, that would form a barrier for the goal of combining reasoning and validation 
 mentioned in the previous section. Luckily, that is not the case.
 As constraint validation copes with the local knowledge base,
-Scoped Negation as Failure (SNAF), 
-inter alia discussed in \cite{damasio2006supporting,kifer2005,polleres2006rules}, is enough.
-Among the logics which support this concept are for example FLORA-2~\cite{negflora} or \nthreelogic~\cite{N3Logic}.
+Scoped Negation as Failure (SNAF) (see also  Section~\ref{closedworld} and for example \cite{damasio2006supporting,kifer2005,polleres2006rules}) is enough.
+This is for example supported by FLORA-2~\cite{negflora} or \nthreelogic~\cite{N3Logic}.\footnote{As we will discuss below, SNAF in \nthree is mostly supported by built-in functions. 
+As we explicitly excluded these from our discussion in Chapter~\ref{semofn3}, our semantics does not cover SNAF yet. }
 
 In order to understand the idea behind Scoped Negation as Failure,
 consider the triples that form Formula~\ref{Kurt}
@@ -299,13 +304,15 @@ for constraint validation. This assumption is for example present in F-Logic \ci
 can only have one single name (\uri or Literal in our case).  The reason, why this assumption is in general problematic for the Semantic Web lies in its distributed nature: 
 different datasets can -- and actually do -- use different names for the same individual or concept.
 For instance, the \uri \texttt{dbpedia:London} refers to the same place in England as 
-for example \texttt{dbpedia-nl:London}. In this case this fact is even stated in the corresponding ontologies using the predicate \texttt{owl:sameAs}.
+for example \texttt{dbpedia-nl:London}.\footnote{\texttt{dbpedia} stands for \url{http://dbpedia.org/resource/}, \texttt{dbpedia-nl} for \url{http://nl.dbpedia.org/resource/}.} In this case this fact is even stated in the corresponding ontologies using the 
+predicate \texttt{owl:sameAs}.\footnote{As above \texttt{owl} is the prefix for \url{http://www.w3.org/2002/07/owl\#}.}
 
 The impact of the Unique Name Assumption for \rdf validation becomes clear if we take a closer look at OWL's inverse functional property and the related constraint (INVFUNC). 
-Let us assume that \texttt{dbo:capital} is an \texttt{owl:InverseFunctionalProperty} and our knowledge base contains:
-\begin{multline}\label{conflict}
- \texttt{:England dbo:capital :London. :Britain dbo:capital :London.}
-\end{multline}
+Let us assume that \texttt{dbo:capital}\footnote{With \texttt{dbo} standing for \url{http://dbpedia.org/ontology/}.} 
+is an \texttt{owl:InverseFunctionalProperty} and our knowledge base contains:
+\begin{align}\notag
+ \texttt{:England dbo:capital :London.}\\\texttt{ :Britain dbo:capital :London.}\label{conflict}
+\end{align}
 Since \texttt{:England} and \texttt{:Britain} are both stated as having \texttt{:London} as their capital and \texttt{dbo:capital} is an inverse functional property,
 an OWL reasoner would derive  
 \begin{equation}
@@ -339,8 +346,10 @@ Such built-in functions are widely spread in rule-based logics
 and play an important role in \rdf validation which very often deals with string comparisons, calculations or operations on \uri level.
 While it normally depends on the designers of a logic which features are supported, there are also common standards. 
 
-One of them is the Rule Interchange Format (RIF) \cite{rif}
-whose aim it is to provide a formalism to exchange rules in the Web. 
+The most important standard for rules in the Semantic Web is RIF
+%One of them is the Rule Interchange Format (RIF) \cite{rif}
+%whose aim it is to provide a formalism
+which was developed to exchange rules in the Web. 
 Being the result of a \wwwc working group consisting of developers and users 
 of different rule-based languages, RIF can also be understood as a reference for the most common features rule based logics might have. 
 This makes the list of predicates~\cite{rifpredicates} supported by the different RIF dialects particularly interesting for our analysis. 
@@ -348,18 +357,21 @@ This makes the list of predicates~\cite{rifpredicates} supported by the differen
 And it is indeed the case that by
 only using RIF predicates many of the constraints listed in Section \ref{cons} can already be checked: 
 negative pattern matching (MATCH) can be implemented by using the predicate 
-\texttt{pred:matches}, 
-the handling of language tags as required for the constraint ONELANG can be done using \texttt{func:lang-from-PlainLiteral}, 
-and for the comparison of literal values (COMP) there are several predicates to compare strings, numbers or dates.
+\texttt{pred:matches},\footnote{
+\texttt{PREFIX pred:} \url{<http://www.w3.org/2007/rif-builtin-predicate\#>}.} 
+the handling of language tags as required for the constraint ONELANG can be done using \texttt{func:lang-from-PlainLiteral},\footnote{\texttt{PREFIX func:}
+\url{<http://www.w3.org/2007/rif-builtin-function\#>}}
+ and for the comparison of literal values (COMP) there are several predicates to compare strings, numbers or dates.
 
 
 To illustrate  how powerful RIF is when it comes to string validation, we take a closer look at the predicate \texttt{log:notEqualTo} from the previous section. 
 In the example above it is used to compare two \uri representations and succeeds if these these two are different. To refer to a \uri value, RIF provides the predicate 
-\texttt{pred:iri-string} which converts a \uri to a string and and vice versa. In \nthree notation\footnote{More about that in Section~\ref{n3syn}} 
+\texttt{pred:iri-string} which converts a \uri to a string and and vice versa. In \nthree notation\footnote{The EYE reasoner supports RIF predicates.
+These need to be used in \nthree syntax.} 
 that could be expressed by:
 %\small
 \begin{multline}
-\texttt{(:England "http://exmpl.com/England") pred:iri-string true.}
+\texttt{(:England "http://exmpl.com/England")}\\\texttt{ pred:iri-string true.}
 \end{multline}
 %\normalsize
 To compare the newly generated strings, the function \texttt{func:compare} can be used. This function takes two string values as input,
@@ -367,7 +379,7 @@ and returns -1 if the first string
 is smaller
 than the second one regarding a string order, 0 if the two strings are the same, and 1 if the second is smaller than the first. The example above gives:
 \begin{multline}
- \texttt{("http://exmpl.com/Britain" "http://exmpl.com/England")}\\ \texttt{func:compare -1.}
+ \texttt{("http://exmpl.com/Britain"}\\\texttt{ "http://exmpl.com/England")}\\ \texttt{func:compare -1.}
 \end{multline}
 \sloppy
 To enable a rule to detect whether the two \uri names are equal, one additional function is needed: the reasoner has to detect whether the result of the comparison
@@ -392,45 +404,45 @@ and do string comparison as they are supported by RIF.
 With that logic, we were able to implement rules for all the constraints listed in Section~\ref{cons}, and thus 
 provide similar functionality as RDFUnit using rule-based Web logics.
 Below we discuss the
-details of this implementation starting by providing more information about \nthreelogic and EYE. 
+details of this implementation. % starting by providing more information about \nthreelogic and EYE. 
 The code of our implementation can be accessed at \url{https://github.com/IDLabResearch/data-validation}. 
 
 
 
-\subsubsection{\nthreelogic}\label{n3syn}
-\nthreelogic was introduced in 2008 by Tim Berners-Lee et al \cite{N3Logic} and is an extension of \rdf:
-All \rdf turtle triples are also valid in \nthree. 
-As in \rdf, blanknodes are understood as existentially quantified variables and the co-occurrence of two triples as in Formula~\ref{conflict} 
-is understood as their conjunction. \nthree furthermore supports universally quantified variables. These are indicated by a leading question mark \texttt{?}. 
-\begin{equation}
- \texttt{?x :likes :IceCream.}
-\end{equation}
-stands for \textit{``Everyone likes ice cream.''},  or in first order logic
-\[\forall x: \text{likes}(x, \text{ice-cream})\]
-Rules are written using curly brackets \texttt{\{~\}} and the implication symbol \texttt{=>}. The \texttt{rdfs:subClassOf} 
-relation from Formula~\ref{subc} can be expressed as:
-\begin{equation}\label{rulescl}
- \texttt{\{?x a :Researcher\} => \{?x a :Person\}.}
-\end{equation}
-Applied on Formula~\ref{Kurt} the rule results in Formula~\ref{person}. 
-More details about syntax and semantics of \nthree can be found in our previous paper \cite{arndt_ruleml_2015}.
-
-There are several reasoners supporting \nthree:
-FuXi \cite{fuxi} is a forward-chaining production system for Notation3 whose reasoning is based on the RETE algorithm. 
-The forward-chaining cwm \cite{cwm} reasoner 
-is a general-purpose data processing tool which can be used for querying, checking, transforming 
-and filtering information.
-EYE \cite{eyepaper} is a reasoner enhanced with Euler path detection. 
-It supports 
-backward and 
-forward 
-reasoning and also a user-defined mixture of both. 
-Amongst its 
-numerous features are the option to skolemise blank nodes
-and  the possibility to produce and reuse proofs for further reasoning. 
-The reason why we use EYE in our implementation is its generous support for built-ins\footnote{\url{http://eulersharp.sourceforge.net/2003/03swap/eye-builtins.html}}: 
-next to \nthree's native built-ins\footnote{\url{https://www.w3.org/2000/10/swap/doc/CwmBuiltins}}, 
-RIF, but also several other functions and concepts are implemented. 
+% \subsubsection{\nthreelogic}\label{n3syn}
+% \nthreelogic was introduced in 2008 by Tim Berners-Lee et al \cite{N3Logic} and is an extension of \rdf:
+% All \rdf turtle triples are also valid in \nthree. 
+% As in \rdf, blanknodes are understood as existentially quantified variables and the co-occurrence of two triples as in Formula~\ref{conflict} 
+% is understood as their conjunction. \nthree furthermore supports universally quantified variables. These are indicated by a leading question mark \texttt{?}. 
+% \begin{equation}
+%  \texttt{?x :likes :IceCream.}
+% \end{equation}
+% stands for \textit{``Everyone likes ice cream.''},  or in first order logic
+% \[\forall x: \text{likes}(x, \text{ice-cream})\]
+% Rules are written using curly brackets \texttt{\{~\}} and the implication symbol \texttt{=>}. The \texttt{rdfs:subClassOf} 
+% relation from Formula~\ref{subc} can be expressed as:
+% \begin{equation}\label{rulescl}
+%  \texttt{\{?x a :Researcher\} => \{?x a :Person\}.}
+% \end{equation}
+% Applied on Formula~\ref{Kurt} the rule results in Formula~\ref{person}. 
+% More details about syntax and semantics of \nthree can be found in our previous paper \cite{arndt_ruleml_2015}.
+% 
+% There are several reasoners supporting \nthree:
+% FuXi \cite{fuxi} is a forward-chaining production system for Notation3 whose reasoning is based on the RETE algorithm. 
+% The forward-chaining cwm \cite{cwm} reasoner 
+% is a general-purpose data processing tool which can be used for querying, checking, transforming 
+% and filtering information.
+% EYE \cite{eyepaper} is a reasoner enhanced with Euler path detection. 
+% It supports 
+% backward and 
+% forward 
+% reasoning and also a user-defined mixture of both. 
+% Amongst its 
+% numerous features are the option to skolemise blank nodes
+% and  the possibility to produce and reuse proofs for further reasoning. 
+% The reason why we use EYE in our implementation is its generous support for built-ins\footnote{\url{http://eulersharp.sourceforge.net/2003/03swap/eye-builtins.html}}: 
+% next to \nthree's native built-ins\footnote{\url{https://www.w3.org/2000/10/swap/doc/CwmBuiltins}}, 
+% RIF, but also several other functions and concepts are implemented. 
 
 
 \subsubsection{Expressing Constraints}
@@ -441,7 +453,7 @@ RIF, but also several other functions and concepts are implemented.
   caption={Example inverse functional property constraint: No city can be the capital of two countries. },
   label=example2]
 §\textcolor{gray}{@prefix rdfcv: \url{<http://www.dr-thomashartmann.de/phd-thesis/rdf-validation/vocabularies/rdf-constraints-vocabulary\#>}.}§
-§\textcolor{gray}{@prefix : <http://example.com/constraints\#>.}§
+§\textcolor{gray}{@prefix : <http://example.org/ex\#>.}§
 §\textcolor{gray}{@prefix dbo: 	<http://dbpedia.org/ontology/> .}§
 
 :example_constraint a rdfcv:SimpleConstraint ;
@@ -505,7 +517,7 @@ relate the constraint specified to the predicate it is valid for. The objects of
   the Unique Name Assumption. },
   label=invfunc]
 §\textcolor{gray}{@prefix rdfcv: \url{<http://www.dr-thomashartmann.de/phd-thesis/rdf-validation/vocabularies/rdf-constraints-vocabulary\#>} .}§
-§\textcolor{gray}{@prefix : <http://example.com/constraints\#> .}§
+§\textcolor{gray}{@prefix : <http://example.org/ex\#> .}§
 §\textcolor{gray}{@prefix list: <http://www.w3.org/2000/10/swap/list\#>.}§
 §\textcolor{gray}{@prefix log: <http://www.w3.org/2000/10/swap/log\#> .}§
 
@@ -545,18 +557,95 @@ there are alternative ways to express the predicate \texttt{log:notEqualTo} in \
 (Line 18). Together with Listing~\ref{example2} that violation is thus detected if two different resource names 
 for resources of the class \texttt{dbo:Country} are connected via the predicate \texttt{dbo:capital} to the same object. Assuming that \texttt{:Britain} and \texttt{:England}
 are both instances of the class \texttt{dbo:Country}, the triples in Formula~\ref{conflict} lead to the violation:
-\begin{equation}
- \texttt{\_:x a :violaton; :violatedConstraint :example\_constraint.}
-\end{equation}
-The example shown relies on descriptions following the vocabulary Hartmann suggests, but our approach can easily be adapted for 
-other \rdf based constraint vocabularies. All  we need is a consistent way to express constraints in \rdf. 
+\begin{multline}
+ \texttt{\_:x a :violaton;}\\\texttt{ :violatedConstraint :example\_constraint.}
+\end{multline}
+The example relies on descriptions following the vocabulary Hartmann suggests, but our approach can easily be adapted for 
+other constraint vocabularies whose syntax is based on \rdf. We only need rules to translate from one concept to another. Similarly, we can generate constraints we want to test later on 
+using rules, this is what we explain below.
+
+\subsubsection{Generating constraint descriptions}
+\begin{lstlisting}[
+  float=t,
+  caption={Example constraint (TYPEDEP). This constraint tests whether the derivations implied by Formula~\ref{subc} have been produced. },
+  label=ty]
+§\textcolor{gray}{@prefix rdfcv: \url{<http://www.dr-thomashartmann.de/phd-thesis/rdf-validation/vocabularies/rdf-constraints-vocabulary\#>} .}§
+§\textcolor{gray}{@prefix : <http://example.org/ex\#> .}§
+
+_:example_constraint_2 a rdfcv:SimpleConstraint ;
+  :constraintType :Subsumption ;
+  rdfcv:constrainingElement :sub-class ;
+  rdfcv:contextClass  :Researcher;
+  rdfcv:classes :Person .
+\end{lstlisting}
+One use case for constraint testing -- apart from simple quality assurance -- is to test whether a reasoner or any other application which automatically 
+adds triples to a triple store works properly. 
+%In these cases, the reasoning and the testing should be performed by two independent systems.
+To better understand this special case and how this can be approached using \nthree, we come back to our reasoning example above. Via subclass reasoning an 
+\owl DL reasoner should derive Formula~\ref{person} from the  TBox-triple~\ref{subc} and the ABox-formula~\ref{Kurt}. % and  
+
+Above, we discussed, how this reasoning can also be performed by using \nthree. Here, instead of applying this reasoning, we want to test, whether the data set 
+which is produced by another system contains Formula~\ref{person} given that the Formulas~\ref{subc} and \ref{Kurt} are also present. 
+To do so, we can declare a TYPEDEP constraint as displayed in Listing~\ref{ty}. But in this case -- testing the output of a reasoner -- we already know that we want to perform a similar test
+for all \texttt{rdfs:subClassOf}-declarations in our ontology's TBox. 
+We can thus use a rule to automatically produce the constraint descriptions. We display such a rule in Listing~\ref{tyrule}.
+Applied on Formula~\ref{subc} we get an instance of The formula displayed in Listing~\ref{ty}. We can write similar rules for other ontology concepts and we can translate other constraint 
+vocabularies to RDF-CV. 
+
+Other implementations we are aware of (in particular RDFUnit), perform similar translation steps as the one we describe above. In contrast to our approach, these translation steps 
+often need to be performed prior to the constraint testing while in our implementation we can generate or translate constraint descriptions in the same reasoning run the constraints are tested.
+
+\begin{lstlisting}[
+  float=t,
+  caption={Rule producing a (TYPEDEP) constraint from an \texttt{rdfs:subClassOf} declaration. Such rules can be used to test reasoners. },
+  label=tyrule]
+§\textcolor{gray}{@prefix rdfcv: \url{<http://www.dr-thomashartmann.de/phd-thesis/rdf-validation/vocabularies/rdf-constraints-vocabulary\#>} .}§
+§\textcolor{gray}{@prefix : <http://example.org/ex\#> .}§
+§\textcolor{gray}{@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema\#>.}§
+
+{
+?x rdfs:subClassOf ?y
+}
+=>
+{
+_:constraint a rdfcv:SimpleConstraint ;
+  :constraintType :Subsumption ;
+  rdfcv:constrainingElement :sub-class ;
+  rdfcv:contextClass  ?x;
+  rdfcv:classes ?y .
+}.
+\end{lstlisting}
+
+% As an example we  If we for example want to test, whether all occurrences of the term \texttt{rdfs:subclassOf} occurring in an \owl DL ontology were 
+% interpreted correctly by a reasoner when producing the deductive closure of the TBox and the ABox of an ontology, ie whether 
+% %  Similarly, we can generate constraints using rules in case
+% % we want to test certain details based on existing patterns in an ontology. 
+% % This is what we explain
+% % below.
+% To better understand the latter, we come back to the constraint type \emph{inverse functional properties} we discussed above. We already said that stating 
+% such a type of constraint is not the same as using
+% %All  we need is a consistent way to express constraints in \rdf. 
+% the \owl concept \texttt{owl:InverseFunctionalProperty} in an ontology: % and assume that in the context it is used it is meant as a constraint 
+% While the latter can be understood in an declarative manner -- is 
+% 
+% 
+% 
+% 
+% Next to the freedom of our \nthree  implementation of basing our rules on any constraint vocabulary which is syntactically based on \rdf we can also connect 
+% 
+% Explain: once we fixed a constaint vocabbulary, we do not need to stick to it, we can write additional rules to map from one vocabulary to another. If we for example 
+% follow the different approches based on \owl which often change the fixed semantics of \owl we can 
+
+\subsection{Evaluation}
 Note that our rules act directly on constraint descriptions and \rdf datasets: while the SPARQL based approaches \cite{hartmann2016,kontokostas2014test} mentioned 
 in Section~\ref{rw} rely on an extra mapping step
 to instantiate the search patterns. If reasoning needs to be included into the data validation, a rule based system can do reasoning, mapping and constraint validation 
 in one single step  where other systems need to perform three.
 
+To evaluate our implementation we compare it to RDFUnit.
+\todo{add Ben's evaluation (only parts on \rdf{}Unit}
 
-\subsection{Conclusion and Future Work}\label{conc}
+\subsection{Discussion}\label{conc}
 In this paper we investigated the requirements a rule based Web logic needs to fulfil to be suitable for \rdf validation:
 it should support Scoped Negation as Failure, it should provide predicates for name comparison, and its built-ins should be powerful enough to, for example, 
 do string comparisons or access language tags.  Together with the capability to meet its primary purpose, Web reasoning, such a Web logic is
@@ -575,5 +664,3 @@ we aim to cover all of the 81 constraints identified by Hartmann et al \cite{bos
 envisage to extend the supported \rdf constraint vocabularies and to align our efforts with SHACL.  
 Another direction of future research will be a better combination of performant reasoning and validation, following the ideas provided in previous work~\cite{arndt_owled_2015}.
 Further evaluation on performance is also to be conducted.
-
-\todo{add evaluation results from Ben's paper}
