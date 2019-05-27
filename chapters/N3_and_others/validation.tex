@@ -405,7 +405,7 @@ With that logic, we were able to implement rules for all the constraints listed 
 provide similar functionality as RDFUnit using rule-based Web logics.
 Below we discuss the
 details of this implementation. % starting by providing more information about \nthreelogic and EYE. 
-The code of our implementation can be accessed at \url{https://github.com/IDLabResearch/data-validation}. 
+The rules for our implementation can be accessed at \url{https://github.com/IDLabResearch/data-validation}. 
 
 
 
@@ -592,8 +592,12 @@ We can thus use a rule to automatically produce the constraint descriptions. We 
 Applied on Formula~\ref{subc} we get an instance of The formula displayed in Listing~\ref{ty}. We can write similar rules for other ontology concepts and we can translate other constraint 
 vocabularies to RDF-CV. 
 
-Other implementations we are aware of (in particular RDFUnit), perform similar translation steps as the one we describe above. In contrast to our approach, these translation steps 
-often need to be performed prior to the constraint testing while in our implementation we can generate or translate constraint descriptions in the same reasoning run the constraints are tested.
+This translation can be performed in one single reasoning run together with the validation. By using translation or generation rules together with validation rules we
+which can be selected according to the user's need we have a very strong and at the same time very flexible system.
+
+% 
+% Other implementations we are aware of (in particular RDFUnit), perform similar translation steps as the one we describe above. In contrast to our approach, these translation steps 
+% often need to be performed prior to the constraint testing while in our implementation we can generate or translate constraint descriptions in the same reasoning run the constraints are tested.
 
 \begin{lstlisting}[
   float=t,
@@ -637,30 +641,182 @@ _:constraint a rdfcv:SimpleConstraint ;
 % follow the different approches based on \owl which often change the fixed semantics of \owl we can 
 
 \subsection{Evaluation}
-Note that our rules act directly on constraint descriptions and \rdf datasets: while the SPARQL based approaches \cite{hartmann2016,kontokostas2014test} mentioned 
-in Section~\ref{rw} rely on an extra mapping step
-to instantiate the search patterns. If reasoning needs to be included into the data validation, a rule based system can do reasoning, mapping and constraint validation 
-in one single step  where other systems need to perform three.
+In the previous section we described how we can use \nthree to perform constraint testing and -- if necessary -- combine these tests with constraint generation or ontology reasoning.
+We call our implementation \enquote{Validatrr}: a validator using rule-based reasoning. Validatrr makes use of the EYE reasoner.
+To be able to compare our implementation with existing approaches, a Node.js JavaScript framework was created
+to discover and retrieve vocabularies and ontologies, manage command line arguments and run tests.
+This framework is available at \url{https://github.com/IDLabResearch/validatrr}.
 
-To evaluate our implementation we compare it to RDFUnit.
-\todo{add Ben's evaluation (only parts on \rdf{}Unit}
+For our evaluation, we compare Validatrr with an implementation based on SPARQL querying: RDFUnit~\cite{kontokostas2014test}. 
+We want to know how Validatrr performs in terms of accuracy -- that is, do they correctly detect the same constraint violations -- and execution times 
+compared to the latter. Below, we discuss both aspects separately.
+
+\subsubsection{Accuracy}
+\begin{table}
+	\centering
+	\caption{\small Comparing RDFUnit to Validatrr using different sets of inferencing steps ($\emptyset$ and $\upsilon$). %, and $\rho$).
+		Validatrr finds more violations given the same set of inferencing steps. % and the set of inferencing steps used impacts the result.
+		Test cases where Validatrr outperforms RDFUnit are starred. Rows where Validatrr and RDFUnit differ are marked grey.}
+	\label{table:unit-test}
+	\footnotesize
+	\begin{tabular}{rccc} \toprule
+		%\hline 
+		\bf Test Case & \multicolumn{3}{c}{\textbf{\# found violations}} \\
+		& \makecell{RDFUnit} & \multicolumn{2}{c}{Validatrr} \\
+		& $\upsilon$ & $\emptyset$ & $\upsilon$ \\
+		\hline
+		{{\scshape invfunc}\_correct} & 0 & 0 & 0  \\ 
+		\rowcolor{lightergrey} \textit{{\scshape invfunc}\_wrong} & 2 & 0 & 2 \\ 
+		{{\scshape owlcardt}\_correct} & 0 & 0 & 0  \\ 
+		{{\scshape owlcardt}\_wrong\_exact} & 6 & 6 & 6 \\ 
+		{{\scshape owlcardt}\_wrong\_max} & 2 & 2 & 2  \\ 
+		{{\scshape owlcardt}\_wrong\_min} & 2 & 2 & 2  \\ 
+		{{\scshape owldisjc}\_correct} & 0 & 0 & 0  \\ 
+		\rowcolor{lightergrey} \textit{{\scshape owldisjc}\_wrong} & 6 & 2 & 6  \\ 
+		{{\scshape owlqcardt}\_correct} & 0 & 0 & 0  \\ 
+		{{\scshape owlqcardt}\_wrong\_exact} & 6 & 6 & 6 \\ 
+		{{\scshape owlqcardt}\_wrong\_max} & 2 & 2 & 2  \\ 
+		{{\scshape owlqcardt}\_wrong\_min} & 2 & 2 & 2  \\ 
+		{{\scshape rdflangstring}\_correct} & 0 & 0 & 0  \\ 
+		{\scshape rdflangstring}\_wrong & 2 & 2 & 2 \\ 
+		\rowcolor{lightergrey} \textit{{\scshape rdfsrange-miss}\_wrong*} & 1 & 3 & 3  \\ 
+		{{\scshape rdfsranged}\_correct} & 0 & 0 & 0  \\ 
+		\rowcolor{lightergrey} \textit{{\scshape rdfsranged}\_wrong*} & 2 & 3 & 3  \\ 
+		\rowcolor{lightergrey} \textit{{\scshape rdfsrange}\_correct*} & 0 & 5 & 4  \\ 
+		\rowcolor{lightergrey} \textit{{\scshape rdfsrange}\_wrong*} & 1 & 3 & 3  \\ 
+		{\scshape rdfsrang\_lit}\_correct & 0 & 0 & 0 \\ 
+		{\scshape rdfsrang\_lit}\_wrong & 3 & 3 & 3  \\
+		\bottomrule 
+	\end{tabular} 
+	%\medskip
+\end{table}
+\normalsize
+To test for both implementations whether they correctly detect all constraint violations they are supposed to find when provided with a set of constraint descriptions and
+files to check for those we used the unit tests written for RDFUnit which we directly
+took from the RDFUnit repository\footnote{\url{https://github.com/AKSW/RDFUnit/tree/master/rdfunit-core/src/test/resources/org/aksw/rdfunit/validate/data}}.
+As mentioned above, constraints in RDFUnit are expressed using SPARQL patterns, so-called DQPTs. 
+We translated these DQTPs to RDF-CV according to the mapping given in Table~\ref{table:align}.
+Apart from this, there was no difference in the input sets of both validation systems and 
+we used all test patterns available\footnote{For a detailed description of these test patterns we refer to
+the original publication of RDFUnit~\cite{kontokostas2014test}.}.
+RDFUnit furthermore uses a custom set of inference rules: each resource is an \texttt{rdfs:Resource} and the construct \texttt{rdfs:subclassOf} is understood according to its meaning defined in 
+RDFS semantics~\cite{RDFSemantics}. We call this set of rules $\upsilon$. 
+
+In Table~\ref{table:unit-test} we display the results of our tests using RDFUnit, Validatrr without extra reasoning  ($\emptyset$) and Validatrr using the rules $\upsilon$.
+We list the name of the test cases together with the number of constraint violations each implementation found. 
+% We clearly see that when applying the same reasoning as RDFUnit, Validatrr
+% finds the same or a higher number of constraint violations as RDFUnit.
+We marked each test case for which Validatrr finds more violations than RDFUnit with a star. These are the cases 
+\textit{{\scshape rdfsrange-miss}\_wrong}, \textit{{\scshape rdfsranged}\_wrong}, \textit{{\scshape rdfsrange}\_correct} and \textit{{\scshape rdfsrange}\_wrong}.
+All these cases contain the restriction type \emph{multiple range} which is not yet supported by RDFUnit: when the predicate \texttt{:multRanges} is used, 
+each resource linked as an object to that predicate should be classified into multiple classes. For all other cases the number of encountered constraints is the same for both
+implementations when applying the same set of inference rules. Our approach thus outperforms RDFUnit.
+
+
+
+
+\subsubsection{Performance}
+After comparing both implementations in terms of accuracy, we now want to have a closer look at their execution time. To test this, we again follow 
+RDFUnit's original evaluation method. RDFUnit derives constraints from the existing schemas FOAF, GeoSPARQL, OWL, DC terms, SKOS, and Prov-O. 
+The idea behind that is similar as we discussed it above when we showed how a rule can be used to generate a constraint from the concept \texttt{rdfs:subClassOf}. RDFUnit uses a step 
+to first generate DQPTs based on the concepts found in an ontology while we use extra rules.
+
+For our concrete test 
+we used graphs following these  schemas.
+At most ten different \rdf graphs --~per schema, per \rdf graph size~-- were downloaded,
+by querying LODLaundromat's SPARQL endpoint~\cite{beek2014lod}.
+In total we downloaded
+300~%
+graphs with sizes ranging from ten to one~million triples. For each of these datasets constraints were created according to the schema they were following and then tested.
+The tests were executed on a  machine consisting of 24 cores (Intel Xeon CPU E5-2620 v3 @ 2.40GHz) and 128GB RAM.
+All evaluations were performed using untampered docker images for both approaches to maintain reproducibility,
+the different tests were orchestrated using custom scripts.
+All timings include the docker images' initialization time.
+The data is available at \url{https://github.com/IDLabResearch/validation-benchmark/tree/master/data/validation-journal}.
+
+In Figure~\ref{fig:eval-size} we show the results of our tests: we plotted the median execution time of all schemas against the \rdf graph size for both approaches.
+We clearly see that for small datasets containing less than 100,000 triples our solution is faster than RDFUnit. 
+
+% The median execution time across all schemas is plotted against \rdf graph size per approach
+% in a log-log scale
+% (see \cref{fig:eval-size}).
+% To make sure we can combine execution times across schemas,
+% we tested the null hypothesis that no significant difference in execution time was found between schemas,
+% by performing an ANOVA statistical test with single factor ``used schema'' for measurement variable
+% ``execution time per triple'',
+% executed pairwise for all used schemas.
+% The null hypothesis with $\alpha = 0.05$ was accepted
+% for every pair.
+% %Processing times larger than two minutes
+% %are not kept in the plot but denoted with a red cross.
+% The number of found violations are not plotted,
+% as statistical analysis shows no large correlation
+% between execution time and number of found violations,
+% neither for Validatrr or RDFUnit ($-0.0203$ and $0.0458$, respectively).
+
+% Note that our rules act directly on constraint descriptions and \rdf datasets: while the SPARQL based approaches \cite{hartmann2016,kontokostas2014test} mentioned 
+% in Section~\ref{rw} rely on an extra mapping step
+% to instantiate the search patterns. If reasoning needs to be included into the data validation, a rule based system can do reasoning, mapping and constraint validation 
+% in one single step  where other systems need to perform three.
+
+\begin{figure}[t]
+    \includegraphics[width=\linewidth]{eval_size.pdf}
+\caption{Validatrr's execution speed (dotted line) is up to an order of magnitude faster than RDFUnits's (solid line) when the number of triples per \rdf graph is below 100,000 triples.}
+	\label{fig:eval-size}
+\end{figure}
+
 
 \subsection{Discussion}\label{conc}
-In this paper we investigated the requirements a rule based Web logic needs to fulfil to be suitable for \rdf validation:
-it should support Scoped Negation as Failure, it should provide predicates for name comparison, and its built-ins should be powerful enough to, for example, 
-do string comparisons or access language tags.  Together with the capability to meet its primary purpose, Web reasoning, such a Web logic is
-a strong alternative to the common approach of either combining reasoning and validation in two different steps, for example by first performing OWL reasoning and 
-then executing SPARQL queries on top of the result as done by Hartmann \cite{hartmann2016}, or only executing SPARQL queries and thereby ignoring possible 
-implicit constraint violations
-as done in RDFUnit~\cite{kontokostas2014test}. Rule based Web logics fulfilling the requirements still provide the same expressivity as SPARQL with the additional advantage
-of supporting reasoning. Validation and reasoning can thus be done by \emph{one single system} in \emph{one single step}. 
-%
-The practical feasibility of this approach has been shown by providing a proof-of-concept in \nthreelogic which supports all RDFUnit constraint types. 
-As such, we allow users to assess 
-their data quality more easily using a single rule based validation system, and potentially uncovering more errors. Thus, improving data quality on the Semantic Web overall.
+Above we compared our rule-based \rdf validation system Validatrr with another state-of-the art system providing that service. The difference between Validatrr and RDFUnit 
+lies in the technologies used: RDFUnit first instantiates SPARQL patterns (DQPTs) using a programming script and then applies these queries 
+while Validatrr uses \nthreelogic for both of these steps. %We saw that our implementation can support all constraint types which are covered by RDFUnit. 
+This quality of a unifying logic -- supporting constraint generation and testing at the same time -- made that our approach performed faster on small datasets. Similarly,
+more advanced reasoning as for example
+discussed in Section~\ref{owlrln3} could be added.
+Validatrr was furthermore more accurate on the test cases we 
+performed and could correctly spot more constraint violations.
 
-In future work, we are planning to extend our implementation:
-we aim to cover all of the 81 constraints identified by Hartmann et al \cite{bosch2015} which are not specific to SPARQL. We furthermore 
-envisage to extend the supported \rdf constraint vocabularies and to align our efforts with SHACL.  
-Another direction of future research will be a better combination of performant reasoning and validation, following the ideas provided in previous work~\cite{arndt_owled_2015}.
-Further evaluation on performance is also to be conducted.
+If we come back to our initial question ``Can \nthree solve the same practical tasks as SPARQL querying with a comparable performance?'' 
+we can again give a positive answer for our use case: RDF validation can 
+be performed by using \nthree reasoning and for smaller datasets \nthree outperforms the solution using SPARQL. 
+But we need again to be careful with that answer: 
+Our positive results could be achieved because \nthree as implemented in the EYE reasoner 
+offers three important features which are crucial for data validation: It supports SNAF, it provides predicates to compare names (and thereby makes an UNA unnecessary), and it
+has powerful built-ins to for example, 
+do string comparisons or access language tags. Not all of these features are covered in the original specification 
+about \nthreelogic~\cite{Notation3,N3Logic} and it depends on the discussion within the community\footnote{See also: \url{https://github.com/w3c/N3/issues/11}.} whether or not these
+become an official part of that logic. But if this is the case, \nthree is powerful enough to support all constraint types which are covered by RDFUnit.
+
+
+% we discussed the possibility to use a rule-based logic to perform \rdf validation.
+% We identified the support of SNAF, predicates for name comparison and powerful built-ins as the key components a logic should have to be able to fulfil this task. 
+% As \nthree fulfils all these requirements, we implemented Validatrr, a rule-based system to perform \rdf validation. By using 
+% 
+% 
+% Above we discussed the different requirements a rule based Web logic needs to fulfil to be suitable for \rdf validation:
+% it should support Scoped Negation as Failure, it should provide predicates for name comparison, and its built-ins should be powerful enough to, for example, 
+% do string comparisons or access language tags. 
+% 
+% The main reason for this difference in performance is that we use the same technology -- \nthreelogic as a potentially unifying logic -- which can generate constraints 
+% from existing schemas and test data 
+% for validation of these constraints as opposed to RDFUnit where these two tasks need to be executed by two different technologies -- a custom system to instantiate DQTPs and 
+% SPARQL-querying.
+
+
+% 
+%  Together with the capability to meet its primary purpose, Web reasoning, such a Web logic is
+% a strong alternative to the common approach of either combining reasoning and validation in two different steps, for example by first performing OWL reasoning and 
+% then executing SPARQL queries on top of the result as done by Hartmann \cite{hartmann2016}, or only executing SPARQL queries and thereby ignoring possible 
+% implicit constraint violations
+% as done in RDFUnit~\cite{kontokostas2014test}. Rule based Web logics fulfilling the requirements still provide the same expressivity as SPARQL with the additional advantage
+% of supporting reasoning. Validation and reasoning can thus be done by \emph{one single system} in \emph{one single step}. 
+% %
+% The practical feasibility of this approach has been shown by providing a proof-of-concept in \nthreelogic which supports all RDFUnit constraint types. 
+% As such, we allow users to assess 
+% their data quality more easily using a single rule based validation system, and potentially uncovering more errors. Thus, improving data quality on the Semantic Web overall.
+% 
+% In future work, we are planning to extend our implementation:
+% we aim to cover all of the 81 constraints identified by Hartmann et al \cite{bosch2015} which are not specific to SPARQL. We furthermore 
+% envisage to extend the supported \rdf constraint vocabularies and to align our efforts with SHACL.  
+% Another direction of future research will be a better combination of performant reasoning and validation, following the ideas provided in previous work~\cite{arndt_owled_2015}.
+% Further evaluation on performance is also to be conducted.
