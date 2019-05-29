@@ -1,0 +1,60 @@
+\section{Conclusion}
+\label{sec:Conclusion}
+In this article,
+we explained a~novel solution to automated composition and execution of hypermedia APIs.
+A~crucial part in generating a~composition
+is the ability to determine whether it will satisfy a~given goal
+without any undesired effects.
+This has led us to the approach of a~pragmatic proof,
+wherein hypermedia API operations are incorporated as inference rules.
+We distinguish between a~pre-execution proof and a~post-execution proof,
+where the former has the additional assumption that all hypermedia API operations will succeed,
+hence the ``pragmatic'' label of the method.
+
+We selected an RDF-based method and logic for this task,
+in order to bridge between existing Web technologies
+and concepts from logic programming.
+A~benefit of proof-based composition is that it does not require new algorithms and tools,
+but can be applied with existing Semantic Web reasoners.
+Those reasoners can easily incorporate external sources of knowledge
+such as ontologies or business rules.
+Furthermore, the performance of composition generation improves
+with the evolution of those reasoners.
+Also, the fact that a~third-party tool is used allows independent validation of the composition.
+
+Our approach is a~special use case for proofs,
+which have traditionally been regarded as a~part of trust on the Semantic Web.
+While pre-proofs partly contribute to this,
+they also have the added functionality of generating a~composition during that process.
+It will be interesting to explore other opportunities
+to exploit the power of proof creation
+and the mechanisms behind it.
+This application can serve as an example of how to apply such ideas.
+
+In the past, we have already employed the method
+in the domain of sensor APIs~\cite{verborgh_ssn_2012},
+yet we want to extend the approach to other domains such as multimedia analysis and transcoding~\cite{verborgh_mtap_2013,vanlancker_mtap_2013}.
+In the longterm, we aim at offering the composition method described in this article
+as a~hypermedia API itself,
+so it can be used for dynamic mash-up and composition~generation.
+
+Another interesting path is to explore the limits of the used logic.
+For instance, it would currently be impossible to express the deletion of resources,
+even though this is a~common operation on the Web
+and even has a~designated HTTP method \verb!DELETE!.
+We are currently experimenting with capturing explicitly described states
+inside RESTdesc descriptions to account for these situations.
+
+%\todo{comment: we could mention that we are also monitoring the results of the ongoing research regarding Datalog$^\pm$ with great interest. 
+%Depending on the result we would like to put certain restrictions on our RESTdesc rules to ensure decidability.}
+
+A~crucial part of the proof-based method is that the interaction remains driven by hypermedia.
+In contrast to traditional approaches,
+where a~plan determines the full interaction,
+the composition here serves as a~guideline to complete the interaction.
+Until the moment machines are able to autonomously interpret
+the meaning of following a~hyperlink---%
+like we humans can---%
+guiding them through a~hypermedia application with descriptions and proofs
+can be the~pragmatic~alternative.
+

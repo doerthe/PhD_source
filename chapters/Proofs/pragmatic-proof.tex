@@ -158,7 +158,7 @@
 % 
 % \clearpage
 
-\section{Introduction}
+%\subsection{Introduction}
 
 \subsection{Hard-coded API contracts on a~hypermedia-driven Web}
 The World Wide Web,
@@ -212,7 +212,7 @@ The hypermedia mechanism that guides clients through the Web---%
 and thus allows them to cope with changes---%
 is notably absent from RPC APIs.
 
-\subsection{Hypermedia APIs as native Web citizens}
+\subsubsection{Hypermedia APIs as native Web citizens}
 \label{sec:RESTConstraints}
 A~decade after the invention of the Web,
 Fielding analyzed the architectural principles that contributed to its world-wide growth,
@@ -335,7 +335,7 @@ and an outlook on future~work.
 \section{Related Work}
 \label{sec:RelatedWork}
 
-\subsection{Web APIs}
+\subsubsection{Web APIs}
 Let us start a~discussion on related work by defining terms about Web APIs.
 
 \begin{description}\label{api}
@@ -389,45 +389,45 @@ On the lowest level, this documentation describes the message format and modalit
 On a~higher level, it explains the specific functionality offered by the hypermedia API,
 so a~machine can autonomously decide whether the API is appropriate for a~certain use case.
 
-\subsection{The Semantic Web}
-To create machine-readable information in general,
-we can use standards from the Semantic Web~\cite{SemanticWeb},
-which is a~vision that enables autonomous clients to use the Web.
-A~central standard is \rdf~\cite{RDF},
-which is a~machine-interpretable language consisting of data triples
-$(\textit{subject}, \textit{predicate}, \textit{object})$.
-For instance, the following triple describes the relationship
-between Leonhard Euler and Daniel Bernoulli:
-\begin{Verbatim}
-  <http://dbpedia.org/resource/Leonhard_Euler>
-      <http://xmlns.com/foaf/0.1/knows>
-          <http://dbpedia.org/resource/Daniel_Bernoulli>.
-\end{Verbatim}
-%\todo{Check after writing the next section whether and how this part has to be rewritten}
-Various RDF syntaxes exist;
-some of them, such as Notation3 (\nthree,~\cite{Notation3})
-extend the RDF model with features such as variables and quantification.
-The proof-based algorithm in this paper
-uses the \nthree reasoner EYE~\cite{eyepaper} to generate plans.
-We chose N3 over other formalisms such as Prolog~\cite{Prolog}
-or Datalog~\cite{datalog}
-because RDF---and thus N3---is native to the Web.
-This is exemplified in the triple above:
-the predicate that relates Euler to Bernoulli
-can be seen as a~(typed) hyperlink from the first URL to the other.
-Thereby, the hyperlink concept that is crucial for the Web and hypermedia APIs,
-can be represented in the most straightforward way in RDF/N3.
-Furthermore, the presence of RDF means that we can reuse ontological constructs
-from well-known vocabularies such as RDFS~\cite{RDFS} or OWL~\cite{OWL}.
-For example, the domain and range of the \verb!foaf:knows! predicate
-are \verb!foaf:Person!.
-Hence, using the triple above and this ontological knowledge,
-additional triples can be derived,
-expressing that Euler and Bernoulli are instances of \verb!foaf:Person!.
-Such derived knowledge could then be used
-for hypermedia API operations
-that require \verb!foaf:Person! instances as input.
-
+% \subsubsection{The Semantic Web}
+% To create machine-readable information in general,
+% we can use standards from the Semantic Web~\cite{SemanticWeb},
+% which is a~vision that enables autonomous clients to use the Web.
+% A~central standard is \rdf~\cite{RDF},
+% which is a~machine-interpretable language consisting of data triples
+% $(\textit{subject}, \textit{predicate}, \textit{object})$.
+% For instance, the following triple describes the relationship
+% between Leonhard Euler and Daniel Bernoulli:
+% \begin{Verbatim}
+%   <http://dbpedia.org/resource/Leonhard_Euler>
+%       <http://xmlns.com/foaf/0.1/knows>
+%           <http://dbpedia.org/resource/Daniel_Bernoulli>.
+% \end{Verbatim}
+% %\todo{Check after writing the next section whether and how this part has to be rewritten}
+% Various RDF syntaxes exist;
+% some of them, such as Notation3 (\nthree,~\cite{Notation3})
+% extend the RDF model with features such as variables and quantification.
+% The proof-based algorithm in this paper
+% uses the \nthree reasoner EYE~\cite{eyepaper} to generate plans.
+% We chose N3 over other formalisms such as Prolog~\cite{Prolog}
+% or Datalog~\cite{datalog}
+% because RDF---and thus N3---is native to the Web.
+% This is exemplified in the triple above:
+% the predicate that relates Euler to Bernoulli
+% can be seen as a~(typed) hyperlink from the first URL to the other.
+% Thereby, the hyperlink concept that is crucial for the Web and hypermedia APIs,
+% can be represented in the most straightforward way in RDF/N3.
+% Furthermore, the presence of RDF means that we can reuse ontological constructs
+% from well-known vocabularies such as RDFS~\cite{RDFS} or OWL~\cite{OWL}.
+% For example, the domain and range of the \verb!foaf:knows! predicate
+% are \verb!foaf:Person!.
+% Hence, using the triple above and this ontological knowledge,
+% additional triples can be derived,
+% expressing that Euler and Bernoulli are instances of \verb!foaf:Person!.
+% Such derived knowledge could then be used
+% for hypermedia API operations
+% that require \verb!foaf:Person! instances as input.
+% 
 
 
 \subsection{Web Service Description}
@@ -495,28 +495,28 @@ using Petri nets to describe the machine-client navigation.
 However, in contrast to \restdesc, it does not support
 automatic, functionality-based composition.
 
-\subsection{Semantic Web Reasoning}
-\label{subsec:RelatedReasoning}
-The Pellet reasoner~\cite{Pellet} and the various reasoners of the Jena framework~\cite{Jena}
-are the most commonly known examples of publicly available Semantic Web reasoners.
-Pellet is a~reasoner on ontological constructs~\cite{OWL},
-while Jena offers various ontological and rule-based reasoners.
-The rule reasoner is the most flexible,
-as it allows to incorporate custom derivations,
-but it uses a~rule language that is specific to Jena and therefore not interchangeable.
-
-Another category of reasoners uses \nthree,
-leveraging the language's support of formulas and quantification for RDF
-to provide a~logical framework for inferencing~\cite{N3Logic}.
-The first \nthree reasoner was the forward-chaining \cwm~\cite{cwm},
-which is a~general-purpose data processing tool for \rdf,
-including tasks such as querying and proof-checking.
-Another important \nthree reasoner is EYE~\cite{eyepaper},
-whose features include backward-chaining and high performance.
-A~useful capability of both \nthree reasoners
-is their ability to generate and exchange \emph{proofs},
-which can be used for software synthesis or API composition~\cite{Manna,Waldinger}.
-
+% \subsection{Semantic Web Reasoning}
+% \label{subsec:RelatedReasoning}
+% The Pellet reasoner~\cite{Pellet} and the various reasoners of the Jena framework~\cite{Jena}
+% are the most commonly known examples of publicly available Semantic Web reasoners.
+% Pellet is a~reasoner on ontological constructs~\cite{OWL},
+% while Jena offers various ontological and rule-based reasoners.
+% The rule reasoner is the most flexible,
+% as it allows to incorporate custom derivations,
+% but it uses a~rule language that is specific to Jena and therefore not interchangeable.
+% 
+% Another category of reasoners uses \nthree,
+% leveraging the language's support of formulas and quantification for RDF
+% to provide a~logical framework for inferencing~\cite{N3Logic}.
+% The first \nthree reasoner was the forward-chaining \cwm~\cite{cwm},
+% which is a~general-purpose data processing tool for \rdf,
+% including tasks such as querying and proof-checking.
+% Another important \nthree reasoner is EYE~\cite{eyepaper},
+% whose features include backward-chaining and high performance.
+% A~useful capability of both \nthree reasoners
+% is their ability to generate and exchange \emph{proofs},
+% which can be used for software synthesis or API composition~\cite{Manna,Waldinger}.
+% 
 
 \section{Justification of Chosen Technologies}
 \label{sec:Technologies}
@@ -524,7 +524,7 @@ In this section, we explain and justify the technological choices made in this a
 First, we detail our choice for REST Web APIs, emphasizing the fundamental differences with RPC~APIs.
 Second, we argue why we choose Notation3 instead of other logic programming languages.
 
-\subsection{REST Web APIs}
+\subsubsection{REST Web APIs}
 \label{subsec:TechnologiesREST}
 With the exception of RESTdesc,
 existing techniques for Web service and Web API description
@@ -629,7 +629,7 @@ to generate and execute compositions of REST Web APIs.
 We justify this choice on both a~practical level
 and a~theoretical level, as detailed in the subsections below.
 
-\subsubsection{Practical Arguments}
+\paragraph{Practical Arguments}
 The Linked Data Cloud contains billions of triples in the RDF model~\cite{LODCloud}.
 In order for this knowledge to be reused,
 we need a~logic with support for triples.
@@ -839,7 +839,7 @@ and there is no support for proofs yet.
 
 \section{Describing Hypermedia APIs with \restdesc}
 \label{sec:RESTdesc}
-\subsection{Example Use Case}\label{usecase}
+\subsubsection{Example Use Case}\label{usecase}
 As a~guiding example, we will introduce an exemplary hypermedia API
 in the domain of image processing.
 It offers functionality such as the following:
@@ -888,481 +888,6 @@ In the remainder of \cref{sec:RESTdesc},
 we formalize \restdesc and its underlying \nthree logic.
 \Cref{sec:Proof,sec:Composition} detail hypermedia API composition and execution,
 using the above image processing hypermedia API as an example.
-
-
-\subsection{Formalization of Notation3}
-\label{nthree}
-
-%\todo{cite \cite{semN3}}
-
-%\todo{Plan: stay with my formalisation (improves version), then limit to nesting level 2 and say that we have existential rules. Maybe cite a nice paper aboout existential rules.
-%What do you think Ruben?}
-\restdesc descriptions are expressed in the Notation3 (\nthree) rule language~\cite{N3Logic,Notation3}.
-We will introduce the \nthree language and its logic,
-focusing on the aspects relevant to our purposes. Our formalization is based on the formalization we gave in a previous paper \cite{semN3} and the informal
-semantic descriptions given in the above mentioned sources.
-%F\todo{cite \cite{semN3}}
-%\todo{Stay with the new formalisation of use simple FOL in the first place?}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Syntax
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\nthree augments the RDF model with symbols for quantification, implication, and statements about formulas:
-
-
-\begin{definition}[Basic N3 vocabulary]
-An \emph{N3 alphabet~$A$} consists of the following disjoint classes of symbols:
-\begin{itemize}
-\item A set $U$ of \uri symbols.
-\item A set $V=V_E\mathbin{\dot{\cup}} V_U$  of (quantified) variables, with $V_E$ being the set of existential variables
-and $V_U$ the set of universal variables.
-\item A set $L$  of literals.
-\item A boolean literal \verb!false!
-\item Brackets \verb!{!, \verb!}!, \verb!(!, \verb!)!
-\item Logical implication $\verb!=>!$ 
-\item Period \verb!.!
-\end{itemize}
-\end{definition}
-
-
-
-We define the elements of $U$ as in the corresponding specification~\cite{iri}.
-\nthree allows to abbreviate URLs as prefixed names~\cite{turtle}.
-Literals are strings beginning and ending with quotation marks `\verb!"!';
-existentials start with `\verb!_:!', universals with `\verb!?!'.
-
-\nthree does not distinguish between predicates and constants---%
-a single \uri symbol can stand for both at the same time---%
-so the first-order-concept of a~\emph{term}
-has a~slightly different counterpart in \nthree: an \emph{expression}.
-Since the definition of expressions (Definition~\ref{expression})
-is closely related to the concept of a~formula (Definition~\ref{formula}),
-the two following definitions should be considered together.
-
-\begin{definition}[Expressions]\label{expression}
-  Let $A$ be an \nthree alphabet.
-  The set of \textit{expressions} $E \subset A^{*}$ is
-  defined as follows:
-  \begin{enumerate}
-    \item Each \uri is an expression.
-    \item Each variable is an expression.
-    \item Each literal is an expression.
-    \item \label{list} If $e_1,\ldots,e_n$ are expressions, $\verb!(!e_1 \ldots e_n\verb!)!$ is an expression. 
-    \item \label{false} \verb!false! is an expression.
-    \item $\verb!{ }!$ is an expression.
-    \item \label{fe} If $f\in F$ is a formula, then $\verb!{!f\verb!}!$ is an expression. 
-  \end{enumerate}
-  The expression defined by \ref{list} is called a \textit{list}.
-  We call the expressions defined by \ref{false}--\ref{fe}
-  \textit{formula expressions} and denote the set of all formula expressions by $\mbox{\textit{FE}}$.
-\end{definition}
-
-
-Note that point \ref{fe} of the definition above makes use of formulas, which are defined as follows:
-
-\begin{definition}[\nthree Formulas]
-    \label{formula}
-    The set~$F$ of \textit{\nthree formulas} over alphabet~$A$ is recursively defined as follows:
-    \begin{enumerate}  
-      \item \label{1} If $e_1, e_2, e_3 \in E$, then the following is a formula, called \textit{atomic} formula: \[e_1~ e_2~ e_3.\] 
-      \item \label{2} If $t_1, t_2$ are formula expressions then the following is a formula, called \mbox{\textit{implication}}: \[t_{1} \verb!=>!~t_{2}.\] 
-      \item \label{n} If $f_1$ and $f_2$ are formulas, then the following is a formula, called \textit{conjunction}: \[f_1 f_2\] 
-    %  \item Nothing else is a formula.
-    \end{enumerate}
-\end{definition}
-
-We will refer to a~formula without any variables as a~\textit{ground formula}.
-Analogously, we call expressions without any variables \textit{ground expressions}.
-We denote the corresponding sets by $F_g$ respectively $E_g$. 
-An formula or expression which does not contain universal variables is called \emph{universal free}. 
-The set of universal free formulas (possibly containing existentials) is denoted by $F_e$, the set of universal free expressions by $E_e$.
-
-In the examples in the remainder of this paper, we will use the common \rdf shortcuts:
-
-\begin{remark}[Syntactic variants]
-\begin{itemize}
-\item A formula consisting of two triple subformulas starting with the same element \verb!<d> <p> <e>. <d> <q> <f>.! can be abbreviated using a semicolon: \verb!<d> <p> <e>; <q> <f>.!\\ 
-Two triple formulas sharing the first two elements  \verb!<d> <p> <e>. <d> <p> <f>.! can be abbreviated using a comma: \verb!<d> <p> <e>, <f>.!
-  \item \verb![]! can be used as an expression and is a shortcut for a new existential variable. So \verb![] <p> <d>.! stands for \verb!_:x <p> <d>.!
-  %If $[~]$ occurs in a formula $f$ instead of an expression, each instance of $[~]$  can be translated by a new existential variable.
- \item An expression of the form \verb![<p> <o>]! is a shortcut for a new existential variable \verb!_:x!,
-   which is subject to the statement \verb!_:x <p> <o>.!
-   So \verb! <s> <p> [<q> <o>].! stands for \verb!<s> <p> _:x. _:x <q> <o>.!
- \item \verb!a! is a~shortcut for \verb!rdf:type!~\cite{RDF}.
- \end{itemize}
-\end{remark}
-
-To emphasize the difference between brackets which form part of the \nthree vocabulary, i.e. ``\verb!(!'', ``\verb!)!'', ``\verb!{!'', and ``\verb!}!'', 
-and the brackets occurring in mathematical language, we will underline the \nthree brackets in all definitions where both kinds of brackets occur.
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Semantics
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% As in \rdf, s
-Simple N3 triples of the form \verb!:s :p :o! can be understood as a first order formula $p(s,o)$. We call \texttt{:p} the predicate, \texttt{:s} 
- the subject and \texttt{:o} the object of a triple. More complicated constructs often contain variables:
-in Notation3 existential and universal variables %occurring in formulas 
-are implicitly quantified. The scope of this quantification depends on how deeply nested
-a variable occurs in a formula. To be able to make statements about that we define:
-
-
-
-\begin{definition}[Components of a formula]
-Let $f\in F$ be a formula and $c: E \rightarrow 2^E$ a~function such that:
-\[c(e)=\begin{cases}
-  
-  c(e_1)\cup\ldots\cup c(e_n) & \text{if }e=\underline{\texttt{(}}e_1 \ldots e_n\underline{\texttt{)}}\text{ is a list,}\\
-  \{e\}  & \text{otherwise.}
-\end{cases}\]
-
-
-
-We define the set $\textit{comp}(f)\subset E$ of components of $f$ as follows:
- \begin{itemize}
-  \item If $f$ is an atomic formula of the form $e_1~ e_2~ e_3.$, $\textit{comp}(f)=c(e_1)\cup c(e_2)\cup c(e_3)$.
-  \item If $f$ is an implication of the form $t_{1} \verb!=>!~t_{2}.$, then $\textit{comp}(f)=\{t_1, t_2\}$.
-  \item If $f$ is a conjunction of the form $f_1 f_2$, then $\textit{comp}(f)=\textit{comp}(f_1)\cup \textit{comp}(f_2)$.
- \end{itemize}
- Likewise, for $n\in \mathbb{N}_{>0}$, we define the components of level $n$ as:
- \begin{flalign*} 
-  \textit{comp}^n(f):= &  
-  \{e\in E|\exists f_1,\ldots, f_{n-1}\in F: 
-   e\in \textit{comp}(f_1)\wedge  \underline{\texttt{\{}}f_1\underline{\texttt{\}}}\in \textit{comp}(f_2)\wedge \ldots\\& \wedge  \underline{\texttt{\{}}f_{n-1}\underline{\texttt{\}}}\in 
-  \textit{comp}(f)\} 
-\end{flalign*} 
-\end{definition}
-
-
-%The definition allows us to 
-Now, we can distinguish between direct components and 
-nested components. As an example take the following \nthree formula:
-\begin{Verbatim}[fontsize=\normalsize] 
-		:John :says {:Kurt :knows :Albert.}.
-\end{Verbatim}
-Direct components are \verb!:John!, \verb!:says! and \verb!{:Kurt :knows :Albert.}! while \verb!:Kurt!,  \verb!:knows! and  \verb!:Albert! are nested components of
-level two. \nthree allows more complex structures, formulas like
-% \begin{Verbatim}[fontsize=\normalsize] 
-%          {?x :p :o.} => {:s :p2 {{?x :p3 :o3}=>{?x :p4 :o4.}.}.}.
-% \end{Verbatim}
-\[
-\verb! {{?x :p :a.} => {?x :q :b.}.} => {{?x :r :c.} => {?x :s :d.}.}.! 
-\]
-where for example the predicate \verb!:p! occurs as a component of level three are valid in \nthree. 
-Such deeply nested structures require a careful treatment of scoping for variables occurring in them. 
-Note for example that the above formula should be interpreted as
-\[
-(\forall x_1: p(x_1,a)\rightarrow q(x_1,b))\rightarrow (\forall x_2: r(x_2,c) \rightarrow s(x_2,d))
-\]
-and \emph{not} as
-\[\forall x: ((p(x,a)\rightarrow q(x,b))\rightarrow ( r(x,c) \rightarrow s(x,d)))\]
-Due to this particularities and because deeply nested structures are no requirement for our framework, we limit the
-considerations of
-this paper to \emph{simple formulas}
-and refer the reader interested in more details to the corresponding publication \cite{semN3}.
-
-\begin{definition}[Simple formulas]
-We call an \nthree formula $f$ \emph{simple} iff for all $n \in \mathbb{N}$, $n>2$: $\operatorname{comp}^n(f)=\emptyset$
-\end{definition}
-
-Universal variables in \emph{simple formulas} can be understood as universally quantified on the top level of the formula.
-The formula 
-\[
- \verb!{?x :p :o1.} => {?x :q :o2.}.!
-\]
-is interpreted as 
-\[
- \forall x: p(x, o_1)\rightarrow q(x, o_2)
-\]
-The scope of an existential variable is always the formula expression it occurs in as a direct component. The formula
-% \[
-%  \verb!{_:x :p :o1.} => {_:x :q :o2.}.!
-% \]
-\[
- \verb!_:x :says {_:x :knows :Albert.}.!
-\]
-
-is interpreted as 
-\[
- \exists x_1: \text{says}(x_1, (\exists x_2: \text{knows}(x_2, Albert)))
-\]
-
-% \[
-% (\exists x_1: p(x_1, o_1))\rightarrow (\exists x_2: q(x_2, o_2))
-% \]
-
-
-% 
-% As quantification is implicit, we need to clarify the concept of variables which are free and \emph{accessible}. 
-% By accesible we mean that the variable is quantified in the respective formula.
-% To understand the need of such a definition consider the following example:
-% \[
-%  \verb!{?x :p _:y.} => {?x :q _:y.}.!
-% \]
-% This has to be interpreted as 
-% \[\forall x: (\exists y_1: p(x, y_1))\rightarrow (\exists y_2: q(x, y_2))\]
-% While the scope of the universal variable is the whole implication, the scope of the existential is limited to antecedent and consequent of the rule. 
-% With our definition from above, this means, that universal quantification can be applied to components of level two or one, existential 
-% quantification only to components of level one:
-% 
-% %\todo{example: why}
-% \begin{definition}[Accessible variables]
-%  Let $f$ be a simple \nthree formula over an alphabet $A$. We define the set of \emph{accessible universals} $\operatorname{AC}_U(f)$ and the set of \emph{accessible
-%  existentials} $\operatorname{AC}_E(f)$ as of $f$ follows:
-%  \[\text{AC}_U(f):=(\text{comp}^1(f)\cup\text{comp}^2(f))\cap V_U 
-% \text{\hspace{0.5cm} and \hspace{0.5cm}}
-% \text{AC}_E(f) := 
-% \text{comp}(f)\cap V_E
-% \]
-%  The set of \emph{accessible variables} of $f$ is defined as: $\text{AC}(f)=\text{AC}_U(f)\cup\text{AC}_E(f)$.
-% \end{definition}
-
-%To incorporate this fact we will make use the component's definition above as every  
-%Furthermore, we need substitutions:
-
-% \begin{definition}[Substitution]
-% %
-% Let %$\mathfrak{I}$ be an Interpretation of an \nthree alphabet $A$ and 
-% $W \subset V$ a set of variables in an \nthree alphabet $A$ and $f$ an \nthree formula.
-% \begin{itemize}
-% \item A substitution  $\sigma$ of $W$ %in $\mathfrak{I}$ 
-% is a map $\sigma:W\rightarrow E$ from $W$ into the set of expressions of $A$. %domain of $\mathfrak{I}$.
-% \item We retrieve the \emph{application} $f\sigma$ of a substitution $\sigma$ on a formula $f$ by replacing every variable $x$ of the domain of $\sigma$ which occurs in $f$
-% by $\sigma(x)$.
-% %By $f\sigma$ we denote the \emph{application} of the substitution $\simga$ on the formula $f$
-% \end{itemize}
-% \end{definition}
-% 
-% We will denote substitutions as sets of pairs of the form $x/e$ which indicates that $\sigma: x \mapsto e$. We write $\sigma=\{x_1/e_1,\ldots , x_n/e_n\}$.
-
-As the existential quantification of blank nodes, in contrast to universal quantification, 
-only counts for the direct formula they occur in and not for their subordinated formulas, 
-we define two ways to apply a substitution:
-
-
-\begin{definition}[Substitution]
-%
-Let $A$ be an \nthree alphabet 
-and $f\in F$ an \nthree formula over~$A$. 
-\begin{itemize}
- \item A \emph{substitution} is a finite set of pairs of expressions $\{v_1/e_1, \ldots, v_n/e_n\}$ where each $e_i$ is an expression and each $v_i$ 
- a variable such that $v_i\neq e_i$ and 
- $v_i \neq v_j$,
- if $i\neq j$.  
- \item 
- For a formula $f$ and a substitution $\sigma=\{v_1/e_1, \ldots, v_n/e_n\}$, we obtain the \emph{component application} 
- of $\sigma$ to $f$, $f\sigma^c$, by simultaneously replacing each $v_i$ 
- which occurs as a \emph{direct component} in $f$ by the corresponding expression $e_i$. 
- \item 
- For a formula $f$ and a substitution $\sigma=\{v_1/e_1, \ldots, v_n/e_n\}$, we obtain the \emph{total application} of $\sigma$ to $f$, $f\sigma^t$, 
- by simultaneously replacing each $v_i$ 
- which occurs as a \emph{direct or nested component} in $f$ by the corresponding expression~$e_i$. 
- \end{itemize}
-\end{definition}
-
-As the definition states, component application of a substitution only changes the direct components of a formula. 
-For a substitution $\mu=\{\verb!_:x!/ \verb!:Kurt!\}$ we obtain:
-\begin{multline}
-(\texttt{\_:x :says \{\_:x :knows :Albert.\}.})\mu^c  =\nonumber \\ (\texttt{ :Kurt :says \{\_:x :knows :Albert.\}.})\nonumber
-\end{multline}
-A total application of $\sigma=\{\verb!_:x!/ \verb!:Kurt!\}$ in contrast, replaces each \emph{occurrence} of a variable in a formula: 
-\begin{multline}
-(\texttt{?x :says \{?x :knows :Albert.\}.})\sigma^t =\\ (\texttt{:Kurt :says \{:Kurt :knows :Albert.\}.})\nonumber
-\end{multline}
-
-
-
-
-
-%Given a substitution $\sigma$, by $\sigma\{x/e\}$ we denote 
-%the substitution which is identical to $\sigma$ except for $x\mapsto e$.
-
-
-% But even for simple formulas there is one property regarding the behavior of existential variables (blank nodes) which deserves special treatment: 
-% the scope of an existential variable is always limited to the formula expression (i.e. the brackets \verb!{!~\verb!}!) it occurs in. The formula
-% \[
-%  \verb!_:x :says {_:x :knows :Albert.}.!
-% \]
-% 
-% Is interpreted as
-% \[
-% %\exists x : \text{says}(x, \text{knows}(x, \text{Albert})) 
-% %\textit{\quad or \quad}
-% \exists x_1 : \text{says}(x_1, (\exists x_2: \text{knows}(x_2, \text{Albert})))\]
-% 
-% and \emph{not} as 
-% \[
-%  \exists x : \text{says}(x, \text{knows}(x, \text{Albert}))
-% \]
-% 
-% We will assume in our formalization that existential variables 
-
-% As the definition states, component application of a substitution only changes the direct components of a formula. For a substitution $\sigma=\{\verb!?x!/ \verb!:Kurt!\}$ we obtain:
-% \[
-% (\verb!?x :says {?x :knows :Albert.}.!)\sigma^c = (\verb!:Kurt :says {?x :knows :Albert.}.!)
-% \]
-% A total application, in contrast, replaces each \emph{occurrence} of a variable in a formula. with the same example as above, by applying $\sigma$ as a total substitution, we get:
-% \[
-% (\verb!?x :says {?x :knows :Albert.}.!)\sigma^t = (\verb!:Kurt :says {:Kurt :knows :Albert.}.!)
-% \]
-
-%For the following definition, we count the components of each level of a formula $f$ from left to right according to their position in $f$.
-%This enables us to state how the different kinds of variables in a formula should be treated by an interpretation:
-
-
-
-
-% \begin{definition}[
-% Formula expressions with unaccessible 
-% variables]\label{evilexpressions}
-% Let $A$ be an \nthree alphabet. 
-% For a formula $g\in F$ over $A$ we define the set of %ungroundable 
-% formula expressions which contain for $g$ unaccessible universals %,  $\text{FE}_X(g)$ 
-% as follows:
-% \[ \text{FE}_U(g):=\{\underline{\texttt{\{}}f\underline{\texttt{\}}}\in \text{FE}| \forall v\in V_U: n_f(v)\neq 1 \text{ and if } n_f(v)>1 \text{ then } n_g(v)=0  \} \]
-% By $\text{FE}_U:=\bigcup_{g\in F} \text{FE}_U(g)$ we denote the union of all formula expressions of that kind. %with unaccessible universals. 
-% The set of formula expressions with unaccessible existentials is defined as:
-% \[
-%  \text{FE}_E=\{\underline{\texttt{\{}}f\underline{\texttt{\}}}\in \text{FE}|\exists n\in \mathbb{N}: \text{comp}^n(f)\cap U_E\neq \emptyset\}
-% \]
-% By $\text{FE}_X:=\text{FE}_U\cup \text{FE}_E$ we denote the set of all formula expressions containing unaccessible variables, 
-% by $\text{FE}_X(g):=\text{FE}_U(g)\cup \text{FE}_E$ the corresponding set for the formula~$g$.
-% \end{definition}
-% 
-% Note that existential and universal replacements are uniquely defined by the set of their substitutions.\\
-% %Note, that both definitions can be understood as a set of substitutions which can be applied to 
-% %Both replacements allow different substitutions for the same variable. While in existential replacement a substitution is always only applied 
-% %to the \emph{components} of one level of a formula, the substituions used within universal replacement change each \emph{occurrence} of a variable in a (part-)formula. 
-% This definition states that only existential variables occurring as components in the same (sub-)formula should be treated equally. 
-% This is different for universal variables. 
-% To understand how nesting level two is of importance, we come back to our previous example:
-% \[
-% f=(\verb!{{?x :p :a.} => {?x :q :b.}.} => {{?x :r :c.} => {?x :s :d.}.}.!) 
-% \]
-% Suppose we want to apply a universal replacement $\mu= (\sigma_{ij})_{i,j \in \mathbb{N}}$ for \verb!?x!:
-% 
-% As $n_f(\verb!?x!)=3>2$ we have to consider the subformulas
-% \[f_{21}=(\verb!{?x :p :a.} => {?x :q :b.}.!)\] and \[f_{22}=(\verb!{{?x :r :c.} => {?x :s :d}.}.!)\] separately.
-% 
-% For $f_{21}$ we get $n_{f_{21}}(\verb!?x!)=2$. Therefore we apply the substitution $\sigma_{21}= \{\verb!?x!/e_{21}\}$.
-% The same holds for $f_{22}$. We get $n_{f_{22}}(\verb!?x!)=2$. Hence we apply the substitution $\sigma_{22}= \{\verb!?x!/e_{22}\}$.
-% As a result we get:
-% \[
-% \mu(f)=(\verb!{{!e_{21}\verb! :p :a.} => {!e_{21}\verb! :q :b.}.} => {{!e_{22} \verb! :r :c.} => {! e_{22}\verb! :s :d.}.}.!) 
-% \]
-% 
-% 
-% Both substitutions are applied via total applications such that, 
-% if the respective variable occurred in sub-formulas, it would be handled the same way as it is as a~component of 
-% $f_{21}$ and $f_{22}$. Note that $e_{21}$ and $e_{22}$ can be different. Our definition only ensures, that, 
-% if the same variable occurs in direct sibling formulas, it is treated in the same way.
-
-For simple formulas we can now define interpretation and semantics:
-%We embed our concepts in the definition of interpretation and semantics:
-
-\begin{definition}[Interpretation]
-An interpretation $\mathfrak{I}$ of
-an alphabet $A$ consists of:
-\begin{enumerate}
-\item A set $\mathcal{D}$ called the domain of $\mathfrak{I}$.
-\item A function $\mathfrak{a}: 
-E\setminus V \rightarrow \mathcal{D}$ called the object function.
-\item A function $\mathfrak{p}:
-\mathcal{D} \rightarrow 2^{\mathcal{D} \times \mathcal{D}}$ called the predicate function.
-\end{enumerate}
-\end{definition}
-
-Note that in contrast to the classical definition of \rdf-semantics \cite{RDFSemantics} our domain does not distinguish between properties (IP) 
-and resources (IR). 
-The definitions are nevertheless compatible, as we assume $\mathfrak{p}(p)=\emptyset\in 2^{\mathcal{D} \times \mathcal{D}}$
-for all resources $p$ which are not properties (i.e. $p \in \text{IR}\setminus \text{IP}$ in the \rdf-sense). 
-By extending given \rdf ground interpretation functions to Notation3 interpretation functions, 
-the meaning of all valid \rdf triples can be kept in Notation3 Logic. %\\
-% 
-%The main necessary extension would be a function which assigns domain values to formula expressions. 
-
-
-
-
-
-
-\begin{definition}[Semantics of \nthree\label{sem_n3}]
-Let $\mathfrak{I}=(\mathcal{D},\mathfrak{a,p})$ be an interpretation of $A$
-and let  $f$ be a \emph{simple} formula over $A$. % which contains at least one variable, $f_1$ and $f_2$ be ground formulas and $c_1,c_2,p \in E$ be ground expressions.
-Then the following holds:
-\begin{enumerate}
- \item\label{quant1} If $f$ contains universal variables, $\mathfrak{I}\models f$ iff $\mathfrak{I}\models f\sigma^t$ 
- for every substitution $\sigma: V_U\rightarrow E_e$. 
- \item \label{quant2} If $f$ is universal free and $W=\text{comp}(f)\cap V_E \neq \emptyset$, $\mathfrak{I}\models f$ 
- iff $\mathfrak{I}\models f\mu^c$ for some substitution $\mu: W\rightarrow E_g$.
-%\end{enumerate %\begin{enumerate}
-  %\item  \label{quant} If $\text{AC}(f)\neq \emptyset$ then
-  %$\mathfrak{I}\models f$ iff for all substitutions 
-  %$\sigma: \text{AC}_U(f)\rightarrow E_g$ %\cup\text{FE}_E$ 
-  %there 
-  %exist a substitution $\mu: \text{AC}_E(f) \rightarrow E_g$ %\cup \text{FE}_E$ 
-  %such that:
-  %$\mathfrak{I}\models f\sigma \mu$
-  \item If $f$ is universal free and $\text{comp}(f)\cap V_E=\emptyset$:
-  \begin{enumerate}
-   \item If $f$ is an atomic formula $c_1\, p\, c_2$, then  $\mathfrak{I} \models c_1\, p\, c_2$. 
-  iff $(\mathfrak{a}(c_1),\mathfrak{a}(c_2))\in\mathfrak{p}(\mathfrak{a}(p))$.
-  \item If $f$ is a conjunction $f_1f_2$, then  $\mathfrak{I}\models f_1 f_2$ iff $\mathfrak{I}\models f_1$ and $\mathfrak{I}\models f_2$.\label{conj}
-  \item If $f$ is an implication\label{implication} %of the form 
-  \begin{itemize}
-  %\item %$\verb!{! f_1 \verb!}! \verb!=>! \verb!{! f_2 \verb!}!$, then 
-  \item $\mathfrak{I} \models \verb!{! f_1 \verb!}! \verb!=>! \verb!{! f_2 \verb!}!$ iff $\mathfrak{I} \models f_2$ if $\mathfrak{I} \models f_1$.
-  %
-  \item \label{fal2} %$\verb!{! f_1 \verb!}! \,\verb!=>!\, \verb!false!$. then 
-  $\mathfrak{I} \models \verb!{! f_1 \verb!}! \,\verb!=>!\, \verb!false!$. iff $\mathfrak{I} \not\models f_1$.
-   \item $\mathfrak{I} \models \verb!{ }! \verb!=>! \verb!{! f_2 \verb!}!$. iff $\mathfrak{I} \models f_2$.
-   \item $\mathfrak{I} \models \texttt{false => }e$ and $\mathfrak{I}\models e\texttt{ => \{~\}}.$, for all $e\in E$, 
-   \end{itemize}
- \end{enumerate}
-\end{enumerate}
-  
-\end{definition}
-
-Note that by first handling universal variables (point \ref{quant1} in the definition) and then treating existentials (point \ref{quant2}) the definition makes sure 
-that in case of conflicts the universal quantifier is outside of the existential. In N3 the statement
-\[
- \verb!?x :loves _:y.!
-\]
-has to be interpreted as $\forall x \exists y: \text{loves}(x,y)
-\text{ and \emph{not} as }
-\exists y \forall x : \text{loves}(x,y)$.
-
-
-\noindent
-We now define a model:
-
-\begin{definition}[Model]
-Let $\Phi$ be a set of \nthree formulas. We call an interpretation $\mathfrak{I}=(\mathcal{D},\mathfrak{a,p})$ a \textit{model} of $\Phi$ iff $\mathfrak{I}\models f$ for every formula $f\in \Phi$.
-\end{definition}
-%
-As in first order logic, we can define the notion of logical implication:
-
-\begin{definition}[Logical implication]\label{log_impl}
-Let $\Phi$ be a set of \nthree formulas  and $\phi$ a formula over the same \nthree alphabet $A$. We say that $\Phi$ (logical) implies 
-$\phi$ ($\Phi \models \phi$) iff every
-model $\mathfrak{I}\models \Phi$ is also a model of $\phi$.
-\end{definition}
-
-% To conclude this section and to make a connection to other formalisms we summarize:
-% \begin{itemize}
-%  \item Simple triples in N3 of the form \verb!:s :p :o.! can be understood as a first order formula $p(s,o)$ with $p$ being a predicate, $s$ and $p$ being 
-%  constants. We call $s$ the subject of the formula, $p$ the predicate and $o$ the object.
-%  \item N3 supports implicit quantification. 
-%   For \emph{simple} formulas the scope of a universal variable is always the formula itself, 
-% \end{itemize}
-
-
-%\todo{elaborate}
-
-%Note that if we restrict Notation3 Logic to nesting level
-%The presented subset of Notation3 Logic corresponds to 
 
 
 
@@ -2261,7 +1786,7 @@ which allows us to measure a~proof's length by counting applications of the gene
 %\newpage
 
 \subsection{Discussion of a~Composition Proof Example}\label{example}
-\paragraph{\bfseries Overview}
+\subsubsection{\bfseries Overview}
 \Cref{lst:Proof} displays an example of a hypermedia API composition proof.
 In addition to the two \restdesc descriptions from \cref{lst:Thumbnail,lst:Images}
 ($R$ in an API composition problem),
@@ -2830,191 +2355,191 @@ thus the result of the proof is ground.
 %will have the same properties as described above.
 \end{proof}
 
-\section{Semi-Automated Description Generation}
-\label{sec:Generation}
-One of the bottlenecks with traditional description-based methods of Web APIs and services
-is that these descriptions have to be created, which is mostly a~manual task.
-Consequently, without a~method that facilitates the creation of such descriptions,
-the overall concept of description-based composition and execution
-might not successfully transition from theory to practice.
-This section explains how RESTdesc descriptions can be created
-by a~computer-assisted process.
-
-We define \emph{semi-automated RESTdesc description generation}
-as a~process that takes as input a~series of HTTP requests and responses
-performed by one or more persons,
-and provides as output skeletons for RESTdesc descriptions,
-which a~user can then further refine to a~final description.
-We rely on the fact that RESTdesc descriptions
-capture the \emph{expectations} of resources.
-For example, \cref{lst:Images} captures the expectation that
-the upload of an image will result in links to comments and a~thumbnail.
-RESTdesc thus describes the generic hypermedia controls
-that will be available on such image resources.
-
-\begin{lstlisting}[
-  float=t,
-  caption={
-    Example user interaction with a~Web API,
-    used as input for the RESTdesc description generation process.
-  },
-  label=lst:Interaction]
-§\textbf{HTTP request~1: POST to /images/ with image1.jpg as body}§
-§\textbf{HTTP response~1:}§
-@prefix ex: <http://example.org/image#>.
-@prefix dbpedia: <http://dbpedia.org/resource/>.
-
-</images/24> a dbpedia:Image.
-             ex:comments </images/24/comments>.
-             ex:smallThumbnail </images/24/thumbnail>.
-
-
-§\textbf{HTTP request~2: GET to /images/24/thumbnail}§
-§\textbf{HTTP response~2:}§
-@prefix dbpedia: <http://dbpedia.org/resource/>.
-@prefix dbpedia-owl: <http://dbpedia.org/ontology/>.
-
-</images/24> dbpedia-owl:thumbnail </images/24/thumbnail>.
-</images/24/thumbnail> a dbpedia:Image;
-                       dbpedia-owl:height 80.0.
-
-
-§\textbf{HTTP request~3: POST to /images/ with image2.jpg as body}§
-§\textbf{HTTP response~3:}§
-@prefix ex: <http://example.org/image#>.
-@prefix dbpedia: <http://dbpedia.org/resource/>.
-
-</images/25> a dbpedia:Image.
-             ex:comments </images/25/comments>.
-             ex:smallThumbnail </images/25/thumbnail>.
-
-
-§\textbf{HTTP request~4: GET to /images/25/thumbnail}§
-§\textbf{HTTP response~4:}§
-@prefix dbpedia: <http://dbpedia.org/resource/>.
-@prefix dbpedia-owl: <http://dbpedia.org/ontology/>.
-
-</images/25> dbpedia-owl:thumbnail </images/25/thumbnail>.
-</images/25/thumbnail> a dbpedia:Image;
-                       dbpedia-owl:height 80.0.
-\end{lstlisting}
-
-The idea behind the process is
-to extract the hypermedia controls from a~series of requests performed by people.
-We will describe the strategy using an exemplary series of interactions,
-displayed in \cref{lst:Interaction}.
-To create this particular series,
-a~user uploaded two images and obtained their thumbnails.
-
-First, the process needs to identify the different kinds of steps and thus resources.
-This happens by performing clustering on the HTTP responses with, for instance,
-a~string similarity algorithm as distance function.
-In this case, responses 1 and~3 are highly similar,
-and so are responses 2 and~4.
-Therefore, they are assigned into two different clusters.
-Note that such clustering is especially realistic
-because Web APIs typically generate responses based on templates,
-which contributes to a~high structural similarity
-for responses of the same kind that hence follow the same template.
-User interaction can influence the clustering sensitivity,
-and possibly manually change assignments.
-Since the two clusters, corresponding to 2 types of operations,
-are correct in this example, nothing needs to change.
-
-Next, for each cluster,
-the common elements in responses and their corresponding requests are identified.
-In this case, the first cluster contains two \verb!POST! requests to \verb!/images/!,
-and both responses contain some resource that is an image,
-and has a~link to comments and images.
-This allows the algorithm to produce a~skeleton as follows:
-\begin{Verbatim}
-{ ?object1 a :localFile. }
-=>
-{
-  _:request http:methodName "POST";
-            http:requestURI "/images/";
-            http:body ?object1;
-            http:resp [ http:body _:object2 ].
-  _:object2 a dbpedia:Image;
-            ex:comments _:object3;
-            ex:smallThumbnail _:object4.
-}
-\end{Verbatim}
-Note how this is very close to \cref{lst:Images}.
-The user can still improve this description
-by specifying that \verb!?object1! and \verb!_object2! are the same entity,
-and that \verb!?object1! is a~\verb!dbpedia:Image! already in the antecedent.
-After these changes, and possibly renaming variables and blank nodes for legibility,
-the description is the same as that of \cref{lst:Images} and thus correct.
-
-Identifying common elements in the second cluster
-leads to the following skeleton:
-\begin{Verbatim}
-{}
-=>
-{
-  _:request http:methodName "GET";
-            http:requestURI _:object1;
-            http:resp [ http:body _:object1 ].
-  _:object2 dbpedia-owl:thumbnail _:object1.
-  _:object1 a dbpedia:Image;
-            dbpedia-owl:height 80.0.
-}.
-\end{Verbatim}
-The fact that the request~URI and the body refer to the same entity (\verb!_:object1!)
-can be deduced from the properties of the \verb!GET! method in the HTTP specification.
-These properties do not apply to \verb!POST!,
-which is why the previous skeleton could not make this assumption.
-The current skeleton is still incomplete, since it does not have a~precondition.
-More specifically, we need to obtain the request~URI somehow.
-Given the sequence of the requests in \cref{lst:Interaction},
-the process can detect that the concrete instances of \verb!_:object1!
-(\verb!/images/24/thumbnail! and \verb!/images/25/thumbnail!)
-were already mentioned in a~previous response body.
-Hence, it can place the pattern containing those instances in the antecedent
-and connect the components that had identical values with the same variable names:
-\begin{Verbatim}
-{ ?object2 ex:smallThumbnail ?object1. }
-=>
-{
-  _:request http:methodName "GET";
-            http:requestURI ?object1;
-            http:resp [ http:body ?object1 ].
-  ?object2 dbpedia-owl:thumbnail ?object1.
-  ?object1 a dbpedia:Image;
-           dbpedia-owl:height 80.0.
-}.
-\end{Verbatim}
-The user can now optionally rename the variable placeholders
-to obtain the exact same description as in \cref{lst:Thumbnail}.
-
-This shows how descriptions such as \cref{lst:Thumbnail,lst:Images}
-can be generated.
-Note that this process is not fully automated, but human-assisted.
-That is, it requires a~repeated sequence of human steps as input
-in order to sufficiently cluster and generalize descriptions.
-Furthermore, hints and corrections from users might be necessary,
-as over- or undergeneralizations will occur inevitably in some cases.
-Yet such an assisted process significantly decreases the burden
-of full manual description.
-The fact the RESTdesc descriptions focus on REST APIs facilitates the process:
-it can make additional assumptions on the behavior of the uniform interface,
-and hyperlinks from previous responses can be reused.
-
-Most important for this assisted generation of descriptions
-is the close relationship between N3 and RDF.
-As we have shown above, the RDF triples in the Web API's responses
-serve as a~direct prototype for the consequent of the generated skeletons.
-For example, the triple
-\verb!</images/24>! \verb!dbpedia-owl:smallThumbnail! \verb!</images/24/thumbnail>.!
-directly leads to the inclusion of
-\verb!_:object2! \verb!dbpedia-owl:smallThumbnail! \verb!_:object4!
-in the first skeleton.
-Not only does this simplify the generation process,
-the connection between the generated description
-and the original response is also apparent for users,
-which makes it easier for them as well.
-
+% \subsection{Semi-Automated Description Generation}
+% \label{sec:Generation}
+% One of the bottlenecks with traditional description-based methods of Web APIs and services
+% is that these descriptions have to be created, which is mostly a~manual task.
+% Consequently, without a~method that facilitates the creation of such descriptions,
+% the overall concept of description-based composition and execution
+% might not successfully transition from theory to practice.
+% This section explains how RESTdesc descriptions can be created
+% by a~computer-assisted process.
+% 
+% We define \emph{semi-automated RESTdesc description generation}
+% as a~process that takes as input a~series of HTTP requests and responses
+% performed by one or more persons,
+% and provides as output skeletons for RESTdesc descriptions,
+% which a~user can then further refine to a~final description.
+% We rely on the fact that RESTdesc descriptions
+% capture the \emph{expectations} of resources.
+% For example, \cref{lst:Images} captures the expectation that
+% the upload of an image will result in links to comments and a~thumbnail.
+% RESTdesc thus describes the generic hypermedia controls
+% that will be available on such image resources.
+% 
+% \begin{lstlisting}[
+%   float=t,
+%   caption={
+%     Example user interaction with a~Web API,
+%     used as input for the RESTdesc description generation process.
+%   },
+%   label=lst:Interaction]
+% §\textbf{HTTP request~1: POST to /images/ with image1.jpg as body}§
+% §\textbf{HTTP response~1:}§
+% @prefix ex: <http://example.org/image#>.
+% @prefix dbpedia: <http://dbpedia.org/resource/>.
+% 
+% </images/24> a dbpedia:Image.
+%              ex:comments </images/24/comments>.
+%              ex:smallThumbnail </images/24/thumbnail>.
+% 
+% 
+% §\textbf{HTTP request~2: GET to /images/24/thumbnail}§
+% §\textbf{HTTP response~2:}§
+% @prefix dbpedia: <http://dbpedia.org/resource/>.
+% @prefix dbpedia-owl: <http://dbpedia.org/ontology/>.
+% 
+% </images/24> dbpedia-owl:thumbnail </images/24/thumbnail>.
+% </images/24/thumbnail> a dbpedia:Image;
+%                        dbpedia-owl:height 80.0.
+% 
+% 
+% §\textbf{HTTP request~3: POST to /images/ with image2.jpg as body}§
+% §\textbf{HTTP response~3:}§
+% @prefix ex: <http://example.org/image#>.
+% @prefix dbpedia: <http://dbpedia.org/resource/>.
+% 
+% </images/25> a dbpedia:Image.
+%              ex:comments </images/25/comments>.
+%              ex:smallThumbnail </images/25/thumbnail>.
+% 
+% 
+% §\textbf{HTTP request~4: GET to /images/25/thumbnail}§
+% §\textbf{HTTP response~4:}§
+% @prefix dbpedia: <http://dbpedia.org/resource/>.
+% @prefix dbpedia-owl: <http://dbpedia.org/ontology/>.
+% 
+% </images/25> dbpedia-owl:thumbnail </images/25/thumbnail>.
+% </images/25/thumbnail> a dbpedia:Image;
+%                        dbpedia-owl:height 80.0.
+% \end{lstlisting}
+% 
+% The idea behind the process is
+% to extract the hypermedia controls from a~series of requests performed by people.
+% We will describe the strategy using an exemplary series of interactions,
+% displayed in \cref{lst:Interaction}.
+% To create this particular series,
+% a~user uploaded two images and obtained their thumbnails.
+% 
+% First, the process needs to identify the different kinds of steps and thus resources.
+% This happens by performing clustering on the HTTP responses with, for instance,
+% a~string similarity algorithm as distance function.
+% In this case, responses 1 and~3 are highly similar,
+% and so are responses 2 and~4.
+% Therefore, they are assigned into two different clusters.
+% Note that such clustering is especially realistic
+% because Web APIs typically generate responses based on templates,
+% which contributes to a~high structural similarity
+% for responses of the same kind that hence follow the same template.
+% User interaction can influence the clustering sensitivity,
+% and possibly manually change assignments.
+% Since the two clusters, corresponding to 2 types of operations,
+% are correct in this example, nothing needs to change.
+% 
+% Next, for each cluster,
+% the common elements in responses and their corresponding requests are identified.
+% In this case, the first cluster contains two \verb!POST! requests to \verb!/images/!,
+% and both responses contain some resource that is an image,
+% and has a~link to comments and images.
+% This allows the algorithm to produce a~skeleton as follows:
+% \begin{Verbatim}
+% { ?object1 a :localFile. }
+% =>
+% {
+%   _:request http:methodName "POST";
+%             http:requestURI "/images/";
+%             http:body ?object1;
+%             http:resp [ http:body _:object2 ].
+%   _:object2 a dbpedia:Image;
+%             ex:comments _:object3;
+%             ex:smallThumbnail _:object4.
+% }
+% \end{Verbatim}
+% Note how this is very close to \cref{lst:Images}.
+% The user can still improve this description
+% by specifying that \verb!?object1! and \verb!_object2! are the same entity,
+% and that \verb!?object1! is a~\verb!dbpedia:Image! already in the antecedent.
+% After these changes, and possibly renaming variables and blank nodes for legibility,
+% the description is the same as that of \cref{lst:Images} and thus correct.
+% 
+% Identifying common elements in the second cluster
+% leads to the following skeleton:
+% \begin{Verbatim}
+% {}
+% =>
+% {
+%   _:request http:methodName "GET";
+%             http:requestURI _:object1;
+%             http:resp [ http:body _:object1 ].
+%   _:object2 dbpedia-owl:thumbnail _:object1.
+%   _:object1 a dbpedia:Image;
+%             dbpedia-owl:height 80.0.
+% }.
+% \end{Verbatim}
+% The fact that the request~URI and the body refer to the same entity (\verb!_:object1!)
+% can be deduced from the properties of the \verb!GET! method in the HTTP specification.
+% These properties do not apply to \verb!POST!,
+% which is why the previous skeleton could not make this assumption.
+% The current skeleton is still incomplete, since it does not have a~precondition.
+% More specifically, we need to obtain the request~URI somehow.
+% Given the sequence of the requests in \cref{lst:Interaction},
+% the process can detect that the concrete instances of \verb!_:object1!
+% (\verb!/images/24/thumbnail! and \verb!/images/25/thumbnail!)
+% were already mentioned in a~previous response body.
+% Hence, it can place the pattern containing those instances in the antecedent
+% and connect the components that had identical values with the same variable names:
+% \begin{Verbatim}
+% { ?object2 ex:smallThumbnail ?object1. }
+% =>
+% {
+%   _:request http:methodName "GET";
+%             http:requestURI ?object1;
+%             http:resp [ http:body ?object1 ].
+%   ?object2 dbpedia-owl:thumbnail ?object1.
+%   ?object1 a dbpedia:Image;
+%            dbpedia-owl:height 80.0.
+% }.
+% \end{Verbatim}
+% The user can now optionally rename the variable placeholders
+% to obtain the exact same description as in \cref{lst:Thumbnail}.
+% 
+% This shows how descriptions such as \cref{lst:Thumbnail,lst:Images}
+% can be generated.
+% Note that this process is not fully automated, but human-assisted.
+% That is, it requires a~repeated sequence of human steps as input
+% in order to sufficiently cluster and generalize descriptions.
+% Furthermore, hints and corrections from users might be necessary,
+% as over- or undergeneralizations will occur inevitably in some cases.
+% Yet such an assisted process significantly decreases the burden
+% of full manual description.
+% The fact the RESTdesc descriptions focus on REST APIs facilitates the process:
+% it can make additional assumptions on the behavior of the uniform interface,
+% and hyperlinks from previous responses can be reused.
+% 
+% Most important for this assisted generation of descriptions
+% is the close relationship between N3 and RDF.
+% As we have shown above, the RDF triples in the Web API's responses
+% serve as a~direct prototype for the consequent of the generated skeletons.
+% For example, the triple
+% \verb!</images/24>! \verb!dbpedia-owl:smallThumbnail! \verb!</images/24/thumbnail>.!
+% directly leads to the inclusion of
+% \verb!_:object2! \verb!dbpedia-owl:smallThumbnail! \verb!_:object4!
+% in the first skeleton.
+% Not only does this simplify the generation process,
+% the connection between the generated description
+% and the original response is also apparent for users,
+% which makes it easier for them as well.
+% 
 
 
 
@@ -3318,65 +2843,5 @@ Given that ProgrammableWeb contains 10,000~APIs~\cite{ProgrammableWeb},
 the fact that EYE merely needs $\approx$~230~ms
 to create a~composition in presence of more than 130,000~dummy APIs,
 indicates that proof-based composition is a~viable strategy for the years to come.
-
-\section{Conclusion}
-\label{sec:Conclusion}
-In this article,
-we explained a~novel solution to automated composition and execution of hypermedia APIs.
-A~crucial part in generating a~composition
-is the ability to determine whether it will satisfy a~given goal
-without any undesired effects.
-This has led us to the approach of a~pragmatic proof,
-wherein hypermedia API operations are incorporated as inference rules.
-We distinguish between a~pre-execution proof and a~post-execution proof,
-where the former has the additional assumption that all hypermedia API operations will succeed,
-hence the ``pragmatic'' label of the method.
-
-We selected an RDF-based method and logic for this task,
-in order to bridge between existing Web technologies
-and concepts from logic programming.
-A~benefit of proof-based composition is that it does not require new algorithms and tools,
-but can be applied with existing Semantic Web reasoners.
-Those reasoners can easily incorporate external sources of knowledge
-such as ontologies or business rules.
-Furthermore, the performance of composition generation improves
-with the evolution of those reasoners.
-Also, the fact that a~third-party tool is used allows independent validation of the composition.
-
-Our approach is a~special use case for proofs,
-which have traditionally been regarded as a~part of trust on the Semantic Web.
-While pre-proofs partly contribute to this,
-they also have the added functionality of generating a~composition during that process.
-It will be interesting to explore other opportunities
-to exploit the power of proof creation
-and the mechanisms behind it.
-This application can serve as an example of how to apply such ideas.
-
-In the past, we have already employed the method
-in the domain of sensor APIs~\cite{verborgh_ssn_2012},
-yet we want to extend the approach to other domains such as multimedia analysis and transcoding~\cite{verborgh_mtap_2013,vanlancker_mtap_2013}.
-In the longterm, we aim at offering the composition method described in this article
-as a~hypermedia API itself,
-so it can be used for dynamic mash-up and composition~generation.
-
-Another interesting path is to explore the limits of the used logic.
-For instance, it would currently be impossible to express the deletion of resources,
-even though this is a~common operation on the Web
-and even has a~designated HTTP method \verb!DELETE!.
-We are currently experimenting with capturing explicitly described states
-inside RESTdesc descriptions to account for these situations.
-
-%\todo{comment: we could mention that we are also monitoring the results of the ongoing research regarding Datalog$^\pm$ with great interest. 
-%Depending on the result we would like to put certain restrictions on our RESTdesc rules to ensure decidability.}
-
-A~crucial part of the proof-based method is that the interaction remains driven by hypermedia.
-In contrast to traditional approaches,
-where a~plan determines the full interaction,
-the composition here serves as a~guideline to complete the interaction.
-Until the moment machines are able to autonomously interpret
-the meaning of following a~hyperlink---%
-like we humans can---%
-guiding them through a~hypermedia application with descriptions and proofs
-can be the~pragmatic~alternative.
 
 
