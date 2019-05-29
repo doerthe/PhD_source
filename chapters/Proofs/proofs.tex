@@ -8,7 +8,7 @@ The fourth aspect in this list, the support of the layer \emph{Proof}, is the to
 These proofs should not only support the layer of \emph{Trust} but should also be suitable to be used in practical applications.  
 
 We discuss the relationship of \nthreelogic and the layer of \emph{Proofs} in two steps: Firstly, 
-we further elaborate on the proof vocabulary\footnote{\url{http://www.w3.org/2000/10/swap/reason\#}} which we already briefly discussed in Section~\ref{proofintro}. 
+we further elaborate on the SWAP~\cite{SWAP} proof vocabulary\footnote{\url{http://www.w3.org/2000/10/swap/reason\#}} which we already briefly discussed in Section~\ref{proofintro}. 
 We formally define the calculus it expresses and prove its correctness. As a second step, we take a closer look to the practical applications of proofs: next to establishing 
 trust, proofs can, for example, also be used to do planning or to identify the potentially critical streams in a bigger set-up of streaming sensors. 
 Below, we explain these two use cases in more detail.
@@ -25,127 +25,181 @@ Below, we explain these two use cases in more detail.
 
 \section{A proof calculus for N3}
 \label{nthree}
-\subsection{Simple formulas}
-
-%\todo{cite \cite{semN3}}
-
-%\todo{Plan: stay with my formalisation (improves version), then limit to nesting level 2 and say that we have existential rules. Maybe cite a nice paper aboout existential rules.
-%What do you think Ruben?}
-\restdesc descriptions are expressed in the Notation3 (\nthree) rule language~\cite{N3Logic,Notation3}.
-We will introduce the \nthree language and its logic,
-focusing on the aspects relevant to our purposes. Our formalization is based on the formalization we gave in a previous paper \cite{semN3} and the informal
-semantic descriptions given in the above mentioned sources.
-%F\todo{cite \cite{semN3}}
-%\todo{Stay with the new formalisation of use simple FOL in the first place?}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Syntax
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\nthree augments the RDF model with symbols for quantification, implication, and statements about formulas:
-
-
-\begin{definition}[Basic N3 vocabulary]
-An \emph{N3 alphabet~$A$} consists of the following disjoint classes of symbols:
-\begin{itemize}
-\item A set $U$ of \uri symbols.
-\item A set $V=V_E\mathbin{\dot{\cup}} V_U$  of (quantified) variables, with $V_E$ being the set of existential variables
-and $V_U$ the set of universal variables.
-\item A set $L$  of literals.
-\item A boolean literal \verb!false!
-\item Brackets \verb!{!, \verb!}!, \verb!(!, \verb!)!
-\item Logical implication $\verb!=>!$ 
-\item Period \verb!.!
-\end{itemize}
-\end{definition}
+We start this chapter with formal considerations: To be able to discuss about the possible applications of proofs in \nthree, we first need to 
+clarify the calculus behind it and -- most important -- prove its correctness based on the semantics of \nthree. We already know, 
+that this semantics of \nthree is 
+rather problematic: In Section~\ref{semofn3} we formalised two possible alternatives to understand the meaning of nested implicitly universally quantified variables
+and it is very likely, that there are even more ways to understand implicit quantification in \nthree. 
+%Even though we stated our own preferences, we  rather would like this matter to be discussed in the community instead of making a concrete choice here. 
+Since we want to keep our findings valid for all implementations -- proofs should 
+be exchangeable among the different reasoners -- we limit our considerations about the proof calculus to those formulas whose implicitly universally
+quantified variables are not ambiguous. These are the formulas in which such variables do not occur in deeply nested expressions. We call such formulas \emph{simple formulas}. 
+Below, we define the semantics of such formulas. %\todo{here or somewhere else: why are we not using the elaboration semantics?}
+Opposed to the previous chapters, we will use a direct approach here, mainly because this makes the later proofs concerning the proof calculus easier to follow. 
+ 
 
 
 
-We define the elements of $U$ as in the corresponding specification~\cite{iri}.
-\nthree allows to abbreviate URLs as prefixed names~\cite{turtle}.
-Literals are strings beginning and ending with quotation marks `\verb!"!';
-existentials start with `\verb!_:!', universals with `\verb!?!'.
+\subsection{Semantics of simple formulas}
+In our previous examples, implicit universal quantification in \nthree always lead to a problem when it occurred deeply nested in a formula. While example 
+Formula~\ref{uni} from Section~\ref{vars}
+\begin{multline}\notag
+ \texttt{\{:Kurt :knows ?x.\} => }%} \\ \texttt{
+ \texttt{\{?x :knows :Kurt.\}.}%\nonumber
+\end{multline}
+had a clear meaning in both interpretations, namely
+\[
+ \forall \texttt{x}: \texttt{<Kurt knows x>}\rightarrow \texttt{<x knows Kurt>}
+\]
+we had two conflicting interpretations for Formula~\ref{fff}:
+\begin{multline}\notag
+\texttt{\{\{?x :q ?y.\} => \{?x :r :c.\}.\} =>}
+\texttt{\{?x :p :a.\}.}
+\end{multline}
+The problem with that last formula was that Cwm and EYE differ in their understanding of the concept \emph{parent}  
+for universal variables which only occur nested -- ie surrounded by at least two pairs of curly brackets \texttt{\{~\}} -- in a formula.  Here, that is the case 
+for the universal variable
+\texttt{?y}. For Cwm, the next higher formula surrounded by curly brackets is the parent in carries the quantifier -- that is \texttt{\{?x :q ?y.\} => \{?x :r :c.\}.} in the example --
+while for EYE the top formula is always the parent. \emph{Simple formulas} are now the formula where universal variables do not occur nested and which are therefore interpreted 
+equally by both reasoners. 
 
-\nthree does not distinguish between predicates and constants---%
-a single \uri symbol can stand for both at the same time---%
-so the first-order-concept of a~\emph{term}
-has a~slightly different counterpart in \nthree: an \emph{expression}.
-Since the definition of expressions (Definition~\ref{expression})
-is closely related to the concept of a~formula (Definition~\ref{formula}),
-the two following definitions should be considered together.
-
-\begin{definition}[Expressions]\label{expression}
-  Let $A$ be an \nthree alphabet.
-  The set of \textit{expressions} $E \subset A^{*}$ is
-  defined as follows:
-  \begin{enumerate}
-    \item Each \uri is an expression.
-    \item Each variable is an expression.
-    \item Each literal is an expression.
-    \item \label{list} If $e_1,\ldots,e_n$ are expressions, $\verb!(!e_1 \ldots e_n\verb!)!$ is an expression. 
-    \item \label{false} \verb!false! is an expression.
-    \item $\verb!{ }!$ is an expression.
-    \item \label{fe} If $f\in F$ is a formula, then $\verb!{!f\verb!}!$ is an expression. 
-  \end{enumerate}
-  The expression defined by \ref{list} is called a \textit{list}.
-  We call the expressions defined by \ref{false}--\ref{fe}
-  \textit{formula expressions} and denote the set of all formula expressions by $\mbox{\textit{FE}}$.
-\end{definition}
-
-
-Note that point \ref{fe} of the definition above makes use of formulas, which are defined as follows:
-
-\begin{definition}[\nthree Formulas]
-    \label{formula}
-    The set~$F$ of \textit{\nthree formulas} over alphabet~$A$ is recursively defined as follows:
-    \begin{enumerate}  
-      \item \label{1} If $e_1, e_2, e_3 \in E$, then the following is a formula, called \textit{atomic} formula: \[e_1~ e_2~ e_3.\] 
-      \item \label{2} If $t_1, t_2$ are formula expressions then the following is a formula, called \mbox{\textit{implication}}: \[t_{1} \verb!=>!~t_{2}.\] 
-      \item \label{n} If $f_1$ and $f_2$ are formulas, then the following is a formula, called \textit{conjunction}: \[f_1 f_2\] 
-    %  \item Nothing else is a formula.
-    \end{enumerate}
-\end{definition}
-
-We will refer to a~formula without any variables as a~\textit{ground formula}.
-Analogously, we call expressions without any variables \textit{ground expressions}.
-We denote the corresponding sets by $F_g$ respectively $E_g$. 
-An formula or expression which does not contain universal variables is called \emph{universal free}. 
-The set of universal free formulas (possibly containing existentials) is denoted by $F_e$, the set of universal free expressions by $E_e$.
-
-In the examples in the remainder of this paper, we will use the common \rdf shortcuts:
-
-\begin{remark}[Syntactic variants]
-\begin{itemize}
-\item A formula consisting of two triple subformulas starting with the same element \verb!<d> <p> <e>. <d> <q> <f>.! can be abbreviated using a semicolon: \verb!<d> <p> <e>; <q> <f>.!\\ 
-Two triple formulas sharing the first two elements  \verb!<d> <p> <e>. <d> <p> <f>.! can be abbreviated using a comma: \verb!<d> <p> <e>, <f>.!
-  \item \verb![]! can be used as an expression and is a shortcut for a new existential variable. So \verb![] <p> <d>.! stands for \verb!_:x <p> <d>.!
-  %If $[~]$ occurs in a formula $f$ instead of an expression, each instance of $[~]$  can be translated by a new existential variable.
- \item An expression of the form \verb![<p> <o>]! is a shortcut for a new existential variable \verb!_:x!,
-   which is subject to the statement \verb!_:x <p> <o>.!
-   So \verb! <s> <p> [<q> <o>].! stands for \verb!<s> <p> _:x. _:x <q> <o>.!
- \item \verb!a! is a~shortcut for \verb!rdf:type!~\cite{RDF}.
- \end{itemize}
-\end{remark}
-
-To emphasize the difference between brackets which form part of the \nthree vocabulary, i.e. ``\verb!(!'', ``\verb!)!'', ``\verb!{!'', and ``\verb!}!'', 
-and the brackets occurring in mathematical language, we will underline the \nthree brackets in all definitions where both kinds of brackets occur.
-
-
-
-
-
+In order to formally define \emph{simple formulas}, we first introduce the concept of nested components.
+The definitions that follow rely on the syntax definitions we gave in Section~\ref{n3synsec}, in particular the \nthree alphabet (Definition~\ref{alphabet}) 
+and the grammar given in 
+Figure~\ref{N3S}. 
+%These definitions state how terms and expressions can be constructed and how these can be composed to formulas. We had three different kinds of formulas:
+% As we are going to use this terminology below, we repeat here the three different kinds of formulas we had:
+% \begin{enumerate}
+%  \item \emph{atomic formulas} \texttt{t t t.} consisting of three terms,
+%  \item \emph{implications} \texttt{e => e.} where \texttt{e} are expressions, and
+%  \item \emph{conjunctions} \texttt{f f} consisting of two formulas.
+% \end{enumerate}
+%
+% %\todo{cite \cite{semN3}}
+% 
+% %\todo{Plan: stay with my formalisation (improves version), then limit to nesting level 2 and say that we have existential rules. Maybe cite a nice paper aboout existential rules.
+% %What do you think Ruben?}
+% \restdesc descriptions are expressed in the Notation3 (\nthree) rule language~\cite{N3Logic,Notation3}.
+% We will introduce the \nthree language and its logic,
+% focusing on the aspects relevant to our purposes. Our formalization is based on the formalization we gave in a previous paper \cite{semN3} and the informal
+% semantic descriptions given in the above mentioned sources.
+% %F\todo{cite \cite{semN3}}
+% %\todo{Stay with the new formalisation of use simple FOL in the first place?}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % Syntax
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \nthree augments the RDF model with symbols for quantification, implication, and statements about formulas:
+% 
+% 
+% \begin{definition}[Basic N3 vocabulary]
+% An \emph{N3 alphabet~$A$} consists of the following disjoint classes of symbols:
+% \begin{itemize}
+% \item A set $U$ of \uri symbols.
+% \item A set $V=V_E\mathbin{\dot{\cup}} V_U$  of (quantified) variables, with $V_E$ being the set of existential variables
+% and $V_U$ the set of universal variables.
+% \item A set $L$  of literals.
+% \item A boolean literal \verb!false!
+% \item Brackets \verb!{!, \verb!}!, \verb!(!, \verb!)!
+% \item Logical implication $\verb!=>!$ 
+% \item Period \verb!.!
+% \end{itemize}
+% \end{definition}
+%
+% 
+% 
+% We define the elements of $U$ as in the corresponding specification~\cite{iri}.
+% \nthree allows to abbreviate URLs as prefixed names~\cite{turtle}.
+% Literals are strings beginning and ending with quotation marks `\verb!"!';
+% existentials start with `\verb!_:!', universals with `\verb!?!'.
+% 
+% \nthree does not distinguish between predicates and constants---%
+% a single \uri symbol can stand for both at the same time---%
+% so the first-order-concept of a~\emph{term}
+% has a~slightly different counterpart in \nthree: an \emph{expression}.
+% Since the definition of expressions (Definition~\ref{expression})
+% is closely related to the concept of a~formula (Definition~\ref{formula}),
+% the two following definitions should be considered together.
+% 
+% \begin{definition}[Expressions]\label{expression}
+%   Let $A$ be an \nthree alphabet.
+%   The set of \textit{expressions} $E \subset A^{*}$ is
+%   defined as follows:
+%   \begin{enumerate}
+%     \item Each \uri is an expression.
+%     \item Each variable is an expression.
+%     \item Each literal is an expression.
+%     \item \label{list} If $e_1,\ldots,e_n$ are expressions, $\verb!(!e_1 \ldots e_n\verb!)!$ is an expression. 
+%     \item \label{false} \verb!false! is an expression.
+%     \item $\verb!{ }!$ is an expression.
+%     \item \label{fe} If $f\in F$ is a formula, then $\verb!{!f\verb!}!$ is an expression. 
+%   \end{enumerate}
+%   The expression defined by \ref{list} is called a \textit{list}.
+%   We call the expressions defined by \ref{false}--\ref{fe}
+%   \textit{formula expressions} and denote the set of all formula expressions by $\mbox{\textit{FE}}$.
+% \end{definition}
+%
+%
+% Note that point \ref{fe} of the definition above makes use of formulas, which are defined as follows:
+% 
+% \begin{definition}[\nthree Formulas]
+%     \label{formula}
+%     The set~$F$ of \textit{\nthree formulas} over alphabet~$A$ is recursively defined as follows:
+%     \begin{enumerate}  
+%       \item \label{1} If $e_1, e_2, e_3 \in E$, then the following is a formula, called \textit{atomic} formula: \[e_1~ e_2~ e_3.\] 
+%       \item \label{2} If $t_1, t_2$ are formula expressions then the following is a formula, called \mbox{\textit{implication}}: \[t_{1} \verb!=>!~t_{2}.\] 
+%       \item \label{n} If $f_1$ and $f_2$ are formulas, then the following is a formula, called \textit{conjunction}: \[f_1 f_2\] 
+%     %  \item Nothing else is a formula.
+%     \end{enumerate}
+% \end{definition}
+% 
+% We will refer to a~formula without any variables as a~\textit{ground formula}.
+% Analogously, we call expressions without any variables \textit{ground expressions}.
+% We denote the corresponding sets by $F_g$ respectively $E_g$. 
+% An formula or expression which does not contain universal variables is called \emph{universal free}. 
+% The set of universal free formulas (possibly containing existentials) is denoted by $F_e$, the set of universal free expressions by $E_e$.
+% 
+% In the examples in the remainder of this paper, we will use the common \rdf shortcuts:
+% 
+% \begin{remark}[Syntactic variants]
+% \begin{itemize}
+% \item A formula consisting of two triple subformulas starting with the same element \verb!<d> <p> <e>. <d> <q> <f>.! can be abbreviated using a semicolon: \verb!<d> <p> <e>; <q> <f>.!\\ 
+% Two triple formulas sharing the first two elements  \verb!<d> <p> <e>. <d> <p> <f>.! can be abbreviated using a comma: \verb!<d> <p> <e>, <f>.!
+%   \item \verb![]! can be used as an expression and is a shortcut for a new existential variable. So \verb![] <p> <d>.! stands for \verb!_:x <p> <d>.!
+%   %If $[~]$ occurs in a formula $f$ instead of an expression, each instance of $[~]$  can be translated by a new existential variable.
+%  \item An expression of the form \verb![<p> <o>]! is a shortcut for a new existential variable \verb!_:x!,
+%    which is subject to the statement \verb!_:x <p> <o>.!
+%    So \verb! <s> <p> [<q> <o>].! stands for \verb!<s> <p> _:x. _:x <q> <o>.!
+%  \item \verb!a! is a~shortcut for \verb!rdf:type!~\cite{RDF}.
+%  \end{itemize}
+% \end{remark}
+% 
+In the definitions and examples which follow we will make use of the brackets occurring in \nthree's syntax \texttt{\{}, \texttt{\}}, \texttt{(}, \texttt{)} and of auxiliary 
+brackets we use in mathematical expressions.
+ To emphasize the difference between these two kinds of brackets,
+%  brackets which form part of the \nthree vocabulary, i.e. ``\verb!(!'', ``\verb!)!'', ``\verb!{!'', and ``\verb!}!'', 
+%  and the brackets occurring in mathematical language,
+ we will underline the \nthree brackets in all definitions where both kinds of brackets occur.
+% 
+% 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Semantics
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % As in \rdf, s
-Simple N3 triples of the form \verb!:s :p :o! can be understood as a first order formula $p(s,o)$. We call \texttt{:p} the predicate, \texttt{:s} 
- the subject and \texttt{:o} the object of a triple. More complicated constructs often contain variables:
-in Notation3 existential and universal variables %occurring in formulas 
-are implicitly quantified. The scope of this quantification depends on how deeply nested
-a variable occurs in a formula. To be able to make statements about that we define:
+% Simple N3 triples of the form \verb!:s :p :o! can be understood as a first order formula $p(s,o)$. We call \texttt{:p} the predicate, \texttt{:s} 
+%  the subject and \texttt{:o} the object of a triple. More complicated constructs often contain variables:
+% in Notation3 existential and universal variables %occurring in formulas 
+% are implicitly quantified. 
+
+Having said that, we can now introduce the concept of \emph{components}:
+% The scope of this quantification depends on how deeply nested
+% a variable occurs in a formula. To be able to make statements about that we define:
 
 
 
 \begin{definition}[Components of a formula]
-Let $f\in F$ be a formula and $c: E \rightarrow 2^E$ a~function such that:
+Given an \nthree alphabet $\mathcal{A}$.
+Let $\mathcal{F}$ be the set of \nthree formulas and $\mathcal{T}$ 
+the set of terms over $\mathcal{A}$. Let $f\in \mathcal{F}$ be a formula and $c:\mathcal{T} \rightarrow 2^\mathcal{T}$ a~function such that:
 \[c(e)=\begin{cases}
   
   c(e_1)\cup\ldots\cup c(e_n) & \text{if }e=\underline{\texttt{(}}e_1 \ldots e_n\underline{\texttt{)}}\text{ is a list,}\\
@@ -154,17 +208,17 @@ Let $f\in F$ be a formula and $c: E \rightarrow 2^E$ a~function such that:
 
 
 
-We define the set $\textit{comp}(f)\subset E$ of components of $f$ as follows:
+We define the set $\textit{comp}(f)\subset \mathcal{T}$ of \emph{direct components} of $f$ as follows:
  \begin{itemize}
-  \item If $f$ is an atomic formula of the form $e_1~ e_2~ e_3.$, $\textit{comp}(f)=c(e_1)\cup c(e_2)\cup c(e_3)$.
-  \item If $f$ is an implication of the form $t_{1} \verb!=>!~t_{2}.$, then $\textit{comp}(f)=\{t_1, t_2\}$.
+  \item If $f$ is an atomic formula of the form $t_1~ t_2~ t_3.$, $\textit{comp}(f)=c(t_1)\cup c(t_2)\cup c(t_3)$.
+  \item If $f$ is an implication of the form $e_{1} \verb!=>!~e_{2}.$, then $\textit{comp}(f)=\{e_1, e_2\}$.
   \item If $f$ is a conjunction of the form $f_1 f_2$, then $\textit{comp}(f)=\textit{comp}(f_1)\cup \textit{comp}(f_2)$.
  \end{itemize}
- Likewise, for $n\in \mathbb{N}_{>0}$, we define the components of level $n$ as:
+ Likewise, for $n\in \mathbb{N}_{>0}$, we define the \emph{components of level $n$} as:
  \begin{flalign*} 
   \textit{comp}^n(f):= &  
-  \{e\in E|\exists f_1,\ldots, f_{n-1}\in F: 
-   e\in \textit{comp}(f_1)\wedge  \underline{\texttt{\{}}f_1\underline{\texttt{\}}}\in \textit{comp}(f_2)\wedge \ldots\\& \wedge  \underline{\texttt{\{}}f_{n-1}\underline{\texttt{\}}}\in 
+  \{t\in \mathcal{T}|\exists f_1,\ldots, f_{n-1}\in \mathcal{F}: 
+   t\in \textit{comp}(f_1)\wedge  \underline{\texttt{\{}}f_1\underline{\texttt{\}}}\in \textit{comp}(f_2)\wedge \ldots\\& \wedge  \underline{\texttt{\{}}f_{n-1}\underline{\texttt{\}}}\in 
   \textit{comp}(f)\} 
 \end{flalign*} 
 \end{definition}
@@ -172,30 +226,43 @@ We define the set $\textit{comp}(f)\subset E$ of components of $f$ as follows:
 
 %The definition allows us to 
 Now, we can distinguish between direct components and 
-nested components. As an example take the following \nthree formula:
-\begin{Verbatim}[fontsize=\normalsize] 
-		:John :says {:Kurt :knows :Albert.}.
-\end{Verbatim}
-Direct components are \verb!:John!, \verb!:says! and \verb!{:Kurt :knows :Albert.}! while \verb!:Kurt!,  \verb!:knows! and  \verb!:Albert! are nested components of
-level two. \nthree allows more complex structures, formulas like
-% \begin{Verbatim}[fontsize=\normalsize] 
-%          {?x :p :o.} => {:s :p2 {{?x :p3 :o3}=>{?x :p4 :o4.}.}.}.
-% \end{Verbatim}
+nested components. In example Formula~\ref{ref} from above:
 \[
-\verb! {{?x :p :a.} => {?x :q :b.}.} => {{?x :r :c.} => {?x :s :d.}.}.! 
+  \texttt{:John :says \{:Kurt :knows :Albert.\}.}
 \]
-where for example the predicate \verb!:p! occurs as a component of level three are valid in \nthree. 
-Such deeply nested structures require a careful treatment of scoping for variables occurring in them. 
-Note for example that the above formula should be interpreted as
-\[
-(\forall x_1: p(x_1,a)\rightarrow q(x_1,b))\rightarrow (\forall x_2: r(x_2,c) \rightarrow s(x_2,d))
-\]
-and \emph{not} as
-\[\forall x: ((p(x,a)\rightarrow q(x,b))\rightarrow ( r(x,c) \rightarrow s(x,d)))\]
-Due to this particularities and because deeply nested structures are no requirement for our framework, we limit the
-considerations of
-this paper to \emph{simple formulas}
-and refer the reader interested in more details to the corresponding publication \cite{semN3}.
+ \verb!:John!, \verb!:says! and \verb!{:Kurt :knows :Albert.}! are direct components while \verb!:Kurt!,  \verb!:knows! and  \verb!:Albert! are nested components of
+level two. %\nthree allows more complex structures, formulas like
+% % \begin{Verbatim}[fontsize=\normalsize] 
+% %          {?x :p :o.} => {:s :p2 {{?x :p3 :o3}=>{?x :p4 :o4.}.}.}.
+% % \end{Verbatim}
+% \[
+% \verb! {{?x :p :a.} => {?x :q :b.}.} => {{?x :r :c.} => {?x :s :d.}.}.! 
+% \]
+% where for example the predicate \verb!:p! occurs as a component of level three are valid in \nthree. 
+% Such deeply nested structures require a careful treatment of scoping for variables occurring in them. 
+% Note for example that the above formula should be interpreted as
+% \[
+% (\forall x_1: p(x_1,a)\rightarrow q(x_1,b))\rightarrow (\forall x_2: r(x_2,c) \rightarrow s(x_2,d))
+% \]
+% and \emph{not} as
+% \[\forall x: ((p(x,a)\rightarrow q(x,b))\rightarrow ( r(x,c) \rightarrow s(x,d)))\]
+% Due to this particularities and because deeply nested structures are no requirement for our framework, we limit the
+% considerations of
+% this paper to \emph{simple formulas}
+% and refer the reader interested in more details to the corresponding publication \cite{semN3}.
+
+Having this definition at hand, we can define ground formulas for \nthree. These are similar to the same concept in \nthree 
+Core Logic (Definition~\ref{free}) and will become relevant in the following sections.
+
+\begin{definition}[Ground formula]
+Let $\mathcal{A}$ be an \nthree alphabet and let $E$ the set of existential and $U$ the set of universal variables.
+We call an \nthree formula $f$ over $\mathcal{A}$ \emph{ground} 
+iff $\operatorname{comp}^n(f)\cap E=\emptyset$ and $\operatorname{comp}^n(f)\cap U=\emptyset$ for all $n\in\mathbb{N}$.
+\end{definition}
+
+A \emph{ground} formula is thus a formula which does neither contain universal nor existential variables. 
+
+The concept of nested components also enables us to define formulas for which existential and universal variables do not occur in nested positions:
 
 \begin{definition}[Simple formulas]
 We call an \nthree formula $f$ \emph{simple} iff for all $n \in \mathbb{N}$, $n>2$: $\operatorname{comp}^n(f)=\emptyset$
@@ -270,6 +337,8 @@ is interpreted as
 % \end{definition}
 % 
 % We will denote substitutions as sets of pairs of the form $x/e$ which indicates that $\sigma: x \mapsto e$. We write $\sigma=\{x_1/e_1,\ldots , x_n/e_n\}$.
+
+
 
 As the existential quantification of blank nodes, in contrast to universal quantification, 
 only counts for the direct formula they occur in and not for their subordinated formulas, 
