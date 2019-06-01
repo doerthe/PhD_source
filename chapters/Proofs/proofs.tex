@@ -622,7 +622,8 @@ A total application of $\sigma=\{\verb!?x!/ \verb!:Kurt!\}$ in contrast, replace
 % $f_{21}$ and $f_{22}$. Note that $e_{21}$ and $e_{22}$ can be different. Our definition only ensures, that, 
 % if the same variable occurs in direct sibling formulas, it is treated in the same way.
 
-For simple formulas we can now define interpretation and semantics:
+%For simple formulas 
+We can now define interpretation and semantics:
 %We embed our concepts in the definition of interpretation and semantics:
 
 \begin{definition}[Interpretation]
@@ -659,6 +660,9 @@ For our definition of \nthree's direct semantics for simple formulas, we now tak
 
 
 \begin{definition}[Direct semantics of \nthree\label{sem_n3}]
+After having defined a direct semantcis for \nthreelogic -- following the
+
+
 Let $\mathfrak{I}=(\mathcal{D},\mathfrak{a,p})$ be an interpretation of an \nthree alphabet $\mathcal{A}$, let $U$ be the set of universal variable of $\mathcal{A}$ and $E$ the set of existentials,
 and let  $f$ be a \emph{simple} formula over $\mathcal{A}$. % which contains at least one variable, $f_1$ and $f_2$ be ground formulas and $c_1,c_2,p \in E$ be ground expressions.
 Then the following holds:
@@ -695,7 +699,9 @@ Then the following holds:
   
 \end{definition}
 
-Note that by first handling universal variables (point \ref{quant1} in the definition) and then treating existentials (point \ref{quant2}) the definition makes sure 
+In point~\ref{quant1} in the definition we first ground all uniersal variables. This is the same as assuming all universals to always be quantified on top level. Our semantics is thus following 
+EYE's interpretation but is also correct for all \emph{simple formulas} if we follow the semantics as implemented in Cwm.
+By grounding the universals first and then treating existentials afterwards (point~\ref{quant2}) we furthermore make sure 
 that in case of conflicts the universal quantifier is outside of the existential as it was stated in Quote~I from Section~\ref{quantsec}.
 % In N3 the statement
 % \[
@@ -707,7 +713,7 @@ that in case of conflicts the universal quantifier is outside of the existential
 
 
 %\noindent
-The above description enables use to define models:
+With the above we can now define models:
 
 \begin{definition}[Model]
 Let $\Phi$ be a set of \nthree formulas. We call an interpretation $\mathfrak{I}=(\mathcal{D},\mathfrak{a,p})$ a \textit{model} of $\Phi$ iff $\mathfrak{I}\models f$ for every formula $f\in \Phi$.
@@ -740,22 +746,25 @@ model $\mathfrak{I}\models \Phi$ is also a model of $\phi$.
 \section{A proof calculus for N3}\label{cal}
 %\subsection{Anatomy of a~Hypermedia API Composition Proof}
 \label{sec:ProofAnatomy}
-\todo{define simple formulas = formulas without nesting -> for these we can define direct semantics which will make the following considerations easier since we do not need to 
-use the attribute grammer we introduced above and, even better, we do not need to deal with the ambiguity issues we deacribed above.} 
+Having the direct semantics of (simple) \nthree formulas defined we can now come to the actual topic of this chapter: proofs. When new knowledge is derived,
+a proof is a list of the different concrete steps 
+ applied which led to this new knowledge. This proof can be used by others to understand and either verify or decline the derivations. A proof calculus is now a set of all 
+possible conceptual steps allowed to be used in a proof.\footnote{More about proof calculi can be found in most introductions to FOL, for example \cite{ebbinghaus,enderton,mendelson}.}
+The proof calculus we discuss below is based on the steps which can be described by the \nthree proof vocabulary which we further describe in the next section.
+% 
+% introduce a proof calculus for \nthree. This calculus contains 
+% all steps which are covered in the proof vocabulary created in the context of the Semantic Web Application Platform (SWAP) \cite{SWAP}. We discuss the vocabulary itself in the following section.
+% % 
+% The \nthree proof vocabulary created in the context of the Semantic Web Application Platform (SWAP) \cite{SWAP} 
+% enables us to formalize proofs in a~machine-readable way.
+% This subsection gives a short introduction into the terminology used and the resulting proofs,
+% focusing on the aspects relevant to our purposes.
+% 
+% A proof is a conjunction of \nthree formulas describing 
+% inference steps
+% a reasoner has performed to come to a certain conclusion, so called \textit{proof steps}. 
 
-
-The \nthree proof vocabulary created in the context of the Semantic Web Application Platform (SWAP) \cite{SWAP} enables us to formalize proofs in a~machine-readable way.
-This subsection gives a short introduction into the terminology used and the resulting proofs,
-focusing on the aspects relevant to our purposes.
-
-A proof is a conjunction of \nthree formulas describing 
-inference steps
-a reasoner has performed to come to a certain conclusion, so called \textit{proof steps}. 
-
-
-
-
-The vocabulary distinguishes between four different kinds of proof steps. We write them as deduction rules, using ``$\vdash$''.
+The \nthree proof calculus contains four different kinds of proof steps. We write them as deduction rules, using ``$\vdash$''.
 
 \begin{definition}[Proof steps]\label{proofsteps}
 Let $\mathcal{F}$ be the set of simple formulas over an \nthree alphabet $\mathcal{A}$, $U$ the set of universals and $E$ the set of existentials in $\mathcal{A}$,  $\Gamma\subset \mathcal{F}$ a set of formulas and
@@ -789,6 +798,10 @@ then $\Gamma \vdash f_2'$.
  \end{enumerate}
 \end{definition}
 
+When we define proof steps in order to explain derivations done in a logic, the most important requirement these steps need to fulfil is that they need to be correct: Only 
+if we can be sure that the application of a proof step on valid formulas leads again to valid formulas we can trust the proofs which have been produced applying this calculus.
+%, that is that  
+We therefore state the following theorem:
 
 \begin{theorem}[Correctness of proof calculus]\label{correctness}
 Let $\Phi$ be a set of \nthree formulas  and $\phi$ a formula over the same \nthree alphabet $\mathcal{A}$. Let $U$ be the set of universals and $E$ the set of existentials in $\mathcal{A}$. 
@@ -796,7 +809,7 @@ Then the following holds:
 \[ \text{If } \Phi \vdash \phi \text{ then } \Phi \models \phi.\]
 \end{theorem}
 
-%\todo{Dörthe: reference repl~\label{repl} missing}
+
 
 \begin{proof}
 
@@ -813,10 +826,10 @@ We prove that every proof step is correct.
  \item If $f_1 f_2$ is universal-free and $\text{comp}(f_1f_2)\cap E=\emptyset$, the claim follows immediately 
  from Definition  \ref{sem_n3}.\ref{conj}. 
  
- \item If $f_1f_2$ universal free and $\text{comp}(f_1f_2)\neq \emptyset$ let $\mu:\text{comp}(f_1f_2)\rightarrow \mathcal{T}_g$ be a substitution such that
+ \item If $f_1f_2$ universal-free and $\text{comp}(f_1f_2)\neq \emptyset$ let $\mu:\text{comp}(f_1f_2)\rightarrow \mathcal{T}_g$ be a substitution such that
  $\mathfrak{I}\models (f_1f_2)\mu^c$. Then $\mathfrak{I}\models (f_1\mu^c) (f_2\mu^c)$, thus  $\mathfrak{I}\models (f_1\mu^c)$ and 
  $\mathfrak{I}\models (f_2\mu^c)$.
- \item If $f_1f_2$ are not universal free, then $\mathfrak{I}\models (f_1f_2)\sigma^t$ for all substitutions $\sigma:U\rightarrow \mathcal{T}_e$. 
+ \item If $f_1f_2$ are not universal-free, then $\mathfrak{I}\models (f_1f_2)\sigma^t$ for all substitutions $\sigma:U\rightarrow \mathcal{T}_e$. 
  
  The claim follows by the same 
  argument as above.
@@ -896,73 +909,7 @@ and~\ref{sem_n3}.\ref{fal2}.
 \end{enumerate}
 \end{proof}
 
-Applied on a API composition problem, we get the following consequence:
-\begin{corollary}[Correctness of API composition proofs]
-Let $(H,g,R,B)$ be an API composition problem and $g'$ an instance  of $g$ then the following holds:
-\[\text{If }H\cup R \cup B \vdash g' \text{ then }H\cup R \cup B \models g'\]
-\end{corollary}
 
-%The corollary ensures that every proof we get for an API composition problem is actually an evidence for the
-%The corrollary ensures that every proof we get by applying the calculus is actually correct. 
-%Unfortunately, the proof calculus is not complete
-%as the following example shows: 
-
-
-% According to the semantics introduced in chapter \ref{nthree} from \[\texttt{\{\{<a><b><c>.\}=> false.\}=> false.\}.}\] 
-%  follows \[\texttt{<a><b><c>.}\]%although this holds with the definition of the semantics introduced in chapter \ref{nthree}. \\
-%  As there is proof-step similar to $\bot$-elimination in first order logic, this cannot be shown applying the introduced calculus.
-%  
- 
-
-
-We will examine the generalized modus ponens in more detail,
-as this is the proof step where implication rules, 
-such as \restdesc descriptions, are applied.
-
-\label{sec:Reasoning}
-\begin{lemma}\label{lemma:Reasoning}
-Let $A$ be an \nthree alphabet, %$\Gamma\subset F$ a set of formulas, 
-$f\in F_g$ a simple ground formula and $\verb!{!f_1\verb!}=>{!f_2\verb!}!\in F$ a simple implication formula %of nesting level 2 
-where all 
-universal variables which occur in $f_2$ %do 
-also occur in $f_1$. If the generalized modus ponens is applicable to $f$ and $\verb!{!f_1\verb!}=>{!f_2\verb!}!$ then
-the resulting formula does not contain universal variables.
-\end{lemma}
-
-\begin{proof}
- %Let  $\mu_{1}, \ldots, \mu_{n}$ be 
- %universal replacements 
- Let $\sigma:V_U\rightarrow E_e$ be a substitution %such that 
- such that  $(\verb!{!f_1\verb!}=>{!f_2\verb!}.!)\sigma^t= \verb!{!f\verb!}=>{!f_2'\verb!}.!$ 
-As $f$ is a ground formula, $\text{range}(\sigma|_{V_U\cap(\text{comp}^1(f_1)\cup \text{comp}^2(f_1))}) \subset E_g$. 
-Due to the condition that every universal variable of $f_2$ 
-is also in $f_1$, i.e. 
-\[((\text{comp}^1(f_2)\cup \text{comp}^2(f_2))\cap V_U )\subset (\text{comp}^1(f_1)\cup \text{comp}^2(f_1))\cap V_U)\]
-the claim follows. 
-%
- %As the implication
- %has nesting level 2, by Definition \ref{repl}, from each replacement only the first substitution $\sigma^{\mu_i}_{11}=: \sigma_{\mu_i}$ 
- %gets totally applied to the whole implication 
- %and we obtain
- %there are, by definition \ref{repl}, some substitutions $\sigma_1\ldots\sigma_n$ such that 
- %\[\mu_{1}\circ\ldots\circ\mu_{n}(\verb!{!f_1\verb!}=>{!f_2\verb!}.!)=(\verb!{!f_1\verb!}=>{!f_2\verb!}.!)\sigma_{\mu_1}^t\ldots\sigma_{\mu_n}^t.\]
- %Therefore all 
- %universal variables which are replaced in $f_1$ are also replaced by the same substitution in $f_2$.
-\end{proof}
-
-
-As \http requests in \restdesc descriptions only contain
-one leading existential to represent the \http message, and 
-\restdesc descriptions 
-fulfill the conditions of Lemma~\ref{lemma:Reasoning}
-%have nesting level~2,
-we arrive at the following consequence:
-
-\begin{corollary}
-\label{corollary}
-Every application of a ~restdesc description to a ground formula results in a~sufficiently specified \http request 
-and a postcondition which does not contain any universal variables.
-\end{corollary}
 
 % Additional to the above mentioned steps proof steps themseves, %, the reasoner is able to apply existential renaming. 
 % the substitutions done during the reasoning process %as well as those applied in generalized modus ponens 
@@ -973,19 +920,45 @@ and a postcondition which does not contain any universal variables.
 %The reasoning vocabulary\footnote{The vocabulary's definition can be found at: \url{http://www.w3.org/2000/10/swap/reason\#}.}
 %enables us to name the aforementioned proof steps. 
 %their outcome, and the resources used to come to a conclusion. 
+%\todo{Remark: proof calculus is not complete since we do not have any way to come from existential to universal}
+The proof calculus is thus correct. % Based on our experiences on proof calculi in first order logic (for example \cite{ebbinghaus,enderton,mendelson})
+The natural next step here would be to also prove the completeness of the proof calculus: unfortunately, the calculus is not complete.
+% 
+% -- there are for example no proof steps
+% dealing with existential 
+% variables --
+% and we can therefore not provide such a proof. 
+To see this consider the following rule containing a blank node in its antecedent:
+\[
+ \texttt{\{\_:x :knows :Kurt.\}=>\{:Kurt :is :known\}.}
+\]
+Before they apply this rule, the reasoners Cwm and EYE internally translate it to:
+\[
+ \texttt{\{?x :knows :Kurt.\}=>\{:Kurt :is :known\}.}
+\]
+According to all definitions of \nthree's semantics we have given so far, this translation is correct. The step (or combination of steps depending on the calculus) 
+performed here is not part of the proof calculus described by the SWAP
+proof vocabulary. Therefore, it is impossible for reasoners applying this step to communicate this application to different parties. To also be complete or to at least reflect the actual 
+reasoning steps performed by the reasoners, the SWAP vocabulary would need to be extended by proof steps which act on existential variables.
 
 \section{The proof vocabulary}
-\todo{add new example proof}
-The first step of Definition \ref{proofsteps} includes from a technical point of view also the parsing of a source.
-In the \nthree proof vocabulary%
-\footnote{The vocabulary's RDF definition can be found at: \url{http://www.w3.org/2000/10/swap/reason\#}.}
-we will discuss next,
-this step is therefore named after this action.
+%As explained earlier, the proof steps we introduced in the previous section all have been defined in the context of the Semantic Web Application platform SWAP. 
+%The proof steps introduced in the previous section can all be expressed in \nthree.
+After having introduced the concrete proof steps which can be described by it in the last section, we now introduce the SWAP proof vocabulary.\footnote{The vocabulary's RDF definition can be found at: \url{http://www.w3.org/2000/10/swap/reason\#}.}
+This proof vocabulary makes it possible 
+to express proofs directly in \nthree and thereby make them accessible for Semantic Web technology. Semantic Web reasoners can process proofs, exchange them among each others 
+or -- for example -- check them for correctness. By expressing proofs in \nthree, we thus make them part of the Semantic Web.
 
-\begin{definition}[Proof vocabulary]
-Let $A$ be an \nthree alphabet and $\mathfrak{I}=(\mathcal{D}, \mathfrak{a}, \mathfrak{p})$ be an 
-interpretation of its formulas. Let $\verb!x!, \verb!y!,  \verb!y!_1, \ldots, \verb!y!_n \in U$ be \nthree representations of 
-proof steps and $\verb!z!_1,\verb!z!_2,\verb!z!_3\in U$.
+Below, we define the \nthree names of the steps listed in Definition~\ref{proofsteps}. From a technical point of view, we can only be aware of \emph{axioms} 
+if we previously parse them. In the proof vocabulary, the axiom step is therefore named after this action.
+% In the \nthree proof vocabulary
+% we will discuss next,
+% this step is therefore named after this action.
+
+\begin{definition}[Proof vocabulary]\label{proofvoc}
+Let $\mathcal{A}$ be an \nthree alphabet and $\mathfrak{I}=(\mathcal{D}, \mathfrak{a}, \mathfrak{p})$ be an 
+interpretation of its formulas. Let $C$ be the set of constants in $\mathcal{A}$. Let $\verb!x!, \verb!y!,  \verb!y!_1, \ldots, \verb!y!_n \in C$ be \nthree representations of 
+proof steps and $\verb!z!_1,\verb!z!_2,\verb!z!_3\in C$.
 \begin{enumerate}
  \item 
  Proof step types:
@@ -1006,7 +979,7 @@ source.
 \item $\mathfrak{I}\models \verb!x r:component y!$. iff \verb!x! is a conjunction introduction and $\verb!y!$ is a proof step which gives one of its components.
 \item $\mathfrak{I}\models \verb!x r:rule y.!$ iff \verb!x! is a generalized modus ponens and $\verb!y!$ is the proof step which leads to the applied implication.
 \item $\mathfrak{I}\models \verb!x r:evidence (y!_1,\ldots,\verb!y!_n\verb!)!$. iff \verb!x! is a generalized modus ponens and $\verb!y!_1,\ldots, \verb!y!_n$ 
-are the proof steps which lead to the formulas used for the unification with the antecedent of the implication.
+are the proof steps which lead to the formulas whose conjunction was used for the unification with the antecedent of the implication.
 \item $\mathfrak{I}\models \verb!x r:because y!$. iff \verb!x! is a conjunction elimination and $\verb!y!$ is the proof step which yields the to-be-eliminated conjunction.
 \end{itemize}
 \item
@@ -1020,19 +993,125 @@ Substitutions:
 \end{enumerate}
 \end{definition}
 
-To produce a proof for an API composition problem, the reasoner needs to be aware of all formulas at its disposal (in our case $H \cup R \cup B$) and of the goal 
-which it is expected to prove.
-The latter is given to the reasoner as the consequence of a~\textit{filter rule}
-$\verb!{!f\verb!} => {!g\verb!}.!$%, the \textit{filter rule}.
-This triggers the reasoner to prove an instance of~$f$ and in case of success,
-return each provable ground instance of $g$ if possible,
-or a provable instance containing existentials otherwise.
-For brevity, not all reasoners display every proof step in a proof:
-especially conjunction elimination and introduction are often omitted.
+
+\begin{lstlisting}[
+  float=t,
+  caption={Example proof: Formula~\ref{out} can be derived by applying Rule~\ref{uni} on Formla~\ref{ref}. },
+  label=lst:proofexample]
+§\textcolor{gray}{PREFIX : <http://example.org/ex\#>}§
+§\textcolor{gray}{PREFIX r: <http://www.w3.org/2000/10/swap/reason\#>}§
+
+[] a r:Proof, r:Conjunction;
+  r:component <#lemma1>;
+  r:gives {
+    :Albert :knows :Kurt.
+  }.
+
+<#lemma1> a r:Inference;
+  r:gives {
+    :Albert :knows :Kurt.
+  };
+  r:evidence (
+    <#lemma2>
+  );
+  r:rule <#lemma3>.
+
+<#lemma2> a r:Extraction;
+  r:gives {
+    :Kurt :knows :Albert.
+  };
+  r:because [ a r:Parsing; r:source <Formula_2.1>].
+
+<#lemma3> a r:Extraction;
+  r:gives {
+    {:Kurt :knows ?x_0_1} => {?x_0_1 :knows :Kurt}.
+  };
+  r:because [ a r:Parsing; r:source <Formula_2.7>].
+\end{lstlisting}
+
+An \nthree proof is now a conjunction of all the proof steps leading to the proven formula. To illustrate that, we discuss an example proof.
+We come back to the formulas we used in Chapter~\ref{unilog} of this thesis. From Formula~\ref{ref}
+\[
+ \verb! :Kurt :knows :Albert.!
+\]
+and Rule~\ref{uni}
+\begin{multline}\notag
+ \texttt{\{:Kurt :knows ?x.\} => }%} \\ \texttt{
+ \texttt{\{?x :knows :Kurt.\}.}%\nonumber
+\end{multline}
+we could derive Formula~\ref{out}.
+\begin{equation}\notag
+\texttt{:Albert :knows :Kurt.}
+\end{equation}
+The proof for that derivation is displayed in Listing~\ref{lst:proofexample}. To produce this proof we used Formula~\ref{uni} as a goal. The proof is produced by EYE.
+ We go through the proof from the bottom to the top: 
+ 
+\texttt{<\#lemma3>} in line 25 is an \texttt{r:Extraction} which results in the formula
+\texttt{\{:Kurt :knows ?x\_0\_1\} => \{?x\_0\_1 :knows :Kurt\}.} as indicated by the predicate \texttt{r:gives}.
+This formula was picked (\texttt{r:because}) as one conjunct from another formula produced by another proof step which here is denoted by an anonymous blank node. 
+This proof step is an \texttt{r:Parsing}  
+%This anonymous formula is an \ % \texttt{r:source} of that \texttt{r:Extraction} was the formula we get by
+having as source  (\texttt{r:source})  the source file \texttt{<Formula\_2.7>} which  contains Formula~\ref{uni}.
+
+The description of \texttt{<\#lemma2>} in line 19 is very similar to the above. We again have an \texttt{r:Extraction}, 
+this times made on a parsed formula contained in the file \texttt{<Formula\_2.1>}. This step results in the formula \texttt{:Kurt :knows :Albert}.
+
+\texttt{<\#lemma1>} in line 10 now makes use of the two formulas: The lemma is an inference step (\texttt{r:Inference}) which applies the rule (\texttt{r:rule})
+produced by \texttt{<\#lemma3>} on the formula produced by \texttt{<\#lemma1>} (\texttt{r:evidence}). This results in the formula \texttt{:Albert :knows :Kurt.}
+
+This last formula is also the result of out proof as indicated in line 4. The last proof step we apply (\texttt{r:Proof}) is a \texttt{r:Conjunction} with only one component, the 
+result of \texttt{<\#lemma1>}. We get \texttt{:Albert :knows :Kurt.}
+
+
+
+% To produce a proof for an API composition problem, the reasoner needs to be aware of all formulas at its disposal (in our case $H \cup R \cup B$) and of the goal 
+% which it is expected to prove.
+% The latter is given to the reasoner as the consequence of a~\textit{filter rule}
+% $\verb!{!f\verb!} => {!g\verb!}.!$%, the \textit{filter rule}.
+% This triggers the reasoner to prove an instance of~$f$ and in case of success,
+% return each provable ground instance of $g$ if possible,
+% or a provable instance containing existentials otherwise.
+
+The proof above has been automatically produced and in our example some of the proof steps have not really been necessary: 
+we do for example not need the conjunction of only one component indicated in line 4. The proof did on the other hand not make use of the different predicates describing a substitution. 
+It renamed the variable \texttt{?x} from our input Formula~\ref{uni} to \texttt{?x\_0\_1} (line 27) and then unified this variable \texttt{?x\_0\_1} with \texttt{:Albert} when executing 
+\texttt{<\#lemma1>} (line 10) without letting us know. 
+
+Such and other simplifications are often made by \nthree reasoners producing proofs.
+% 
+% % Even the proof step \texttt{r:Conjunction} is often applied 
+% % 
+% % To keep the proof readable and easy to produce, such adjustments are made by many reasoners -- the application of a \texttt{r:Conjunction} step is for example also often not listed 
+% 
+% 
+% For brevity, not all reasoners display every proof step in a proof:
+% especially conjunction elimination and introduction are often omitted.
 However, to the best of our knowledge,
 all reasoners' proofs contain all applications of $\verb!r:Inference!$ leading to a goal~$g$,
 which allows us to measure a~proof's length by counting applications of the generalized modus ponens.
 
+\begin{definition}[Proof length]
+Let $p$ be an \nthree formula representing a proof, ie a conjunction of formulas using the proof vocabulary defined in Definition~\ref{proofvoc}. 
+Then the \emph{length} of the proof is defined as the number of different resources $\texttt{x}$ for which the following triple is stated:
+ \texttt{x a r:Inference.}
+\end{definition}
+
 
 %\newpage
 \section{Conclusion}
+In this chapter we introduced and explained the \nthree proof vocabulary: This vocabulary makes it possible to express the derivations performed by a reasoner in a Semantic Web format. 
+By using \nthree to express proofs, we make sure that proofs produced by one reasoner can be used as input y another reasoner. Such a reasoner
+can then verify the proofs or use them for further reasoning. 
+
+To allow this exchangeability of proofs, these proofs do not only need to share the same syntactic format, they also need to be interpreted equally by all reasoners. 
+From our consideration in the earlier chapter, we know that this can be problematic: especially the interpretation of implicitly quantified variables differs between reasoner.
+To make the exchange of proofs possible despite the discrepancies in the interpretations of \nthree formulas we 
+introduced the concept of \emph{simple formulas}: By excluding deeply nested universals,  we can guarantee for universals to  always quantified on top level. For these formulas 
+we then defined a direct semantics which assumes to level quantification for universals. With this direct semantics we proved that the calculus behind the proof vocabulary is correct.
+It is therefore save to exchange proofs only containing \emph{simple formulas} among different reasoners.
+
+With this knowledge we now go to the next chapter: we know that proofs \nthree reasoners can produce proofs, exchange and verify them and use them for further applications. 
+In the next chapter, we want to take a look at possibilities for such \emph{further applications}. We consider a concrete example: If we describe possible API operation in \nthree we can 
+use proofs to automatically combine these APIs and thereby use proofs as a kind of plan. We discuss this idea in detail in the following chapter and also explain how this  idea of 
+using proofs for planning can be applied in other scenarios.
+%and exchange proofs among different parties.
