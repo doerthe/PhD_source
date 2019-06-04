@@ -116,7 +116,7 @@
 % \maketitle
 % 
 % \begin{abstract}
-% % Context
+% Context
 % Machine clients are increasingly making use of the Web to perform tasks.
 % While Web services traditionally mimic remote procedure calling interfaces,
 % a~new generation of so-called hypermedia APIs works through hyperlinks and forms,
@@ -160,183 +160,196 @@
 
 %\subsection{Introduction}
 
-\subsection{Hard-coded API contracts on a~hypermedia-driven Web}
-The World Wide Web,
-on which millions of servers together offer billions of information resources,
-has been designed as a~distributed hypermedia application~\cite{bernerslee_1992}.
-\enquote{Hypermedia} means that pieces of information can be connected to each other;
-therefore, consuming information
-does not require any knowledge of servers' internal information structures.
-Instead, users of the Web follow \emph{hyperlinks} and fill out \emph{forms}
-to move from one piece of information to the next.
-This architectural decision has been essential for the global growth of the Web:
-people can browse websites by clicking links,
-regardless of whether they have used them before.
-Fielding called this principle
-\emph{\enquote{hypermedia as the engine of application state}} \cite{REST},
-because servers send hypermedia documents,
-which clients use to advance the state of the interaction.
-Rather than relying on a~pre-determined set of actions
-that would have been communicated through a~separate channel,
-such hypermedia documents let clients select steps just-in-time.
-This ensures the Web's temporal scalability:
-if a~server decides to change its interface,
-clients do not have to be reprogrammed---%
-they simply receive hypermedia documents with different~links.
+% \subsection{Hard-coded API contracts on a~hypermedia-driven Web}
+% The World Wide Web,
+% on which millions of servers together offer billions of information resources,
+% has been designed as a~distributed hypermedia application~\cite{bernerslee_1992}.
+% \enquote{Hypermedia} means that pieces of information can be connected to each other;
+% therefore, consuming information
+% does not require any knowledge of servers' internal information structures.
+% Instead, users of the Web follow \emph{hyperlinks} and fill out \emph{forms}
+% to move from one piece of information to the next.
+% This architectural decision has been essential for the global growth of the Web:
+% people can browse websites by clicking links,
+% regardless of whether they have used them before.
+% Fielding called this principle
+% \emph{\enquote{hypermedia as the engine of application state}} \cite{REST},
+% because servers send hypermedia documents,
+% which clients use to advance the state of the interaction.
+% Rather than relying on a~pre-determined set of actions
+% that would have been communicated through a~separate channel,
+% such hypermedia documents let clients select steps just-in-time.
+% This ensures the Web's temporal scalability:
+% if a~server decides to change its interface,
+% clients do not have to be reprogrammed---%
+% they simply receive hypermedia documents with different~links.
+% 
+% As more and more people found their way to the Web,
+% it seemed evident that automated clients would also start using the Web autonomously.
+% The immediate barrier was that all resources on the Web
+% were only available in human languages,
+% which machines cannot accurately interpret yet.
+% A~logical step for programmers,
+% who deal with Application Programming Interfaces (APIs) in software development,
+% was to retrofit a~system for API operations
+% to the Web's \http interface~\cite{HTTP}.
+% Instead of navigating links without prior knowledge,
+% machines executed a~pre-defined list of commands
+% that they translated into \http requests.
+% As such, those APIs follow a~proprietary Remote Procedure Calling (RPC) protocol
+% \emph{on~top~of} \http,
+% which---despite the label \enquote{Web~services} or \enquote{Web~{APIs}}---%
+% has consequently few in common with the~Web.
+% 
+% As expected, such proprietary APIs with a~fixed contract
+% cannot withstand evolution very well.
+% If the server changes the API,
+% clients have to be reprogrammed.
+% While incompatible API changes are uncommon in closed environments,
+% servers on the Web are in constant evolution,
+% as witnessed by the short lifespan of websites and APIs.
+% The hypermedia mechanism that guides clients through the Web---%
+% and thus allows them to cope with changes---%
+% is notably absent from RPC APIs.
 
-As more and more people found their way to the Web,
-it seemed evident that automated clients would also start using the Web autonomously.
-The immediate barrier was that all resources on the Web
-were only available in human languages,
-which machines cannot accurately interpret yet.
-A~logical step for programmers,
-who deal with Application Programming Interfaces (APIs) in software development,
-was to retrofit a~system for API operations
-to the Web's \http interface~\cite{HTTP}.
-Instead of navigating links without prior knowledge,
-machines executed a~pre-defined list of commands
-that they translated into \http requests.
-As such, those APIs follow a~proprietary Remote Procedure Calling (RPC) protocol
-\emph{on~top~of} \http,
-which---despite the label \enquote{Web~services} or \enquote{Web~{APIs}}---%
-has consequently few in common with the~Web.
+% \subsubsection{Hypermedia APIs as native Web citizens}
+% \label{sec:RESTConstraints}
+% A~decade after the invention of the Web,
+% Fielding analyzed the architectural principles that contributed to its world-wide growth,
+% which he captured in the Representational State Transfer (REST) architectural style~\cite{REST}.
+% Unlike the RPC APIs discussed above,
+% APIs that follow the REST principles are native Web citizens,
+% and thus more resilient to change~\cite{verborgh_jod_2014}.
+% The distinguishing characteristic of REST is its \emph{uniform interface},
+% consisting of four constraints~\cite{REST}:
+% 
+% \begin{description}
+%   \item[Identification of resources]
+%   The essential unit of information in REST architectures is a~\emph{resource},
+%   a~conceptual entity that must be \emph{uniquely identifiable}.
+%   On the Web, this means that each resource must have its own URL.
+%   For example, \verb!http://example.org/weather/london/2014/05/01!
+%   could identify the weather in London on a~particular day.
+% 
+%   \item[Resource manipulation through representations]
+%   Resources are conceptual and cannot be transfered;
+%   clients and servers instead exchange \emph{representations}.
+%   Depending on the client's capabilities,
+%   client and server agree on one of multiple possible representations of each resource
+%   (e.g., HTML for humans, JSON or RDF for machines).
+%   For example, the weather in London with the above URL
+%   would be represented as a~JSON document
+%   when requested by a~JavaScript application.
+% 
+%   \item[Self-descriptive messages]
+%   Rather than defining custom actions,
+%   as is the case with APIs in typical programming languages,
+%   REST APIs use a~limited set of commands defined by a~protocol.
+%   For example, the Web uses HTTP's \verb!GET! and \verb!PUT!,
+%   which have a universal meaning,
+%   rather than \verb!showWeather! or \verb!setWeather!.
+% 
+%   \item[Hypermedia as the engine of application state]
+%   Also known as the \emph{hypermedia constraint},
+%   this principle indicates that the client should be able
+%   to perform the interaction with the server solely through hypermedia.
+%   On the Web, this happens through \emph{hypermedia controls}
+%   such as hyperlinks and forms.
+%   Another perspective on this is that all communication should happen \emph{in-band}
+%   instead of \emph{out-of-band}:
+%   clients engage in an interaction through hypermedia representations of resources
+%   rather than through pre-defined contracts.
+%   REST APIs are thus \emph{hypermedia-driven}~\cite{fielding_2008}.
+%   For example, tomorrow's weather is linked from today's weather,
+%   rather than having to craft a~new weather request by hand.
+% \end{description}
+% 
+% Unfortunately, many APIs mistakenly label themselves as \enquote{REST},
+% giving a~rather unclear meaning to the term \enquote{REST API};
+% in particular, the fourth constraint is often missing.
+% As a~result, the term \enquote{\emph{hypermedia API}} is used
+% to distinguish those APIs that follow all REST constraints~\cite{RESTfulWebApis},
+% and thus inherit their architectural benefits.
+% 
+% An important consequence of the REST architectural constraints
+% is that there is no observable difference
+% between \emph{websites} and \emph{hypermedia APIs}.
+% The term \enquote{website} is commonly applied when the consumers are humans,
+% and \enquote{hypermedia~API} is used for machine clients.
+% However, they only differ in the kind of representations they offer:
+% human-readable or machine-readable.
+% By offering multiple representations,
+% a~\emph{single} hypermedia API/website can serve
+% both humans and machine clients,
+% as opposed to the two separated interfaces we commonly see~\cite{verborgh_jod_2014}.
+% 
+% \subsection{Generic clients of hypermedia APIs}\label{API_comp}
+% Once APIs have been made accessible for machines,
+% the question becomes:
+% how can we create clients that perform tasks using such APIs?
+% And more specifically,
+% can we build generic clients that do not have to be preprogrammed
+% for a~specific task?
+% For example, given an API for shipping packages,
+% an API for user profiles, and an API of online bookstore,
+% how can we deliver a~book on a~user's wish~list to their doorstep?
+% Indeed, in addition to interpreting an API's responses,
+% clients should be able to reason about an APIs' functionality
+% and how it can be combined with other APIs to perform a~complex task.
+% This question has been the subject of much literature
+% for classical Web services,
+% where the APIs were composed into a~static plan
+% that had to be executed step-by-step.
+% Such a~plan, and the mechanism to generate it, would only be valid
+% as long as all involved APIs did not undergo any changes,
+% which is a~rather unrealistic assumption on the Web.
+% 
+% The situation is fundamentally different for hypermedia APIs:
+% because of the hypermedia constraint,
+% no such static plan can (nor should) be created beforehand,
+% because hypermedia APIs can only be consumed by following hypermedia controls.
+% On the other hand, clients should somehow know
+% what links they must follow,
+% because only certain links will lead them
+% to successful completion of the desired~goal.
+% This gives rise to an approach where we need a~high-level plan
+% that guides the runtime, hypermedia-driven execution of Web APIs.
+% 
+Having discussed the theory behind proofs in \nthreelogic in the previous chapter, we now turn to practical applications of proofs: Since the proofs produced by \nthree reasoners are again written 
+in this format, they can easily be used in other Semantic Web applications. The application we want to discuss here is a system to automatically combine and execute RESTful API operations
+in the Web. If we describe such operations by using \nthree rules, a proof applying these rules can be understood as a plan. This plan can then be executed and -- if needed -- updated.
+As our proofs use Semantic Web technology, background information, like the preferences of the person using the system or simple information about the resources involved in the plan,
+can always be taken into account. By only using \emph{simple rules} in our descriptions, these plans are furthermore reasoner-independent and can be exchanged, adapted and reused 
+throughout the Web. This last property makes our procedure to create plans particularly well suited for RESTful Web APIs %as these 
+%are made to be used by different parties.
+as these are designed to cope with the distributed and fast changing nature of the Web and to be used and combined for different applications and by different parties 
+in an open environment.
+%which are themselves designed to cope with the 
+%\todo{briefly introduce the problem, say what APIs and REST is. Introduce both acronyms!}
 
-As expected, such proprietary APIs with a~fixed contract
-cannot withstand evolution very well.
-If the server changes the API,
-clients have to be reprogrammed.
-While incompatible API changes are uncommon in closed environments,
-servers on the Web are in constant evolution,
-as witnessed by the short lifespan of websites and APIs.
-The hypermedia mechanism that guides clients through the Web---%
-and thus allows them to cope with changes---%
-is notably absent from RPC APIs.
-
-\subsubsection{Hypermedia APIs as native Web citizens}
-\label{sec:RESTConstraints}
-A~decade after the invention of the Web,
-Fielding analyzed the architectural principles that contributed to its world-wide growth,
-which he captured in the Representational State Transfer (REST) architectural style~\cite{REST}.
-Unlike the RPC APIs discussed above,
-APIs that follow the REST principles are native Web citizens,
-and thus more resilient to change~\cite{verborgh_jod_2014}.
-The distinguishing characteristic of REST is its \emph{uniform interface},
-consisting of four constraints~\cite{REST}:
-
-\begin{description}
-  \item[Identification of resources]
-  The essential unit of information in REST architectures is a~\emph{resource},
-  a~conceptual entity that must be \emph{uniquely identifiable}.
-  On the Web, this means that each resource must have its own URL.
-  For example, \verb!http://example.org/weather/london/2014/05/01!
-  could identify the weather in London on a~particular day.
-
-  \item[Resource manipulation through representations]
-  Resources are conceptual and cannot be transfered;
-  clients and servers instead exchange \emph{representations}.
-  Depending on the client's capabilities,
-  client and server agree on one of multiple possible representations of each resource
-  (e.g., HTML for humans, JSON or RDF for machines).
-  For example, the weather in London with the above URL
-  would be represented as a~JSON document
-  when requested by a~JavaScript application.
-
-  \item[Self-descriptive messages]
-  Rather than defining custom actions,
-  as is the case with APIs in typical programming languages,
-  REST APIs use a~limited set of commands defined by a~protocol.
-  For example, the Web uses HTTP's \verb!GET! and \verb!PUT!,
-  which have a universal meaning,
-  rather than \verb!showWeather! or \verb!setWeather!.
-
-  \item[Hypermedia as the engine of application state]
-  Also known as the \emph{hypermedia constraint},
-  this principle indicates that the client should be able
-  to perform the interaction with the server solely through hypermedia.
-  On the Web, this happens through \emph{hypermedia controls}
-  such as hyperlinks and forms.
-  Another perspective on this is that all communication should happen \emph{in-band}
-  instead of \emph{out-of-band}:
-  clients engage in an interaction through hypermedia representations of resources
-  rather than through pre-defined contracts.
-  REST APIs are thus \emph{hypermedia-driven}~\cite{fielding_2008}.
-  For example, tomorrow's weather is linked from today's weather,
-  rather than having to craft a~new weather request by hand.
-\end{description}
-
-Unfortunately, many APIs mistakenly label themselves as \enquote{REST},
-giving a~rather unclear meaning to the term \enquote{REST API};
-in particular, the fourth constraint is often missing.
-As a~result, the term \enquote{\emph{hypermedia API}} is used
-to distinguish those APIs that follow all REST constraints~\cite{RESTfulWebApis},
-and thus inherit their architectural benefits.
-
-An important consequence of the REST architectural constraints
-is that there is no observable difference
-between \emph{websites} and \emph{hypermedia APIs}.
-The term \enquote{website} is commonly applied when the consumers are humans,
-and \enquote{hypermedia~API} is used for machine clients.
-However, they only differ in the kind of representations they offer:
-human-readable or machine-readable.
-By offering multiple representations,
-a~\emph{single} hypermedia API/website can serve
-both humans and machine clients,
-as opposed to the two separated interfaces we commonly see~\cite{verborgh_jod_2014}.
-
-\subsection{Generic clients of hypermedia APIs}\label{API_comp}
-Once APIs have been made accessible for machines,
-the question becomes:
-how can we create clients that perform tasks using such APIs?
-And more specifically,
-can we build generic clients that do not have to be preprogrammed
-for a~specific task?
-For example, given an API for shipping packages,
-an API for user profiles, and an API of online bookstore,
-how can we deliver a~book on a~user's wish~list to their doorstep?
-Indeed, in addition to interpreting an API's responses,
-clients should be able to reason about an APIs' functionality
-and how it can be combined with other APIs to perform a~complex task.
-This question has been the subject of much literature
-for classical Web services,
-where the APIs were composed into a~static plan
-that had to be executed step-by-step.
-Such a~plan, and the mechanism to generate it, would only be valid
-as long as all involved APIs did not undergo any changes,
-which is a~rather unrealistic assumption on the Web.
-
-The situation is fundamentally different for hypermedia APIs:
-because of the hypermedia constraint,
-no such static plan can (nor should) be created beforehand,
-because hypermedia APIs can only be consumed by following hypermedia controls.
-On the other hand, clients should somehow know
-what links they must follow,
-because only certain links will lead them
-to successful completion of the desired~goal.
-This gives rise to an approach where we need a~high-level plan
-that guides the runtime, hypermedia-driven execution of Web APIs.
-
-In this article, we introduce and formalize a~proof-based method
-to produce such high-level plans,
-and detail their execution through hypermedia.
-In the next section,
-we describe related work in the domain of Web services and Web APIs,
-followed by a~justification of the chose technologies in \cref{sec:Technologies}.
-We introduce to hypermedia API description in \cref{sec:RESTdesc}.
-\cref{sec:Proof} explains the use of proofs
+The remainder of this chapter is structured as follows: %In the remainder of this chapter we explain the details of our approach.
+% 
+% this chapter, we introduce and formalise a~proof-based method
+% to produce such high-level plans,
+% and detail their execution through hypermedia.
+In the next section, we give a short introduction to Web APIs, Web services and their descriptions. %discuss the background necessary to understand this chapter, in particular %Web services, Web APIs and their descriptions to put our work in context with existing technology.
+%we describe related work in the domain of Web services and Web APIs.
+%followed by a~justification of the chose technologies in \cref{sec:Technologies}.
+We then introduce hypermedia API descriptions in Section~\ref{sec:RESTdesc}.
+Section~\ref{sec:Proof} explains the use of proofs
 to validate hypermedia API compositions,
-the generation of which is detailed in \cref{sec:Composition}.
-We explain how descriptions can be created in a~computer-assisted process
-in \cref{sec:Generation}.
-The feasibility of the approach is evaluated in \cref{sec:Evaluation}.
-Finally, we end the article in \cref{sec:Conclusion} with conclusions
-and an outlook on future~work.
+the generation of which is detailed in Section~\ref{sec:Composition}.
+We then discuss the limits and shortcomings of our approach (Section~\ref{sec:limits}) and another possible application of the idea to use proofs for planning, a system to detect 
+sensors relevant for fault detection in complex environments (Section~\ref{sec:sensdesc}).
+%The feasibility of the approach is evaluated in \cref{sec:Evaluation}.
+Finally, we end the article in Section~\ref{sec:Conclusion} with conclusions.
 
+\section{Web Services, APIs and their descriptions}
+% \section{Describing Web services and Web APIs}
+% \label{sec:RelatedWork}
 
-\section{Related Work}
-\label{sec:RelatedWork}
-
-\subsubsection{Web APIs}
-Let us start a~discussion on related work by defining terms about Web APIs.
+\subsection{Web APIs}
+Before we further detail how Web APIs are commonly described in the Web, we want to have a clarify terms about Web APIs.
 
 \begin{description}\label{api}
   \item[A~Web server] uses the HTTP~protocol
@@ -517,316 +530,316 @@ automatic, functionality-based composition.
 % is their ability to generate and exchange \emph{proofs},
 % which can be used for software synthesis or API composition~\cite{Manna,Waldinger}.
 % 
-
-\section{Justification of Chosen Technologies}
-\label{sec:Technologies}
-In this section, we explain and justify the technological choices made in this article.
-First, we detail our choice for REST Web APIs, emphasizing the fundamental differences with RPC~APIs.
-Second, we argue why we choose Notation3 instead of other logic programming languages.
-
-\subsubsection{REST Web APIs}
-\label{subsec:TechnologiesREST}
-With the exception of RESTdesc,
-existing techniques for Web service and Web API description
-(discussed in \cref{subsec:WebServiceDescription,subsec:WebAPIDescription})
-focus exclusively on interactions that follow the RPC model.
-Algorithms that create compositions of such services or APIs
-will essentially produce a~list of calls that have to be issued.
-This process is visualized in \cref{fig:RPC}.
-Two things are of particular interest in this diagram:
-\begin{itemize}
-  \item While subsequent calls might use output from earlier tasks
-        (and might even be conditional based on such output),
-        the type of calls made is not influenced by the RPC~API.
-        The \emph{control flow} is dictated by the composition,
-        based on descriptions of each call.
-        The API itself does not provide any information
-        about which next steps can be taken
-        and how these should be performed.
-        The role of descriptions is thus three-fold:
-        a)~explaining which order of calls are possible;
-        b)~describing how to perform calls;
-        c)~expressing the functionality of~calls.
-  \item Consequently, all control information is in the descriptions and composition;
-        the server does not send any control information.
-        The client thus fully relies on the descriptions and composition for control information.
-\end{itemize}
-
-We conclude that, apart from their label, Web services or APIs that follow the RPC communication style
-have only a~minor connection to the Web.
-While technically, they tunnel their calls over the HTTP protocol,
-nothing in their principled workings is tied to the Web's core principles,
-which include hypermedia documents and~hyperlinks.
-
-\begin{figure}[t]
-  \begin{subfigure}{0.46\linewidth}
-    \includegraphics[width=\linewidth]{RPC}
-    \caption{RPC composition and interaction}
-    \label{fig:RPC}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}{0.46\linewidth}
-    \includegraphics[width=\linewidth]{REST}
-    \caption{REST composition and interaction}
-    \label{fig:REST}
-  \end{subfigure}
-  \caption{Interaction differences between clients of RPC and REST APIs}
-  \label{fig:RPCvsREST}
-\end{figure}
-
-In contrast, an API that follows the REST architectural style
-provides (information) \emph{resources} rather than (procedural) \emph{calls} as its interface.
-It replies to a~request for a~resource with a~\emph{hypermedia representation},
-which contains hyperlinks and forms that provide access to possible next steps.
-\Cref{fig:REST} illustrates this principle:
-a~client first requests a~resource~$A$,
-which results in a~hypermedia document.
-This documents contains a~link to~$B'$,
-which is a~concrete instantiation of the~$B$
-the client should look for according to the composition.
-Using the control information in the hypermedia document,
-the client then performs an action on~$B'$.
-This indicates two major differences compared to~RPC:
-\begin{itemize}
-  \item The REST control flow is not fully dictated by the composition.
-        The composition only provides a~high-level plan of what needs to happen,
-        whereas concrete actions are performed through hypermedia controls.
-        Descriptions have only one function,
-        namely expressing the functionality provided by a~certain resource type.
-        The access order or an explanation of how the call is executed
-        are determined at runtime based on the REST API's responses.
-  \item As such, the client needs to derive a~control flow at runtime
-        by combining high-level steps from a~composition
-        with concrete actions from hypermedia documents obtained from the server.
-\end{itemize}
-
-Note how REST APIs do have a~strong connection to the Web's core principles,
-as clients use hypermedia documents and hyperlinks to perform tasks.
-Unlike the RPC style, this is similar to human consumption of the Web:
-when we want to perform a~certain task, we also have a~high-level plan in mind
-(e.g., ordering a~package involves entering a~delivery address)
-that becomes concrete through hypermedia controls
-(e.g., using a~form to submit that delivery address).
-This allows for a~much looser coupling~\cite{WebLooselyCoupled},
-as descriptions and compositions do not need to contain interaction details.
-
-Furthermore, because of the emphasis on links,
-REST APIs are closely related to RDF.
-If an API outputs in an RDF-based format (such as Turtle, JSON-LD, or N3),
-the client obtains a~list of triples,
-which are essentially typed links (if we interpret the property as a~relation specifier).
-Following these links to realize a~concrete action
-is an example of hypermedia-driven Web API consumption,
-which is what we will outline in this article.
-We stress that this is not possible with existing descriptions and algorithms
-for RPC Web services and Web APIs,
-as they cannot incorporate runtime control information originating from the API.
-
-\subsection{Notation3}
-\label{subsec:TechnologiesN3}
-In this article, we use the Notation3 (\nthree) language and associated logic framework
-to generate and execute compositions of REST Web APIs.
-We justify this choice on both a~practical level
-and a~theoretical level, as detailed in the subsections below.
-
-\paragraph{Practical Arguments}
-The Linked Data Cloud contains billions of triples in the RDF model~\cite{LODCloud}.
-In order for this knowledge to be reused,
-we need a~logic with support for triples.
-Whereas typical programming languages can all support triples in some way,
-treating them as first-class citizens decreases the effort of working with them.
-For instance, while the popular Jena library provides triple support for Java,
-an RDF document is not a~Java document,
-so the RDF will need to be converted in Java-specific objects.
-Programmatic access and manipulation happens through these objects
-instead of directly at the RDF level.
-In contrast, \nthree is a~superset of the Turtle serialization of RDF.
-This means that each valid RDF document, when expressed in Turtle,
-is by definition a~valid \nthree document.
-As such, reasoners that support \nthree natively support triples,
-without the impedance mismatch of other languages.
-This means that all RDF responses on the Web,
-including those of RDF Web~APIs,
-can be interpreted directly by \nthree reasoners.
-Usage of \nthree thus brings direct compatibility
-with a~body of billions of knowledge facts on the Web.
-
-Additionally, hundreds of ontologies are expressed as RDF triples using RDFS and OWL.
-That means they use RDF triples with RDFS and OWL predicates and objects
-to define ontological meaning.
-Because they are expressed as triples, \nthree reasoners can process them.
-However, since many common RDFS and OWL constructs
-have been captured in publicly available \nthree rules~\cite{EYE},
-\nthree reasoners can also apply their semantics
-without requiring native support for neither RDFS nor~OWL.
-For example, the OWL class \verb!owl:SymmetricProperty!
-is implemented by stating that for properties~$p$ that are symmetric,
-the existence of a~triple $(s, p, o)$ implies the existence of $(o, p, s)$.
-Therefore, by using \nthree, we can directly incorporate available ontological~knowledge.
-
-Finally, the most important reason to choose \nthree as an underlying description format
-is that it can combine the above aspects together with descriptions of Web~APIs.
-As argued above, the hypermedia-driven nature of REST Web APIs maps well to the RDF model.
-If we use an \nthree rule to describe Web~APIs,
-we can directly reason on the combination of Web~API descriptions,
-existing triples, and existing ontologies.
-Concretely, if a~Web API returns an RDF response,
-we can directly combine that response with the composition,
-thereby instantiating a~result placeholder with the actual results.
-This is the core mechanism of the execution process
-detailed in \cref{sec:PrePostProof}.
-Furthermore, the closeness of RDF responses to N3~rules
-plays an important role in description generation,
-as discussed in \cref{sec:Generation}.
-
-\subsubsection{Arguments Related to Logic Programming}
-%The approach we are going to describe in this paper 
-In order to be suitable for the approach we describe in this paper, a logical framework has to fulfill certain requirements:
-
-%requires  has to fulfill certain requirements which are:
-\begin{description}
- \item[Semantic Web compatibility] As described above it is crucial for a format describing RESTful Web APIs to act directly on the Semantic Web. Logical knowledge
- in the Semantic Web is usually expressed in RDF triples. The chosen logic should natively support this format. 
- \item[Rules] Our framework describes the possible use of hypermedia APIs using rules. We therefore need a logic which supports rules.
- \item[Proofs] Our approach makes use of proofs produced by a reasoner. These proofs are then used for further reasoning. The logic of choice should 
- be supported by a reasoner which is able to provide such proofs. Furthermore there needs to be a format to express proofs using the logic.
- \item[Conjunctions in the head of a rule] While conjunctions in the head of a rule are normally considered syntactic sugar \cite{sugar}, they become important if 
- rules appear in a proof for the following reason:
- in our approach we use the instantiated conjunction in the head of a rule as it occurs in a proof to infer concrete practical instructions. 
- To understand this idea consider a simple example: imagine that we have a source $s$ which is aware of 
- the birth date of any person. In a first order style
- we could describe that using the following rule
- \[
- \forall x:  \text{person}(x)\implies (\exists y: \text{birthDateOf}(x, y) \wedge \text{canBeAskedFor}(s,y))
- \]
-If we now ask for the birth date of $\text{person}(\text{leonhard\_euler})$,
-%, we ask for any $x$ fulfilling
-%$
-% \text{birthDateOf}(\text(leonhard\_euler),x). 
-%$
-we get as a result that there exists a birth date: \[\exists y: \text{birthDateOf}(\text{leonhard\_euler}, y).\] 
-%But the proof for that 
-But the present rule derives more, we also get an instruction how to get this particular information: %, the actual birth date:
-%This information would also
-%would contain other useful information, we would see that there is also a source for that information which can be asked to retrieve more concrete knowledge 
-%(i.e. the actual birth date): 
-\[
- \exists y: \text{birthDateOf}(\text{leonhard\_euler}, y) \wedge \text{canBeAskedFor}(s,y)
-\]
-As one rule derives both, the fact that there exists a birth date and an actual instruction how to get it, both things would appear in a proof, while
-in case of having rules with atomic heads we would have to specifically ask for the instruction.
-%
-%
-%By using a rule conjunct
-%If our goal is to obtain the concrete birth date,
-% we cannot include canBeAskedFor in the query,
- %because
-But there could be many ways %how this information could be retrieved. 
-to obtain %the explicit information: 
-that birth date: maybe we could invoke a service calculating it by knowing the exact age of the person and the date of death, 
-maybe it is an even more complex process of first asking for the names of the
-concrete sources and then asking these sources for information. Such things are not known beforehand.
-%there could be another source which does not require the 
-%This additional information could be manifold: 
-%while we here have a predicate \emph{canBeAskedFor} to describe a possibility to obtain the information, 
-%this information could look totally different in another case. It could also be possible that the process of information retrieval is
-%more complex. For example: first we have to find the source then we have to ask the source etc. %It is easy to imagine more complex cases.
-Therefore it is not a solution to simply include the \emph{canBeAskedFor} predicate in the query.
- %
- %To understand this need, take the following rule as an example
-%  To get an idea of this principle consider the following rule:
+% 
+% \section{Justification of Chosen Technologies}
+% \label{sec:Technologies}
+% In this section, we explain and justify the technological choices made in this article.
+% First, we detail our choice for REST Web APIs, emphasizing the fundamental differences with RPC~APIs.
+% Second, we argue why we choose Notation3 instead of other logic programming languages.
+% 
+% \subsubsection{REST Web APIs}
+% \label{subsec:TechnologiesREST}
+% With the exception of RESTdesc,
+% existing techniques for Web service and Web API description
+% (discussed in \cref{subsec:WebServiceDescription,subsec:WebAPIDescription})
+% focus exclusively on interactions that follow the RPC model.
+% Algorithms that create compositions of such services or APIs
+% will essentially produce a~list of calls that have to be issued.
+% This process is visualized in \cref{fig:RPC}.
+% Two things are of particular interest in this diagram:
+% \begin{itemize}
+%   \item While subsequent calls might use output from earlier tasks
+%         (and might even be conditional based on such output),
+%         the type of calls made is not influenced by the RPC~API.
+%         The \emph{control flow} is dictated by the composition,
+%         based on descriptions of each call.
+%         The API itself does not provide any information
+%         about which next steps can be taken
+%         and how these should be performed.
+%         The role of descriptions is thus three-fold:
+%         a)~explaining which order of calls are possible;
+%         b)~describing how to perform calls;
+%         c)~expressing the functionality of~calls.
+%   \item Consequently, all control information is in the descriptions and composition;
+%         the server does not send any control information.
+%         The client thus fully relies on the descriptions and composition for control information.
+% \end{itemize}
+% 
+% We conclude that, apart from their label, Web services or APIs that follow the RPC communication style
+% have only a~minor connection to the Web.
+% While technically, they tunnel their calls over the HTTP protocol,
+% nothing in their principled workings is tied to the Web's core principles,
+% which include hypermedia documents and~hyperlinks.
+% 
+% \begin{figure}[t]
+%   \begin{subfigure}{0.46\linewidth}
+%     \includegraphics[width=\linewidth]{RPC}
+%     \caption{RPC composition and interaction}
+%     \label{fig:RPC}
+%   \end{subfigure}
+%   \hfill
+%   \begin{subfigure}{0.46\linewidth}
+%     \includegraphics[width=\linewidth]{REST}
+%     \caption{REST composition and interaction}
+%     \label{fig:REST}
+%   \end{subfigure}
+%   \caption{Interaction differences between clients of RPC and REST APIs}
+%   \label{fig:RPCvsREST}
+% \end{figure}
+% 
+% In contrast, an API that follows the REST architectural style
+% provides (information) \emph{resources} rather than (procedural) \emph{calls} as its interface.
+% It replies to a~request for a~resource with a~\emph{hypermedia representation},
+% which contains hyperlinks and forms that provide access to possible next steps.
+% \Cref{fig:REST} illustrates this principle:
+% a~client first requests a~resource~$A$,
+% which results in a~hypermedia document.
+% This documents contains a~link to~$B'$,
+% which is a~concrete instantiation of the~$B$
+% the client should look for according to the composition.
+% Using the control information in the hypermedia document,
+% the client then performs an action on~$B'$.
+% This indicates two major differences compared to~RPC:
+% \begin{itemize}
+%   \item The REST control flow is not fully dictated by the composition.
+%         The composition only provides a~high-level plan of what needs to happen,
+%         whereas concrete actions are performed through hypermedia controls.
+%         Descriptions have only one function,
+%         namely expressing the functionality provided by a~certain resource type.
+%         The access order or an explanation of how the call is executed
+%         are determined at runtime based on the REST API's responses.
+%   \item As such, the client needs to derive a~control flow at runtime
+%         by combining high-level steps from a~composition
+%         with concrete actions from hypermedia documents obtained from the server.
+% \end{itemize}
+% 
+% Note how REST APIs do have a~strong connection to the Web's core principles,
+% as clients use hypermedia documents and hyperlinks to perform tasks.
+% Unlike the RPC style, this is similar to human consumption of the Web:
+% when we want to perform a~certain task, we also have a~high-level plan in mind
+% (e.g., ordering a~package involves entering a~delivery address)
+% that becomes concrete through hypermedia controls
+% (e.g., using a~form to submit that delivery address).
+% This allows for a~much looser coupling~\cite{WebLooselyCoupled},
+% as descriptions and compositions do not need to contain interaction details.
+% 
+% Furthermore, because of the emphasis on links,
+% REST APIs are closely related to RDF.
+% If an API outputs in an RDF-based format (such as Turtle, JSON-LD, or N3),
+% the client obtains a~list of triples,
+% which are essentially typed links (if we interpret the property as a~relation specifier).
+% Following these links to realize a~concrete action
+% is an example of hypermedia-driven Web API consumption,
+% which is what we will outline in this article.
+% We stress that this is not possible with existing descriptions and algorithms
+% for RPC Web services and Web APIs,
+% as they cannot incorporate runtime control information originating from the API.
+% 
+% \subsection{Notation3}
+% \label{subsec:TechnologiesN3}
+% In this article, we use the Notation3 (\nthree) language and associated logic framework
+% to generate and execute compositions of REST Web APIs.
+% We justify this choice on both a~practical level
+% and a~theoretical level, as detailed in the subsections below.
+% 
+% \paragraph{Practical Arguments}
+% The Linked Data Cloud contains billions of triples in the RDF model~\cite{LODCloud}.
+% In order for this knowledge to be reused,
+% we need a~logic with support for triples.
+% Whereas typical programming languages can all support triples in some way,
+% treating them as first-class citizens decreases the effort of working with them.
+% For instance, while the popular Jena library provides triple support for Java,
+% an RDF document is not a~Java document,
+% so the RDF will need to be converted in Java-specific objects.
+% Programmatic access and manipulation happens through these objects
+% instead of directly at the RDF level.
+% In contrast, \nthree is a~superset of the Turtle serialization of RDF.
+% This means that each valid RDF document, when expressed in Turtle,
+% is by definition a~valid \nthree document.
+% As such, reasoners that support \nthree natively support triples,
+% without the impedance mismatch of other languages.
+% This means that all RDF responses on the Web,
+% including those of RDF Web~APIs,
+% can be interpreted directly by \nthree reasoners.
+% Usage of \nthree thus brings direct compatibility
+% with a~body of billions of knowledge facts on the Web.
+% 
+% Additionally, hundreds of ontologies are expressed as RDF triples using RDFS and OWL.
+% That means they use RDF triples with RDFS and OWL predicates and objects
+% to define ontological meaning.
+% Because they are expressed as triples, \nthree reasoners can process them.
+% However, since many common RDFS and OWL constructs
+% have been captured in publicly available \nthree rules~\cite{EYE},
+% \nthree reasoners can also apply their semantics
+% without requiring native support for neither RDFS nor~OWL.
+% For example, the OWL class \verb!owl:SymmetricProperty!
+% is implemented by stating that for properties~$p$ that are symmetric,
+% the existence of a~triple $(s, p, o)$ implies the existence of $(o, p, s)$.
+% Therefore, by using \nthree, we can directly incorporate available ontological~knowledge.
+% 
+% Finally, the most important reason to choose \nthree as an underlying description format
+% is that it can combine the above aspects together with descriptions of Web~APIs.
+% As argued above, the hypermedia-driven nature of REST Web APIs maps well to the RDF model.
+% If we use an \nthree rule to describe Web~APIs,
+% we can directly reason on the combination of Web~API descriptions,
+% existing triples, and existing ontologies.
+% Concretely, if a~Web API returns an RDF response,
+% we can directly combine that response with the composition,
+% thereby instantiating a~result placeholder with the actual results.
+% This is the core mechanism of the execution process
+% detailed in \cref{sec:PrePostProof}.
+% Furthermore, the closeness of RDF responses to N3~rules
+% plays an important role in description generation,
+% as discussed in \cref{sec:Generation}.
+% 
+% \subsubsection{Arguments Related to Logic Programming}
+% %The approach we are going to describe in this paper 
+% In order to be suitable for the approach we describe in this paper, a logical framework has to fulfill certain requirements:
+% 
+% %requires  has to fulfill certain requirements which are:
+% \begin{description}
+%  \item[Semantic Web compatibility] As described above it is crucial for a format describing RESTful Web APIs to act directly on the Semantic Web. Logical knowledge
+%  in the Semantic Web is usually expressed in RDF triples. The chosen logic should natively support this format. 
+%  \item[Rules] Our framework describes the possible use of hypermedia APIs using rules. We therefore need a logic which supports rules.
+%  \item[Proofs] Our approach makes use of proofs produced by a reasoner. These proofs are then used for further reasoning. The logic of choice should 
+%  be supported by a reasoner which is able to provide such proofs. Furthermore there needs to be a format to express proofs using the logic.
+%  \item[Conjunctions in the head of a rule] While conjunctions in the head of a rule are normally considered syntactic sugar \cite{sugar}, they become important if 
+%  rules appear in a proof for the following reason:
+%  in our approach we use the instantiated conjunction in the head of a rule as it occurs in a proof to infer concrete practical instructions. 
+%  To understand this idea consider a simple example: imagine that we have a source $s$ which is aware of 
+%  the birth date of any person. In a first order style
+%  we could describe that using the following rule
 %  \[
-%   \verb!{:p a :preconfition}=>{:r a :request,}!
+%  \forall x:  \text{person}(x)\implies (\exists y: \text{birthDateOf}(x, y) \wedge \text{canBeAskedFor}(s,y))
 %  \]
-%The head 
-This is the same in our case where these \emph{sources} are web services. 
-%A rule's head does not only need to contain the facts which are 
-%relevant to prove the desired goal but also the additional information needed by a web client.
-By using only rules with (quantified) atomic heads we would lose relevant information in the proof. 
-The logic needs thus to support conjunction in the head of a rule. 
-% \todo{Ruben thinks this argument needs to be stronger:
-%       what exactly can we not do if there are no conjunctions in the head?
-%       Maybe an example will help?
-%       \ldots only if time allows though (it probably doesn't).
-%       Or just a pointer to where we do that.}
+% If we now ask for the birth date of $\text{person}(\text{leonhard\_euler})$,
+% %, we ask for any $x$ fulfilling
+% %$
+% % \text{birthDateOf}(\text(leonhard\_euler),x). 
+% %$
+% we get as a result that there exists a birth date: \[\exists y: \text{birthDateOf}(\text{leonhard\_euler}, y).\] 
+% %But the proof for that 
+% But the present rule derives more, we also get an instruction how to get this particular information: %, the actual birth date:
+% %This information would also
+% %would contain other useful information, we would see that there is also a source for that information which can be asked to retrieve more concrete knowledge 
+% %(i.e. the actual birth date): 
+% \[
+%  \exists y: \text{birthDateOf}(\text{leonhard\_euler}, y) \wedge \text{canBeAskedFor}(s,y)
+% \]
+% As one rule derives both, the fact that there exists a birth date and an actual instruction how to get it, both things would appear in a proof, while
+% in case of having rules with atomic heads we would have to specifically ask for the instruction.
 % %
-%The need of the conjunction will become clearer later in this paper when we explain or approach by an 
-%A more elaborated example is given in \Cref{example}.
- \item[Existential quantification in the head of a rule]
-The algorithm presented in this paper employs proofs to make, execute and adjust a plan of sequent API calls in order to achieve a given goal. 
-The possible calls are described using rules with existentially quantified variables in their head. 
-This can be understood as follows: given a certain situation, there exists a call which can be executed to obtain a new situation. While some 
-details of this ``new situation'' are already clear before executing the call, some things can only be known afterwards.
-This kind of uncertainty is crucial for our algorithm. The logical framework should support existentially quantified variables in the head of rules. 
-\end{description}
-
-
-%A closer look to the last 
-
-
-Given the first requirement, we take a closer look into Semantic Web frameworks:
-RDF, RDFS and OWL do not natively support rules, but there are several rule formats defined on top of them. 
-Among them, SWRL \cite{swrl}, WRL \cite{wrl} or RIF \cite{rif}. 
-
-
-The Semantic Web Rule Language (SWRL) was built on top of OWL and can be understood as its rule extension. %In its expressivity it is often compared to Datalog.
-Rules are expressed in terms of OWL concepts
-(classes, properties, individuals, etc.). SWRL thereby inherits OWL's strong separation between classes and individuals which can form a burden when
-reasoning over plain RDF data.
-To the best of our knowledge there is no reasoner which outputs complete proofs for derivations done applying SWRL rules. 
-SWRL supports conjunctions in the head of a rule but it does not allow new existential variables in that position.
-Especially the missing support for existential rules and the fact that there is no exchangeable proof produced by SWRL reasoners
-made us opt against this rule language.
-%All this arguments together m
-
-
-%
-%chosing a 
-%using a logical framework designed for the semantic web is a good choice. 
-
-The Web Rule Language (WRL) and the Rule Interchange Format (RIF) are both based on Frame Logic (F-Logic) \cite{flogic}.
-F-Logic was invented to combine object oriented and declarative programming. It extends classical predicate calculus with the concepts of objects,
-classes, and types. Object oriented ideas such as inheritance are supported as well as classical rule inference. 
-This richness of features made F-Logic a good choice to base the rule-based ontology language WRL on, and---as it was designed for rule exchange---even 
-a better choice for RIF. Both, WRL and RIF have variants which support conjunction in the head of a rule. Neither the Basic Logic Dialect (BLD) of RIF nor
-WRL do allow new existentials in the head of a rule. The direct reasoning support for both formats is very limited, 
-the IRIS system \cite{iris} provides reasoner for both but does not support proofs. %Even though RIF it not used as the core language of many systems, 
-As far as we know there is also no other reasoner which produces proofs based on RIF rules.
-Nevertheless, RIF can indeed serve as an exchange format for rules.
-
-%Recently there 
-
-
-In contrast to the above mentioned formats, N3 Logic fulfills all of the requirements mentioned above. It is a rule language which easily combines with RDF, RDFS 
-and---via OWL RL---also with OWL. The two most common reasoners for N3, cwm and EYE, 
-both output and check proofs. N3 rules can have conjunctions and existentially quantified variables in their head. 
-%Furthermore there is a huge variety of built in functions  
-Therefore, we chose N3 for our purposes.
-
-%Note that the last requirement, existential rules in the consequent of a rule, forms a strong link to the Datalog$^{\pm}$-framework.
-
-Note that by fulfilling the last requirement, support of existential variables in the head of rules, Notation3 Logic is strongly 
-related to 
-%between our approach and the logics and reasoning defined in 
-the Datalog$^{\pm}$ framework \cite{datalogpm,exrules}.
-Several recent approaches support reasoning with existential rules on top of  ontologies as for example 
-%there is a strong movement in to make existential rules applicable to the semantic web. Implementations like 
-Graal \cite{graal} or IRIS$^\pm$ \cite{irispm}. These implementations are very promising, but still under development. Their rule format is
-not as close to RDF as N3 is
-and there is no support for proofs yet.
-%Furthermore, we are not aware of any system which is able to output proofs.
-
-
-%\todo{Remark: close relation to datalog +-}
-%A closer look to especially the last requirement mentioned above make the use of a logic in the Datalog$^{\pm}$ framework a desirable choice. 
-
-
-
-
-
-
-
-
+% %
+% %By using a rule conjunct
+% %If our goal is to obtain the concrete birth date,
+% % we cannot include canBeAskedFor in the query,
+%  %because
+% But there could be many ways %how this information could be retrieved. 
+% to obtain %the explicit information: 
+% that birth date: maybe we could invoke a service calculating it by knowing the exact age of the person and the date of death, 
+% maybe it is an even more complex process of first asking for the names of the
+% concrete sources and then asking these sources for information. Such things are not known beforehand.
+% %there could be another source which does not require the 
+% %This additional information could be manifold: 
+% %while we here have a predicate \emph{canBeAskedFor} to describe a possibility to obtain the information, 
+% %this information could look totally different in another case. It could also be possible that the process of information retrieval is
+% %more complex. For example: first we have to find the source then we have to ask the source etc. %It is easy to imagine more complex cases.
+% Therefore it is not a solution to simply include the \emph{canBeAskedFor} predicate in the query.
+%  %
+%  %To understand this need, take the following rule as an example
+% %  To get an idea of this principle consider the following rule:
+% %  \[
+% %   \verb!{:p a :preconfition}=>{:r a :request,}!
+% %  \]
+% %The head 
+% This is the same in our case where these \emph{sources} are web services. 
+% %A rule's head does not only need to contain the facts which are 
+% %relevant to prove the desired goal but also the additional information needed by a web client.
+% By using only rules with (quantified) atomic heads we would lose relevant information in the proof. 
+% The logic needs thus to support conjunction in the head of a rule. 
+% % \todo{Ruben thinks this argument needs to be stronger:
+% %       what exactly can we not do if there are no conjunctions in the head?
+% %       Maybe an example will help?
+% %       \ldots only if time allows though (it probably doesn't).
+% %       Or just a pointer to where we do that.}
+% % %
+% %The need of the conjunction will become clearer later in this paper when we explain or approach by an 
+% %A more elaborated example is given in \Cref{example}.
+%  \item[Existential quantification in the head of a rule]
+% The algorithm presented in this paper employs proofs to make, execute and adjust a plan of sequent API calls in order to achieve a given goal. 
+% The possible calls are described using rules with existentially quantified variables in their head. 
+% This can be understood as follows: given a certain situation, there exists a call which can be executed to obtain a new situation. While some 
+% details of this ``new situation'' are already clear before executing the call, some things can only be known afterwards.
+% This kind of uncertainty is crucial for our algorithm. The logical framework should support existentially quantified variables in the head of rules. 
+% \end{description}
+% 
+% 
+% %A closer look to the last 
+% 
+% 
+% Given the first requirement, we take a closer look into Semantic Web frameworks:
+% RDF, RDFS and OWL do not natively support rules, but there are several rule formats defined on top of them. 
+% Among them, SWRL \cite{swrl}, WRL \cite{wrl} or RIF \cite{rif}. 
+% 
+% 
+% The Semantic Web Rule Language (SWRL) was built on top of OWL and can be understood as its rule extension. %In its expressivity it is often compared to Datalog.
+% Rules are expressed in terms of OWL concepts
+% (classes, properties, individuals, etc.). SWRL thereby inherits OWL's strong separation between classes and individuals which can form a burden when
+% reasoning over plain RDF data.
+% To the best of our knowledge there is no reasoner which outputs complete proofs for derivations done applying SWRL rules. 
+% SWRL supports conjunctions in the head of a rule but it does not allow new existential variables in that position.
+% Especially the missing support for existential rules and the fact that there is no exchangeable proof produced by SWRL reasoners
+% made us opt against this rule language.
+% %All this arguments together m
+% 
+% 
+% %
+% %chosing a 
+% %using a logical framework designed for the semantic web is a good choice. 
+% 
+% The Web Rule Language (WRL) and the Rule Interchange Format (RIF) are both based on Frame Logic (F-Logic) \cite{flogic}.
+% F-Logic was invented to combine object oriented and declarative programming. It extends classical predicate calculus with the concepts of objects,
+% classes, and types. Object oriented ideas such as inheritance are supported as well as classical rule inference. 
+% This richness of features made F-Logic a good choice to base the rule-based ontology language WRL on, and---as it was designed for rule exchange---even 
+% a better choice for RIF. Both, WRL and RIF have variants which support conjunction in the head of a rule. Neither the Basic Logic Dialect (BLD) of RIF nor
+% WRL do allow new existentials in the head of a rule. The direct reasoning support for both formats is very limited, 
+% the IRIS system \cite{iris} provides reasoner for both but does not support proofs. %Even though RIF it not used as the core language of many systems, 
+% As far as we know there is also no other reasoner which produces proofs based on RIF rules.
+% Nevertheless, RIF can indeed serve as an exchange format for rules.
+% 
+% %Recently there 
+% 
+% 
+% In contrast to the above mentioned formats, N3 Logic fulfills all of the requirements mentioned above. It is a rule language which easily combines with RDF, RDFS 
+% and---via OWL RL---also with OWL. The two most common reasoners for N3, cwm and EYE, 
+% both output and check proofs. N3 rules can have conjunctions and existentially quantified variables in their head. 
+% %Furthermore there is a huge variety of built in functions  
+% Therefore, we chose N3 for our purposes.
+% 
+% %Note that the last requirement, existential rules in the consequent of a rule, forms a strong link to the Datalog$^{\pm}$-framework.
+% 
+% Note that by fulfilling the last requirement, support of existential variables in the head of rules, Notation3 Logic is strongly 
+% related to 
+% %between our approach and the logics and reasoning defined in 
+% the Datalog$^{\pm}$ framework \cite{datalogpm,exrules}.
+% Several recent approaches support reasoning with existential rules on top of  ontologies as for example 
+% %there is a strong movement in to make existential rules applicable to the semantic web. Implementations like 
+% Graal \cite{graal} or IRIS$^\pm$ \cite{irispm}. These implementations are very promising, but still under development. Their rule format is
+% not as close to RDF as N3 is
+% and there is no support for proofs yet.
+% %Furthermore, we are not aware of any system which is able to output proofs.
+% 
+% 
+% %\todo{Remark: close relation to datalog +-}
+% %A closer look to especially the last requirement mentioned above make the use of a logic in the Datalog$^{\pm}$ framework a desirable choice. 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
 
 
 
@@ -885,7 +898,7 @@ Furthermore, \restdesc descriptions allow the composition of a~high-level plan
 that can guide machine clients through an interaction with a~hypermedia API.
 
 In the remainder of \cref{sec:RESTdesc},
-we formalize \restdesc and its underlying \nthree logic.
+we formalise \restdesc.
 \Cref{sec:Proof,sec:Composition} detail hypermedia API composition and execution,
 using the above image processing hypermedia API as an example.
 
@@ -912,13 +925,13 @@ We use the \rdf vocabulary as defined in the corresponding W3C Working Draft \ci
 In order to facilitate the understanding of the following sections, we give a short overview of the \http predicates used in this paper.
 
 \begin{definition}[\http predicates\label{httppr}]
-Let $A$ be an \nthree alphabet,
+Let $\mathcal{A}$ be an \nthree alphabet,
 $M$ be a set of \http method names,
 $\{ \texttt{"GET"},\texttt{"POST"},\texttt{"PUT"},\linebreak[1]
-\texttt{"DELETE"},\texttt{"HEAD"},\texttt{"PATCH"}\}\subset M \subset L$,
-$\verb!u!\in U$ an \http message,
-$\verb!v!\in U\cup L$
-and $\mathfrak{I}=(\mathcal{D},\mathfrak{a,p})$ an interpretation of $A$.
+\texttt{"DELETE"},\texttt{"HEAD"},\texttt{"PATCH"}\}\subset M \subset C$,
+$\verb!u!\in C$ an \http message,
+$\verb!v!\in C$
+and $\mathfrak{I}=(\mathcal{D},\mathfrak{a,p})$ an interpretation of $\mathcal{A}$.
 Then:
 
 
@@ -968,19 +981,20 @@ These two properties also have to be specified in an \http request description:
 
 \begin{definition}[\http request description]
   \label{def:HttpRequestDescription}
- Let $A$ be an \nthree alphabet which contains a set $H$ of \http predicates including those defined in Definition~\ref{httppr}. 
+ Let $\mathcal{A}$ be an \nthree alphabet which contains a set $H$ of \http predicates including those defined in Definition~\ref{httppr}. Let $U$ be the set of universals and $E$ 
+ be the set of existentials in $\mathcal{A}$. 
   \begin{itemize}
   % \item An \http request    
-\item An \emph{\http request description} is a conjunction $f=f_1 f_2 \ldots f_n\in F$ of atomic formulas with the following properties:
+\item An \emph{\http request description} is a conjunction $f=f_1 f_2 \ldots f_n\in \mathcal{F}$ of atomic formulas with the following properties:
 \begin{itemize}
- \item All atomic formulas $f_i$ share the same existential variable $\verb!_:x!\in V_E$ as a subject.
+ \item All atomic formulas $f_i$ share the same existential variable $\verb!_:x!\in E$ as a subject.
  \item The predicate of each formula $f_i$ is an \http-predicate, i.e. $f_i$ has the form $\verb!_:x :h!_i \verb!:o!_i\verb!.!$ with $\verb!:h!_i\in H$.
  \item The conjunction $f$ contains one atomic formula $f_i$ with the predicate\linebreak \verb! http:methodName!
  %\item The conjunction $f$ contains 
  and one formula $f_j$ with the predicate\linebreak 
  \verb! http:requestURI!.
  \item The object of every atomic formula $f_i=\verb!_:x :h!_i \verb!:o!_i\verb!.!$ with $\verb!h!_i \neq \verb!http:resp!$ is either a universal variable, 
- a URI or a literal, $\verb!:o!_i\in V_U\cup U\cup L$.
+ or a constant  (i.e., a URI or a literal), $\verb!:o!_i\in U\cup C$.
 \end{itemize}
  %let  
  %$\verb!_:x! \in V_E$ be an existential variable 
@@ -996,7 +1010,7 @@ These two properties also have to be specified in an \http request description:
 % \item for one $j\leq n$:  $f_j=\verb!_:x! \verb! http:requestURI! \verb! b!_j$.  
 % \end{itemize}
 \item  We call an \http request description $f=f_1\ldots f_n$ \textit{sufficiently specified},
-if  $\texttt{:o}_i\in E_g$ for every triple $f_i=\texttt{\_:x :h}_i \texttt{:h}_i$ with $\texttt{:p}_i\neq \texttt{http:resp}$. % i.e. 
+if  $\texttt{:o}_i\in \mathcal{T}_g$ for every triple $f_i=\texttt{\_:x :h}_i \texttt{:h}_i$ with $\texttt{:p}_i\neq \texttt{http:resp}$. % i.e. 
 %$\texttt{:o}_i\in E_g$
   %if it contains, with the exception of \verb!_:x!, only ground expressions.
 \end{itemize}
@@ -1016,12 +1030,12 @@ if they contain all necessary information, executed by an API which will return 
 the intended functionality of a~hypermedia API's operations:
 
 \begin{definition}[\restdesc description]
-Let $A$ be an \nthree alphabet containing the predicates defined in Definition \ref{httppr}, $F$ the set of formulas over $A$.
-A \restdesc description $f\in F$ of a hypermedia API operation is a \emph{simple} \nthree formula %an \nthree implication %with nesting level $n(f)= 2$, 
+Let $\mathcal{A}$ be an \nthree alphabet containing the predicates defined in Definition \ref{httppr}, $\mathcal{F}$ the set of formulas over $\mathcal{A}$.
+A \restdesc description $f\in \mathcal{F}$ of a hypermedia API operation is a \emph{simple} \nthree formula %an \nthree implication %with nesting level $n(f)= 2$, 
 %with $\text{comp}^n(f)=\emptyset$ for all $n>2$
 of the form:
 \[	  \verb!{ precondition } => { http-request  postcondition }.!\]
-where \verb!precondition!, \verb!http-request! and \verb!postcondition! are \nthree formulas over $A$ with the following properties:
+where \verb!precondition!, \verb!http-request! and \verb!postcondition! are \nthree formulas over $\mathcal{A}$ with the following properties:
 \begin{enumerate}
  \item \emph{\texttt{precondition}} describes the resources needed to execute the operation and does not contain %the expression \texttt{false} and none 
  any existential variable. %And $comp^n(\texttt{precondition}) = \emptyset$ for all $n>1$.
@@ -1420,153 +1434,7 @@ which are still unknown at the time the pre-proof is to be verified.
 \end{figure}
 
 \subsection{Anatomy of a~Hypermedia API Composition Proof}
-\label{sec:ProofAnatomy}
-The \nthree proof vocabulary created in the context of the Semantic Web Application Platform (SWAP) \cite{SWAP} enables us to formalize proofs in a~machine-readable way.
-This subsection gives a short introduction into the terminology used and the resulting proofs,
-focusing on the aspects relevant to our purposes.
-
-A proof is a conjunction of \nthree formulas describing 
-inference steps
-a reasoner has performed to come to a certain conclusion, so called \textit{proof steps}. 
-
-
-
-
-The vocabulary distinguishes between four different kinds of proof steps. We write them as deduction rules, using ``$\vdash$''.
-
-\begin{definition}[Proof steps]\label{proofsteps}
-Let $F$ be the set of simple formulas over an \nthree alphabet $A$, $\Gamma\subset F$ a set of formulas and
-$f,f_1,f_2, g\in F$. 
-A \textit{proof step} is one of the following inference rules:
-\begin{enumerate}
- \item \emph{Axiom:} If $f \in \Gamma$ then $\Gamma \vdash f$.%Parsing: The step of reading formulas out of a source file. If we see each soucre file as a formula, this step can be understood as 
- \item \emph{Conjunction elimination:} If $\Gamma \vdash f_1f_2$ then $\Gamma \vdash f_1$ and $\Gamma \vdash f_2$.
- \item \emph{Conjunction introduction:} Let $\Gamma\vdash f_1$ and $\Gamma \vdash f_2$ and 
- let \[\sigma: V_U\rightarrow V_U\setminus(\text{comp}^1(f_1)\cup\text{comp}^2(f_1)) 
- \text{ and } %$\mu$ be a substitution with
- \mu:V_E\rightarrow V_E\setminus \text{comp}(f_1)\] be substitutions. Let $f_2'= f_2\sigma^t\mu^c$ 
- %
- %$\rho_1, \ldots, \rho_m$ be existential %and $\mu_1,\ldots, \mu_n$ universal 
- %renamings such that 
- %$\Gamma \vdash f_1f_2'$ for \[
- %$f_2'= \rho_1\circ \ldots \circ \rho_m(f_2)$ with % being a renamed version of $f_2$ such that
- %$\text{comp}(f_1)\cap \text{comp}(f_2') \cap V_E = \emptyset$ %and $\text{comp}^2(f_1)\cap \text{comp}^2(f_2') \cap V_U = \emptyset$
- %
-%  is a renamed version of $f_2$ such that \[\{\text{comp}(f_1)\cup \text{comp}^2(f_1)\}\cap \{\text{comp}(f_2')\cup \text{comp}^2(f_2')\}\cap V=\emptyset,\] 
-%  then $\Gamma \vdash f_1f_2'$.
-then \[\Gamma \vdash f_1f_2'\]
- \item \emph{Generalized modus ponens:} If $\Gamma \vdash \verb!{!f_1\verb!}=>{!f_2\verb!}.!$ and $\Gamma \vdash g$ %\mu_{1}\circ\ldots\circ\mu_{n}(f_1)$ then 
- and there exists a substitution $\sigma:\text{comp}(f_1)\cap V_U \rightarrow E_e$ such that 
- \[
-  (\verb!{!f_1\verb!}=>{!f_2\verb!}.!)\sigma^t= (\verb!{!f_1'\verb!}=>{!f_2'\verb!}.!)\text{ and }
- f'_1=g\] 
- %universal replacements $\mu_{1}, \ldots, \mu_{n}$  %for the variables in  $\verb!{!f_1\verb!}=>{!f_2\verb!}!.$ %$\Gamma \vdash \mu_{1}\circ\ldots\circ\mu_{n}(f_2)$.
-%such that \[\mu_{1}\circ\ldots\circ\mu_{n}(\verb!{!f_1\verb!}=>{!f_2\verb!}.)!=  (\verb!{!f_1'\verb!}=>{!f_2'\verb!}.!) \text{ and } f_1'=g\] 
-then $\Gamma \vdash f_2'$.
- \end{enumerate}
-\end{definition}
-
-
-\begin{theorem}[Correctness of proof calculus]\label{correctness}
-Let $\Phi$ be a set of \nthree formulas  and $\phi$ a formula over the same \nthree alphabet $A$.  Then the following holds:
-\[ \text{If } \Phi \vdash \phi \text{ then } \Phi \models \phi.\]
-\end{theorem}
-
-%\todo{Dörthe: reference repl~\label{repl} missing}
-
-\begin{proof}
-
-We prove that every proof step is correct.
-%\begin{addmargin}[3cm]{2cm}
-%Inhalt
-%\end{addmargin} 
-\begin{enumerate}
-\leftskip2.5em %this is a quick fix, if you know a better solution, please apply it here
- \item \emph{Axiom:} For the axiom step the claim is trivial, as it corresponds to Definition~\ref{log_impl}.
- \item \emph{Conjunction elimination:}
- Let $\Phi\models f_1 f_2 $ and let  $\mathfrak{I}=(\mathcal{D},\mathfrak{a,p})$ be a model for $\Phi$ and $f_1 f_2$. 
- If $f_1 f_2$ is universal free and $\text{comp}(f_1f_2)\cap V_E=\emptyset$, the claim follows immediately 
- from Definition  \ref{sem_n3}.\ref{conj}. \\
- If $f_1f_2$ universal free and $\text{comp}(f_1f_2)\neq \emptyset$ let $\mu:\text{comp}(f_1f_2)\rightarrow E_g$ be a substitution such that
- $\mathfrak{I}\models (f_1f_2)\mu^c$. Then $\mathfrak{I}\models (f_1\mu^c) (f_2\mu^c)$, thus  $\mathfrak{I}\models (f_1\mu^c)$ and 
- $\mathfrak{I}\models (f_2\mu^c)$.\\
- If $f_1f_2$ are not universal free, then $\mathfrak{I}\models (f_1f_2)\sigma^t$ for all substitutions $\sigma:V_U\rightarrow E_e$. 
- The claim follows by the same 
- argument as above.
-%  If $f_1 f_2$ is not ground let $\mu_1,\ldots ,\mu_n$ be universal replacements and $\rho_1,\ldots \rho_m$ existential replacements for all variables 
-%  occurring in $f_1 f_2$ as defined in 
-%  Definition~\ref{sem_n3}.\ref{quant} such that:
-%  \[
-%   \mathfrak{I}\models \rho_1\circ \ldots \circ \rho_m \circ \mu_1 \circ \ldots \circ \mu_n (f_1 f_2)
-%  \]
-% It follows immediately by Definition \ref{repl} and \ref{sem_n3}.\ref{conj}:
-%   \[
-%   \mathfrak{I} \models \rho_1\circ \ldots \circ \rho_m \circ \mu_1 \circ \ldots \circ \mu_n (f_1 )
-%  \] 
-% To prove the claim for $f_2$ we take into account, that according to Definition \ref{repl} the only 
-% substitution of an existential or universal replacement, which changes 
-% variables in both subformulas $f_1$ and $f_2$ from $f_1f_2$ is $\sigma_{11}$.
-% We construct new replacements $\nu'$ for each replacement $\nu = (\sigma_{ij})_{i,j \in \mathbb{N}}$ from above as follows:\\
-% Let $k_1:=0$ and for each level $i$ of $f_1$ let $k_i := |\text{comp}^{(i-1)}(f_1)\cap \text{FE}|$ be the number of formula expressions. % of $f_1$. 
-% We define
-% $\nu' := (\sigma_{i (j+k_i)})_{i,j \in \mathbb{N}}.$ Then the following holds:
-%   \[
-%   \mathfrak{I} \models \rho_1'\circ \ldots \circ \rho_m' \circ \mu_1' \circ \ldots \circ \mu_n' (f_2 )
-%  \]
- \item \emph{Conjunction introduction:} 
- Let $\Phi\models f_1$, $\Phi\models f_2$ and let  $\mathfrak{I}=(\mathcal{D},\mathfrak{a,p})$ be a model for $\Phi$, $f_1$ and $f_2$. 
- %As $f_2'$ is just a renamed version of $f_2$, $\Phi\models f_2'$. The claim follows by Definition \ref{sem_n3}.\ref{conj}.
-%An existential renaming does not change the meaning of a formula.
-As the renaming substitutions $\sigma$ and $\mu$ do not change the meaning of a formula, for  $f_2'= f_2\sigma^t\mu^c$ the following holds:
-%an existential renaming does not change the meaning of a formula, 
-$\mathfrak{I}\models f_2'$. 
-%If $f_1$ or $f_2'$ is universal free 
-It immediately follows that $\mathfrak{I}\models f_1f_2'$. %If $f_1f_2'$ both contain universals
-%for $f_2'= \rho_1\circ \ldots \circ \rho_m(f_2)$, $\rho_1,\ldots,\rho_m
-% Let $\rho^1_1, \ldots, \rho^1_{m_1},\rho^2_1, \ldots, \rho^2_{m_2}$ be existential replacements and $\mu^1_1,\ldots \mu^1_{n_1}, \mu^2_1,\ldots \mu^2_{n_2}$ universal 
-% replacements as in Definition \ref{sem_n3}.\ref{quant} such that:
-%  \[
-%   \mathfrak{I}\models \rho^1_1\circ \ldots \circ \rho^1_{m_1} \circ \mu^1_1 \circ \ldots \circ \mu^1_{n_1} (f_1)
-%  \]
-% \text{ and }
-%  \[
-%   \mathfrak{I}\models \rho^2_1\circ \ldots \circ \rho^2_{m_2} \circ \mu^2_1 \circ \ldots \circ \mu^2_{n_2} (f_2')
-%  \]
-% We construct new replacements for each variable $v$ %\in \text{dom}(\nu^1)\cup \text{dom}(\nu^2)$ 
-% which occurs in $f_1$ or $f_2'$:
-% 
-% %If $v$ only occurs in one of the two formulas, 
-% % If $v$ only occurs in $f_1$ we keep the replacement and rename and renumber it 
-% % to 
-% % $\rho'_l$ resp. $\mu'_l$. 
-% If $v$ only occurs in one of the formulas there is only one replacement $\nu^1$ or $\nu^2$ for $v$, we add an additional arbitrary 
-% replacement $\nu^2$ respectively $\nu^1$ with $\text{dom}(\nu^i)= \{v\}$ to our set of replacements.
-% %If there is no replacement $\nu^1$ or $\nu^2$ for $v$ we add an arbitrary 
-% %If the variable only occurs in $f_2'$ 
-% %we add a new substitution 
-% %Now, we always have two replacements for the same variable. We take these the two replacements
-% Now, there are always two replacements for each variable $v$. We combine those two replacements
-% $\nu^1=(\sigma^1_{ij})_{i,j \in \mathbb{N}}$ and $\nu^2=(\sigma^2_{ij})_{i,j \in \mathbb{N}}$ %for $v$ 
-% and % the same variable, 
-% construct a new replacement $\nu'=(\sigma'_{ij})_{i,j \in \mathbb{N}}$: 
-% Let $k_1:=0$ and for each level $i$ of $f_1$ let $k_i := |\text{comp}^{(i-1)}(f_1)\cap \text{FE}|$ be the number of formula expressions. We define the substitutions 
-% $\sigma_{ij}'$ :
-% \[
-% \sigma_{ij}':= \begin{cases}
-%                \sigma^1_{ij} & \text{ if } j \leq k_i \\
-%                \sigma^2_{i (j+k_i)} & \text{ else.}
-%               \end{cases}
-% \]
-% The new replacements can be combined and ordered, such that
-%  \[
-%   \mathfrak{I}\models \rho'_1\circ \ldots \circ \rho'_{m} \circ \mu'_1 \circ \ldots \circ \mu'_{n} (f_1f_2')
-%  \]
-% As this procedure can be done with every set of replacements \linebreak $\rho^1_1, \ldots, \rho^1_{m_1},\rho^2_1, \ldots, \rho^2_{m_2},\mu^1_1,\ldots \mu^1_{n_1}, \mu^2_1,\ldots \mu^2_{n_2}$, 
-% the claim follows by Definition \ref{sem_n3}.\ref{quant} and \ref{sem_n3}.\ref{conj}.
-\item \emph{Generalized modus ponens:} the claim follows directly from Definitions \ref{sem_n3}.\ref{quant1} %, \ref{sem_n3}.\ref{quant2}   
-and~\ref{sem_n3}.\ref{fal2}.
-\end{enumerate}
-\end{proof}
+\label{sec:ProofAnatomy} \todo{here is a label, check whether we need to link to the previous chapter instead}
 
 Applied on a API composition problem, we get the following consequence:
 \begin{corollary}[Correctness of API composition proofs]
@@ -1645,62 +1513,62 @@ and a postcondition which does not contain any universal variables.
 %The reasoning vocabulary\footnote{The vocabulary's definition can be found at: \url{http://www.w3.org/2000/10/swap/reason\#}.}
 %enables us to name the aforementioned proof steps. 
 %their outcome, and the resources used to come to a conclusion. 
-The first step of Definition \ref{proofsteps} includes from a technical point of view also the parsing of a source.
-In the \nthree proof vocabulary%
-\footnote{The vocabulary's RDF definition can be found at: \url{http://www.w3.org/2000/10/swap/reason\#}.}
-we will discuss next,
-this step is therefore named after this action.
-
-\begin{definition}[Proof vocabulary]
-Let $A$ be an \nthree alphabet and $\mathfrak{I}=(\mathcal{D}, \mathfrak{a}, \mathfrak{p})$ be an 
-interpretation of its formulas. Let $\verb!x!, \verb!y!,  \verb!y!_1, \ldots, \verb!y!_n \in U$ be \nthree representations of 
-proof steps and $\verb!z!_1,\verb!z!_2,\verb!z!_3\in U$.
-\begin{enumerate}
- \item 
- Proof step types:
- \begin{itemize}
-\item $\mathfrak{I}\models \verb!x a r:Proof.!$ iff \verb!x! is the proof step which leads to the proven result.
-\item $\mathfrak{I}\models \verb!x a r:Parsing.!$ iff \verb!x! is a parsed axiom. %This step involves parsing the resources.
-\item $\mathfrak{I}\models \verb!x a r:Conjunction.!$ iff \verb!x! is a conjunction introduction.
-\item $\mathfrak{I}\models \verb!x a r:Inference.!$ iff \verb!x! is a generalized modus ponens.
-\item $\mathfrak{I}\models \verb!x a r:Extraction.!$ iff \verb!x! is a conjunction elimination.
-\end{itemize}
- \item 
- Proof predicates:
-\begin{itemize}
-\item $\mathfrak{I}\models \verb!x r:gives {!f\verb!}!$. iff $f\in F$ is the formula obtained by applying \verb!x!.
-\item $\mathfrak{I}\models \verb!x r:source u!$. iff \verb!x! is a parsed axiom and $\verb!u!\in U$ is the \uri of the %parsing's 
-parsed axiom's
-source. 
-\item $\mathfrak{I}\models \verb!x r:component y!$. iff \verb!x! is a conjunction introduction and $\verb!y!$ is a proof step which gives one of its components.
-\item $\mathfrak{I}\models \verb!x r:rule y.!$ iff \verb!x! is a generalized modus ponens and $\verb!y!$ is the proof step which leads to the applied implication.
-\item $\mathfrak{I}\models \verb!x r:evidence (y!_1,\ldots,\verb!y!_n\verb!)!$. iff \verb!x! is a generalized modus ponens and $\verb!y!_1,\ldots, \verb!y!_n$ 
-are the proof steps which lead to the formulas used for the unification with the antecedent of the implication.
-\item $\mathfrak{I}\models \verb!x r:because y!$. iff \verb!x! is a conjunction elimination and $\verb!y!$ is the proof step which yields the to-be-eliminated conjunction.
-\end{itemize}
-\item
-Substitutions:
-\begin{itemize}
- \item $\mathfrak{I}\models \verb!x r:binding z!_1.$ iff \verb!x! includes a substitution $\verb!z!_1$.
- \item $\mathfrak{I}\models \verb!z!_1 \verb! r:variable z!_2.$ iff $\verb!z!_1$ is a substitution whose domain is $\{\verb!z!_2\}$.
- \item $\mathfrak{I}\models \verb!z!_1 \verb! r:boundTo z!_3.$ iff $\verb!z!_1$ is a substitution whose range is $\{\verb!z!_3\}$.
-\end{itemize}
-
-\end{enumerate}
-\end{definition}
-
-To produce a proof for an API composition problem, the reasoner needs to be aware of all formulas at its disposal (in our case $H \cup R \cup B$) and of the goal 
-which it is expected to prove.
-The latter is given to the reasoner as the consequence of a~\textit{filter rule}
-$\verb!{!f\verb!} => {!g\verb!}.!$%, the \textit{filter rule}.
-This triggers the reasoner to prove an instance of~$f$ and in case of success,
-return each provable ground instance of $g$ if possible,
-or a provable instance containing existentials otherwise.
-For brevity, not all reasoners display every proof step in a proof:
-especially conjunction elimination and introduction are often omitted.
-However, to the best of our knowledge,
-all reasoners' proofs contain all applications of $\verb!r:Inference!$ leading to a goal~$g$,
-which allows us to measure a~proof's length by counting applications of the generalized modus ponens.
+% The first step of Definition \ref{proofsteps} includes from a technical point of view also the parsing of a source.
+% In the \nthree proof vocabulary%
+% \footnote{The vocabulary's RDF definition can be found at: \url{http://www.w3.org/2000/10/swap/reason\#}.}
+% we will discuss next,
+% this step is therefore named after this action.
+% 
+% \begin{definition}[Proof vocabulary]
+% Let $A$ be an \nthree alphabet and $\mathfrak{I}=(\mathcal{D}, \mathfrak{a}, \mathfrak{p})$ be an 
+% interpretation of its formulas. Let $\verb!x!, \verb!y!,  \verb!y!_1, \ldots, \verb!y!_n \in U$ be \nthree representations of 
+% proof steps and $\verb!z!_1,\verb!z!_2,\verb!z!_3\in U$.
+% \begin{enumerate}
+%  \item 
+%  Proof step types:
+%  \begin{itemize}
+% \item $\mathfrak{I}\models \verb!x a r:Proof.!$ iff \verb!x! is the proof step which leads to the proven result.
+% \item $\mathfrak{I}\models \verb!x a r:Parsing.!$ iff \verb!x! is a parsed axiom. %This step involves parsing the resources.
+% \item $\mathfrak{I}\models \verb!x a r:Conjunction.!$ iff \verb!x! is a conjunction introduction.
+% \item $\mathfrak{I}\models \verb!x a r:Inference.!$ iff \verb!x! is a generalized modus ponens.
+% \item $\mathfrak{I}\models \verb!x a r:Extraction.!$ iff \verb!x! is a conjunction elimination.
+% \end{itemize}
+%  \item 
+%  Proof predicates:
+% \begin{itemize}
+% \item $\mathfrak{I}\models \verb!x r:gives {!f\verb!}!$. iff $f\in F$ is the formula obtained by applying \verb!x!.
+% \item $\mathfrak{I}\models \verb!x r:source u!$. iff \verb!x! is a parsed axiom and $\verb!u!\in U$ is the \uri of the %parsing's 
+% parsed axiom's
+% source. 
+% \item $\mathfrak{I}\models \verb!x r:component y!$. iff \verb!x! is a conjunction introduction and $\verb!y!$ is a proof step which gives one of its components.
+% \item $\mathfrak{I}\models \verb!x r:rule y.!$ iff \verb!x! is a generalized modus ponens and $\verb!y!$ is the proof step which leads to the applied implication.
+% \item $\mathfrak{I}\models \verb!x r:evidence (y!_1,\ldots,\verb!y!_n\verb!)!$. iff \verb!x! is a generalized modus ponens and $\verb!y!_1,\ldots, \verb!y!_n$ 
+% are the proof steps which lead to the formulas used for the unification with the antecedent of the implication.
+% \item $\mathfrak{I}\models \verb!x r:because y!$. iff \verb!x! is a conjunction elimination and $\verb!y!$ is the proof step which yields the to-be-eliminated conjunction.
+% \end{itemize}
+% \item
+% Substitutions:
+% \begin{itemize}
+%  \item $\mathfrak{I}\models \verb!x r:binding z!_1.$ iff \verb!x! includes a substitution $\verb!z!_1$.
+%  \item $\mathfrak{I}\models \verb!z!_1 \verb! r:variable z!_2.$ iff $\verb!z!_1$ is a substitution whose domain is $\{\verb!z!_2\}$.
+%  \item $\mathfrak{I}\models \verb!z!_1 \verb! r:boundTo z!_3.$ iff $\verb!z!_1$ is a substitution whose range is $\{\verb!z!_3\}$.
+% \end{itemize}
+% 
+% \end{enumerate}
+% \end{definition}
+% 
+% To produce a proof for an API composition problem, the reasoner needs to be aware of all formulas at its disposal (in our case $H \cup R \cup B$) and of the goal 
+% which it is expected to prove.
+% The latter is given to the reasoner as the consequence of a~\textit{filter rule}
+% $\verb!{!f\verb!} => {!g\verb!}.!$%, the \textit{filter rule}.
+% This triggers the reasoner to prove an instance of~$f$ and in case of success,
+% return each provable ground instance of $g$ if possible,
+% or a provable instance containing existentials otherwise.
+% For brevity, not all reasoners display every proof step in a proof:
+% especially conjunction elimination and introduction are often omitted.
+% However, to the best of our knowledge,
+% all reasoners' proofs contain all applications of $\verb!r:Inference!$ leading to a goal~$g$,
+% which allows us to measure a~proof's length by counting applications of the generalized modus ponens.
 
  \begin{lstlisting}[
   float=t,
@@ -1969,11 +1837,13 @@ and hence that proof does not need the assumption that the \verb!POST! request w
 \Cref{fig:UmlDiagram} shows the UML sequence diagram
 of an example interaction between the client and the server.
 
+
 \begin{figure}
   \begin{sequencediagram}
+  \renewcommand\unitfactor{0.4}
     \newthread[white]{c}{Client}
-    \newinst[9]{s}{Server}
-
+    \newinst[8]{s}{Server}
+\scriptsize
     \begin{callself}{c}{Create pre-proof for the first operation (\cref{lst:Proof})}{}\end{callself}
 
     \begin{sdblock}{First operation}{}
@@ -1997,6 +1867,7 @@ of an example interaction between the client and the server.
   }
   \label{fig:UmlDiagram}
 \end{figure}
+\normalsize
 
 As stated in its definition,
 a~pre-proof implicitly assumes that each API will indeed deliver the functionality
@@ -2541,307 +2412,307 @@ thus the result of the proof is ground.
 % which makes it easier for them as well.
 % 
 
-
-
-\section{Evaluation}
-\label{sec:Evaluation}
-\subsection{Composition Algorithm Benchmark}
-This article discusses a~proof-based method to compose and execute hypermedia APIs.
-Specific to this method, in contrast to traditional Web service composition methods,
-is that the composition should be regenerated at each step.
-This makes the feasibility of the approach depend
-on whether the composition cost is within reasonable limits.
-Therefore, an evaluation should assess whether
-composition happens sufficiently fast
-for realistic composition lengths
-and in presence of a~realistic number of possible hypermedia APIs
-that can be used in compositions.
-
-To verify this, we developed a~benchmark framework%
-\footnote{Available at \url{http://github.com/RubenVerborgh/RESTdesc-Composition-Benchmark}.}
-for hypermedia API composition,
-consisting of two main components:
-\begin{description}
-\item[a~hypermedia API description generator]\hspace{-1ex},
-which deterministically generates single- or multi-connected chains
-of example hypermedia API descriptions with a~chosen length,
-specifically tailored to enable compositions;
-\item [an automated benchmarker]\hspace{-1ex},
-testing how well a~reasoner performs
-on creating proofs for compositions of varying lengths and complexity.
-\end{description}
-
-Below is one of the example descriptions,
-generated by the tool with parameters \verb!3!~(description chain length)
-and \verb!2!~(number of needed connections per description).
-\begin{Verbatim}
-    {
-      ?a1 ex:rel2 ?b1.                 # Generated input conditions
-      ?a2 ex:rel2 ?b2.
-    }
-    =>
-    {
-      _:request http:methodName "GET"; # Generated HTTP request
-                http:requestURI ?a1;
-                http:resp [ http:body ?b1 ].
-      ?a1 ex:rel3 ?b1.                 # Generated output conditions
-      ?a2 ex:rel3 ?b2.
-    }.
-\end{Verbatim}
-
-The goal would be a~filter rule of the following form:
-\begin{Verbatim}
-    {
-      ?a1 ex:rel3 ?b1.                 # Output conditions of the
-      ?a2 ex:rel3 ?b2.                 # last API operation in the chain
-    }
-    =>
-    {
-      ?a1 ex:rel3 ?b1.
-      ?a2 ex:rel3 ?b2.
-    }.
-\end{Verbatim}
-Herein, the conditions in the antecedent
-are only satisfiable by creating a~chain
-from the first description towards the last.
-
-As this example shows,
-descriptions are structurally identical to RESTdesc descriptions of existing hypermedia APIs
-and therefore representative examples.
-Other descriptions will be generated
-such that the input and output conditions can be matched,
-so the composition algorithm can form chains
-(in this example, with links to two previous descriptions).
-
-\subsection{Parameters and Measurements}
-The main parameters that determine the difficulty of generating a~composition are:
-\begin{enumerate}
-\item the \textbf{number} of API operations in the resulting composition:~$n$
-\item the number of \textbf{dependencies} between hypermedia API operations in the composition:~$d$
-\item the \textbf{total} number of hypermedia APIs supplied to the reasoner
-      (not all necessarily part of the composition):~$t$
-\end{enumerate}
-
-To measure the influence of the first two parameters,
-we test the generation of a~composition with a~resulting length of~$n$
-and with $d$~dependencies between each hypermedia API operation,
-where $n$ ranges from 2 to~1,024 and $d$ from 1 to~3.
-These ranges have been chosen such that their upper bounds exceed
-those of compositions for regular use cases,
-which typically involve only a~few API operations
-with few interdependencies.
-The goal is therefore whether performance is acceptable for small values---%
-success on larger values comes as an added bonus.
-
-
-To test the third parameter~$t$,
-we will keep $n$ and $d$ fixed at 32 and~1 respectively
-(\textit{i.e.,} already a~large composition)
-and add a~number of \emph{dummy} APIs~($n'=t-n$) that can be composed with the other APIs,
-but are not needed in the resulting composition.
-It is important to understand that most real-world scenarios will be a~mixture
-of the above situations:
-compositions are generally graphs with a~varying number of dependencies,
-created in presence of a~non-negligible number of descriptions that are irrelevant to the composition under construction.
-Therefore, by measuring these aspects independently,
-we can predict the performance in those situations.
-
-The measurements have been split in
-\emph{parsing}, \emph{reasoning}, and \emph{total} times.
-Parsing represents the time during which the reasoner internalizes the input
-into an in-memory representation.
-This was measured by presenting the inputs to the reasoner,
-without asking for any operation to be performed on them.
-Since the parsing step can often be cached and reused in subsequent iterations,
-it is worthwhile evaluating the actual reasoning time separately.
-Parsing and reasoning together make up for the total time.
-
-\subsection{Results}
-
-The benchmark was executed on one 2.4~GHz core of an Intel Xeon processor
-on Ubuntu Server 12.04.
-The results are summarized below;
-full results are available
-at \url{http://github.com/RubenVerborgh/RESTdesc-Composition-Benchmark-Results}.
-
-\subsubsection{EYE reasoner}
-\Cref{tbl:EYE1,tbl:EYE2} show the benchmark results achieved by the EYE reasoner~\cite{eyepaper},
-version 2014-09-30 on SWI-Prolog 6.6.6.
-The results in the first column teach us that
-starting the reasoner introduces an overhead of $\approx 40$~ms.
-This includes process starting costs, which are highly machine-dependent.
-
-Inspecting \cref{tbl:EYE1} from left to right,
-we see the reasoning time increases with the composition length~$n$
-and remains limited to a~few hundred milliseconds in almost all cases.
-The absolute increase in reasoning time for a~higher number of dependencies~$d$
-never crosses 150~ms for small to medium values of~$n$,
-but becomes larger for high~$n$.
-\cref{tbl:EYE2} shows that the reasoning time hardly increases in presence of dummies.
-
-\vspace{-1em}
-
-\subsubsection{\cwm reasoner}
-The same experiments have been performed with the \cwm reasoner~\cite{cwm},
-whose results are shown in \cref{tbl:cwm1,tbl:cwm2}.
-The \cwm reasoner is not as strongly performance-optimized as EYE,
-which is clearly visible in the results.
-Also, we were only able to test for values of~$n$ up to~256,
-because out-of-memory errors appeared for large values.
-Despite this fact, we still see acceptable results for small-to-medium-sized compositions.
-We note a~higher start-up time of $\approx$~140~ms.
-Reasoning time increases faster than linearly in~$n$,
-which is also the case for increasing~$d$.
-The presence of dummies bothers \cwm more than EYE,
-and serious issues start to appear at $n'=$~512.
-
-\begin{table}[t]
-  \caption{The EYE reasoner manages to create even lengthy compositions in a~timely manner (\emph{average times of 50~trials}).}
-  \label{tbl:EYE1}
-  \fontsize{8pt}{9pt}\selectfont
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} r r r r r r r r r r}
-    \hline\hline
-    \hspace{5.2ex}\bf \#APIs~$n$ & \bf 4 & \bf 8 & \bf 16 & \bf 32 & \bf 64 & \bf 128 & \bf 256 & \bf 512 & \bf 1,024 \\
-    \hline
-    \bf{$d$=$1$~dep.}&&&&&&&&&\\
-    parsing & 39~ms & 41~ms & 45~ms & 55~ms & 74~ms & 114~ms & 183~ms & 323~ms & 597~ms\\
-    \em reasoning &  \em 16~ms &  \em 19~ms &  \em 33~ms &  \em 21~ms &  \em 43~ms &  \em 48~ms &  \em 108~ms &  \em 268~ms &  \em 903~ms\\
-    total & 56~ms & 61~ms & 79~ms & 76~ms & 118~ms & 162~ms & 292~ms & 591~ms & 1,500~ms\\
-    \hline
-    \bf{$d$=$2$~dep.}&&&&&&&&&\\
-    parsing & 39~ms & 44~ms & 59~ms & 61~ms & 90~ms & 126~ms & 212~ms & 383~ms & 728~ms\\
-    \em reasoning &  \em 22~ms &  \em 60~ms &  \em 22~ms &  \em 56~ms &  \em 45~ms &  \em 113~ms &  \em 311~ms &  \em 1,044~ms &  \em 3,640~ms\\
-    total & 61~ms & 105~ms & 82~ms & 117~ms & 136~ms & 239~ms & 524~ms & 1,427~ms & 4,369~ms\\
-    \hline
-    \bf{$d$=$3$~dep.}&&&&&&&&&\\
-    parsing & 41~ms & 50~ms & 53~ms & 73~ms & 97~ms & 146~ms & 250~ms & 460~ms & 890~ms\\
-    \em reasoning &  \em 29~ms &  \em 18~ms &  \em 39~ms &  \em 48~ms &  \em 105~ms &  \em 263~ms &  \em 787~ms &  \em 2,660~ms &  \em 9,105~ms\\
-    total & 70~ms & 68~ms & 93~ms & 122~ms & 203~ms & 409~ms & 1,037~ms & 3,121~ms & 9,995~ms\\
-    \hline\hline
-  \end{tabular*}
-\end{table}
-\begin{table}[t]
-  \caption{Even a~large number of dummies does not significantly disturb
-  EYE's reasoning time (\emph{average times of 50~trials}).}
-  \label{tbl:EYE2}
-  \fontsize{8pt}{9pt}\selectfont
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} r r r r r r r r}
-    \hline\hline
-    \bf \# dummies~$n'$ & \bf 2,048 & \bf 4,096 & \bf 8,192 & \bf 16,384 & \bf 32,768 & \bf 65,536 & \bf 131,072\\
-    \hline
-    \bf{$n$=32, $d$=1~dep.}&&&&&&&\\
-    parsing & 1,221~ms & 2,405~ms & 4,586~ms & 8,959~ms & 17,700~ms & 35,823~ms & 74,394~ms\\
-    \em reasoning & \em 47~ms & \em 66~ms & \em 71~ms & \em 177~ms & \em 403~ms & \em 633~ms & \em 1,042~ms\\
-    total & 1,268~ms & 2,471~ms & 4,657~ms & 9,136~ms & 18,104~ms & 36,456~ms & 75,437~ms\\
-    \hline\hline
-  \end{tabular*}
-\end{table}
-
-\begin{table}[t]
-  \caption{The \cwm reasoner performs worse than EYE,
-  but still creates smaller compositions acceptably fast (\emph{average times of 50~trials}).}
-  \label{tbl:cwm1}
-  \fontsize{8pt}{9pt}\selectfont
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} r r r r r r r r}
-    \hline\hline
-    \hspace{5.2ex}\bf \#APIs~$n$ & \bf 4 & \bf 8 & \bf 16 & \bf 32 & \bf 64 & \bf 128 & \bf 256\\
-    \hline
-    \bf{$d$=$1$~dep.}&&&&&&&\\
-    parsing & 139~ms & 155~ms & 186~ms & 271~ms & 566~ms & 1,721~ms & 6,119~ms\\
-    \em reasoning &  \em 43~ms &  \em 106~ms &  \em 320~ms &  \em 1,149~ms &  \em 4,456~ms &  \em 18,266~ms &  \em 82,856~ms\\
-    total & 183~ms & 262~ms & 506~ms & 1,421~ms & 5,022~ms & 19,987~ms & 88,975~ms\\
-    \hline
-    \bf{$d$=$2$~dep.}&&&&&&&\\
-    parsing & 143~ms & 161~ms & 201~ms & 300~ms & 637~ms & 1,904~ms & 6,509~ms\\
-    \em reasoning &  \em 119~ms &  \em 473~ms &  \em 1,946~ms &  \em 8,016~ms &  \em 31,189~ms &  \em 136,806~ms &  \em 582,810~ms\\
-    total & 263~ms & 634~ms & 2,147~ms & 8,317~ms & 31,827~ms & 138,710~ms & 589,319~ms\\
-    \hline
-    \bf{$d$=$3$~dep.}&&&&&&&\\
-    parsing & 147~ms & 168~ms & 216~ms & 328~ms & 701~ms & 2,088~ms & 7,396~ms\\
-    \em reasoning &  \em 190~ms &  \em 739~ms &  \em 2,843~ms &  \em 10,708~ms &  \em 43,429~ms &  \em 182,949~ms &  \em 776,569~ms\\
-    total & 337~ms & 908~ms & 3,059~ms & 11,036~ms & 44,130~ms & 185,037~ms & 783,965~ms\\
-    \hline\hline
-  \end{tabular*}
-\end{table}
-
-\begin{table*}[t]
-  \caption{The \cwm reasoner does not perform well when the number of dummies increases
-           (\emph{average times of 50~trials}).}
-  \label{tbl:cwm2}
-  \fontsize{8pt}{9pt}\selectfont
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} r r r r r r r}
-    \hline\hline
-    \bf \#dummies~$n'$ & \bf 16 & \bf 32 & \bf 64 & \bf 128 & \bf 256 & \bf 512\\
-    \hline
-    \bf{$n$=32, $d$=1~dep.}&&&&&\\
-    parsing & 406~ms & 576~ms & 1,057~ms & 2,548~ms & 7,682~ms & 26,678~ms\\
-    \em reasoning &  \em 1,107~ms &  \em 1,083~ms &  \em 1,116~ms &  \em 2,173~ms &  \em 12,908~ms &  \em 110,775~ms\\
-    total & 1,513~ms & 1,659~ms & 2,173~ms & 4,721~ms & 20,590~ms & 137,453~ms\\
-    \hline\hline
-  \end{tabular*}
-\end{table*}
-
-\subsubsection{Analysis}
-The main cause of the difference in performance between EYE and \cwm
-are due to the different reasoning mechanisms.
-EYE~is a~backward-chaining reasoner,
-which starts from the goal and works towards the initial state,
-whereas \cwm is forward-chaining,
-exploring inferences from the initial state onwards
-until the goal has been reached.
-This explorative behavior demands more processor time,
-since all possible paths have to be tried,
-even those that do not contribute to the composition.
-This is most apparent in the experiment with dummies:
-\cwm tries to use them and eventually finds they are not necessary;
-EYE will only parse them but never tries to use them in the composition.
-
-\vspace{-1em}
-\subsubsection{Discussion}
-The main question of these experiments
-is whether the results are generalizable to real-world hypermedia API compositions.
-On the one hand,
-we have to investigate the difference between the generated API descriptions
-and actual hypermedia API descriptions.
-On the other hand,
-we have to verify if the resulting reasoning times are acceptable
-for realistic compositions in a~Web-scale environment.
-
-First, the generated descriptions have been tailored to closely mimic actual \restdesc descriptions.
-The following characteristics of actual descriptions are also found in the generated ones.
-They contain a~number of pre-conditions, determined by the parameter~$d$,
-and an equal number of post-conditions.
-They describe the \http request that has to be performed
-to execute a~hypermedia API operation.
-The parameters of the request are obtained through placeholders from the pre-conditions,
-so they have to be instantiated.
-\\
-In contrast, some characteristics are different.
-All requests are~\Verb!GET! requests,
-whereas real-world APIs also use other \http verbs.
-However, this has no impact on the reasoner.
-Furthermore, all descriptions employ predicates with a~shared \uri namespace.
-This is done to ensure that a~composition always exists.
-However, this too has no impact on reasoning or parsing time.
-Therefore, the generated descriptions simulate real-world descriptions reliably.
-
-Second, we note that only the reasoning times are important,
-because the parsing results can be cached.
-The maximum tested composition length~$n$ is large compared to
-what one could expect from realistic compositions.
-In practice, compositions of only a~few API operations will be necessary,
-yet both reasoners perform acceptably on small to medium composition sizes.
-Furthermore, EYE is capable of creating compositions of a~few hundred API operations
-in just a~few hundred milliseconds.
-Also, the number of dependencies~$d$ of each API will likely be limited,
-with most calls only depending on a~single other operation.
-Yet even if this is not the case,
-EYE can fluently cope with multiple dependencies.
-The final parameter we have to check is the total number of APIs~$t$,
-since reasoners should be able to create compositions out of large API repositories.
-Given that ProgrammableWeb contains 10,000~APIs~\cite{ProgrammableWeb},
-the fact that EYE merely needs $\approx$~230~ms
-to create a~composition in presence of more than 130,000~dummy APIs,
-indicates that proof-based composition is a~viable strategy for the years to come.
-
-
+\todo{Cite \cite{verborgh_phd_2014} for evaluation.}
+% 
+% \section{Evaluation}
+% \label{sec:Evaluation}
+% \subsection{Composition Algorithm Benchmark}
+% This article discusses a~proof-based method to compose and execute hypermedia APIs.
+% Specific to this method, in contrast to traditional Web service composition methods,
+% is that the composition should be regenerated at each step.
+% This makes the feasibility of the approach depend
+% on whether the composition cost is within reasonable limits.
+% Therefore, an evaluation should assess whether
+% composition happens sufficiently fast
+% for realistic composition lengths
+% and in presence of a~realistic number of possible hypermedia APIs
+% that can be used in compositions.
+% 
+% To verify this, we developed a~benchmark framework%
+% \footnote{Available at \url{http://github.com/RubenVerborgh/RESTdesc-Composition-Benchmark}.}
+% for hypermedia API composition,
+% consisting of two main components:
+% \begin{description}
+% \item[a~hypermedia API description generator]\hspace{-1ex},
+% which deterministically generates single- or multi-connected chains
+% of example hypermedia API descriptions with a~chosen length,
+% specifically tailored to enable compositions;
+% \item [an automated benchmarker]\hspace{-1ex},
+% testing how well a~reasoner performs
+% on creating proofs for compositions of varying lengths and complexity.
+% \end{description}
+% 
+% Below is one of the example descriptions,
+% generated by the tool with parameters \verb!3!~(description chain length)
+% and \verb!2!~(number of needed connections per description).
+% \begin{Verbatim}
+%     {
+%       ?a1 ex:rel2 ?b1.                 # Generated input conditions
+%       ?a2 ex:rel2 ?b2.
+%     }
+%     =>
+%     {
+%       _:request http:methodName "GET"; # Generated HTTP request
+%                 http:requestURI ?a1;
+%                 http:resp [ http:body ?b1 ].
+%       ?a1 ex:rel3 ?b1.                 # Generated output conditions
+%       ?a2 ex:rel3 ?b2.
+%     }.
+% \end{Verbatim}
+% 
+% The goal would be a~filter rule of the following form:
+% \begin{Verbatim}
+%     {
+%       ?a1 ex:rel3 ?b1.                 # Output conditions of the
+%       ?a2 ex:rel3 ?b2.                 # last API operation in the chain
+%     }
+%     =>
+%     {
+%       ?a1 ex:rel3 ?b1.
+%       ?a2 ex:rel3 ?b2.
+%     }.
+% \end{Verbatim}
+% Herein, the conditions in the antecedent
+% are only satisfiable by creating a~chain
+% from the first description towards the last.
+% 
+% As this example shows,
+% descriptions are structurally identical to RESTdesc descriptions of existing hypermedia APIs
+% and therefore representative examples.
+% Other descriptions will be generated
+% such that the input and output conditions can be matched,
+% so the composition algorithm can form chains
+% (in this example, with links to two previous descriptions).
+% 
+% \subsection{Parameters and Measurements}
+% The main parameters that determine the difficulty of generating a~composition are:
+% \begin{enumerate}
+% \item the \textbf{number} of API operations in the resulting composition:~$n$
+% \item the number of \textbf{dependencies} between hypermedia API operations in the composition:~$d$
+% \item the \textbf{total} number of hypermedia APIs supplied to the reasoner
+%       (not all necessarily part of the composition):~$t$
+% \end{enumerate}
+% 
+% To measure the influence of the first two parameters,
+% we test the generation of a~composition with a~resulting length of~$n$
+% and with $d$~dependencies between each hypermedia API operation,
+% where $n$ ranges from 2 to~1,024 and $d$ from 1 to~3.
+% These ranges have been chosen such that their upper bounds exceed
+% those of compositions for regular use cases,
+% which typically involve only a~few API operations
+% with few interdependencies.
+% The goal is therefore whether performance is acceptable for small values---%
+% success on larger values comes as an added bonus.
+% 
+% 
+% To test the third parameter~$t$,
+% we will keep $n$ and $d$ fixed at 32 and~1 respectively
+% (\textit{i.e.,} already a~large composition)
+% and add a~number of \emph{dummy} APIs~($n'=t-n$) that can be composed with the other APIs,
+% but are not needed in the resulting composition.
+% It is important to understand that most real-world scenarios will be a~mixture
+% of the above situations:
+% compositions are generally graphs with a~varying number of dependencies,
+% created in presence of a~non-negligible number of descriptions that are irrelevant to the composition under construction.
+% Therefore, by measuring these aspects independently,
+% we can predict the performance in those situations.
+% 
+% The measurements have been split in
+% \emph{parsing}, \emph{reasoning}, and \emph{total} times.
+% Parsing represents the time during which the reasoner internalizes the input
+% into an in-memory representation.
+% This was measured by presenting the inputs to the reasoner,
+% without asking for any operation to be performed on them.
+% Since the parsing step can often be cached and reused in subsequent iterations,
+% it is worthwhile evaluating the actual reasoning time separately.
+% Parsing and reasoning together make up for the total time.
+% 
+% \subsection{Results}
+% 
+% The benchmark was executed on one 2.4~GHz core of an Intel Xeon processor
+% on Ubuntu Server 12.04.
+% The results are summarized below;
+% full results are available
+% at \url{http://github.com/RubenVerborgh/RESTdesc-Composition-Benchmark-Results}.
+% 
+% \subsubsection{EYE reasoner}
+% \Cref{tbl:EYE1,tbl:EYE2} show the benchmark results achieved by the EYE reasoner~\cite{eyepaper},
+% version 2014-09-30 on SWI-Prolog 6.6.6.
+% The results in the first column teach us that
+% starting the reasoner introduces an overhead of $\approx 40$~ms.
+% This includes process starting costs, which are highly machine-dependent.
+% 
+% Inspecting \cref{tbl:EYE1} from left to right,
+% we see the reasoning time increases with the composition length~$n$
+% and remains limited to a~few hundred milliseconds in almost all cases.
+% The absolute increase in reasoning time for a~higher number of dependencies~$d$
+% never crosses 150~ms for small to medium values of~$n$,
+% but becomes larger for high~$n$.
+% \cref{tbl:EYE2} shows that the reasoning time hardly increases in presence of dummies.
+% 
+% \vspace{-1em}
+% 
+% \subsubsection{\cwm reasoner}
+% The same experiments have been performed with the \cwm reasoner~\cite{cwm},
+% whose results are shown in \cref{tbl:cwm1,tbl:cwm2}.
+% The \cwm reasoner is not as strongly performance-optimized as EYE,
+% which is clearly visible in the results.
+% Also, we were only able to test for values of~$n$ up to~256,
+% because out-of-memory errors appeared for large values.
+% Despite this fact, we still see acceptable results for small-to-medium-sized compositions.
+% We note a~higher start-up time of $\approx$~140~ms.
+% Reasoning time increases faster than linearly in~$n$,
+% which is also the case for increasing~$d$.
+% The presence of dummies bothers \cwm more than EYE,
+% and serious issues start to appear at $n'=$~512.
+% 
+% \begin{table}[t]
+%   \caption{The EYE reasoner manages to create even lengthy compositions in a~timely manner (\emph{average times of 50~trials}).}
+%   \label{tbl:EYE1}
+%   \fontsize{8pt}{9pt}\selectfont
+%   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} r r r r r r r r r r}
+%     \hline\hline
+%     \hspace{5.2ex}\bf \#APIs~$n$ & \bf 4 & \bf 8 & \bf 16 & \bf 32 & \bf 64 & \bf 128 & \bf 256 & \bf 512 & \bf 1,024 \\
+%     \hline
+%     \bf{$d$=$1$~dep.}&&&&&&&&&\\
+%     parsing & 39~ms & 41~ms & 45~ms & 55~ms & 74~ms & 114~ms & 183~ms & 323~ms & 597~ms\\
+%     \em reasoning &  \em 16~ms &  \em 19~ms &  \em 33~ms &  \em 21~ms &  \em 43~ms &  \em 48~ms &  \em 108~ms &  \em 268~ms &  \em 903~ms\\
+%     total & 56~ms & 61~ms & 79~ms & 76~ms & 118~ms & 162~ms & 292~ms & 591~ms & 1,500~ms\\
+%     \hline
+%     \bf{$d$=$2$~dep.}&&&&&&&&&\\
+%     parsing & 39~ms & 44~ms & 59~ms & 61~ms & 90~ms & 126~ms & 212~ms & 383~ms & 728~ms\\
+%     \em reasoning &  \em 22~ms &  \em 60~ms &  \em 22~ms &  \em 56~ms &  \em 45~ms &  \em 113~ms &  \em 311~ms &  \em 1,044~ms &  \em 3,640~ms\\
+%     total & 61~ms & 105~ms & 82~ms & 117~ms & 136~ms & 239~ms & 524~ms & 1,427~ms & 4,369~ms\\
+%     \hline
+%     \bf{$d$=$3$~dep.}&&&&&&&&&\\
+%     parsing & 41~ms & 50~ms & 53~ms & 73~ms & 97~ms & 146~ms & 250~ms & 460~ms & 890~ms\\
+%     \em reasoning &  \em 29~ms &  \em 18~ms &  \em 39~ms &  \em 48~ms &  \em 105~ms &  \em 263~ms &  \em 787~ms &  \em 2,660~ms &  \em 9,105~ms\\
+%     total & 70~ms & 68~ms & 93~ms & 122~ms & 203~ms & 409~ms & 1,037~ms & 3,121~ms & 9,995~ms\\
+%     \hline\hline
+%   \end{tabular*}
+% \end{table}
+% \begin{table}[t]
+%   \caption{Even a~large number of dummies does not significantly disturb
+%   EYE's reasoning time (\emph{average times of 50~trials}).}
+%   \label{tbl:EYE2}
+%   \fontsize{8pt}{9pt}\selectfont
+%   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} r r r r r r r r}
+%     \hline\hline
+%     \bf \# dummies~$n'$ & \bf 2,048 & \bf 4,096 & \bf 8,192 & \bf 16,384 & \bf 32,768 & \bf 65,536 & \bf 131,072\\
+%     \hline
+%     \bf{$n$=32, $d$=1~dep.}&&&&&&&\\
+%     parsing & 1,221~ms & 2,405~ms & 4,586~ms & 8,959~ms & 17,700~ms & 35,823~ms & 74,394~ms\\
+%     \em reasoning & \em 47~ms & \em 66~ms & \em 71~ms & \em 177~ms & \em 403~ms & \em 633~ms & \em 1,042~ms\\
+%     total & 1,268~ms & 2,471~ms & 4,657~ms & 9,136~ms & 18,104~ms & 36,456~ms & 75,437~ms\\
+%     \hline\hline
+%   \end{tabular*}
+% \end{table}
+% 
+% \begin{table}[t]
+%   \caption{The \cwm reasoner performs worse than EYE,
+%   but still creates smaller compositions acceptably fast (\emph{average times of 50~trials}).}
+%   \label{tbl:cwm1}
+%   \fontsize{8pt}{9pt}\selectfont
+%   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} r r r r r r r r}
+%     \hline\hline
+%     \hspace{5.2ex}\bf \#APIs~$n$ & \bf 4 & \bf 8 & \bf 16 & \bf 32 & \bf 64 & \bf 128 & \bf 256\\
+%     \hline
+%     \bf{$d$=$1$~dep.}&&&&&&&\\
+%     parsing & 139~ms & 155~ms & 186~ms & 271~ms & 566~ms & 1,721~ms & 6,119~ms\\
+%     \em reasoning &  \em 43~ms &  \em 106~ms &  \em 320~ms &  \em 1,149~ms &  \em 4,456~ms &  \em 18,266~ms &  \em 82,856~ms\\
+%     total & 183~ms & 262~ms & 506~ms & 1,421~ms & 5,022~ms & 19,987~ms & 88,975~ms\\
+%     \hline
+%     \bf{$d$=$2$~dep.}&&&&&&&\\
+%     parsing & 143~ms & 161~ms & 201~ms & 300~ms & 637~ms & 1,904~ms & 6,509~ms\\
+%     \em reasoning &  \em 119~ms &  \em 473~ms &  \em 1,946~ms &  \em 8,016~ms &  \em 31,189~ms &  \em 136,806~ms &  \em 582,810~ms\\
+%     total & 263~ms & 634~ms & 2,147~ms & 8,317~ms & 31,827~ms & 138,710~ms & 589,319~ms\\
+%     \hline
+%     \bf{$d$=$3$~dep.}&&&&&&&\\
+%     parsing & 147~ms & 168~ms & 216~ms & 328~ms & 701~ms & 2,088~ms & 7,396~ms\\
+%     \em reasoning &  \em 190~ms &  \em 739~ms &  \em 2,843~ms &  \em 10,708~ms &  \em 43,429~ms &  \em 182,949~ms &  \em 776,569~ms\\
+%     total & 337~ms & 908~ms & 3,059~ms & 11,036~ms & 44,130~ms & 185,037~ms & 783,965~ms\\
+%     \hline\hline
+%   \end{tabular*}
+% \end{table}
+% 
+% \begin{table*}[t]
+%   \caption{The \cwm reasoner does not perform well when the number of dummies increases
+%            (\emph{average times of 50~trials}).}
+%   \label{tbl:cwm2}
+%   \fontsize{8pt}{9pt}\selectfont
+%   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} r r r r r r r}
+%     \hline\hline
+%     \bf \#dummies~$n'$ & \bf 16 & \bf 32 & \bf 64 & \bf 128 & \bf 256 & \bf 512\\
+%     \hline
+%     \bf{$n$=32, $d$=1~dep.}&&&&&\\
+%     parsing & 406~ms & 576~ms & 1,057~ms & 2,548~ms & 7,682~ms & 26,678~ms\\
+%     \em reasoning &  \em 1,107~ms &  \em 1,083~ms &  \em 1,116~ms &  \em 2,173~ms &  \em 12,908~ms &  \em 110,775~ms\\
+%     total & 1,513~ms & 1,659~ms & 2,173~ms & 4,721~ms & 20,590~ms & 137,453~ms\\
+%     \hline\hline
+%   \end{tabular*}
+% \end{table*}
+% 
+% \subsubsection{Analysis}
+% The main cause of the difference in performance between EYE and \cwm
+% are due to the different reasoning mechanisms.
+% EYE~is a~backward-chaining reasoner,
+% which starts from the goal and works towards the initial state,
+% whereas \cwm is forward-chaining,
+% exploring inferences from the initial state onwards
+% until the goal has been reached.
+% This explorative behavior demands more processor time,
+% since all possible paths have to be tried,
+% even those that do not contribute to the composition.
+% This is most apparent in the experiment with dummies:
+% \cwm tries to use them and eventually finds they are not necessary;
+% EYE will only parse them but never tries to use them in the composition.
+% 
+% \vspace{-1em}
+% \subsubsection{Discussion}
+% The main question of these experiments
+% is whether the results are generalizable to real-world hypermedia API compositions.
+% On the one hand,
+% we have to investigate the difference between the generated API descriptions
+% and actual hypermedia API descriptions.
+% On the other hand,
+% we have to verify if the resulting reasoning times are acceptable
+% for realistic compositions in a~Web-scale environment.
+% 
+% First, the generated descriptions have been tailored to closely mimic actual \restdesc descriptions.
+% The following characteristics of actual descriptions are also found in the generated ones.
+% They contain a~number of pre-conditions, determined by the parameter~$d$,
+% and an equal number of post-conditions.
+% They describe the \http request that has to be performed
+% to execute a~hypermedia API operation.
+% The parameters of the request are obtained through placeholders from the pre-conditions,
+% so they have to be instantiated.
+% \\
+% In contrast, some characteristics are different.
+% All requests are~\Verb!GET! requests,
+% whereas real-world APIs also use other \http verbs.
+% However, this has no impact on the reasoner.
+% Furthermore, all descriptions employ predicates with a~shared \uri namespace.
+% This is done to ensure that a~composition always exists.
+% However, this too has no impact on reasoning or parsing time.
+% Therefore, the generated descriptions simulate real-world descriptions reliably.
+% 
+% Second, we note that only the reasoning times are important,
+% because the parsing results can be cached.
+% The maximum tested composition length~$n$ is large compared to
+% what one could expect from realistic compositions.
+% In practice, compositions of only a~few API operations will be necessary,
+% yet both reasoners perform acceptably on small to medium composition sizes.
+% Furthermore, EYE is capable of creating compositions of a~few hundred API operations
+% in just a~few hundred milliseconds.
+% Also, the number of dependencies~$d$ of each API will likely be limited,
+% with most calls only depending on a~single other operation.
+% Yet even if this is not the case,
+% EYE can fluently cope with multiple dependencies.
+% The final parameter we have to check is the total number of APIs~$t$,
+% since reasoners should be able to create compositions out of large API repositories.
+% Given that ProgrammableWeb contains 10,000~APIs~\cite{ProgrammableWeb},
+% the fact that EYE merely needs $\approx$~230~ms
+% to create a~composition in presence of more than 130,000~dummy APIs,
+% indicates that proof-based composition is a~viable strategy for the years to come.
+% 
+% 

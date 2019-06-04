@@ -797,7 +797,7 @@ This chapter was partly based on the publications:
 
 \bibentry{arndt_ruleml_2015}
 
-\chapter{Applications of proofs: Adaptive planning}\label{restdesc}
+\chapter{Applications of proofs: Adaptive API composition}\label{restdesc}
 %\input{chapters/Proofs/proofcalculus}
 %\section{Applications of Proofs}
 %\input{chapters/Proofs/PP}
@@ -805,9 +805,11 @@ This chapter was partly based on the publications:
 %\chapter{Applications of proofs}
 %\section{Proofs in Use: RESTdesc}
 \input{chapters/Proofs/pragmatic-proof}
-\section{Extending the RESTdesc idea: SENSdesc}\label{sensdesc}
+\section{Limits of the apporach}\label{sec:limits}
+Here I want to explain that it is difficult to express change in RESTdesc and that we cannot generate more than on path. Maybe I also want to mention that the reasoner
+in some cases only stops if we apply specific strategies.
+\section{Extending the RESTdesc idea: SENSdesc}\label{sec:sensdesc}
 \input{chapters/Proofs/sensdesc}
-\section{Limits of the apporach}
 \input{chapters/Proofs/conclusion}
 
 \clearpage
@@ -831,8 +833,28 @@ This chapter was partly based on the publications:
 
 \chapter{Conclusions}\label{concl}\label{conclusion}
 \section{Review of the research questions}
+I want to go through the research questions one by one:
+
+We showed clear ways to define the semantics of \nthree, the decision which specification we want to use depends on the community (here I want to also talk about our W3C community group)
+
+We also clarified the relation of \nthree and \rdf: \nthree is compatible with \rdf and truely extends it. 
+
+\nthree can be used for ontology reasoning and querying. But practice also needs to show whether we encounter practical cases where we get problems.
+
+\nthree supports the layer of proof and makes this layer part of the semantic web (here I am currently considering to change the requirement in that direction). Proofs should not only be 
+producible, the produced proofs should also be part of the web and therefore again have a strong connection to \rdf.
+
+We also showed  practical applications for proofs.
+
+
 \section{Open challenges and future directions}
 Define proof vocabulary which reflect the reasoning steps performed by the reasoners.
+
+Work of the community group.
+
+Further investigate the ontology reasoning.
+
+Go beyond RESTdesc (here I want to mention or at least give a hint that we had GPS4IC).
 
 %\afterpage{\null\blankpage}
 
