@@ -332,7 +332,7 @@ The remainder of this chapter is structured as follows: %In the remainder of thi
 % this chapter, we introduce and formalise a~proof-based method
 % to produce such high-level plans,
 % and detail their execution through hypermedia.
-In the next section, we give a short introduction to Web APIs, Web services and their descriptions. %discuss the background necessary to understand this chapter, in particular %Web services, Web APIs and their descriptions to put our work in context with existing technology.
+In the next section, we give a short introduction to Web APIss and ways to semantically describe them. %discuss the background necessary to understand this chapter, in particular %Web services, Web APIs and their descriptions to put our work in context with existing technology.
 %we describe related work in the domain of Web services and Web APIs.
 %followed by a~justification of the chose technologies in \cref{sec:Technologies}.
 We then introduce hypermedia API descriptions in Section~\ref{sec:RESTdesc}.
@@ -344,63 +344,66 @@ sensors relevant for fault detection in complex environments (Section~\ref{sec:s
 %The feasibility of the approach is evaluated in \cref{sec:Evaluation}.
 Finally, we end the article in Section~\ref{sec:Conclusion} with conclusions.
 
-\section{Web Services, APIs and their descriptions}
+\section{Hypermedia APIs and their semantic descriptions}
+In this chapter we use \nthreelogic to describe Application Programming Interfaces (APIs) which are designed following the
+Representational
+State Transfer (REST) architectural style \cite{REST}. Before we come to the details of our approach we first introduce
 % \section{Describing Web services and Web APIs}
 % \label{sec:RelatedWork}
-
-\subsection{Web APIs}
-Before we further detail how Web APIs are commonly described in the Web, we want to have a clarify terms about Web APIs.
+%\subsection{Web APIs}
+%As a first step we want to detail how Web APIs are commonly described in the Web, we want to have a clarify
+%We start by 
+the terms about Web APIs which are relevant for our considerations:
 
 \begin{description}\label{api}
-  \item[A~Web server] uses the HTTP~protocol
+  \item[A~Web server] uses the HTTP~protocol \cite{HTTP}
     to offer data and/or actions,
     which are often exclusively located on this server.
     In other words, the server performs a~data lookup or computation
     that another device cannot or does not.
   \item[A~Web client] consumes resources offered by a~Web~server.
-  \item[A~Web service or Web API] is a~machine-accessible interface
+  \item[A~Web API] is a~machine-accessible interface
     to data and/or actions offered by a~server through HTTP.
-    Traditionally, \enquote{Web service} is used for RPC-based XML interfaces,
-    whereas \enquote{Web API} is used for more lightweight APIs,
-    such as those based on JSON.
+%     Traditionally, \enquote{Web service} is used for RPC-based XML interfaces,
+%     whereas \enquote{Web API} is used for more lightweight APIs,
+%     such as those based on JSON.
   \item[A~Web API operation]
     is a~single HTTP request from a~Web client to a~Web API.
     Interactions between a~client and a~server consist of one or more operations.
   \item[A~hypermedia control] is a~hyperlink or form
     that allows clients to navigate from one resource to another.
   \item[A~hypermedia API] is a~Web API
-    that follows all REST architectural constraints
-    as discussed in \cref{sec:RESTConstraints}.
+    that follows all REST architectural constraints \cite{REST}.
     In particular, it is designed such that its (human or machine) clients
     should perform the interaction through hypermedia controls.
 \end{description}
 
-A~characteristic of hypermedia APIs is that they,
-in contrast to RPC~APIs,
-are not action-based but resource-based.
-As such, the border between data and actions is blurred;
-they are effectively modeled as one and the same.
-For example, an RPC~API might offer access to image resizing functionality
-by adding a~dedicated action named \verb!resizeImage!.
-A~hypermedia API would instead expose a~resource for the original image
-such as \verb!/images/381/!,
-which would allow access to resized images
-through a~links towards the resource \verb!/images/381/thumbnail/!.
-This structuring around resources
-considerably simplifies the planning process,
-as actions do not have to be considered as separate entities.
-Consequently, as we will see in \cref{sec:RESTdesc},
-rules and data need not be treated differently.
-
-Integrating hypermedia APIs into an application nowadays requires manual development work,
-such as writing the \http request templates
-and parsing the returned \http responses.
-Instructions on how to write this code can often be found
-on the API's website in the form of human-readable API documentation.
-In order to automate this process, \emph{machine-readable documentation} is necessary.
-On the lowest level, this documentation describes the message format and modalities.
-On a~higher level, it explains the specific functionality offered by the hypermedia API,
-so a~machine can autonomously decide whether the API is appropriate for a~certain use case.
+% A~characteristic of hypermedia APIs is that they,
+% in contrast to RPC~APIs,
+% are not action-based but resource-based.
+% As such, the border between data and actions is blurred;
+% they are effectively modeled as one and the same.
+% For example, an RPC~API might offer access to image resizing functionality
+% by adding a~dedicated action named \verb!resizeImage!.
+% A~hypermedia API would instead expose a~resource for the original image
+% such as \verb!/images/381/!,
+% which would allow access to resized images
+% through a~links towards the resource \verb!/images/381/thumbnail/!.
+% This structuring around resources
+% considerably simplifies the planning process,
+% as actions do not have to be considered as separate entities.
+% Consequently, as we will see in \cref{sec:RESTdesc},
+% rules and data need not be treated differently.
+% 
+% Integrating hypermedia APIs into an application nowadays requires manual development work,
+% such as writing the \http request templates
+% and parsing the returned \http responses.
+% Instructions on how to write this code can often be found
+% on the API's website in the form of human-readable API documentation.
+% In order to automate this process, \emph{machine-readable documentation} is necessary.
+% On the lowest level, this documentation describes the message format and modalities.
+% On a~higher level, it explains the specific functionality offered by the hypermedia API,
+% so a~machine can autonomously decide whether the API is appropriate for a~certain use case.
 
 % \subsubsection{The Semantic Web}
 % To create machine-readable information in general,
@@ -442,65 +445,59 @@ so a~machine can autonomously decide whether the API is appropriate for a~certai
 % that require \verb!foaf:Person! instances as input.
 % 
 
+% Machine-readable documentation of Web services
+% has been a~topic of intense research
+% for at least a~decade.
+% There are many approaches to service description
+% with different underlying service models.
+% \owls~\cite{OWLS} and WSMO~\cite{WSMO} are the most well-known
+% Semantic Web Service description paradigms.
+% They both allow to describe the high-level semantics of services
+% whose message format is WSDL~\cite{WSDL}.
+% Though extension to other message formats is possible,
+% this is rarely seen in practice.
+% Semantic Annotations for WSDL~(SAWSDL, \cite{SAWSDL})
+% aim to provide a~more lightweight approach for bringing semantics to WSDL services.
+% Composition of Semantic Web services has been well documented,
+% but all approaches focus on RPC interactions and require specific software~\cite{CurrentComposition}.
+% In contrast, the proposed approach works for REST interactions and exclusively
+% relies on \emph{generic} Semantic Web reasoners.
+% While automated approaches to create descriptions are being researched~\cite{Leandro},
+% they are not the focus of this paper.
 
-\subsection{Web Service Description}
-\label{subsec:WebServiceDescription}
-Machine-readable documentation of Web services
-has been a~topic of intense research
-for at least a~decade.
-There are many approaches to service description
-with different underlying service models.
-\owls~\cite{OWLS} and WSMO~\cite{WSMO} are the most well-known
-Semantic Web Service description paradigms.
-They both allow to describe the high-level semantics of services
-whose message format is WSDL~\cite{WSDL}.
-Though extension to other message formats is possible,
-this is rarely seen in practice.
-Semantic Annotations for WSDL~(SAWSDL, \cite{SAWSDL})
-aim to provide a~more lightweight approach for bringing semantics to WSDL services.
-Composition of Semantic Web services has been well documented,
-but all approaches focus on RPC interactions and require specific software~\cite{CurrentComposition}.
-In contrast, the proposed approach works for REST interactions and exclusively
-relies on \emph{generic} Semantic Web reasoners.
-While automated approaches to create descriptions are being researched~\cite{Leandro},
-they are not the focus of this paper.
-
-\subsection{Web API Description}
-\label{subsec:WebAPIDescription}
-In recent years, several description formats
-for the more lightweight Web APIs have emerged~\cite{verborgh_rest_2014}.
-Linked Open Services~(LOS, \cite{LOS}) expose functionality on the Web
-using Linked Data technologies, such as HTTP and RDF.
-Input and output parameters are described with graph patterns embedded inside RDF string literals to achieve quantification, which RDF does not support natively.
-Linked Data Services~(LIDS, \cite{LIDS}) define interface conventions supported by a~lightweight model.
-None of these methods, however, use the hypermedia principles of REST.
-Several methods aim to enhance existing technologies
-to deliver annotations of Web APIs.
-HTML for RESTful Services~(hRESTS, \cite{hRESTS})
-is a~microformats extension
-to annotate HTML descriptions of Web APIs in a~machine-processable way.
-SA-REST~\cite{SAREST} provides an extension of hRESTS
-that describes other facets such as data formats and programming language bindings.
-MicroWSMO~\cite{MicroWSMO,Maleshkova2009},
-an extension to SAWSDL that enables the annotation of RESTful services,
-supports the discovery, composition, and invocation of Web APIs,
-but requires additional software.
-Data-Fu~\cite{DataFu} uses rules to describe client-server interactions;
-however, these rules are tightly bound to a~server's information structure
-and are equivalent to a~fixed declarative program in RPC style.
-This paper instead introduces a~flexible, hypermedia-driven technique
-for the REST architectural style.
-
-\subsection{Hypermedia API Description}
-The description of hypermedia APIs is a relatively new field.
+%Having said what Web APIs are, we now discuss the several approaches to semantically describe them.
+Our approach is designed for hypermedia APIs. While for more lightweight Web APIs several semantic description formats exist~\cite{verborgh_rest_2014}
+% 
+% For more lightweight Web APIs several description formats have emerged in the recent years~\cite{verborgh_rest_2014}. %\todo{this is the survey paper, I think it is nice to cite.}
+% Linked Open Services~(LOS, \cite{LOS}) expose functionality on the Web
+% using Linked Data technologies, such as HTTP and RDF.
+% Input and output parameters are described with graph patterns embedded inside RDF string literals to achieve quantification, which RDF does not support natively.
+% Linked Data Services~(LIDS, \cite{LIDS}) define interface conventions supported by a~lightweight model.
+% None of these methods, however, use the hypermedia principles of REST.
+% Several methods aim to enhance existing technologies
+% to deliver annotations of Web APIs.
+% HTML for RESTful Services~(hRESTS, \cite{hRESTS})
+% is a~microformats extension
+% to annotate HTML descriptions of Web APIs in a~machine-processable way.
+% SA-REST~\cite{SAREST} provides an extension of hRESTS
+% that describes other facets such as data formats and programming language bindings.
+% MicroWSMO~\cite{MicroWSMO,Maleshkova2009},
+% an extension to SAWSDL that enables the annotation of RESTful services,
+% supports the discovery, composition, and invocation of Web APIs,
+% but requires additional software.
+% Data-Fu~\cite{DataFu} uses rules to describe client-server interactions;
+% however, these rules are tightly bound to a~server's information structure
+% and are equivalent to a~fixed declarative program in RPC style.
+% This paper instead introduces a~flexible, hypermedia-driven technique
+% for the REST architectural style.
+the description of hypermedia APIs is a relatively new field.
 Hydra~\cite{HydraVocabulary} is a~vocabulary to support API descriptions,
 but does not directly support automated composition.
 \restdesc~\cite{verborgh_wsrest_2012}
 is a~description format
 for hypermedia APIs that describes them in terms of resources and~links.
 \restdesc is expressed in \nthree
-and will be used as a~description format in this paper,
-so it is discussed further in \cref{sec:RESTdesc}.
+and will be used as a~description format in this chapter.
 The Resource Linking Language (ReLL, \cite{ReLL}) features media types, resource types, and link types as first-class citizens for descriptions.
 The authors of ReLL also propose a~method
 for ReLL API composition~\cite{ReLLComposition}
@@ -852,8 +849,11 @@ automatic, functionality-based composition.
 
 \section{Describing Hypermedia APIs with \restdesc}
 \label{sec:RESTdesc}
+After having discussed the background and most important terms when talking about hypermedia APIs, we now explain how such APIs can be described by using \nthree rules. We start by explaining the example 
+use case we are going to base the explanations in this chapter on.
+
 \subsubsection{Example Use Case}\label{usecase}
-As a~guiding example, we will introduce an exemplary hypermedia API
+As a~guiding example, we introduce an exemplary hypermedia API
 in the domain of image processing.
 It offers functionality such as the following:
 \begin{itemize}
@@ -952,29 +952,29 @@ Then:
 This vocabulary can be used to describe \http-requests.  Such a request must always have a method name and a request \uri.
 %With the usual prefix definitions for \texttt{owl}\footnote{\texttt{@prefix owl: <http://www.w3.org/2002/07/owl\#>} }, 
 %\texttt{rdf}\footnote{@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns\#> .} and \texttt{xsd}\footnote{@prefix xsd: <http://www.w3.org/2001/XMLSchema\#> .},
-Using owl-vocabulary, such requests can be defined by the following class:
-%If we use the above 
-%\begin{lstlisting}[
-%  float=t,
-%  caption={OWL description of the class \texttt{http:Request}},
-%  label=request]
-%§\textcolor{gray}{@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns\#> .}§
-%§\textcolor{gray}{@prefix owl: <http://www.w3.org/2002/07/owl\#> }§
-%§\textcolor{gray}{@prefix xsd: <http://www.w3.org/2001/XMLSchema\#> .}§
-%§\textcolor{gray}{@prefix http: <http://www.w3.org/2011/http\#>.}§
-\begin{verbatim}
-http:Request rdfs:subClassOf http:Message, 
-    [
-    rdf:type     owl:Restriction ;
-    owl:onProperty http:methodName ;
-    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
-    ],
-    [ 
-    rdf:type owl:Restriction ;
-    owl:onProperty http:requestURI ;
-    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
-    ] .
-\end{verbatim}
+% Using owl-vocabulary, such requests can be defined by the following class:
+% %If we use the above 
+% %\begin{lstlisting}[
+% %  float=t,
+% %  caption={OWL description of the class \texttt{http:Request}},
+% %  label=request]
+% %§\textcolor{gray}{@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns\#> .}§
+% %§\textcolor{gray}{@prefix owl: <http://www.w3.org/2002/07/owl\#> }§
+% %§\textcolor{gray}{@prefix xsd: <http://www.w3.org/2001/XMLSchema\#> .}§
+% %§\textcolor{gray}{@prefix http: <http://www.w3.org/2011/http\#>.}§
+% \begin{verbatim}
+% http:Request rdfs:subClassOf http:Message, 
+%     [
+%     rdf:type     owl:Restriction ;
+%     owl:onProperty http:methodName ;
+%     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
+%     ],
+%     [ 
+%     rdf:type owl:Restriction ;
+%     owl:onProperty http:requestURI ;
+%     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
+%     ] .
+% \end{verbatim}
     %\end{lstlisting}
 These two properties also have to be specified in an \http request description:
 %This enables us to define an \http request description:
@@ -1010,7 +1010,7 @@ These two properties also have to be specified in an \http request description:
 % \item for one $j\leq n$:  $f_j=\verb!_:x! \verb! http:requestURI! \verb! b!_j$.  
 % \end{itemize}
 \item  We call an \http request description $f=f_1\ldots f_n$ \textit{sufficiently specified},
-if  $\texttt{:o}_i\in \mathcal{T}_g$ for every triple $f_i=\texttt{\_:x :h}_i \texttt{:h}_i$ with $\texttt{:p}_i\neq \texttt{http:resp}$. % i.e. 
+if  $\texttt{:o}_i\in \mathcal{T}_g$ for every triple $f_i=\texttt{\_:x :h}_i \texttt{:o}_i$ with $\texttt{:p}_i\neq \texttt{http:resp}$. % i.e. 
 %$\texttt{:o}_i\in E_g$
   %if it contains, with the exception of \verb!_:x!, only ground expressions.
 \end{itemize}
@@ -1134,6 +1134,28 @@ In this case, a~software agent has a~description of the world,
 against which the description is \emph{instantiated},
 i.e., the rule is applied.
 
+\begin{lstlisting}[
+  float=t,
+  caption={\restdesc description of the action ``uploading an image'' \emph{(desc\_images.n3)}},
+  label=lst:Images]
+§\textcolor{gray}{@prefix dbpedia: <http://dbpedia.org/resource/>.}§
+§\textcolor{gray}{@prefix dbpedia-owl: <http://dbpedia.org/ontology/>.}§
+§\textcolor{gray}{@prefix ex: <http://example.org/image\#>.}§
+§\textcolor{gray}{@prefix http: <http://www.w3.org/2011/http\#>.}§
+
+{ ?image a dbpedia:Image. }
+=>
+{
+  _:request http:methodName "POST";
+            http:requestURI "/images/";
+            http:body ?image;
+            http:resp [ http:body ?image ].
+  ?image ex:comments _:comments;
+         ex:smallThumbnail _:thumb.
+}
+\end{lstlisting}
+
+
 Thus, given a~concrete set of triples, such as:
 \begin{Verbatim}
     </photos/37> ex:smallThumbnail </photos/37/thumb>.
@@ -1163,27 +1185,6 @@ This dynamic interpretation is helpful to agents
 that want to understand the impact
 of performing a~certain action on resources they have at their disposition.
 
-\begin{lstlisting}[
-  float=b,
-  caption={\restdesc description of the action ``uploading an image'' \emph{(desc\_images.n3)}},
-  label=lst:Images]
-§\textcolor{gray}{@prefix dbpedia: <http://dbpedia.org/resource/>.}§
-§\textcolor{gray}{@prefix dbpedia-owl: <http://dbpedia.org/ontology/>.}§
-§\textcolor{gray}{@prefix ex: <http://example.org/image\#>.}§
-§\textcolor{gray}{@prefix http: <http://www.w3.org/2011/http\#>.}§
-
-{ ?image a dbpedia:Image. }
-=>
-{
-  _:request http:methodName "POST";
-            http:requestURI "/images/";
-            http:body ?image;
-            http:resp [ http:body ?image ].
-  ?image ex:comments _:comments;
-         ex:smallThumbnail _:thumb.
-}
-\end{lstlisting}
-
 \restdesc descriptions are not limited to \verb!GET! requests.
 They can also describe state-changing operations,
 for instance, those realized through the \verb!POST! method.
@@ -1201,6 +1202,7 @@ at design-time, we are able to determine that there will be several links.
 The meaning of those links is in turn expressed by other descriptions,
 such as the one in \cref{lst:Thumbnail} discussed~above.
 
+%\FloatBarrier
 \section{Proof of a~Composition's Correctness}
 \label{sec:Proof}
 
@@ -1240,7 +1242,7 @@ such as the one in \cref{lst:Thumbnail} discussed~above.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Compositions of Hypermedia APIs}
 \label{subsec:Definition}
-Having introduced a formal way to describe the function of hypermedia APIs in the last chapter,
+Having introduced a formal way to describe the function of hypermedia APIs in the last section,
 we will now focus on the proofs which can be created using these rules.
 More concretely, we examine proofs which confirm that a certain combination of API calls brings us to a desired goal.
 We therefore take a closer look at the problem itself.
@@ -1250,12 +1252,12 @@ Furthermore, we might have some additional knowledge that can be incorporated.
 The above can be expressed in \nthree as follows:
 
 \begin{definition}[API composition problem]\label{apicomp}
-Let~$F$ be the set of simple \nthree formulas over an alphabet~$A$ which contains the predicates defined in definition \ref{httppr}.
+Let~$\mathcal{F}$ be the set of simple \nthree formulas over an alphabet~$\mathcal{A}$ which contains the predicates defined in definition \ref{httppr}.
 An \textit{API composition problem} consists of the following formulas:
 \begin{itemize}
- \item A set $H\subset F_g$ of ground formulas capturing all resource and application states the client is currently aware of,  the \textit{initial state}.
+ \item A set $H\subset \mathcal{F}_g$ of ground formulas capturing all resource and application states the client is currently aware of,  the \textit{initial state}.
  \item 
- A formula $g\in F$ with $\text{comp}^2(g)=\emptyset$, which does not contain existential variables, the \textit{goal state} which
+ A formula $g\in \mathcal{F}$ with $\text{comp}^2(g)=\emptyset$, which does not contain existential variables, the \textit{goal state} which
   indicates on a symbolic level what the client wants to achieve.
  \item A set $R$ of
  \restdesc descriptions or conjunctions of  \restdesc descriptions, describing
@@ -1292,9 +1294,12 @@ and obtain instantiated objects, our final target is to make $g'$ ground.
 The focus of this section is not how to create proofs
 but how to verify their correctness,
 given that creation has already been performed.
-This is not unlike the notion of proof in the classical Semantic Web vision~\cite{SemanticWeb},
+This is not unlike the notion of proof 
+% in the classical Semantic Web vision~\cite{SemanticWeb},
+% 
+as we have seen it in the previous chapter
 where it is defined as~a means to assert the validity of a~piece of (static) information.
-In this article, we extend this classical notion or proofs
+In this chapter, we extend this classical notion or proofs
 to also include \emph{dynamic} information,
 {\it i.e.,} data generated by Web~APIs.
 As a~consequence of this dynamic nature,
@@ -1349,7 +1354,7 @@ Therefore, the pre-proof necessarily has to make the additional assumption
 that all APIs will function according to their description.
 The pre-proof's objective thus becomes:
 \emph{``assuming correct behavior of all APIs,
-      the composition must lead to the fulfillment of the~goal.''}
+      the composition must lead to the fulfilment of the~goal.''}
 
 While a~pre-proof can be validated before a~composition's execution,
 the creation and validation of a~proper post-proof can only happen
@@ -1365,10 +1370,10 @@ and the proper post-proof is essentially a~revision of the pre-proof
 in which the actual values returned by the hypermedia APIs are filled in.
 The objective of the post-proof is thus
 \emph{``given the execution results of some API operations,
-      the composition must lead to the fulfillment of the~goal.''}
+      the composition must lead to the fulfilment of the~goal.''}
 Thereby, a~proper post-proof after one operation
 becomes the pre-proof of the next operation,
-as indicated in \cref{fig:Proofs}.
+as indicated in Figure~\ref{fig:Proofs}.
 
 Regular proofs do not contain dynamic information that needs to be obtained at runtime.
 The extension to pre-proofs that contain dynamic information,
@@ -1407,7 +1412,7 @@ which are still unknown at the time the pre-proof is to be verified.
       },
       preproof/.style  = { align=left,  anchor=west, xshift=-.9pt },
       postproof/.style = { align=right, anchor=east, xshift=-.4pt },
-      node distance = 90pt,
+      node distance = 75pt,
     ]
     \node[state,label=below:initial state] (Initial) {};
     \node[request,right=30pt of Initial] (POST) {POST\\ /images/};
@@ -1434,7 +1439,7 @@ which are still unknown at the time the pre-proof is to be verified.
 \end{figure}
 
 \subsection{Anatomy of a~Hypermedia API Composition Proof}
-\label{sec:ProofAnatomy} \todo{here is a label, check whether we need to link to the previous chapter instead}
+\label{sec:ProofAnatomy} 
 
 Applied on a API composition problem, we get the following consequence:
 \begin{corollary}[Correctness of API composition proofs]
