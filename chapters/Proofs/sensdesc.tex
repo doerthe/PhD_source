@@ -1,157 +1,29 @@
-% \documentclass[a4paper,twoside]{article}
-% 
-% \usepackage{epsfig}
-% \usepackage{subfigure}
-% \usepackage{calc}
-% \usepackage{amssymb}
-% \usepackage{amstext}
-% \usepackage{amsmath}
-% \usepackage{amsthm}
-% \usepackage{multicol}
-% \usepackage{pslatex}
-%  \usepackage{apalike}
-%  \usepackage[T1]{fontenc}
-%  \usepackage[english]{babel}
-%  \setcounter{tocdepth}{3}
-%  \usepackage{graphicx}
-%  \usepackage{todonotes}
-%  \usepackage{url} 
-%  \usepackage{mathtools} 
-%  \usepackage{qtree}
-%  \usepackage{multirow}
-%  \usepackage{relsize}
-%  \usepackage{placeins}
-% 
-% 
-% % Graphics
-% \usepackage{graphicx}
-% \setcounter{bottomnumber}{2}
-% \usepackage{tikz}
-% \usetikzlibrary{arrows,positioning,shapes.misc,calc}
-% \definecolor{lightgrey}{RGB}{170, 170, 170}
-% \pgfdeclarelayer{background}
-% \pgfdeclarelayer{foreground}
-% \pgfsetlayers{background,main,foreground}
-% \usepackage{pgf-umlsd}
-% 
-% % Tables
-% \usepackage{array}
-% \usepackage{booktabs}
-% 
-% % for numbered quotes
-% \newcounter{quotecount}
-% \newcommand{\MyQuote}[1]{\vspace{0.5cm}\addtocounter{quotecount}{1}%
-%      \parbox{10cm}{\em #1}\hspace*{1cm}(\Roman{quotecount})\\[0.5cm]}
-% 
-% \usepackage{url}
-% \usepackage{xspace}
-% % Listings and Verbatim environment
-% \usepackage{fancyvrb}
-% \usepackage{relsize}
-% \usepackage{listings}
-% \usepackage{verbatim}
-% \usepackage{alltt}
-% \usepackage{multicol}
-% \usepackage{SCITEPRESS}     % Please add other packages that you may need BEFORE the SCITEPRESS.sty package.
-% 
-% 
-% 
-% % Acronyms
-% \newcommand{\apis}{\mbox{{API}s}\xspace}
-% \newcommand{\api}{{API}\xspace}
-% \newcommand{\dbpedia}{DBpedia\xspace}
-% \newcommand{\cwm}{{\itshape cwm}\xspace}
-% \newcommand{\http}{{HTTP}\xspace}
-% \newcommand{\notationthree}{Notation3\xspace}
-% \newcommand{\nthree}{{N\oldstylenums 3}\xspace}
-% \newcommand{\nthreelogic}{N{\oldstylenums 3}Logic\xspace}
-% \newcommand{\owls}{\mbox{OWL-S}\xspace}
-% \newcommand{\rdf}{RDF\xspace}
-% \newcommand{\rest}{REST\xspace}
-% \newcommand{\restdesc}{RESTdesc\xspace}
-% \newcommand{\sla}{SLA\xspace}
-% \newcommand{\soap}{SOAP\xspace}
-% \newcommand{\uri}{URI\xspace}
-% \newcommand{\uris}{URIs\xspace}
-% \newcommand{\iri}{IRI\xspace}
-% \newcommand{\URL}{URL\xspace}
-% \newcommand{\wsmo}{WSMO\xspace}
-% \newcommand{\wwwc}{W3C\xspace}
-% 
-% 
-% % Indication of to-dos
-% \newcommand{\TODO}[1]{\noindent\textcolor{red}{{\bf \{TODO}: #1{\bf \}}}}
-% \newcommand{\da}[1]{\noindent\textcolor{blue}{{\bf \{DA}: #1{\bf \}}}}
-% \newcommand{\bdm}[1]{\noindent\textcolor{green}{{\bf \{BDM}: #1{\bf \}}}}
-% 
-% %comments pieter
-% \newcommand{\pieter}[1]{{\textbf{\color{green}\footnote{\color{green}\textbf{Pieter: #1}}}}}
-% 
-% \newcommand\listingsize{\fontsize{9pt}{10pt}}
-% \RecustomVerbatimCommand{\Verb}{Verb}{fontsize=\listingsize}
-% \RecustomVerbatimEnvironment{Verbatim}{Verbatim}{fontsize=\listingsize}
-% \lstset{frame=lines,captionpos=b,numberbychapter=false,escapechar=§,
-%         % line numbers
-%         numbers=left,
-%         numbersep=2ex,
-%         numberstyle=\textcolor{lightgrey},
-%         xleftmargin=3ex,
-%         framexleftmargin=5ex,
-%         aboveskip=0.0em,
-%         belowskip= 0em,
-%         % font style
-%         basicstyle=\ttfamily\listingsize\selectfont}
-% 
-% %\crefname{lstlisting}{Listing}{Listings}
-% \definecolor{grey}{RGB}{130,130,130}
-% 
-% 
-% 
-% 
-% \subfigtopskip=0pt
-% \subfigcapskip=0pt
-% \subfigbottomskip=0pt
-% 
-% 
-% 
-% 
-% 
-% \begin{document}
+Having had a closer look to the advantages and shortcomings of the idea of using proofs as plans we now discuss another application of the idea:
+We can use existential rules to describe possible sensor measurements and their meaning for the context they are used in. We 
+explain that idea on an example taken from the health care domain.
+%In a certain sense such measurements are similar to \texttt{GET}-requests: Every new value produced adds information to the database.
 
-% \title{SENSdesc: Connect Sensor queries and Context}
-% \author{
-% \authorname{
-% D\"orthe Arndt\sup{1}, Pieter Bonte\sup{2}, Alexander Dejonghe\sup{2}, 
-% Ruben Verborgh\sup{1},\\ Filip De Turck\sup{2} and Femke Ongenae\sup{2}}
-% \affiliation{\sup{1}IDLab, Department of Electronics and Information Systems, Ghent University -- imec}
-% \affiliation{\sup{2}IDLab, Department of Information Technology, Ghent University -- imec}
-% \email{doerthe.arndt@ugent.be}
-% }
-% 
-% 
-% 
-% \keywords{N3, Stream Reasoning, Rule-Based Reasoning, Proofs, IoT}
-% \abstract{
-Modern developments confront us with an ever increasing amount of streaming data: different sensors in environments like hospitals or factories 
-communicate their measurements to other applications. Having this data at disposal faces us with a new challenge: the data needs to be integrated to
-existing frameworks. As the availability of sensors can rapidly change, these need to be flexible enough to easily incorporate new systems without having to be explicitly
- configured. Semantic Web applications offer a solution for that enabling computers to `understand' data. 
-But for them the pure amount of data and different possible queries which can be performed on it can
-form an obstacle.
-This paper tackles this problem:
-we present a formalism to describe 
-stream queries in the ontology context in which they might become relevant. 
-These descriptions enable us to
-automatically decide based on the actual setting and the problem to be solved 
-which and how sensors should be monitored further. 
-This helps us to limit the streaming data taken into account for
-reasoning tasks and make stream reasoning more performant. 
-We illustrate our approach on a health-care use case where different sensors are used to measure data on patients and their surrounding in a hospital.
+
+% Modern developments confront us with an ever increasing amount of streaming data: different sensors in environments like hospitals or factories 
+% communicate their measurements to other applications. Having this data at disposal faces us with a new challenge: the data needs to be integrated to
+% existing frameworks. As the availability of sensors can rapidly change, these need to be flexible enough to easily incorporate new systems without having to be explicitly
+%  configured. Semantic Web applications offer a solution for that enabling computers to `understand' data. 
+% But for them the pure amount of data and different possible queries which can be performed on it can
+% form an obstacle.
+% This paper tackles this problem:
+% we present a formalism to describe 
+% stream queries in the ontology context in which they might become relevant. 
+% These descriptions enable us to
+% automatically decide based on the actual setting and the problem to be solved 
+% which and how sensors should be monitored further. 
+% This helps us to limit the streaming data taken into account for
+% reasoning tasks and make stream reasoning more performant. 
+% We illustrate our approach on a health-care use case where different sensors are used to measure data on patients and their surrounding in a hospital.
 % }
 % 
 % \onecolumn \maketitle \normalsize \vfill
 
-\subsection{Introduction}
+%\subsection{Introduction}
 With the development of new technologies 
 and the possibility to rapidly produce and store more and many different kinds of data, health care
 systems have new opportunities: Next to the classical electronic health records (EHR) of patients, they can
@@ -170,8 +42,8 @@ for example in data streams, and in different levels of quality (\emph{veracity}
 
 
 
-In this paper we aim to tackle this problem: in a setting where many sensors are present and a request constantly needs to be answered, 
-our approach finds the sensors relevant for this specific goal. 
+Our approach aims to tackle this problem: in a setting where many sensors are present and a request constantly needs to be answered, 
+we find the sensors relevant for this specific goal. 
 These sensors and their results can then be monitored more closely while others, not relevant for the problem, can be ignored. 
 By that, the amount of data taken into account can be reduced.
 %Our approach makes use of ontology reasoning, that way the goals to be monitored can be written in a very general way. We employ OWL-RL \cite{OWLRL} reasoning to handle OWL ontologies. 
@@ -181,18 +53,18 @@ in terms of the ontology used. Together with the related knowledge the descripti
 use
 to find the sensor queries contributing to the goal.
 
-The remainder of this paper is structured as follows: 
-In Section~\ref{usecasenew} we illustrate a scenario in which our application can be used. This serves as a running example throughout the whole paper. 
-In Section~\ref{back} we  
-provide the background knowledge needed to understand our solution. 
-After that, in Section~\ref{implementation} we explain the details of our implementation including our new description format and the use of
+The remainder of this section is structured as follows: 
+In Section~\ref{usecasenew} we illustrate a scenario in which our application can be used. This serves as a running example throughout the whole section. 
+% In Section~\ref{back} we  
+% provide the background knowledge needed to understand our solution. 
+In Section~\ref{implementation} we explain the details of our implementation including our new description format and the use of
 formal 
 proofs to determine relevant sensor queries. 
 In Section~\ref{rel} we discuss the relation of our approach to other research.
-We conclude our paper by Section~\ref{conclusion}.
+%We conclude our paper by Section~\ref{conclusion}.
 
 \subsection{Use case}\label{usecasenew}
-The use case of this paper is set in a hospital.  This hospital is equipped with a large number of different sensors to monitor, among others, 
+Our use case  is set in a hospital.  This hospital is equipped with a large number of different sensors to monitor, among others, 
 the temperature and light intensity in a room, 
  values related to the patient's health, 
 e.g.\ pulse, blood pressure and body temperature, and the location of staff members and patients. 
@@ -215,10 +87,8 @@ We aim to find in the current setting all possible kinds of problems which could
 
 In our ontology, we call these problems 
  \emph{faults}.  Such faults could be caused by many reasons like an alarming sensor value 
-(e.g.\ the luminance, sound or temperature in a room is a above or below a critical threshold
-),
-or faulty sensors (e.g.\ a temperature, luminance or sound sensor does not work properly
-).
+(e.g.\ the luminance, sound or temperature in a room is a above or below a critical threshold),
+or faulty sensors (e.g.\ a temperature, luminance or sound sensor does not work properly).
 As stated, faults depend on context like 
 patient profiles and locations or the general sensor set-up in the hospital: 
 While a pulse of 110/min might 
@@ -234,7 +104,7 @@ or the number of sensors is small,
 it is no problem to perform reasoning on the sensor data 
 whenever a value changes, this is different for the given situation. Each reasoning task takes time 
 (depending on its complexity
-the task can take seconds on a common computer \cite{arndt_ruleml_industry_2015})
+the task can take seconds on a common computer (remember for example the performance results we had in Section~\ref{orca})
 and  %we cannot expect 
 the performance of computers present 
 in  hospitals 
@@ -250,209 +120,126 @@ We therefore want to find out early in the current setting
 This allows us to monitor only these sensors and queries, and just perform complex reasoning when critical values are measured. 
 
 
-\subsection{Background}\label{back}
-This section introduces the background required to understand the details of our implementation. In particular these are: the logic employed, \nthree \cite{N3Logic},  
-the notion of proofs in \nthree, and
-the possibility of performing OWL reasoning in \nthree. 
+
+% This section introduces the background required to understand the details of our implementation. In particular these are: the logic employed, \nthree \cite{N3Logic},  
+% the notion of proofs in \nthree, and
+% the possibility of performing OWL reasoning in \nthree. 
+
+% 
+% \subsubsection{N3Logic}
+% Invented about a decade ago by Tim Berners-Lee et al. \cite{N3Logic},  
+% \nthreelogic (\nthree) forms a superset of \rdf \cite{rdf}. 
+% As in \rdf, 
+% simple \nthree statements are expressed by triples consisting of \uris, literals and blank nodes (starting with \texttt{\_:}). The latter stand for existentially 
+% quantified variables. The formula
+% \[
+% \texttt{\_:x :likes :ice-cream.}
+% \]
+% means: \textit{`There exists someone who likes ice cream.'} 
+% Additionally to these existential variables, \nthree supports universal variables starting with the symbol \texttt{?}: %The formula 
+% \[
+% \texttt{?x :likes :ice-cream.}
+% \]
+% means: \textit{`Everyone likes ice-cream.'} Universal variables are mostly used in rules, 
+% which 
+% we state
+% using curly brackets \texttt{\{ \}} and the implication symbol \texttt{=>}: %The formula
+% \begin{equation}\label{rule}
+% \small
+%  \texttt{\{?x a :Child\}=>\{?x :likes :ice-cream\}.}
+%  \normalsize
+% \end{equation}
+% stands for: \textit{`If x is a child then x likes ice cream.'} or shorter \textit{`All children like ice-cream.'}
+% The same notation of curly brackets can be used to cite formulas:
+% \[
+% \texttt{ :Ana :knows \{:Ben :likes :ice-cream.\}.}
+% \]
+% This means: \textit{`Ana knows that Ben likes ice-cream.'}
+% A more detailed introduction to the syntax and  semantics of \nthree can be found in the corresponding specification \cite{Notation3}.
+
+% 
+% \subsubsection{Proofs in N3}\label{proof}
+% \begin{lstlisting}[
+%   float=t,
+%   caption={Example inference step. Formula~\ref{out} gets derived by applying the rule in Formula~\ref{rule} (lemma 1) on Formula~\ref{in} (lemma 2). 
+%   },
+%   label=example2:sensdesc]
+% §\textcolor{gray}{PREFIX : <http://example.org/sensdesc\#>}§
+% §\textcolor{gray}{PREFIX r: \\
+%                          <http://www.w3.org/2000/10/swap/reason\#>}§
+% 
+% <#lemma3> a r:Inference; 
+%  r:gives {:Ben :likes :ice-cream.}; 
+%  r:evidence (<#lemma2>);
+%  r:rule <#lemma1>.
+% \end{lstlisting}
+% \nthree expressions as introduced above can be given to a reasoner which then derives new knowledge from that
+% and provides 
+% a proof.
+% A proof is a description of all the steps  
+% performed to come to a conclusion. 
+% Given a set of triples and rules $D$, and a goal $g$, i.e.\ a formula which should be verified, 
+% these steps can be: (1) reading a valid formula, i.e.\ an \emph{axiom} from $D$, this formula can either be a simple triple or rule,
+% or a conjunction of these,
+% (2) perform \emph{conjunction-elimination}, i.e.\ select one conjunct from a conjunction, 
+% (3) apply a rule to a set of triples (\emph{modus ponens}), 
+% or (4)
+% perform a \emph{conjunction introduction}, i.e.\ form the conjunction of two or more proven formulas. 
+% 
+% The proofs produced by \nthree reasoners are themselves given in the \nthree format using the 
+% vocabulary 
+% of the Semantic Web Application
+% Platform (SWAP) \cite{SWAP}.
+% Each step mentioned above has a name: (1) \texttt{r:Parsing}\footnote{The prefix \texttt{r} refers 
+% here and for the remainder of this paper to the name space \url{http://www.w3.org/2000/10/swap/reason\#}.
+%  } is the name for axiomatizing,  
+% (2) \texttt{r:Extraction} stands for conjunction elimination, 
+% (3) \texttt{r:Inference} refers to the modus ponens, and
+% (4) \texttt{r:Conjunction} to conjunction introduction. 
+% The connection of these steps to their results is expressed using the predicate \texttt{r:gives}.
+% The valid formulas directly taken into account for the proof steps \texttt{r:Extraction},
+% \texttt{r:Conjunction} and \texttt{r:Inference} 
+% are displayed by referring the reasoning step which lead to them (\texttt{r:because}, \texttt{r:component}, and the pair \texttt{r:rule} and \texttt{r:evidence}, respectively).
+% In case of \texttt{r:Parsing} the source is given (using \texttt{r:source}).
+% 
+% As the step \texttt{r:Inference} is particularly important for our application we consider an example: 
+% Listing~\ref{example2:sensdesc} explains, how the reasoner\footnote{All proofs and proof steps shown in this paper are produced by the EYE reasoner~\cite{verborgh_software_2015}.} 
+% applies Rule~\ref{rule}  to the fact:
+% \begin{equation}\label{in}
+%  \texttt{:Ben a :Child.}
+% \end{equation}
+% and comes to the result 
+% \begin{equation}\label{out}
+%  \texttt{:Ben :likes :ice-cream.}
+% \end{equation}
+% In the example, Rule~\ref{rule} is obtained by a \texttt{r:Parsing} and \texttt{r:Extraction} (not displayed here) which together lead to Lemma~1, 
+% the rule is thus the result of this lemma. The same steps performed on another input lead to Lemma~2 which has Formula~\ref{in} as a result. 
+% 
+% Listing~\ref{example2:sensedesc} specifies Lemma~3 which is an instance of the proof step
+% \texttt{r:Inference} (line~4). 
+% This lemma takes the result of Lemma~2 (i.e.\ Formula~\ref{in}) as input triple. This is indicated using the predicate \texttt{r:evidence} (line 6).
+% It then applies the rule derived by Lemma~1 (i.e.\ Rule~\ref{rule}) on it. This relation is expressed by using the predicate \texttt{r:rule} (line~7). 
+% This leads to (\texttt{r:gives}) Formula~\ref{out} as a conclusion (line~5).
+% 
+% A proof contains all such applications of rules which contributed to the derivation of the goal.
+% Further information about the proof calculus 
+% can be found in our previous work%
+% ~\cite{pragmaticproof}.
+% 
 
 
-\subsubsection{N3Logic}
-Invented about a decade ago by Tim Berners-Lee et al. \cite{N3Logic},  
-\nthreelogic (\nthree) forms a superset of \rdf \cite{rdf}. 
-As in \rdf, 
-simple \nthree statements are expressed by triples consisting of \uris, literals and blank nodes (starting with \texttt{\_:}). The latter stand for existentially 
-quantified variables. The formula
-\[
-\texttt{\_:x :likes :ice-cream.}
-\]
-means: \textit{`There exists someone who likes ice cream.'} 
-Additionally to these existential variables, \nthree supports universal variables starting with the symbol \texttt{?}: %The formula 
-\[
-\texttt{?x :likes :ice-cream.}
-\]
-means: \textit{`Everyone likes ice-cream.'} Universal variables are mostly used in rules, 
-which 
-we state
-using curly brackets \texttt{\{ \}} and the implication symbol \texttt{=>}: %The formula
-\begin{equation}\label{rule}
-\small
- \texttt{\{?x a :Child\}=>\{?x :likes :ice-cream\}.}
- \normalsize
-\end{equation}
-stands for: \textit{`If x is a child then x likes ice cream.'} or shorter \textit{`All children like ice-cream.'}
-The same notation of curly brackets can be used to cite formulas:
-\[
-\texttt{ :Ana :knows \{:Ben :likes :ice-cream.\}.}
-\]
-This means: \textit{`Ana knows that Ben likes ice-cream.'}
-A more detailed introduction to the syntax and  semantics of \nthree can be found in the corresponding specification \cite{Notation3}.
-
-\subsubsection{Proofs in N3}\label{proof}
-\begin{lstlisting}[
-  float=t,
-  caption={Example inference step. Formula~\ref{out} gets derived by applying the rule in Formula~\ref{rule} (lemma 1) on Formula~\ref{in} (lemma 2). 
-  },
-  label=example2]
-§\textcolor{gray}{PREFIX : <http://example.org/sensdesc\#>}§
-§\textcolor{gray}{PREFIX r: \\
-                         <http://www.w3.org/2000/10/swap/reason\#>}§
-
-<#lemma3> a r:Inference; 
- r:gives {:Ben :likes :ice-cream.}; 
- r:evidence (<#lemma2>);
- r:rule <#lemma1>.
-\end{lstlisting}
-\nthree expressions as introduced above can be given to a reasoner which then derives new knowledge from that
-and provides 
-a proof.
-A proof is a description of all the steps  
-performed to come to a conclusion. 
-Given a set of triples and rules $D$, and a goal $g$, i.e.\ a formula which should be verified, 
-these steps can be: (1) reading a valid formula, i.e.\ an \emph{axiom} from $D$, this formula can either be a simple triple or rule,
-or a conjunction of these,
-(2) perform \emph{conjunction-elimination}, i.e.\ select one conjunct from a conjunction, 
-(3) apply a rule to a set of triples (\emph{modus ponens}), 
-or (4)
-perform a \emph{conjunction introduction}, i.e.\ form the conjunction of two or more proven formulas. 
-
-The proofs produced by \nthree reasoners are themselves given in the \nthree format using the 
-vocabulary 
-of the Semantic Web Application
-Platform (SWAP) \cite{SWAP}.
-Each step mentioned above has a name: (1) \texttt{r:Parsing}\footnote{The prefix \texttt{r} refers 
-here and for the remainder of this paper to the name space \url{http://www.w3.org/2000/10/swap/reason\#}.
- } is the name for axiomatizing,  
-(2) \texttt{r:Extraction} stands for conjunction elimination, 
-(3) \texttt{r:Inference} refers to the modus ponens, and
-(4) \texttt{r:Conjunction} to conjunction introduction. 
-The connection of these steps to their results is expressed using the predicate \texttt{r:gives}.
-The valid formulas directly taken into account for the proof steps \texttt{r:Extraction},
-\texttt{r:Conjunction} and \texttt{r:Inference} 
-are displayed by referring the reasoning step which lead to them (\texttt{r:because}, \texttt{r:component}, and the pair \texttt{r:rule} and \texttt{r:evidence}, respectively).
-In case of \texttt{r:Parsing} the source is given (using \texttt{r:source}).
-
-As the step \texttt{r:Inference} is particularly important for our application we consider an example: 
-Listing~\ref{example2} explains, how the reasoner\footnote{All proofs and proof steps shown in this paper are produced by the EYE reasoner~\cite{verborgh_software_2015}.} 
-applies Rule~\ref{rule}  to the fact:
-\begin{equation}\label{in}
- \texttt{:Ben a :Child.}
-\end{equation}
-and comes to the result 
-\begin{equation}\label{out}
- \texttt{:Ben :likes :ice-cream.}
-\end{equation}
-In the example, Rule~\ref{rule} is obtained by a \texttt{r:Parsing} and \texttt{r:Extraction} (not displayed here) which together lead to Lemma~1, 
-the rule is thus the result of this lemma. The same steps performed on another input lead to Lemma~2 which has Formula~\ref{in} as a result. 
-
-Listing~\ref{example2} specifies Lemma~3 which is an instance of the proof step
-\texttt{r:Inference} (line~4). 
-This lemma takes the result of Lemma~2 (i.e.\ Formula~\ref{in}) as input triple. This is indicated using the predicate \texttt{r:evidence} (line 6).
-It then applies the rule derived by Lemma~1 (i.e.\ Rule~\ref{rule}) on it. This relation is expressed by using the predicate \texttt{r:rule} (line~7). 
-This leads to (\texttt{r:gives}) Formula~\ref{out} as a conclusion (line~5).
-
-A proof contains all such applications of rules which contributed to the derivation of the goal.
-Further information about the proof calculus 
-can be found in our previous work%
-~\cite{pragmaticproof}.
 
 
-
-
-
-\subsubsection{OWL and N3} \label{owln3}
-\begin{lstlisting}[
-  float=t,
-  caption={Axiom using \texttt{owl:someValuesFrom}.%\footnotemark
-  },
-  label=ex]  
-§\textcolor{gray}{\footnotesize{PREFIX WA: <...WSNextensionAccio.owl\#>}}§
-§\textcolor{gray}{\footnotesize{PREFIX SN: <...SSNiot.owl\#>}}§
-§\textcolor{gray}{\footnotesize{PREFIX owl:<http://www.w3.org/2002/07/owl\#>}}§
-
-WA:LuminanceAboveThresholdFault 
- a owl:Class ;
- owl:equivalentClass [ 
-  a owl:Restriction;
-  owl:onProperty SN:hasSymptom;
-  owl:someValuesFrom 
-   WA:LuminanceAboveThresholdSymptom 
- ].
-\end{lstlisting}
-\footnotetext{In this and all the following listings the dots (...)
-  in the prefix declaration stand for \url{http://IBCNServices.github.io/Accio-Ontology/}.}
-Next to \nthree and \rdf there is a third format typically used in the Semantic Web to represent knowledge, the Web Ontology Language (OWL)~\cite{owl}.
-This Description-Logic-based format is very strong in its expressiveness but the tableaux algorithm normally used to reason 
-on it is rather slow compared to other mechanisms~\cite{Krötzsch2012,arndt_ruleml_industry_2015}.
-
-Our implementation uses OWL ontologies  
-over which we reason using the rule based logic \nthree.
-OWL has the sub-profiles \cite{OWLRL}, OWL RL, QL and EL.
-%
-The profile OWL-RL contains all constructs expressible by simple Datalog~\cite{datalog} rules. This is natively supported by \nthree  \cite{arndt_owled_2015}. 
-But as \nthree 
-also covers existential rules, i.e.\ rules with existentially quantified variables in
-their conclusion, it also supports OWL constructs not present in OWL-RL.  An example is the OWL predicate \texttt{owl:someValuesFrom}
-for which in OWL RL only supports the subclass version. %There is for example a rule in OWL RL to draw from the triples
-\begin{lstlisting}[
-  float=t,
-  caption={OWL RL rule for \texttt{owl:someValuesFrom.}%\footnotemark
-  },
-  label=rl]
-§\textcolor{gray}{PREFIX owl:<http://www.w3.org/2002/07/owl\#>}§
-
-{?D owl:equivalentClass ?C.
- ?C owl:someValuesFrom ?Y. 
- ?C owl:onProperty ?P. 
- ?U ?P ?V.
- ?V a ?Y.
-}=>{?U a ?D}.
- \end{lstlisting}
- \footnotetext{
-  In the actual implementation we have extra rules to handle \texttt{owl:equivalentClass}. 
-  We just added its handling to this rule to make our example self-explaining.}
-
-
-The property restriction \texttt{owl:someValuesFrom} for a predicate \emph{p} on a class \emph{C} means, that each instance of \emph{C} 
-has at least one value connected to it via \emph{p}. 
-The object of \texttt{owl:someValuesFrom} determines the class to which 
-that connected value belongs.
-To illustrate that we display the description of the example class \texttt{WA:LuminanceAboveThresholdFault} in Listing~\ref{ex}. 
-This class covers a special kind of faults and is defined (using \texttt{owl:equivalentClass}) as the 
-class of all instances which have a symptom (\texttt{SN:hasSymptom}) being an instance of the class \texttt{WA:LuminanceAboveThresholdSymptom}.  
-Given
-\begin{align}\label{from}
-&\hspace{-0.1cm}\texttt{:observation1 SN:hasSymptom [}\notag\\&\hspace{0.1cm}\texttt{a WA:LuminanceAboveThresholdSymptom].}
-\end{align}
-the description enables the reasoner to apply the RL rule in Listing~\ref{rl} and conclude that
-\begin{multline}\label{to} \texttt{:observation1 a}\\\texttt{ WA:LuminanceAboveThresholdFault.}%\texttt{:bright a Ac:LightIntensity.}
-\end{multline}
-But the mechanism also needs to work the other way around. 
-Given an instance of a class with a  \texttt{owl:someValuesFrom} restriction on a property \emph{p}  like in 
-Formula~\ref{to} where \texttt{:observation1} is a \texttt{ WA:LuminanceAboveThresholdFault}, it can be derived that there \emph{exists} an 
-object 
-of the class indicated in the class axiom which is connected to that instance via \emph{p}. 
-In our example, that is an instance of the class \texttt{WA:LumincanceAboveThresholdSymptom} connected to our \texttt{:observation1} via the property \texttt{SN:hasSymptom}. 
-The existential rule displayed in Listing~\ref{example3} produces the expected result, it derives Formula~\ref{from} from Formula~\ref{to} and Listing~\ref{ex}.  
-By implementing this and other rules, we extended the set of OWL  concepts supported by our rule based implementation.
-\begin{lstlisting}[
-  float=t,
-  caption={Existential rule for \texttt{owl:someValuesFrom}. 
-  },
-  label=example3]
-§\textcolor{gray}{PREFIX owl:<http://www.w3.org/2002/07/owl\#>}§
-  
-{?x a ?C
- ?C owl:equivalentClass 
-   [ owl:onProperty ?property; 
-     owl:someValuesFrom ?from ].
-}=>{?x ?property _:e. _:e a ?from.}.
-\end{lstlisting}
+%\subsubsection{OWL and N3} \label{owln3}
 
 
 
 \subsection{Implementation}\label{implementation}
-After having explained use case and background knowledge, 
-we now clarify how we solve the problem at hand, the identification of sensors and sensor queries which can be used to detect alarming situations. 
+%After having explained use case and background knowledge, 
+%we now clarify how we solve the problem at hand, 
+Our implementation uses \nthreelogic %, existential rules and \owl reasoning performed in \nthree (see Section~\ref{orca}) 
+to identify the 
+sensors and sensor queries which can be used to detect alarming situations. 
 The basic idea of our approach is, given a description of the hospital's setting, to use existential rules  
 to describe possible sensor queries and their meaning 
 in terms of the ontology. We call that format SENSdesc. 
@@ -482,18 +269,100 @@ We explain the details of this idea below.
     a SN:LightSensor.
 \end{lstlisting}
 To be able to use the knowledge about context in a hospital to determine which sensors need to be observed carefully and for which values, this context knowledge needs 
-to be described in a machine understandable way. In our implementation we use   
+to be described in a machine understandable way. Like in Section~\ref{orca}, our implementation again uses   
 the ACCIO ontology\footnote{Available at: \url{https://github.com/IBCNServices/Accio-Ontology/tree/gh-pages}}~\cite{accioont}. 
-This OWL DL ontology makes use of other well established ontologies e.g.\ the Semantic Sensor Ontology~\cite{ssn},
-and was designed to represent different aspects of patient care in a continuous care setting. It covers all concepts relevant to our use case.
-A simple example of the use of the ontology is given in Listing~\ref{bob}. We see specifications about someone named \texttt{:bob} who is a patient and currently present at 
+ACCIO makes use of other well established ontologies e.g.\ the Semantic Sensor Ontology~\cite{ssn},
+and was designed for %to represent different aspects of patient care in a
+continuous care settings. It covers all concepts relevant to our use case.
+A simple example of the use of the ontology is given in Listing~\ref{bob}.\footnote{In this and all the following listings the dots (...)
+  in the prefix declaration stand for \url{http://IBCNServices.github.io/Accio-Ontology/}.}
+We see specifications about someone named \texttt{:bob} who is a patient and currently present at 
 a location called \texttt{:room21}. 
 In this \texttt{:room21} there is furthermore a light sensor (\texttt{:lightsensor17}).
 We also see that \texttt{:bob} has
 a light threshold value
 of 200 assigned. Such an assignment can either be derived by reasoning (e.g.\ if 
 Bob has a concussion and all patients with a concussion have this light threshold value) or it can be set individually to a patient (e.g.\ by a doctor).
-Below, we show how our system uses this knowledge.
+%Below, we show how our system uses this knowledge.
+
+\subsubsection{Ontology reasoning}
+\begin{lstlisting}[
+  float=t,
+  caption={Axiom using \texttt{owl:someValuesFrom}.%\footnotemark
+  },
+  label=ex]  
+§\textcolor{gray}{\footnotesize{PREFIX WA: <...WSNextensionAccio.owl\#>}}§
+§\textcolor{gray}{\footnotesize{PREFIX SN: <...SSNiot.owl\#>}}§
+§\textcolor{gray}{\footnotesize{PREFIX owl:<http://www.w3.org/2002/07/owl\#>}}§
+
+WA:LuminanceAboveThresholdFault 
+ a owl:Class ;
+ owl:equivalentClass [ 
+  a owl:Restriction;
+  owl:onProperty SN:hasSymptom;
+  owl:someValuesFrom 
+   WA:LuminanceAboveThresholdSymptom 
+ ].
+\end{lstlisting}
+
+To incorporate the knowledge specified in the ontology, we again use the OWL-RL rules introduced in Section~\ref{orca}. 
+But for this  use case, we need to extend them:
+%Next to \nthree and \rdf there is a third format typically used in the Semantic Web to represent knowledge, the Web Ontology Language (OWL)~\cite{owl}.
+% This Description-Logic-based format is very strong in its expressiveness but the tableaux algorithm normally used to reason 
+% on it is rather slow compared to other mechanisms~\cite{Krötzsch2012,arndt_ruleml_industry_2015}.
+% 
+% Our implementation uses OWL ontologies  
+% over which we reason using the rule based logic \nthree.
+% OWL has the sub-profiles \cite{OWLRL}, OWL RL, QL and EL.
+% %
+% The profile OWL-RL contains all constructs expressible by simple Datalog~\cite{datalog} rules. This is natively supported by \nthree  \cite{arndt_owled_2015}. 
+% But as \nthree 
+% also covers existential rules, i.e.\ rules with existentially quantified variables in
+% their conclusion, it also supports OWL constructs not present in OWL-RL.  
+For the OWL predicate \texttt{owl:someValuesFrom}
+OWL RL only supports the subclass version. While we also need the other direction.
+
+%There is for example a rule in OWL RL to draw from the triples
+The property restriction \texttt{owl:someValuesFrom} for a predicate \emph{p} on a class \emph{C} means, that each instance of \emph{C} 
+has at least one value connected to it via \emph{p}. 
+The object of \texttt{owl:someValuesFrom} determines the class to which 
+that connected value belongs.
+To illustrate that we display the description of the example class \texttt{WA:LuminanceAboveThresholdFault} in Listing~\ref{ex}. 
+This class covers a special kind of faults and is defined (using \texttt{owl:equivalentClass}) as the 
+class of all instances which have a symptom (\texttt{SN:hasSymptom}) being an instance of the class \texttt{WA:LuminanceAboveThresholdSymptom}.  
+Given
+\begin{align}\label{from}
+&\hspace{-0.1cm}\texttt{:observation1 SN:hasSymptom [}\notag\\&\hspace{0.1cm}\texttt{a WA:LuminanceAboveThresholdSymptom].}
+\end{align}
+the description enables the reasoner to apply the RL rule in Listing~\ref{rl} \footnote{
+  In the actual implementation we have two rules handling this case: one to derive an \texttt{owl:subClass}-relation form a \texttt{owl:equivalentClass}-statement
+  and one rule like the one displayed but acting on \texttt{owl:subClass} instead of \texttt{owl:equivalentClass}.
+  We shortened it here to one rule keep the examples short.
+ } and conclude that
+\begin{multline}\label{to} \texttt{:observation1 a}\\\texttt{ WA:LuminanceAboveThresholdFault.}%\texttt{:bright a Ac:LightIntensity.}
+\end{multline}
+But the mechanism also needs to work the other way around. 
+Given an instance of a class with a  \texttt{owl:someValuesFrom} restriction on a property \emph{p}  like in 
+Formula~\ref{to} where \texttt{:observation1} is a \texttt{ WA:LuminanceAboveThresholdFault}, it can be derived that there \emph{exists} an 
+object 
+of the class indicated in the class axiom which is connected to that instance via \emph{p}. 
+In our example, that is an instance of the class \texttt{WA:LumincanceAboveThresholdSymptom} connected to our \texttt{:observation1} via the property \texttt{SN:hasSymptom}. 
+The existential rule displayed in Listing~\ref{example3} produces the expected result, it derives Formula~\ref{from} from Formula~\ref{to} and Listing~\ref{ex}.  
+By implementing this and other rules, we extended the set of OWL  concepts supported by our rule based implementation.
+\begin{lstlisting}[
+  float=t,
+  caption={OWL RL rule for \texttt{owl:someValuesFrom.}%\footnotemark
+  },
+  label=rl]
+§\textcolor{gray}{PREFIX owl:<http://www.w3.org/2002/07/owl\#>}§
+
+{?D owl:equivalentClass ?C.
+ ?C owl:someValuesFrom ?Y. 
+ ?C owl:onProperty ?P. 
+ ?U ?P ?V.
+ ?V a ?Y.
+}=>{?U a ?D}.
+ \end{lstlisting}
 
 
 
@@ -513,6 +382,35 @@ Additional parameters relevant for the query can also be added here.
 For pre- and post-condition it is crucial to use vocabulary specified in the surrounding ontology. Only with further background knowledge about the terms 
 and contexts used, reasoning can take place. 
 We illustrate the concept of a SENSdesc rule in Listing~\ref{sensdesc}.
+\begin{lstlisting}[
+  float=t,
+  caption={Existential rule for \texttt{owl:someValuesFrom}. 
+  },
+  label=example3]
+§\textcolor{gray}{PREFIX owl:<http://www.w3.org/2002/07/owl\#>}§
+  
+{?x a ?C
+ ?C owl:equivalentClass 
+   [ owl:onProperty ?property; 
+     owl:someValuesFrom ?from ].
+}=>{?x ?property _:e. _:e a ?from.}.
+\end{lstlisting}
+
+The \emph{pre-condition} (lines 9--14) describes the situation in which our description is relevant: 
+A patient has a light threshold defined %---such a definition can either be done directly for a patient by a physician
+%or it can be derived by reasoning taking for example a threshold value for all concussion patients into account---%
+and there is a light sensor at the same location as the patient. In our example this is the case for our patient \emph{Bob} from Listing~\ref{bob}.
+
+The \emph{query-description}, lines 16--19, states which query has to be performed to the light sensor. The example query here tests if the measured value 
+is above the threshold.
+Note that sensor and threshold value
+are expressed by universal variables taking values from pre-condition. Both depend on the context data.
+
+The \emph{post-condition}, lines 21--24, describes the consequence of a successful sensor query: if the query triggers, a  
+\texttt{WA:LuminanceAboveThresholdSymptom} is observed.
+In the ontology, the observation of this symptom can---depending on the further context---have several consequences. 
+Here, via Listing~\ref{ex}, we can get a \texttt{WA:LuminanceAboveThresholdFault}.
+
 \begin{lstlisting}[
   float=t,
   caption={Example description. For a patient for whom a lightThreshold is defined, light sensors at his location can test whether the light is below this threshold.},
@@ -544,26 +442,12 @@ _:o SN:hasSymptom [ a
 }.
 \end{lstlisting}
 
-The \emph{pre-condition} (lines 9--14) describes the situation in which our description is relevant: 
-A patient has a light threshold defined %---such a definition can either be done directly for a patient by a physician
-%or it can be derived by reasoning taking for example a threshold value for all concussion patients into account---%
-and there is a light sensor at the same location as the patient. In our example this is the case for our patient \emph{Bob} from Listing~\ref{bob}.
 
-The \emph{query-description}, lines 16--19, states which query has to be performed to the light sensor. The example query here tests if the measured value 
-is above the threshold.
-Note that sensor and threshold value
-are expressed by universal variables taking values from pre-condition. Both depend on the context data.
-
-The \emph{post-condition}, lines 21--24, describes the consequence of a successful sensor query: if the query triggers, a  
-\texttt{WA:LuminanceAboveThresholdSymptom} is observed.
-In the ontology, the observation of this symptom can---depending on the further context---have several consequences. 
-Here, via Listing~\ref{ex}, we can get a \texttt{WA:LuminanceAboveThresholdFault}.
-
-\subsubsection{Goals}
-As explained in Section~\ref{proof}, an \nthree reasoner is typically invoked with a \emph{goal}. This goal is a logical rule serving as a filter.
-If this rule can be applied to the given input or its logical consequences, the reasoner provides a formal proof 
- in which the goal is the last rule
-applied.
+\subsubsection{Goal}
+% As explained earlier, an \nthree reasoner is typically invoked with a \emph{goal}. This goal is a logical rule serving as a filter.
+% If this rule can be applied to the given input or its logical consequences, the reasoner provides a formal proof 
+%  in which the goal is the last rule
+% applied.
 As mentioned in Section~\ref{usecasenew}, we want to know in our example, which 
 faults could be detected by a sensor using the current data consisting of ontology, description of the context and SENSdesc rules to describe possible sensor queries. 
 To do so, we search for all instances of the class \texttt{SN:Fault} the reasoner can detect. 
@@ -571,21 +455,24 @@ The goal for this looks as follows:
 \begin{equation}\label{goal}
  \texttt{\{?x a SN:Fault\}=>\{?x a SN:Fault\}.}
 \end{equation}
-Here, antecedence and consequence are the same. 
-The rule is nevertheless not redundant because it is marked
+Remember that event though antecedence and consequence are the same, the rule 
+is not redundant because it is marked
 as a goal. The reasoner looks for cases where this rule can be applied and provides a proof for them.
 
 \subsubsection{Making use of proofs}
+
 \begin{lstlisting}[
   float=*,
   caption={(Simplified) Example proof for the goal displayed in Formula~\ref{goal} taking into account the data from Listings 2--6 and an additional rule to handle \texttt{owl:subclassOf}.
   Lemma 4 includes an instatiated version of the SENSdesc description.
   },
-  label=fault]
+  label=fault ]
 §\textcolor{gray}{PREFIX owl: <http://www.w3.org/2002/07/owl\#>}§
-§\textcolor{gray}{PREFIX SN: <http://IBCNServices.github.io/Accio-Ontology\/SSNiot.owl\#>}§
+§\textcolor{gray}{PREFIX SN: <http://IBCNServices.github.io/Accio-Ontology\
+        /SSNiot.owl\#>}§
 §\textcolor{gray}{PREFIX sosa: <http://www.w3.org/ns/sosa/>}§
-§\textcolor{gray}{PREFIX WA: <http://IBCNServices.github.io/Accio-Ontology\/WSNextensionAccio.owl\#>}§
+§\textcolor{gray}{PREFIX WA: <http://IBCNServices.github.io/Accio-Ontology\
+       /WSNextensionAccio.owl\#>}§
 §\textcolor{gray}{PREFIX : <http://example.org\#>}§
 §\textcolor{gray}{PREFIX r: <http://www.w3.org/2000/10/swap/reason\#>}§
 
@@ -595,18 +482,15 @@ as a goal. The reasoner looks for cases where this rule can be applied and provi
 
 <#lemma1> a r:Inference;
   r:gives { _:sk_1 a SN:Fault. };
-  r:evidence (<#lemma2>);
-  r:rule <#lemma5>.
+  r:evidence (<#lemma2>); r:rule <#lemma5>.
 
 <#lemma2> a r:Inference;
   r:gives { _:sk_1 a SN:Fault.};
-  r:evidence (<#lemma3> <#lemma7>);
-  r:rule <#lemma8>.
+  r:evidence (<#lemma3> <#lemma7>); r:rule <#lemma8>.
 
 <#lemma3> a r:Inference;
   r:gives { _:sk_1 a WA:LuminanceAboveThresholdFault.};
-  r:evidence (<#lemma4> <#lemma6>);
-  r:rule <#lemma9>.
+  r:evidence (<#lemma4> <#lemma6>); r:rule <#lemma9>.
  
 <#lemma4> a r:Inference;
   r:gives {
@@ -618,8 +502,7 @@ as a goal. The reasoner looks for cases where this rule can be applied and provi
     _:sk_1 SN:hasSymptom _:sk_2.
     _:sk_2 a WA:LuminanceAboveThresholdSymptom.
   };
-  r:evidence (<#lemma10>);
-  r:rule <#lemma11>.
+  r:evidence (<#lemma10>); r:rule <#lemma11>.
 
 <#lemma5>  a r:Extraction; 
            r:because [ a r:Parsing; r:source <Formula6>].
@@ -628,17 +511,18 @@ as a goal. The reasoner looks for cases where this rule can be applied and provi
 <#lemma7>  a r:Extraction; 
            r:because [ a r:Parsing; r:source <Formula7>].
 <#lemma8>  a r:Extraction; 
-           r:because [ a r:Parsing; r:source <owl_subclass_rule.n3>].
+           r:because [ a r:Parsing; r:source <owl_sub.n3>].
 <#lemma9>  a r:Extraction; 
            r:because [ a r:Parsing; r:source <Listing3>].
 <#lemma10> a r:Extraction; 
            r:because [ a r:Parsing; r:source <Listing5>].
 <#lemma11> a r:Extraction; 
-           r:because [ a r:Parsing; r:source <Listing6>].
+           r:because [ a r:Parsing; r:source <Listing6>].           
 \end{lstlisting}
+\normalsize
 
 Having the goal, the different SENSdesc descriptions including the one from above, the OWL ontology and the \nthree rules to perform OWL reasoning 
-as described in Section~\ref{owln3}
+%as described in Section~\ref{owln3}
 at our disposal, we can start an \nthree 
 reasoner and produce a proof. 
 This proof enables us to find the sensors and the concrete sensor queries relevant to our problem. We illustrate that idea on  our example.
@@ -647,7 +531,7 @@ Additionally to the axioms mentioned above, our ontology also contains the tripl
 \texttt{WA:LuminanceAboveThresholdFault }\\ \texttt{ rdfs:subClassOf SN:Fault.}
 \end{multline}
 This indicates that every instance of the class \texttt{WA:LuminanceAboveThresholdFault} is also an instance of the class \texttt{SN:Fault}.
-Using the data displayed in this paper and the goal in Formula~\ref{goal} the reasoning process produces the proof in Listing~\ref{fault}. 
+Using the data displayed in this section and the goal in Formula~\ref{goal} the reasoning process produces the proof in Listing~\ref{fault}. 
 From the different proof steps (lemmas) composing the proof, there is one particularly interesting:  Lemma~4 (lines 27--38) describes 
 the application of our SENSdesc rule (\texttt{r:Inference}) leading to:
 %
@@ -677,25 +561,24 @@ this sensor with the corresponding threshold value
 would also appear in the proof while light sensors located in rooms with no patients or with patients 
 without a defined luminance threshold value will not be listed. In that way we find the sensors and queries relevant to our particular problem.
 
-\subsection{Related work}\label{rel}
-The approach presented in this paper is influenced by other research:
-In previous work, we developed a format to describe RESTful API calls via existential rules in \nthree, RESTdesc.\footnote{\url{http://restdesc.org/}}
-Just as in SENSdesc, we used existential rules consisting of three parts, pre-condition, call-description, and post-condition to describe possible events, in this case possible 
-API calls.
-To make plans towards a goal, proofs containing instantiated descriptions of API calls were employed. We explain this
-idea in our previous paper \cite{pragmaticproof}. 
-In this sense this paper can be seen as an extension of RESTdesc, which was developed for API calls, to sensor queries. Both formats, RESTdesc and SENSdesc 
-can be combined in an environment where APIs and sensors are present.
+\subsection{Streams in the Semantic Web}\label{rel}
+% The approach presented in this section is influenced by other research:
+% In previous work, we developed a format to describe RESTful API calls via existential rules in \nthree, RESTdesc.\footnote{\url{http://restdesc.org/}}
+% Just as in SENSdesc, we used existential rules consisting of three parts, pre-condition, call-description, and post-condition to describe possible events, in this case possible 
+% API calls.
+% To make plans towards a goal, proofs containing instantiated descriptions of API calls were employed. We explain this
+% idea in our previous paper \cite{pragmaticproof}. 
+% In this sense this paper can be seen as an extension of RESTdesc, which was developed for API calls, to sensor queries. Both formats, RESTdesc and SENSdesc 
+% can be combined in an environment where APIs and sensors are present.
 
-The use case required to perform OWL reasoning in a rule-based logic.
-The idea to do so is not new and has been implemented in several systems.
-Classically, rule-based systems support the OWL RL profile. 
-Examples are RDFox \cite{Nenov2015} and OWLIM \cite{owlim} or the implementation of OWL RL rules in Prolog \cite{owlrlinprolog}. 
-But also the other profiles have been implemented using rules: Kr\"otsch discusses the implementation of OWL EL \cite{Krotzsch}. 
-The support for OWL QL in OWLIM is implemented using rules~\cite{OWLIM2}.
-In our case the rules had to be in \nthree, their implementation is based on our previous work on OWL RL \cite{arndt_ruleml_industry_2015,arndt_owled_2015}. 
-
-Finally, we discuss the connection between our work and Semantic Web stream processing and reasoning. 
+% The use case required to perform OWL reasoning in a rule-based logic.
+% The idea to do so is not new and has been implemented in several systems.
+% Classically, rule-based systems support the OWL RL profile. 
+% Examples are RDFox \cite{Nenov2015} and OWLIM \cite{owlim} or the implementation of OWL RL rules in Prolog \cite{owlrlinprolog}. 
+% But also the other profiles have been implemented using rules: Kr\"otsch discusses the implementation of OWL EL \cite{Krotzsch}. 
+% The support for OWL QL in OWLIM is implemented using rules~\cite{OWLIM2}.
+% In our case the rules had to be in \nthree, their implementation is based on our previous work on OWL RL \cite{arndt_ruleml_industry_2015,arndt_owled_2015}. 
+We discuss the connection between our work and Semantic Web stream processing and reasoning. 
 A complete overview of this topic can be found in \cite{streamreasoning}.
 RDF stream processing systems are classically divided into two categories:
  Complex Event Processing systems (CEP) and Data Stream Management Systems (DSMS). 
@@ -716,17 +599,24 @@ we have a simple goal, which can not directly contain informations about streams
 This kind of information can only be expressed in the query description part of our SENSdesc rules. 
 
 
-\subsection{Conclusion and future work}\label{conclusion}
-In this paper we presented a new format to describe possible sensor queries and explained how it can be used together with formal proofs to determine in a 
-setting where many sensors are available, which sensors and which queries are relevant to keep track of user defined goals. Once these sensors are known, they can be carefully 
-monitored and---in case they detect the situations they are looking for---new reasoning can be triggered. This strategy saves us from
-having performance problems due to constant reasoning on the output of all available sensors.
-
-In the future we plan to improve the description of sensor queries in SENSdesc. 
-Integrating existing formats for stream querying like RSP-QL make it easier to 
-detect and execute the sensor queries in a proof. Furthermore, we plan to test our implementation in bigger settings and contexts where more sensors are available.
-Only by this, we can be sure that the performance of our approach does not suffer from the inclusion of expensive concepts like existential rules.
-
-
-
+\subsection{SENSdesc and RESTdesc}
+% In this paper we presented a new format to describe possible sensor queries and explained how it can be used together with formal proofs to determine in a 
+% setting where many sensors are available, which sensors and which queries are relevant to keep track of user defined goals. Once these sensors are known, they can be carefully 
+% monitored and---in case they detect the situations they are looking for---new reasoning can be triggered. This strategy saves us from
+% having performance problems due to constant reasoning on the output of all available sensors.
+% 
+% In the future we plan to improve the description of sensor queries in SENSdesc. 
+% Integrating existing formats for stream querying like RSP-QL make it easier to 
+% detect and execute the sensor queries in a proof. Furthermore, we plan to test our implementation in bigger settings and contexts where more sensors are available.
+% Only by this, we can be sure that the performance of our approach does not suffer from the inclusion of expensive concepts like existential rules.
+% 
+% 
+The approach presented follows the idea of RESTdesc -- proofs are used to select services -- but it only suffers from one of the main problems which can 
+occur when applying RESTdesc
+(Section~\ref{sec:limits}):
+All sensor data can be understood as new information which can be added to the knowledge at hand, we do not need to take care of \emph{change}. 
+In the given scenario we do not need alternative proofs (\emph{choice}), if we have a set of sensors which we can monitor to detect a fault, we do not need an alternative. 
+Nevertheless, we can use the approach to search for alternative ways to detect a fault if one sensor is failing, we only need to re-run the reasoner excluding 
+the description of that particular sensor. Only the problems caused by the fact that we use \emph{existential rules} here can form an obstacle in the presented set-up, but for 
+this case we suggest, as above, to apply different reasoning strategies till sensors detecting a fault can be found.
 
