@@ -25,17 +25,18 @@ the mother of this person. As this mother again has a mother which then again ha
 
 While the loop we created here can be avoided -- it is rather unusual to write a rule which triggers on itself -- more complicated loops are more difficult to detect.
 %and %to avoid.
-A lot of research focusses on restrictions on existential rules which guarantee termination %  terminate
+A lot of research focusses on how to restrict existential rules in order to guarantee termination %  terminate
 %A lot of research focuses on ways to restrict existential rules
 (eg \cite{krotzsch2011extending,gottlob2013combining,Baget}). 
-As these restrictions need to be done on combinations of rules and can not be realised by imposing a certain format on every rule individually, such approaches cannot be 
-used for the Web and its distributed nature: As we do not know which APIs can and will be combined using our algorithm, we cannot ask the provider of one service 
+These restrictions mostly take combinations of rules into account and cannot be imposed separately on individual rules. % format on every rule individually, 
+Therefore such approaches cannot be 
+used in the Web with its distributed nature: As we do not know which APIs can and will be combined using our algorithm, we cannot ask the provider of one service 
 to write its description in a way that it does not lead to infinite loops when being combined with another service.
 
 Instead of restricting the rules, we work with different reasoning tactics: A reasoning tactic determines when a reasoner stops 
 (for example after a certain number of rule-applications  
 or directly after one instance of the goal is found), it controls the order in which rules are applied 
-(following Prolog's left-most selection rule~\cite{nilsson} or any other similar rule) and if can exclude rule applications based on their consequence (for example 
+(following Prolog's left-most selection rule~\cite{nilsson} or any other similar rule) and it can exclude rule applications based on their consequence (for example 
 no applying a rule for whose consequence the dataset already contains a ground instance). Such strategies are implemented in EYE~\cite{eye} and have proven 
 to be useful in practice. 
 The aim of the pragmatic proof algorithm is not to find all plans or the best plan towards a goal, its aim is to find one possible plan and then execute it.
@@ -83,12 +84,36 @@ the fact that we
 combine reasoning on background knowledge and application 
 of \restdesc descriptions would quickly lead to performance problems:
 From the reasoner's point of view there is no difference between \restdesc descriptions and other rules. Alternative proofs would also need to take all alternative 
-ways to derive background knowledge into account and show for example that we can derive the fact that 
+ways to derive background knowledge into account.  If we for example have the following knowledge about \texttt{:Kurt}
 \[
- \texttt{:Kurt a }
+\texttt{:Kurt a :Researcher; :Man; :Mathematician.}
 \]
-\todo{add resource as example}
+and we know that every \texttt{:Researcher}, every \texttt{:Man} and also every \texttt{:Mathematician} is a \texttt{:Person}, we need to always generate three different 
+proofs whenever the knowledge that \texttt{:Kurt} is a \texttt{:Person} is required. 
+These alternatives then need to be combined with all alternatives we have for all other derivations involved in a proof.
+The complex problem of calculating different combinations of \restdesc descriptions in order to fulfil a goal gets
+even more complex and -- depending on the number of rules involved -- not solvable by a normal computer.
 
 
 
 \subsection{Change}
+Another shortcoming of the approach of using classical proofs as plans towards a goal is that in this set-up it is not possible to express \emph{change}. It is
+always possible to add new data and triples but it is not possible to remove triples. 
+We can therefore not (or at least not in an easy way) describe that an API operation changes, for example, the state of the light from off to on. 
+We cannot express that  the triple
+\[
+\texttt{:myLight :status :off.}
+\]
+gets \emph{replaced} by
+\[
+\texttt{:myLight :status :on.}
+\]
+The reason for that is that \nthreelogic -- such as most Web logics -- is based on first order logic where we have the principle of monotonicity: 
+If a formula $\phi$ follows from 
+another formula $\psi$ this derivation still needs to be true when we add further knowledge to the premise. From $\gamma\wedge\psi$ we still need to be able to conclude 
+$\phi$ regardless of the concrete shape of $\gamma$. In order to properly model change which includes the possibility to invalidate data we would 
+need a non-monotonic logic.
+
+For our API compositions this means that the approach works well if we have settings where many \texttt{GET}-requests are included -- these result in new knowledge -- 
+while it can be problematic to -- for example -- include a \texttt{DELETE}-request.
+
