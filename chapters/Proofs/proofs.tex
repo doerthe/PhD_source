@@ -157,8 +157,10 @@ Our definition of \emph{simple formulas} now excludes all formulas having univer
 %Using the above definition, we can now limit the level of nesting for universal variables:
 
 \begin{definition}[Simple formulas]
-Let $\mathcal{A}$ be an \nthree alphabet and let $U$ be the set of universal variables.
-We call an \nthree formula $f$ \emph{simple} iff  $\operatorname{comp}^n(f)\cap U=\emptyset$ for all $n \in \mathbb{N}$, $n>2$.
+Let $\mathcal{A}$ be an \nthree alphabet and let $U$ be the set of universal %and $E$ be the set of existential
+variables.
+We call an \nthree formula $f$ \emph{simple} iff  $\operatorname{comp}^n(f)\cap U =\emptyset$ %and  $\operatorname{comp}^n(f)\cap E =\emptyset$ 
+for all $n \in \mathbb{N}$, $n>2$.
 \end{definition}
 
 For $f=\text{ Formula~\ref{fff} }$ we have:  \[\textit{comp}^3(f)=\{\texttt{?x}, \texttt{:q}, \texttt{?y}, \texttt{:r}, \texttt{:c}\}\]
@@ -225,17 +227,34 @@ The \nthree Core Logic interpretations according to Cwm and EYE always quantify 
 %   \end{enumerate}
 %  
 %  \end{enumerate}
-
- 
 \end{proof}
 
-
-% For all universal variables occurring in \emph{simple formulas} the following holds:
+% We thus showed that \emph{simple formulas} are the formulas which Cwm and EYE interpret equally. Both reasoners will come to the same conclusions 
+% when provided with simple formulas. But  the goal of our restriction was to also make the proofs produced by these and other reasoners exchangeable. We therefore 
+% need to also take the cases into account where reasoners translate implicitly existentially quantified variables to universals. We illustrate that problem on an example. Consider
+% the following formula:
+% \begin{equation}\label{simpleex}
+%  \texttt{\{:a :b :c\}=>\{\{\_:x :d :e\}=>\{:f :g :h\}\}.} 
+% \end{equation}
+% According to Cwm's interpretation this formula means in \nthree Core Logic:
 % \[
-%  \text{parent}_c=\text{parent}_e
+%  \texttt{<a b c>}\rightarrow \texttt{<{}<}\exists \texttt{x. x d e>}\rightarrow \texttt{<f g h>{}>.} 
 % \]
-% The interpretations according to Cwm and EYE thus both quantify all universal variables occurring in \emph{simple formulas} on top level. 
-% 
+% But this is equivalent to 
+% \[
+%  \texttt{<a b c>}\rightarrow \texttt{<} \forall \texttt{x.} \texttt{ <x d e>}\rightarrow \texttt{<f g h>{}>.} 
+% \]
+% which is again a formula with nested universal quantification. Following Cwm's semantics this could be expressed in \nthree as:
+% \begin{equation}\label{simpleall}
+%  \texttt{\{:a :b :c\}=>\{\{?x :d :e\}=>\{:f :g :h\}\}.} 
+% \end{equation}
+% % For all universal variables occurring in \emph{simple formulas} the following holds:
+% % \[
+% %  \text{parent}_c=\text{parent}_e
+% % \]
+% % The interpretations according to Cwm and EYE thus both quantify all universal variables occurring in \emph{simple formulas} on top level. 
+% % 
+% Formula~\ref{simpleall} is not a \emph{simple formula} while Formula~\ref{simpleex} is.
 
 
 \section{The direct semantics of N3}
@@ -660,9 +679,6 @@ For our definition of \nthree's direct semantics for simple formulas, we now tak
 
 
 \begin{definition}[Direct semantics of \nthree\label{sem_n3}]
-After having defined a direct semantcis for \nthreelogic -- following the
-
-
 Let $\mathfrak{I}=(\mathcal{D},\mathfrak{a,p})$ be an interpretation of an \nthree alphabet $\mathcal{A}$, let $U$ be the set of universal variable of $\mathcal{A}$ and $E$ the set of existentials,
 and let  $f$ be a \emph{simple} formula over $\mathcal{A}$. % which contains at least one variable, $f_1$ and $f_2$ be ground formulas and $c_1,c_2,p \in E$ be ground expressions.
 Then the following holds:
@@ -941,7 +957,45 @@ performed here is not part of the proof calculus described by the SWAP
 proof vocabulary. Therefore, it is impossible for reasoners applying this step to communicate this application to different parties. To also be complete or to at least reflect the actual 
 reasoning steps performed by the reasoners, the SWAP vocabulary would need to be extended by proof steps which act on existential variables.
 
-\section{The proof vocabulary}
+Before we introduce the proof vocabulary, we make an observation about the generalised modus ponens which will become important in the following chapter:
+% 
+% We will examine the generalized modus ponens in more detail,
+% as this is the proof step where implication rules, 
+% such as \restdesc descriptions, are applied.
+
+\begin{lemma}\label{lemma:Reasoning}
+Let $\mathcal{A}$ be an \nthree alphabet, $U$ the set of universal variables, %$\Gamma\subset F$ a set of formulas, 
+$f\in \mathcal{F}_g$ a ground formula and $\verb!{!f_1\verb!}=>{!f_2\verb!}!\in \mathcal{F}$ an implication formula %of nesting level 2 
+where all 
+universal variables which occur in $f_2$  
+also occur in $f_1$. If the generalized modus ponens is applicable to $f$ and $\verb!{!f_1\verb!}=>{!f_2\verb!}!$ then
+the resulting formula does not contain universal variables.
+\end{lemma}
+
+\begin{proof}
+ %Let  $\mu_{1}, \ldots, \mu_{n}$ be 
+ %universal replacements 
+ Let $\sigma:U\rightarrow \mathcal{T}_e$ be a substitution %such that 
+ such that  $(\verb!{!f_1\verb!}=>{!f_2\verb!}.!)\sigma^t= \verb!{!f\verb!}=>{!f_2'\verb!}.!$ 
+As $f$ is a ground formula, $\text{range}(\sigma|_{U\cap(\bigcup_{i\geq 1}\text{comp}^i(f_1))}) \subset E_g$. 
+With the condition that every universal variable of $f_2$ 
+is also in $f_1$, that is
+\[((\bigcup_{i\leq 1}\text{comp}^i(f_2))\cap U )\subset((\bigcup_{i\leq 1}\text{comp}^i(f_1))\cap U )\]
+the claim follows. 
+%
+ %As the implication
+ %has nesting level 2, by Definition \ref{repl}, from each replacement only the first substitution $\sigma^{\mu_i}_{11}=: \sigma_{\mu_i}$ 
+ %gets totally applied to the whole implication 
+ %and we obtain
+ %there are, by definition \ref{repl}, some substitutions $\sigma_1\ldots\sigma_n$ such that 
+ %\[\mu_{1}\circ\ldots\circ\mu_{n}(\verb!{!f_1\verb!}=>{!f_2\verb!}.!)=(\verb!{!f_1\verb!}=>{!f_2\verb!}.!)\sigma_{\mu_1}^t\ldots\sigma_{\mu_n}^t.\]
+ %Therefore all 
+ %universal variables which are replaced in $f_1$ are also replaced by the same substitution in $f_2$.
+\end{proof}
+
+
+
+\section{The proof vocabulary}\label{sec:proofvoc}
 %As explained earlier, the proof steps we introduced in the previous section all have been defined in the context of the Semantic Web Application platform SWAP. 
 %The proof steps introduced in the previous section can all be expressed in \nthree.
 After having introduced the concrete proof steps which can be described by it in the last section, we now introduce the SWAP proof vocabulary.\footnote{The vocabulary's RDF definition can be found at: \url{http://www.w3.org/2000/10/swap/reason\#}.}
@@ -1090,11 +1144,11 @@ However, to the best of our knowledge,
 all reasoners' proofs contain all applications of $\verb!r:Inference!$ leading to a goal~$g$,
 which allows us to measure a~proof's length by counting applications of the generalized modus ponens.
 
-\begin{definition}[Proof length]
-Let $p$ be an \nthree formula representing a proof, ie a conjunction of formulas using the proof vocabulary defined in Definition~\ref{proofvoc}. 
-Then the \emph{length} of the proof is defined as the number of different resources $\texttt{x}$ for which the following triple is stated:
- \texttt{x a r:Inference.}
-\end{definition}
+% \begin{definition}[Proof length]
+% Let $p$ be an \nthree formula representing a proof, ie a conjunction of formulas using the proof vocabulary defined in Definition~\ref{proofvoc}. 
+% Then the \emph{length} of the proof is defined as the number of different resources $\texttt{x}$ for which the following triple is stated:
+%  \texttt{x a r:Inference.}
+% \end{definition}
 
 
 %\newpage

@@ -852,7 +852,7 @@ automatic, functionality-based composition.
 After having discussed the background and most important terms when talking about hypermedia APIs, we now explain how such APIs can be described by using \nthree rules. We start by explaining the example 
 use case we are going to base the explanations in this chapter on.
 
-\subsubsection{Example Use Case}\label{usecase}
+\subsection{Example Use Case}\label{usecase}
 As a~guiding example, we introduce an exemplary hypermedia API
 in the domain of image processing.
 It offers functionality such as the following:
@@ -897,7 +897,7 @@ it can interpret the results of following it.
 Furthermore, \restdesc descriptions allow the composition of a~high-level plan
 that can guide machine clients through an interaction with a~hypermedia API.
 
-In the remainder of \cref{sec:RESTdesc},
+In the remainder of Section~\ref{sec:RESTdesc},
 we formalise \restdesc.
 \Cref{sec:Proof,sec:Composition} detail hypermedia API composition and execution,
 using the above image processing hypermedia API as an example.
@@ -912,7 +912,7 @@ Such a process of using an API consists of different steps:
 given all needed information, the client sends an \http request to the hypermedia API on a server.
 The API interprets the request and,
 if possible, reacts by fulfilling the indicated task
-or retrieving the information requested. The server sends a~response and thereby creates a new situation. As mentioned in \cref{api}, this process 
+or retrieving the information requested. The server sends a~response and thereby creates a new situation. As mentioned in Section \ref{api}, this process 
 is called an API operation.
 Hypermedia APIs are commonly able to perform different kinds of operations.
 
@@ -1030,8 +1030,9 @@ if they contain all necessary information, executed by an API which will return 
 the intended functionality of a~hypermedia API's operations:
 
 \begin{definition}[\restdesc description]
-Let $\mathcal{A}$ be an \nthree alphabet containing the predicates defined in Definition \ref{httppr}, $\mathcal{F}$ the set of formulas over $\mathcal{A}$.
-A \restdesc description $f\in \mathcal{F}$ of a hypermedia API operation is a \emph{simple} \nthree formula %an \nthree implication %with nesting level $n(f)= 2$, 
+Let $\mathcal{A}$ be an \nthree alphabet containing the predicates defined in Definition \ref{httppr} %,  $E$ the set of existentials, 
+$\mathcal{F}$ the set of formulas over $\mathcal{A}$.
+A \restdesc description $f\in \mathcal{F}$ of a hypermedia API operation is a \emph{simple} \nthree formula %with $\text{comp}^n(f)=\emptyset$ for all $n>2$ %an \nthree implication %with nesting level $n(f)= 2$, 
 %with $\text{comp}^n(f)=\emptyset$ for all $n>2$
 of the form:
 \[	  \verb!{ precondition } => { http-request  postcondition }.!\]
@@ -1051,7 +1052,8 @@ also occur in \verb!precondition!.
 
 
 \end{definition}
-By making sure that the subject of any triple in the postcondition is different than the subject of the request, we make both syntactical distinguishable. 
+%We impose the condition that a RESTdesc description should not include deeply nested existentials because of the close relationship bet 
+%By making sure that the subject of any triple in the postcondition is different than the subject of the request, we make both syntactical distinguishable. 
 %By prohibiting components of a higher level than~2,
 %we especially exclude nested rules.
 Note that a RESTdesc description is an existential rule as defined in the Datalog$^{\pm}$ framework \cite{datalogpm}:
@@ -1064,6 +1066,8 @@ is very similar to Datalog \cite{datalog}
 %But as 
 and our rules 
  allow (and expect) new existentials in the consequence. 
+%  These existentials cannot be deeply nested and by limiting the depth of the formula -- there are no components 
+%  with of a level higher than two -- we also excluded the possibility to have rule-producing rules (as introduced in Section~\ref{orca}) in the postcondition.
 %  The reason for this will become clear in the following sections, but the basic idea here is
 %  to express knowledge and situations which cannot be obtained by reasoning 
 %  using existential variables: we are aware of the existence of facts or instances, but we have to act
@@ -1073,14 +1077,58 @@ and our rules
 %we cannot guarantee that the models of ground formulas (facts)
 %and \restdesc rules are finite,
 %as is the case with Datalog. 
-%\todo{make the connection to datalog stronger}
-%\todo{!}
+%The reasons for the restrictions
 
-The reasons for the restrictions will become more clear in \cref{sec:Reasoning},
-where we show that for every ground instance of the precondition,
-the \http request is sufficiently specified and the postcondition will not contain any universal variables.
-From an operational point of view, the remaining existential variables in the postcondition
-are those which are expected to be grounded through the execution of the \http request.
+We make the restrictions on variables occurring in RESTdesc descriptions because we want to use the proofs applying these descriptions as execution plans. 
+This idea will 
+be further explained later in Section~\ref{restdescinproof}.
+To be able to do so, we need to be sure that whenever we apply a RESTdesc description to a ground term it results in a 
+sufficiently specified \http request and that the postcondition will not contain any universal variables.
+% Having the restrictions we can apply Lemma~\ref{lemma:Reasoning}
+% and get:
+%The reasons for the restrictions %will become more clear in \cref{sec:Reasoning},
+% where we show that for every ground instance of the precondition,
+% the \http request is sufficiently specified and the postcondition will not contain any universal variables.
+% From an operational point of view, the remaining existential variables in the postcondition
+% are those which are expected to be grounded through the execution of the \http request.
+As \http requests in \restdesc descriptions only contain
+one leading existential to represent the \http message, and 
+\restdesc descriptions 
+fulfil the conditions of Lemma~\ref{lemma:Reasoning}
+%have nesting level~2,
+we arrive at the following corollary:
+
+\begin{corollary}
+\label{corollary}
+Every application of a \restdesc description to a ground formula results in a~sufficiently specified \http request 
+and a postcondition which does not contain any universal variables.
+\end{corollary}
+
+% In this context, it is also easy to understand why we added the restriction that a \restdesc description should not contain deeply nested 
+% \emph{existential} variables as a constraint. We want to exclude universal variables in the result of the application of a \restdesc description.
+% If we would allow deeply nested existentials in the postcondition, this could for example contain a rule like:
+% \[
+%  \texttt{
+%  \{ \_:x :p :o\}=>\{:a :b :c\}.
+%  }
+% \]
+% This rule is interpreted by both reasoners as:
+% \[
+%  \texttt{<}\exists\texttt{x. <x p o>}\rightarrow\texttt{<a b c>.}
+% \]
+% Which is equivalent to:
+% \[
+%  \forall \texttt{x. <}\texttt{ <x p o>}\rightarrow\texttt{<a b c>.}
+% \]
+% In Cwm's interpretation, this can be expressed directly in \nthree as:
+% \[
+%  \texttt{
+%  \{?x :p :o\}=>\{:a :b :c\}.
+%  }
+% \]
+% So, such a rule with deeply nested existentials can be translated to a rule containing universals. Whether or not this translation is done, depends on the reasoner we use.
+% The constraint was added to make sure that even if a reasoner performs the above mentioned reasoning step, we can still be sure that our rules doe not result in 
+% any expression which contains a universal quantifier.
 
 \begin{lstlisting}[
   float=t,
@@ -1105,7 +1153,7 @@ are those which are expected to be grounded through the execution of the \http r
 \end{lstlisting}
 
 %To illustrate our definition on a~concrete hypermedia API example,
-\Cref{lst:Thumbnail} shows a~description
+To illustrate how such a \restdesc description looks like, we consider an example: \Cref{lst:Thumbnail} shows a~description
 that explains the \verb!smallThumbnail! relation in a~hypermedia API.
 The \emph{precondition} demands the existence of
 a~\verb!smallThumbnail! hyperlink
@@ -1123,7 +1171,7 @@ Furthermore, \verb!?thumbnail! will be an \verb!Image!
 and have a~\verb!height! of \verb!80.0!.
 
 There are two different ways to interpret this description:
-First the declarative, static way as defined in \cref{nthree},
+First the declarative, static way as defined in \Cref{nthree},
 which could be phrased as
 \enquote{the existence of the \texttt{smallThumbnail} relationship
 implies the existence of a~\texttt{GET} request
@@ -1160,7 +1208,7 @@ Thus, given a~concrete set of triples, such as:
 \begin{Verbatim}
     </photos/37> ex:smallThumbnail </photos/37/thumb>.
 \end{Verbatim}
-the description in \cref{lst:Thumbnail} would be instantiated to: 
+the description in \Cref{lst:Thumbnail} would be instantiated to: 
 \begin{Verbatim}
     _:request http:methodName "GET";
               http:requestURI </photos/37/thumb>;
@@ -1200,11 +1248,13 @@ Even though the exact values will only be known at runtime
 when the actual \verb!POST! request is executed,
 at design-time, we are able to determine that there will be several links.
 The meaning of those links is in turn expressed by other descriptions,
-such as the one in \cref{lst:Thumbnail} discussed~above.
+such as the one in \Cref{lst:Thumbnail} discussed~above.
 
 %\FloatBarrier
-\section{Proof of a~Composition's Correctness}
-\label{sec:Proof}
+ \section{Proofs as plans}
+ \label{sec:Proof}
+ Having seen in the previous section how we can describe hypermedia API operations by means of existential rules, we now want 
+ to explain how proofs containing these \restdesc descriptions can serve as plans towards the fulfilment of a goal. We start by further defining the problem we want to solve.
 
 % \begin{figure}[b]
 %   \centering
@@ -1240,24 +1290,24 @@ such as the one in \cref{lst:Thumbnail} discussed~above.
 % \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Compositions of Hypermedia APIs}
+\subsection{Composition problems}
 \label{subsec:Definition}
-Having introduced a formal way to describe the function of hypermedia APIs in the last section,
-we will now focus on the proofs which can be created using these rules.
-More concretely, we examine proofs which confirm that a certain combination of API calls brings us to a desired goal.
-We therefore take a closer look at the problem itself.
+% Having introduced a formal way to describe the function of hypermedia APIs in the last section,
+% we will now focus on the proofs which can be created using these rules.
+% More concretely, we examine proofs which confirm that a certain combination of API calls brings us to a desired goal.
+% We therefore take a closer look at the problem itself.
 Given a set of possible API operations,
 we want to achieve a~goal from an initial state.
 Furthermore, we might have some additional knowledge that can be incorporated.
 The above can be expressed in \nthree as follows:
 
 \begin{definition}[API composition problem]\label{apicomp}
-Let~$\mathcal{F}$ be the set of simple \nthree formulas over an alphabet~$\mathcal{A}$ which contains the predicates defined in definition \ref{httppr}.
+Let~$\mathcal{F}$ be the set of simple \nthree formulas over an alphabet~$\mathcal{A}$ which contains the predicates defined in Definition~\ref{httppr}.
 An \textit{API composition problem} consists of the following formulas:
 \begin{itemize}
  \item A set $H\subset \mathcal{F}_g$ of ground formulas capturing all resource and application states the client is currently aware of,  the \textit{initial state}.
  \item 
- A formula $g\in \mathcal{F}$ with $\text{comp}^2(g)=\emptyset$, which does not contain existential variables, the \textit{goal state} which
+ A formula $g\in \mathcal{F}$ with $\text{comp}^n(g)=\emptyset$ for all $n\geq 2$, which does not contain existential variables, the \textit{goal state} which
   indicates on a symbolic level what the client wants to achieve.
  \item A set $R$ of
  \restdesc descriptions or conjunctions of  \restdesc descriptions, describing
@@ -1279,7 +1329,7 @@ existential rules. The constraints put on the background knowledge make the rule
 contains only ground formulas and as the goal does not contain nested constructions or existential variables it can also be expressed in a Datalog rule.
 This makes the whole problem at our disposal expressible in Datalog$^\pm$ \cite{datalogpm}. The reason for this restrictions 
 %For technical reasons which
-will become clear in \cref{sec:Reasoning},
+will become clear in \Cref{sec:Composition}. %,\todo{replace}
 %we put syntactical restrictions on the way to describe a problem.
 %Note that similarly to the way we did it with the restrictions put on the definition of RESTdesc descriptions, we 
 %can also make a link to another logical framework here: the initial state consists of facts 
@@ -1289,17 +1339,25 @@ from $H\cup R \cup B$ follows $g'$, where $g'$ is a valid instance of $g$.
 As a normal hypermedia API composition problem tries to actually achieve real states
 and obtain instantiated objects, our final target is to make $g'$ ground.
 
+% \todo{add text}
+% Applied on a API composition problem, we get the following consequence:
+% \begin{corollary}[Correctness of API composition proofs]
+% Let $(H,g,R,B)$ be an API composition problem and $g'$ an instance  of $g$ then the following holds:
+% \[\text{If }H\cup R \cup B \vdash g' \text{ then }H\cup R \cup B \models g'\]
+% \end{corollary}
+
+
 \subsection{Pre-proofs versus Post-proofs}
 \label{sec:PrePostProof}
-The focus of this section is not how to create proofs
-but how to verify their correctness,
-given that creation has already been performed.
-This is not unlike the notion of proof 
-% in the classical Semantic Web vision~\cite{SemanticWeb},
-% 
-as we have seen it in the previous chapter
-where it is defined as~a means to assert the validity of a~piece of (static) information.
-In this chapter, we extend this classical notion or proofs
+% The focus of this section is not how to create proofs
+% but how to verify their correctness,
+% given that creation has already been performed.
+% This is not unlike the notion of proof 
+% % in the classical Semantic Web vision~\cite{SemanticWeb},
+% % 
+% as we have seen it in the previous chapter
+% where it is defined as~a means to assert the validity of a~piece of (static) information.
+In this section, we extend this classical notion or proofs
 to also include \emph{dynamic} information,
 {\it i.e.,} data generated by Web~APIs.
 As a~consequence of this dynamic nature,
@@ -1438,14 +1496,16 @@ which are still unknown at the time the pre-proof is to be verified.
   \label{fig:Proofs}
 \end{figure}
 
-\subsection{Anatomy of a~Hypermedia API Composition Proof}
-\label{sec:ProofAnatomy} 
+% \subsection{Anatomy of a~Hypermedia API Composition Proof}
+% \label{sec:ProofAnatomy} 
+% Hypermedia API composition proofs as discussed above are 
+% 
 
-Applied on a API composition problem, we get the following consequence:
-\begin{corollary}[Correctness of API composition proofs]
-Let $(H,g,R,B)$ be an API composition problem and $g'$ an instance  of $g$ then the following holds:
-\[\text{If }H\cup R \cup B \vdash g' \text{ then }H\cup R \cup B \models g'\]
-\end{corollary}
+% Applied on a API composition problem, we get the following consequence:
+% \begin{corollary}[Correctness of API composition proofs]
+% Let $(H,g,R,B)$ be an API composition problem and $g'$ an instance  of $g$ then the following holds:
+% \[\text{If }H\cup R \cup B \vdash g' \text{ then }H\cup R \cup B \models g'\]
+% \end{corollary}
 
 %The corollary ensures that every proof we get for an API composition problem is actually an evidence for the
 %The corrollary ensures that every proof we get by applying the calculus is actually correct. 
@@ -1460,54 +1520,54 @@ Let $(H,g,R,B)$ be an API composition problem and $g'$ an instance  of $g$ then 
  
 
 
-We will examine the generalized modus ponens in more detail,
-as this is the proof step where implication rules, 
-such as \restdesc descriptions, are applied.
-
-\label{sec:Reasoning}
-\begin{lemma}\label{lemma:Reasoning}
-Let $A$ be an \nthree alphabet, %$\Gamma\subset F$ a set of formulas, 
-$f\in F_g$ a simple ground formula and $\verb!{!f_1\verb!}=>{!f_2\verb!}!\in F$ a simple implication formula %of nesting level 2 
-where all 
-universal variables which occur in $f_2$ %do 
-also occur in $f_1$. If the generalized modus ponens is applicable to $f$ and $\verb!{!f_1\verb!}=>{!f_2\verb!}!$ then
-the resulting formula does not contain universal variables.
-\end{lemma}
-
-\begin{proof}
- %Let  $\mu_{1}, \ldots, \mu_{n}$ be 
- %universal replacements 
- Let $\sigma:V_U\rightarrow E_e$ be a substitution %such that 
- such that  $(\verb!{!f_1\verb!}=>{!f_2\verb!}.!)\sigma^t= \verb!{!f\verb!}=>{!f_2'\verb!}.!$ 
-As $f$ is a ground formula, $\text{range}(\sigma|_{V_U\cap(\text{comp}^1(f_1)\cup \text{comp}^2(f_1))}) \subset E_g$. 
-Due to the condition that every universal variable of $f_2$ 
-is also in $f_1$, i.e. 
-\[((\text{comp}^1(f_2)\cup \text{comp}^2(f_2))\cap V_U )\subset (\text{comp}^1(f_1)\cup \text{comp}^2(f_1))\cap V_U)\]
-the claim follows. 
-%
- %As the implication
- %has nesting level 2, by Definition \ref{repl}, from each replacement only the first substitution $\sigma^{\mu_i}_{11}=: \sigma_{\mu_i}$ 
- %gets totally applied to the whole implication 
- %and we obtain
- %there are, by definition \ref{repl}, some substitutions $\sigma_1\ldots\sigma_n$ such that 
- %\[\mu_{1}\circ\ldots\circ\mu_{n}(\verb!{!f_1\verb!}=>{!f_2\verb!}.!)=(\verb!{!f_1\verb!}=>{!f_2\verb!}.!)\sigma_{\mu_1}^t\ldots\sigma_{\mu_n}^t.\]
- %Therefore all 
- %universal variables which are replaced in $f_1$ are also replaced by the same substitution in $f_2$.
-\end{proof}
-
-
-As \http requests in \restdesc descriptions only contain
-one leading existential to represent the \http message, and 
-\restdesc descriptions 
-fulfill the conditions of Lemma~\ref{lemma:Reasoning}
-%have nesting level~2,
-we arrive at the following consequence:
-
-\begin{corollary}
-\label{corollary}
-Every application of a ~restdesc description to a ground formula results in a~sufficiently specified \http request 
-and a postcondition which does not contain any universal variables.
-\end{corollary}
+% We will examine the generalized modus ponens in more detail,
+% as this is the proof step where implication rules, 
+% such as \restdesc descriptions, are applied.
+% 
+% \label{sec:Reasoning}
+% \begin{lemma}\label{lemma:Reasoning}
+% Let $A$ be an \nthree alphabet, %$\Gamma\subset F$ a set of formulas, 
+% $f\in F_g$ a simple ground formula and $\verb!{!f_1\verb!}=>{!f_2\verb!}!\in F$ a simple implication formula %of nesting level 2 
+% where all 
+% universal variables which occur in $f_2$ %do 
+% also occur in $f_1$. If the generalized modus ponens is applicable to $f$ and $\verb!{!f_1\verb!}=>{!f_2\verb!}!$ then
+% the resulting formula does not contain universal variables.
+% \end{lemma}
+% 
+% \begin{proof}
+%  %Let  $\mu_{1}, \ldots, \mu_{n}$ be 
+%  %universal replacements 
+%  Let $\sigma:V_U\rightarrow E_e$ be a substitution %such that 
+%  such that  $(\verb!{!f_1\verb!}=>{!f_2\verb!}.!)\sigma^t= \verb!{!f\verb!}=>{!f_2'\verb!}.!$ 
+% As $f$ is a ground formula, $\text{range}(\sigma|_{V_U\cap(\text{comp}^1(f_1)\cup \text{comp}^2(f_1))}) \subset E_g$. 
+% Due to the condition that every universal variable of $f_2$ 
+% is also in $f_1$, i.e. 
+% \[((\text{comp}^1(f_2)\cup \text{comp}^2(f_2))\cap V_U )\subset (\text{comp}^1(f_1)\cup \text{comp}^2(f_1))\cap V_U)\]
+% the claim follows. 
+% %
+%  %As the implication
+%  %has nesting level 2, by Definition \ref{repl}, from each replacement only the first substitution $\sigma^{\mu_i}_{11}=: \sigma_{\mu_i}$ 
+%  %gets totally applied to the whole implication 
+%  %and we obtain
+%  %there are, by definition \ref{repl}, some substitutions $\sigma_1\ldots\sigma_n$ such that 
+%  %\[\mu_{1}\circ\ldots\circ\mu_{n}(\verb!{!f_1\verb!}=>{!f_2\verb!}.!)=(\verb!{!f_1\verb!}=>{!f_2\verb!}.!)\sigma_{\mu_1}^t\ldots\sigma_{\mu_n}^t.\]
+%  %Therefore all 
+%  %universal variables which are replaced in $f_1$ are also replaced by the same substitution in $f_2$.
+% \end{proof}
+% 
+% 
+% As \http requests in \restdesc descriptions only contain
+% one leading existential to represent the \http message, and 
+% \restdesc descriptions 
+% fulfill the conditions of Lemma~\ref{lemma:Reasoning}
+% %have nesting level~2,
+% we arrive at the following consequence:
+% 
+% \begin{corollary}
+% \label{corollary}
+% Every application of a \restdesc description to a ground formula results in a~sufficiently specified \http request 
+% and a postcondition which does not contain any universal variables.
+% \end{corollary}
 
 % Additional to the above mentioned steps proof steps themseves, %, the reasoner is able to apply existential renaming. 
 % the substitutions done during the reasoning process %as well as those applied in generalized modus ponens 
@@ -1586,7 +1646,7 @@ and a postcondition which does not contain any universal variables.
 
 \begin{lstlisting}[
   float=t,
-  caption={A filter rule expressing the agent's goal \emph{(agent\_goal.n3)}},
+  caption={A filter rule expressing the agent's goal \emph{(agent\_goal.n3)}.},
   label=lst:Goal]
 §\textcolor{gray}{@prefix dbpedia-owl: <http://dbpedia.org/ontology/>.}§
 
@@ -1613,7 +1673,6 @@ and a postcondition which does not contain any universal variables.
 §\bfseries<\#lemma1> a r:Inference;\label{ln:Lemma1}§
   r:gives { <lena.jpg> dbpedia-owl:thumbnail _:sk3. };
   r:evidence (<#lemma2>);
-  r:binding [ r:variable [ n3:uri "var#x0"]; r:boundTo [ n3:nodeId "_:sk3"]];
   r:rule <#lemma7>.
   
 §\bfseries<\#lemma2> a r:Inference;\label{ln:Lemma2}§
@@ -1625,10 +1684,6 @@ and a postcondition which does not contain any universal variables.
             _:sk3 a dbpedia:Image.
             _:sk3 dbpedia-owl:height 80.0. };
   r:evidence (<#lemma3>);
-  r:binding [ r:variable [ n3:uri "var#x0"]; r:boundTo [ n3:uri "lena.jpg"]];
-  r:binding [ r:variable [ n3:uri "var#x1"]; r:boundTo [ n3:nodeId "_:sk3"]];
-  r:binding [ r:variable [ n3:uri "var#x2"]; r:boundTo [ n3:nodeId "_:sk4"]];
-  r:binding [ r:variable [ n3:uri "var#x3"]; r:boundTo [ n3:nodeId "_:sk5"]];
   r:rule <#lemma4>.
   
 §\bfseries<\#lemma3> a r:Inference;\label{ln:Lemma3}§
@@ -1638,19 +1693,18 @@ and a postcondition which does not contain any universal variables.
             _:sk0 http:resp _:sk1.
             _:sk1 http:body <lena.jpg>.
             <lena.jpg> ex:comments _:sk2.
-            <lena.jpg> ex:smallThumbnail _:sk3. };
-  r:binding [ r:variable [ n3:uri "var#x0"]; r:boundTo [ n3:uri "lena.jpg"]];
-  r:binding [ r:variable [ n3:uri "var#x1"]; r:boundTo [ n3:nodeId "_:sk0"]];
-  r:binding [ r:variable [ n3:uri "var#x2"]; r:boundTo [ n3:nodeId "_:sk1"]];
-  r:binding [ r:variable [ n3:uri "var#x3"]; r:boundTo [ n3:nodeId "_:sk2"]];
-  r:binding [ r:variable [ n3:uri "var#x4"]; r:boundTo [ n3:nodeId "_:sk3"]];   
+            <lena.jpg> ex:smallThumbnail _:sk3. };  
   r:evidence (<#lemma6>);
   r:rule <#lemma5>.
   
-§\bfseries<\#lemma4> a r:Extraction;§§\label{ln:Lemma4}§ r:because [ a r:Parsing; r:source <desc_thumbnail> ].
-§\bfseries<\#lemma5> a r:Extraction;§§\label{ln:Lemma5}§ r:because [ a r:Parsing; r:source <desc_images> ].
-§\bfseries<\#lemma6> a r:Extraction;§§\label{ln:Lemma6}§ r:because [ a r:Parsing; r:source <agent_knowledge> ].
-§\bfseries<\#lemma7> a r:Extraction;§§\label{ln:Lemma7}§ r:because [ a r:Parsing; r:source <agent_goal> ].
+§\bfseries<\#lemma4> a r:Extraction;§§\label{ln:Lemma4}§ 
+  r:because [ a r:Parsing; r:source <desc_thumbnail> ].
+§\bfseries<\#lemma5> a r:Extraction;§§\label{ln:Lemma5}§
+  r:because [ a r:Parsing; r:source <desc_images> ].
+§\bfseries<\#lemma6> a r:Extraction;§§\label{ln:Lemma6}§ 
+  r:because [ a r:Parsing; r:source <agent_knowledge> ].
+§\bfseries<\#lemma7> a r:Extraction;§§\label{ln:Lemma7}§
+  r:because [ a r:Parsing; r:source <agent_goal> ].
 \end{lstlisting}
 
 \newcommand\lineref[1]{[\textit{line~\ref{#1}}]}
@@ -1658,17 +1712,28 @@ and a postcondition which does not contain any universal variables.
 
 %\newpage
 
-\subsection{Discussion of a~Composition Proof Example}\label{example}
-\subsubsection{\bfseries Overview}
-\Cref{lst:Proof} displays an example of a hypermedia API composition proof.
-In addition to the two \restdesc descriptions from \cref{lst:Thumbnail,lst:Images}
+\subsection{Hypermedia API Operations inside a~Proof}\label{restdescinproof}
+%\subsection{Discussion of a~Composition Proof Example}\label{example}
+We now want to use proofs as plans for the execution of API calls. \restdesc descriptions are designed 
+in a way that allows us to know from the proofs they are used in, which API operations will bring us closer to our desired goal. 
+To further explain this idea, we use an example.
+
+%\subsubsection{\bfseries Overview}
+\Cref{lst:Proof} displays a hypermedia API composition proof.
+In addition to the two \restdesc descriptions from \Cref{lst:Thumbnail,lst:Images}
 ($R$ in an API composition problem),
-it involves the goal file \cref{lst:Goal} (\texttt{\{g\} => \{g\}.})
-and the input file \cref{lst:Knowledge} (the initial knowledge $H$).
+it involves the goal file \Cref{lst:Goal} (\texttt{\{g\} => \{g\}.})
+and the input file \Cref{lst:Knowledge} (the initial knowledge $H$).
 %the purpose of which will be explained in \cref{sec:Composition}.
 The proof, generated by EYE~\cite{eyepaper},
-explains how, given an image, a~thumbnail of this image can be obtained.
-Its main element is \verb!r:Proof!~\lineref{ln:Proof},
+explains how, given an image, a~thumbnail of this image can be obtained. The proof makes use of the proof vocabulary introduced in Section~\ref{sec:proofvoc}.
+We now explain the different elements in detail.
+\vspace{-1em}
+% As we already discussed the proof vocabulary and its concrete usage in Section~\ref{sec:proofvoc} we limit our discussion here to the two proof steps which are most 
+% important for our
+
+\paragraph{\bfseries Overview}
+The main element of the proof is \verb!r:Proof!~\lineref{ln:Proof},
 which is a~conjunction of different components, indicated by \verb!r:component!.
 In this example, there is only one,
 but there can be multiple.
@@ -1678,15 +1743,15 @@ is the triple
 \verb!<lena.jpg> dbpedia-owl:thumbnail _:sk3 !%
 (with \verb!_:sk3! an existential variable).
 This captures the fact that \verb!lena.jpg! has a~certain thumbnail,
-which is the consequent of the filter rule in \cref{lst:Goal}.
+which is the consequent of the filter rule in \Cref{lst:Goal}.
 
 \vspace{-1em}
 
 \paragraph{\bfseries Extractions and inferences}
-EYE represents \verb!r:extraction!s and \verb!r:inference!s as lemmata,
+EYE represents \verb!r:Extraction!s and \verb!r:Inference!s as lemmata,
 which can be reused in different proof steps.
 The extractions, Lemmata~4 to~7~\linesref{ln:Lemma4}{ln:Lemma7}, are fairly trivial as none of the underlying formulas is a real conjunction and will therefore not be discussed in detail.
-In this proof, they just give the formulas specified in \cref{lst:Thumbnail} to 4 with renamed variables.
+In this proof, they just give the formulas specified in \Cref{lst:Thumbnail} to \ref{lst:Goal} with renamed variables.
 The inferences describe the actual reasoning carried out
 and thus merit a~closer inspection.
 We will follow the path backwards from the proof's conclusion,
@@ -1699,34 +1764,35 @@ that are the starting point of the proof.
 The justification for the conclusion
 consists in this case of a~single component, namely Lemma~1~\lineref{ln:Lemma1}.
 This lemma is an application of the modus ponens using the implication of Lemma~7,
-which is the file \verb!agent_goal.n3! shown in \cref{lst:Goal}.
-This rule has been instantiated 
-according to the variable bindings indicated by \verb!r:binding!:
-here, the variable \verb!?thumbnail! (\verb!var#x0!)
-is bound to the existential variable \verb!_:sk3!.
-The unification uses a part of the result of Lemma~2 as indicated by \verb!r:evidence!, the performed conjunction elimination is not listed in this proof.
-\sloppy Substituting \verb!_:sk3! for \verb!?thumbnail! in \cref{lst:Goal}
-indeed gives the desired conclusion
+which is the file \verb!agent_goal.n3! shown in \Cref{lst:Goal}.
+%This rule has been instantiated 
+% according to the variable bindings indicated by \verb!r:binding!:
+% here, the variable \verb!?thumbnail! (\verb!var#x0!)
+% is bound to the existential variable \verb!_:sk3!.
+This implication has been applied on
+ a part of the result of Lemma~2 as indicated by \verb!r:evidence!> % the performed conjunction elimination is not listed in this proof.
+%\sloppy Substituting \verb!_:sk3! for \verb!?thumbnail! in \Cref{lst:Goal}
+This rule application leads to the desired conclusion
 \verb!<lena.jpg> dbpedia-owl:thumbnail _:sk3!,
 which contributes to the final~result.
 
 \vspace{-1em}
 
 \paragraph{\bfseries Thumbnail operation}
-Lemma~2~\lineref{ln:Lemma2} is another \verb!r:inference!,
+Lemma~2~\lineref{ln:Lemma2} is another \verb!r:Inference!,
 this time applying the rule from Lemma~4,
-which is the \restdesc description in \cref{lst:Thumbnail}
+which is the \restdesc description in \Cref{lst:Thumbnail}
 that explains what happens when an image is uploaded. 
-The instantiation is again detailed with \verb!r:binding! statements.
-The \verb!?image! variable (\verb!var#x0!) is bound to \verb!lena.jpg!,
-the \verb!?thumbnail! variable (\verb!var#1!) to the existential \verb!_:sk3!.
-This is only possible because a~ statement
-\verb!<lena.jpg> ex:smallThumbnail _:sk3! is proven; 
-its derivation will be detailed shortly.
-The other variables \verb!var#x2! and \verb!var#x3!
-refer to the request and response resources in the consequent of \cref{lst:Thumbnail}
-and are instantiated with new existentials (\verb!_:sk4! and \verb!_:sk5!).
-This lemma is in turn made possible by another one.
+% The instantiation is again detailed with \verb!r:binding! statements.
+% The \verb!?image! variable (\verb!var#x0!) is bound to \verb!lena.jpg!,
+% the \verb!?thumbnail! variable (\verb!var#1!) to the existential \verb!_:sk3!.
+This rule application relies on the fact that %This is only possible because a~ statement
+\verb!<lena.jpg> ex:smallThumbnail _:sk3! is proven (Lemma~3). 
+% its derivation will be detailed shortly.
+% The other variables \verb!var#x2! and \verb!var#x3!
+% refer to the request and response resources in the consequent of \Cref{lst:Thumbnail}
+% and are instantiated with new existentials (\verb!_:sk4! and \verb!_:sk5!).
+% This lemma is in turn made possible by another one.
 
 \vspace{-1em}
 
@@ -1735,12 +1801,13 @@ Lemma~3~\lineref{ln:Lemma3} explains the derivation of the triple
 that is a~necessary condition for Lemma~2:
 \verb!<lena.jpg> ex:smallThumbnail _:sk3!.
 The rule used for the inference is that
-from the upload action in \cref{lst:Images} (Lemma~5),
+from the upload action in \Cref{lst:Images} (Lemma~5),
 instantiated with the initial knowledge of the agent
-that it has access to an image (\cref{lst:Knowledge} / Lemma~6).
-Substituting this knowledge into the rule
-by binding \verb!?image! (\verb!var#x0!)
- to \verb!lena.jpg!,
+that it has access to an image (\Cref{lst:Knowledge} / Lemma~6).
+Substituting %this knowledge into the rule
+%by binding 
+\verb!?image! %(\verb!var#x0!)
+ by \verb!lena.jpg!,
 gives the triples of the instantiated consequent,
 as shown by the \verb!r:gives! predicate.
 Note in particular the newly created existential \verb!_:sk3!;
@@ -1754,26 +1821,25 @@ Hence, we have reached the starting proof's starting~point.
 
 \paragraph{\bfseries From start to end}
 As a~summary, we will briefly follow the proof in a~forward way.
-Extracted from the background knowledge in \cref{lst:Knowledge},
+Extracted from the background knowledge in \Cref{lst:Knowledge},
 the triple \verb!<lena.jpg> a dbpedia:Image!
-triggers the image upload rule from \cref{lst:Thumbnail},
+triggers the image upload rule from \Cref{lst:Thumbnail},
 which yields \verb!<lena.jpg> dbpedia-owl:thumbnail _:sk3!
 for some existential variable \verb!_:sk3!.
-This triple in turn triggers the thumbnail rule from \cref{lst:Thumbnail},
+This triple in turn triggers the thumbnail rule from \Cref{lst:Thumbnail},
 which yields \verb!<lena.jpg> ex:smallThumbnail _:sk3!.
-Finally, this is the input for the filter rule from \cref{lst:Goal},
+Finally, this is the input for the filter rule from \Cref{lst:Goal},
 which yields the final result of the proof:
 the image has some thumbnail.
 So given the background knowledge
 and the two hypermedia API descriptions,
 this proof verifies that the goal follows from them.
 
-\subsection{Hypermedia API Operations inside a~Proof}
-The proof in \cref{lst:Proof} is special
+The proof in \Cref{lst:Proof} is special
 in the sense that some of its implication rules,
-namely \cref{lst:Thumbnail,lst:Images},
+namely \Cref{lst:Thumbnail,lst:Images},
 are actually hypermedia API descriptions.
-That means they do not fulfill an actual ontological implication.
+That means they do not fulfil an actual ontological implication.
 Instead, they convey dynamic information.
 Therefore, those steps in the proof
 can be interpreted as \http requests that should be performed
@@ -1807,7 +1873,7 @@ At runtime, the \http request will return the actual link targets,
 but at the pre-proof stage,
 it suffices to know that some target for those links will exist.
 
-Indeed, the outcome of this rule---the fact that \emph{some} \verb!smallThumbnail! links will exist---%
+Indeed, the outcome of this rule -- the fact that \emph{some} \verb!smallThumbnail! links will exist --
 serves as input for the next API operation in Lemma~2 \lineref{ln:Lemma2}.
 The consequent of this rule is instantiated as follows:
 \begin{Verbatim}
@@ -1884,7 +1950,7 @@ which can pose a~threat to subsequent hypermedia API operations that depend on t
 However, the failure of a~single API operation
 does not necessarily imply the intended result cannot be achieved.
 Rather, it means the assumption of the pre-proof was invalid
-and an alternative pre-proof---a~new hypermedia API composition---should be created,
+and an alternative pre-proof -- a~new hypermedia API composition -- should be created,
 starting from the current application state.
 Such a~pragmatic approach to proofs containing hypermedia API operations is unavoidable:
 no matter how low the probability of a~certain operation to fail,
@@ -1981,10 +2047,10 @@ i.e., the data and rules applied to achieve the goal.
 Inside this proof,
 there will be placeholders for return values by the server
 that are unknown at design-time.
-The proof will be structured as in \cref{lst:Proof},
-where the initial state was \cref{lst:Knowledge},
-the goal state \cref{lst:Goal},
-and the descriptions \cref{lst:Thumbnail,lst:Images}.
+The proof will be structured as in \Cref{lst:Proof},
+where the initial state was \Cref{lst:Knowledge},
+the goal state \Cref{lst:Goal},
+and the descriptions \Cref{lst:Thumbnail,lst:Images}.
 No background knowledge was needed,
 but it could have been useful for instance
 if the image of the initial state was described in different ontology,
@@ -2093,7 +2159,7 @@ of the composition example introduced previously.
 \newcommand\stepref[1]{\emph{(Step~#1)}}
 \begin{itemize}
   \item \stepref{1} Given the background knowledge, initial state, and goal,
-        the reasoner generates the pre-proof from \cref{lst:Proof},
+        the reasoner generates the pre-proof from \Cref{lst:Proof},
         which contains $n_{\text{pre}} = 2$ API operations.
   \item \stepref{2} $n_{\text{pre}} \neq 0$, so continue with Step~3.
   \item \stepref{3} The HTTP request to upload the image
@@ -2173,8 +2239,8 @@ Steps 1 and 2 always result in option (b).
 All formulas in $H\cup B$ are either ground formulas
 or simple rule formulas % of level~2 
 which do not contain existentials 
-and which fulfill Lemma~\ref{lemma:Reasoning}.
-Therefore no atomic formula or conjunction of atomic formulas
+and which fulfil Lemma~\ref{lemma:Reasoning}.
+Therefore no formula or conjunction of formulas
 which can be obtained by applying the proof steps from Definition \ref{proofsteps}
 on $H\cup B$
 contains universals %of nesting level 1 
@@ -2197,9 +2263,9 @@ As every operation which changes the API composition problem for the pre-proof t
 sets of formulas involved, it is enough to show that the result of every pre-proof of an API composition problem which does not contain 
 applications of \restdesc rules is ground. %This is the case because of the properties
 This follows by the same arguments as above. As $H\cup B \cup \{ \texttt{\underline{\{}g\underline{\}} => \underline{\{}g\underline{\}}.}\}$ 
-only contains ground formulas and rules which fulfill
+only contains ground formulas and rules which fulfil
 the conditions of Lemma~\ref{lemma:Reasoning},
-it is not possible to derive atomic formulas or conjunctions of atomic formulas which contain existentials or universals %at nesting level 1,
+it is not possible to derive formulas or conjunctions of formulas which contain existentials or universals %at nesting level 1,
 thus the result of the proof is ground.
 % If the algorithm succeeds, it ends with Step~3, resulting in the proven \nthree formula $g'$ which,
 % by definition of the filter, is an instance or a conjunction
@@ -2417,7 +2483,8 @@ thus the result of the proof is ground.
 % which makes it easier for them as well.
 % 
 
-\todo{Cite \cite{verborgh_phd_2014} for evaluation.}
+
+
 % 
 % \section{Evaluation}
 % \label{sec:Evaluation}

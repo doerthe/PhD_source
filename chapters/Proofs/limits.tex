@@ -1,0 +1,94 @@
+\section{Limits of the approach}\label{sec:limits}
+Having introduced the pragmatic proof algorithm and discussed its advantages for hypermedia APIs -- the algorithm is highly adaptive and can cope well with rapidly 
+changing environments -- we now want to discuss shortcomings and possible problems of the approach.
+Our
+goal is to clearly identify for which kinds of use cases we can perform planning by using proofs and for which cases this method is not well suited.
+
+\subsection{Existential rules}
+%Not a shortcoming in the classical meaning but a potential source of problems is that the approach uses existential rules.
+Our approach relies on existential rules. While initial tests have shown that the EYE reasoner performs well when applying automatically generated RESTdesc 
+descriptions~\cite{PP}, it is in general rather easy to construct examples which -- when applying classical inferencing algorithms -- 
+lead to infinite loops. To illustrate that, we discuss a classical example problem for existential rules. Consider the following rule:
+% \[
+% \texttt{:Kurt a :Person.}
+% \]
+% and the rule
+\[
+\texttt{ \{?x a :Person\}=>\{?x :mother \_:y. \_:y a :Person.\}. }
+\]
+This rule means:
+
+\begin{center}\textit{``Every person has a mother and this mother is again a person.''}\end{center}
+
+The moment we have a triple which declares someone as a person, the rule will trigger and add a triple representing
+the mother of this person. As this mother again has a mother which then again has a mother and so on, we get into an infinite loop and the reasoning process will not stop.
+
+While the loop we created here can be avoided -- it is rather unusual to write a rule which triggers on itself -- more complicated loops are more difficult to detect.
+%and %to avoid.
+A lot of research focusses on restrictions on existential rules which guarantee termination %  terminate
+%A lot of research focuses on ways to restrict existential rules
+(eg \cite{krotzsch2011extending,gottlob2013combining,Baget}). 
+As these restrictions need to be done on combinations of rules and can not be realised by imposing a certain format on every rule individually, such approaches cannot be 
+used for the Web and its distributed nature: As we do not know which APIs can and will be combined using our algorithm, we cannot ask the provider of one service 
+to write its description in a way that it does not lead to infinite loops when being combined with another service.
+
+Instead of restricting the rules, we work with different reasoning tactics: A reasoning tactic determines when a reasoner stops 
+(for example after a certain number of rule-applications  
+or directly after one instance of the goal is found), it controls the order in which rules are applied 
+(following Prolog's left-most selection rule~\cite{nilsson} or any other similar rule) and if can exclude rule applications based on their consequence (for example 
+no applying a rule for whose consequence the dataset already contains a ground instance). Such strategies are implemented in EYE~\cite{eye} and have proven 
+to be useful in practice. 
+The aim of the pragmatic proof algorithm is not to find all plans or the best plan towards a goal, its aim is to find one possible plan and then execute it.
+In this set-up it makes sense to try -- if needed -- different reasoning strategies on a API composition problem till one solution is found.
+
+
+
+% 
+% One source for problems with the approach 
+% While performance 
+% tests showed that the reasoning time 
+% 
+% 
+% 
+% We start by discussing the performance of the approach. Tests have shown that 
+% 
+% The pragmatic proof algorithm presented in the previous section is designed for hypermedia APIs 
+% 
+% 
+% has been developed for hypermedia APIs in the Web and in general, it performs very 
+% 
+% 
+% The tests which have been done about this approach as for example performed by Verborgh \cite{verborgh_phd_2014} also showed a very positive result:
+% 
+% 
+% Here I want to explain that it is difficult to express change in RESTdesc and that we cannot generate more than on path. Maybe I also want to mention that the reasoner
+% in some cases only stops if we apply specific strategies.
+% 
+% 
+% - Verborgh showed that the approach performs well enough for the Web. But here, we need to be careful:
+% 
+% Even though the experiments conducted to test the performance of the approach~\cite[ch. 5]{verborgh_phd_2014} showed very pr
+% 
+% existential rules can be problematic in general: bring the mother example
+
+\subsection{Choices}
+In the previous section we already explained, that the pragmatic proof algorithm is not designed to find different paths towards a goal but to find \emph{one} valid path.
+In settings where different alternatives need to be provided the approach cannot be applied: 
+The purpose of a proof in the classical sense is to provide evidence for a derived fact. 
+Once such an evidence is found, 
+it does not really make sense to search for an alternative 
+evidence. Therefore, \nthree reasoners are not optimised to search alternative proofs. But even if they were,
+the fact that we
+%If we would search for alternative paths using the approach presented, the fact that the approach combines
+combine reasoning on background knowledge and application 
+of \restdesc descriptions would quickly lead to performance problems:
+From the reasoner's point of view there is no difference between \restdesc descriptions and other rules. Alternative proofs would also need to take all alternative 
+ways to derive background knowledge into account and show for example that we can derive the fact that 
+\[
+ \texttt{:Kurt a }
+\]
+\todo{add resource as example}
+
+
+
+\subsection{Change}
