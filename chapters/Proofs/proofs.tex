@@ -7,12 +7,31 @@ The fourth aspect in this list, the support of the layer \emph{Proof}, is the to
 % to express proofs in that logic in 
 These proofs should not only support the layer of \emph{Trust} but should also be suitable to be used in practical applications.  
 
-We discuss the relationship of \nthreelogic and the layer of \emph{Proofs} in two steps: Firstly, 
-we further elaborate in this chapter on the SWAP~\cite{SWAP} proof vocabulary\footnote{\url{http://www.w3.org/2000/10/swap/reason\#}} 
-which we already briefly discussed in Section~\ref{proofintro}. 
-We formally define the calculus it expresses and prove its correctness. 
-In the following chapter we will then take a closer look to the practical applications of proofs: next to establishing 
-trust, proofs can, for example, also be used to do planning or to identify the potentially critical streams in a bigger set-up of streaming sensors. 
+In the Semantic Web there are different ways how reasoners provide explanations for their conclusions:
+OWL DL reasoners mostly either provide a \emph{justification}~\cite{just1,just2} -- a set of facts from which the new knowledge follows -- 
+or a \emph{proof}~\cite{owlproof2,owlproof} -- 
+a list of the aforementioned facts together with the concrete reasoning steps applied on them leading to the new data. 
+While verifications leave the work of constructing a more concrete description of how inference steps have been applied to the user who needs to know the underlying calculus to make sense of it,
+DL-proofs have another disadvantage: 
+they are mostly represented in formats 
+which are not native to the Semantic Web and can therefore not easily be exchanged, reused or automatically interpreted in this context.
+
+For \nthree this is different: \nthree reasoners produce proofs using the SWAP~\cite{SWAP} proof 
+vocabulary\footnote{\url{http://www.w3.org/2000/10/swap/reason\#}}. This vocabulary enables them to explain all their derivations in \nthree. 
+By that the proofs themselves become again part of the Semantic Web, they can be exchanged between different parties. They can be checked or
+used further by other reasoners.
+%We discuss the relationship of \nthreelogic and the layer of \emph{Proofs} in two steps: Firstly, 
+% In this chapter, 
+% we further elaborate in this chapter on the SWAP~\cite{SWAP} proof vocabulary\footnote{\url{http://www.w3.org/2000/10/swap/reason\#}} 
+% which we already briefly discussed in Section~\ref{proofintro}. 
+
+In this chapter we focus on the formal aspects of proofs:
+We identify a set of formulas for which the semantics of \nthree is not ambiguous, \emph{simple formulas}.
+For these \emph{simple formulas} we define the direct semantics. This definition also covers the semantics according to EYE.
+We then formally define the calculus the SWAP proof vocabulary expresses and prove its correctness. 
+In the following chapter we then investigate the practical applications of \nthree proofs.
+% Secondly, in the following chapter we will then take a closer look to the practical applications of proofs: next to establishing 
+% trust, proofs can, for example, also be used to do planning or to identify the potentially critical streams in a bigger set-up of streaming sensors. 
 %Below, we explain these two use cases in more detail.
 % vocabulary
 % introduced in the context of the Semantic Web Application Platform (SWAP)~\cite{SWAP}
@@ -23,23 +42,18 @@ trust, proofs can, for example, also be used to do planning or to identify the p
 % As discussed in Section~\ref{req}, all these aspects are crucial for a logic to become the unifying logic of the Semantic Web.
 % we identified all these aspects as crucial properties for a \emph{Unifying logic} for the Semantic Web but there 
 % was one more relevant aspect for such a logic: it should support the \emph{Proof} layer. 
-\section{Proofs and explanations in the Semantic Web}\todo{this part need to either be written or removed}
-Before we discuss proofs in \nthree we first give a brief overview of the different approaches to explain the derivation results produced by the different reasoning systems
-in the Semantic Web.
+% \section{Proofs and explanations in the Semantic Web}\todo{this part need to either be written or removed}
+% Before we discuss proofs in \nthree we first give a brief overview of the different approaches to explain the derivation results produced by the different reasoning systems
+% in the Semantic Web.
 % Semantic Web reasoning typically either applies Description Logics (DL)~\cite{dl} as formalised in the context of the Web Ontology language (OWL)~%~\cite{owl} 
 % or one of the several rule-based approaches,
 % e.g., swrl~\cite{swrl} or Notation3 Logic (N3 Logic)~\cite{N3Logic}. 
 
-Together with their reasoning results most OWL DL reasoners either provide a   a \emph{justification} -- a set of facts from which the new knowledge follows --
-or a proof in the classical sense -- a list of the aforementioned facts together with the concrete reasoning steps applied on them leading to the new data.
+% Together with their reasoning results most OWL DL reasoners either provide a   a \emph{justification} -- a set of facts from which the new knowledge follows --
+% or a proof in the classical sense -- a list of the aforementioned facts together with the concrete reasoning steps applied on them leading to the new data.
+% 
 
 
-Explanations for DL-derivations are mostly provided by giving either a \emph{justification}~\cite{just1,just2}---ie. a set of facts from which the new knowledge follows---or a \emph{proof}~\cite{owlproof2,owlproof}---% 
-a list of the aforementioned facts together with the concrete reasoning steps applied on them leading to the new data. 
-While verifications leave the work of constructing a more concrete description of how inference steps have been applied to the user who needs to know the underlying calculus to make sense of it,
-DL-proofs have another disadvantage: 
-they are mostly represented in formats 
-which are not native to the Semantic Web and can therefore not easily be exchanged, reused or automatically interpreted in this context.
 
 
 
