@@ -1,0 +1,19 @@
+\section{Conclusion}
+In this chapter we investigated which impact the fact that we have different interpretations for implicit universal quantification on 
+reasoning files used for practical applications.
+
+In order to do so, we implemented the attribute grammar defined in the previous chapter. 
+This implementations allows us to produce the concrete \nthree Core Logic equivalent of an \nthree formula following the different interpretations and 
+used for testing: Whoever wants to provide \nthree rules in the Web, can test whether the rules he or she created are subject to ambiguity.  
+
+We applied our implementation on different on the example use cases of EYE and on different sets of files which have been implemented in research projects 
+to solve practical problems. We encountered that 31\% of our files were subject to contradictions. 
+We further investigated the contexts in which we could observe these contradictions and identified one group of them as most harmful:
+if universal variables occur in constructs which do not make use of built-in functions and which are not part of a proof they are most likely produced by users who 
+are not aware of the different possibilities to interpret the formulas. 13\% of or formulas belonged to that group.
+
+These investigations have shown that the the underspecified semantics of \nthree is an actual problem which needs to be addressed. We therefore ended the chapter 
+by discussing possible solutions for the practitioner but also for the community. The latter needs to come to an agreement. 
+
+With this and the previous two chapters we addressed research questions 2 and 3 which focus on the formal semantics of \nthree and on \nthree's relation to \rdf. In the following 
+chapter, we take a more practical perspective and discuss the use cases \nthreelogic can solve, in particular: a Semantic nurse call system and data validation.
