@@ -4,8 +4,8 @@
 %\epigraph{\textit{Das Wesen der Mathematik liegt in ihrer Freiheit.}}{Georg Cantor}
 
 With the idea of the Semantic Web~\cite{SemanticWeb} a new vision how to use the Internet was born. The World Wide
-Web~\cite{bernerslee_1992} and its numerous functionalities should no longer only be used by humans---% 
-who can read websites or follow links to gain knowledge or use applications---but also by computers. To enable the computer to use the Web---just as humans do---%
+Web~\cite{bernerslee_1992} and its numerous functionalities should no longer only be used by humans -- 
+who can read websites or follow links to gain knowledge or use applications -- but also by computers. To enable the computer to use the Web -- just as humans do -- 
 it must \emph{understand} the Web. But how does a computer think? How can we teach it content? 
 And which language does it understand? 
 
@@ -17,8 +17,8 @@ and to enable it to reason and draw conclusions (cockatoos can fly) a representa
 
 To represent basic facts the Semantic Web follows a common standard, the Resource Description Framework (\rdf)~\cite{rdf}. 
 The semantics of \rdf is clearly defined and other standards are designed on top of it, 
-but \rdf itself does not include any entailment regime, in other words: there is no internal
-mechanism designed how the computer is supposed to draw conclusions.
+but \rdf itself does only include very basic entailment regimes, in other words: there is no internal
+mechanism designed how the computer is supposed to draw complex conclusions.
 To either query a graph, or to derive new knowledge applying description logics
 or rule based reasoning, there are other standards defined. The envisioned architecture of the Semantic Web then 
 foresees a \emph{unifying logic} on top of those. 
@@ -31,59 +31,145 @@ Introduced by Tim Berners-Lee et al. \cite{N3Logic}, \notationthree Logic is a r
 by different features like an inference mechanism, the option to cite graphs and the possibility to express proofs.
 We discuss how the logic itself can be formalised, how it interacts with other formalisms and how proofs are useful for applications.
 
-This thesis consists of 5 parts and 12 chapters in total:
+
+
+Next to this introduction, this thesis consists of the following chapters:
 
 \begin{description}
-\item[Part \ref{intro} -- Introduction] includes, apart from this text, a discussion the envisioned architecture of the Semantic Web and the concept of a 
-Unifying Logic in \emph{Chapter~\ref{uni}}. This also leads to the research questions we are going to explore in this thesis.
-\item[Part \ref{semantics} -- Semantics of \nthree] discusses \notationthree Logic and its semantics. Despite the fact that \notationthree has 
-been invented more than a decade ago and that there are different reasoners supporting that logic, its semantics has never been formally defined. 
-In this part we aim to close that gap:
+\item[Chapter~\ref{unilog} -- Unifying Logic]
+includes an introduction to the envisioned  architecture of the Semantic Web with a special focus 
+on the concept of a \emph{unifying logic}. In this context we also introduce \nthreelogic as a promising candidate to fulfil this role.
+This then leads to the research questions we are going to explore in this thesis.
 
-\emph{Chapter~\ref{problem}} introduces the syntax of \notationthree Logic formulas 
-and explains the difficulties and ambiguities regarding their interpretation with a special focus on a particular problem: implicit quantification.
-In \notationthree it is possible to
+\item[Chapter~\ref{problem} -- Implicit Quantification] discusses 
+a problem of \nthreelogic:
+%the idea of implicit quantification.
+% introduces the syntax of \notationthree Logic formulas 
+% and explains the difficulties and ambiguities regarding their interpretation with a special focus on a particular problem: implicit quantification.
+In  \nthree it is possible to
 use bound variables for which the universal or existential quantifiers are not explicitly stated,
-but implicitly assumed. %We test how reasoning engines differ in their interpretation of the same formula. 
+but implicitly assumed. 
+The meaning of these variables is not clearly defined and their interpretations differ. 
+We put this observation in relation to \rdf and to other 
+frameworks which support some kind of implicit quantification.
+%We test how reasoning engines differ in their interpretation of the same formula. 
+
+\item[Chapter~\ref{semofn3} -- Defining the Semantics of \nthreelogic]
+aims to further clarify the problem.
+We define a core logic for \nthreelogic which covers
+all relevant features of \nthree but only supports
+explicit quantification. 
+We specify an attribute grammar which maps \nthree formulas to that logic according to the interpretations of the reasoners Cwm and EYE 
+and thereby define two possible
+semantics of \nthree.
+
+
+\item[Chapter~\ref{eva} -- The impact of having different \nthree interpretations]
+treats\linebreak the practical consequences of the differences we found. We implemented the attribute grammar and tested for 
+files used in practical applications whether their interpretations differ. This is the case for 31\% of all files.
+We analyse the differences found and discuss possible solutions for the problem.
+% 
+% explains how we implemented this grammar in Haskell to test the practical impact of the differences we found earlier. 
+% %This grammar is then implemented and used to test the impact of the differences between interpretations on practical cases. 
+% we discuss the different options to solve the problem and define direct semantics of how we understand the official sources for \nthree's Semantics. This definition
+% is then used in the following chapters.
+
+\item[Chapter~\ref{others} -- Querying and ontology reasoning with Notation3 Logic]
+focusses on the applications which can be realised using \nthreelogic. In particular, we discuss two use cases:
+ a semantic nurse call system and a system for data validation. Both have  previously been implemented by 
+applying SPARQL querying and OWL-DL reasoning. We show that both use cases can also be tackled with \nthree and that the implementations using \nthree
+provide comparable results.
+% 
+% 
+% The goal of this part is to illustrate on practical cases 
+% that tasks which were already implemented by different frameworks used for reasoning or querying 
+% can be taken over by \nthree. 
+% In \emph{Chapter~\ref{orca}} we compare the implementations of a nurse call system using OWL-DL and SPARQL to our own 
+% implementation using \nthree. We show that \nthree can be used to combine the parts of DL relevant for this approach and SPARQL queries. 
+% The reasoning times of both systems are then compared. We also discuss steps to further improve performance of reasoning.  
+% 
+% In \emph{Chapter~\ref{validation}} we show how \nthree can be used for the validation of \rdf graphs. 
+% Classically, SPARQL and (optional) DL reasoning are used for that task. We discuss the features of 
+% \nthree which make it a particularly well suited to test the intrinsic quality of \rdf graphs. Here, we emphasize scoped negation as failure 
+% and the fact that RIF predicates are supported.
+
+
+\item[Chapter~\ref{proof} - Proofs in N3]
+discusses proofs in \nthree.
+For \nthree, there is a proof vocabulary defined. We explain this vocabulary and formally define the proof steps it expresses. 
+%introduces the calculus and the language used to express proofs in \nthree. We prove the correctness of the former.
+As proofs in the Web are meant to be exchanged, we define a subset of \nthree which is not ambiguous. For that subset we define the direct semantics and then proof the 
+correctness of the proof calculus.
+
+
+\item[Chapter~\ref{restdesc} - Applications of proofs: Adaptive API composition]
+intro-\linebreak duces use cases for proofs which go 
+beyond simple verification and assessment of trustworthiness.
+If we express possible API operations or possible sensor queries we can perform as rules -- including an explanation when they can be applied and what they mean 
+for our context -- the applications of these rules can appear in proofs verifying goals we want to achieve. These proofs can then be understood as plans. 
+We can execute and -- in case the context changes -- update them. 
+% 
+% elaborates the possibility to express proofs in \nthree and discusses the use cases for that which go 
+% beyond simple verification and assessment of trustworthiness.
+% the RESTdesc framework is introduced. Here, \nthree rules are used to
+% describe possible operations of Web APIs. These can then be automatically combined into a plan to fulfil a goal. To generate this plan, proofs are used.
+% 
+% In  a similar idea is used. With SENSDesc we describe possible queries to \rdf streams using rules. 
+% A proof can then be used to determine whether a query is relevant for a request.
+
+
+\item[Chapter~\ref{conclusion} - Conclusion]
+concludes this thesis.  We answer the research questions and discuss the different lessons learned while performing the research which  lead to this thesis.
+We then give an outlook to future work and discuss how the Semantic Web community could move forward based on the findings of this thesis.
+% \item[Part \ref{intro} -- Introduction] 
+% \item[Part \ref{semantics} -- Semantics of \nthree] discusses \notationthree Logic and its semantics. Despite the fact that \notationthree has 
+% been invented more than a decade ago and that there are different reasoners supporting that logic, its semantics has never been formally defined. 
+% In this part we aim to close that gap:
+% 
+% \emph{Chapter~\ref{problem}} introduces the syntax of \notationthree Logic formulas 
+% and explains the difficulties and ambiguities regarding their interpretation with a special focus on a particular problem: implicit quantification.
+% In \notationthree it is possible to
+% use bound variables for which the universal or existential quantifiers are not explicitly stated,
+% but implicitly assumed. %We test how reasoning engines differ in their interpretation of the same formula. 
 
 
 % I try to find out what the semantics of N3 is. 
 % I find one specific problem which is not easy to solve: implicit quantification. Here I need to discuss the problem: meaning not clear.
 % Next: who understands it how? Different ``official'' sources, tests on reasoners.
+% 
+% In \emph{Chapter~\ref{semofn3}} we further focus on implicit quantification: We provide a tool for clarification through the definition of a core logic for 
+% Notation3 that only supports explicit quantification. 
+% We specify an attribute grammar which maps Notation3 formulas to that logic according to the different interpretations and thereby define the
+% semantics of Notation3.
+% This grammar is then implemented and used to test the impact of the differences between interpretations on practical cases. 
+% 
 
-In \emph{Chapter~\ref{ela}} we further focus on implicit quantification: We provide a tool for clarification through the definition of a core logic for 
-Notation3 that only supports explicit quantification. 
-We specify an attribute grammar which maps Notation3 formulas to that logic according to the different interpretations and thereby define the
-semantics of Notation3.
-This grammar is then implemented and used to test the impact of the differences between interpretations on practical cases. 
-
-
-In \emph{Chapter~\ref{exsem}}
+%In \emph{Chapter~\ref{exsem}}
 % Then: we know the differences, can we fomalize those?
 % To better discuss the problem we provide a way to formally describe it. We introduce a core logic 
 % 
 % To do so, we go for attribute grammars, implemet a tool, test the impact of the problem.
-we discuss the different options to solve the problem and define direct semantics of how we understand the official sources for \nthree's Semantics. This definition
-is then used in the following chapters.
+% we discuss the different options to solve the problem and define direct semantics of how we understand the official sources for \nthree's Semantics. This definition
+% is then used in the following chapters.
 
 %Question: should I display both, direct and elaboration Semantics? Alternative: only go for elaboration, but then the proofs in the RESTdesc part need to be adjusted.
 %Conclusion: N3 is, as we will see a very nice logic. To be used in the web, a better semantics is needed. 
-\item[Part~\ref{others} -- \nthree and other standards]
-The goal of this part is to illustrate on practical cases 
-that tasks which were already implemented by different frameworks used for reasoning or querying 
-can be taken over by \nthree. 
-
-We start with a general discussion in \emph{Chapter~\ref{gen}} and then explain 
-two use cases in the following chapters: 
-
-In \emph{Chapter~\ref{orca}} we compare the implementations of a nurse call system using OWL-DL and SPARQL to our own 
-implementation using \nthree. We show that \nthree can be used to combine the parts of DL relevant for this approach and SPARQL queries. 
-The reasoning times of both systems are then compared. We also discuss steps to further improve performance of reasoning.  
-
-In \emph{Chapter~\ref{validation}} we show how \nthree can be used for the validation of \rdf graphs. 
-Classically, SPARQL and (optional) DL reasoning are used for that task. We discuss the features of 
-\nthree which make it a particularly well suited to test the intrinsic quality of \rdf graphs. Here, we emphasize scoped negation as failure 
-and the fact that RIF predicates are supported.
+% \item[Part~\ref{others} -- \nthree and other standards]
+% The goal of this part is to illustrate on practical cases 
+% that tasks which were already implemented by different frameworks used for reasoning or querying 
+% can be taken over by \nthree. 
+% 
+% We start with a general discussion in \emph{Chapter~\ref{gen}} and then explain 
+% two use cases in the following chapters: 
+% 
+% In \emph{Chapter~\ref{orca}} we compare the implementations of a nurse call system using OWL-DL and SPARQL to our own 
+% implementation using \nthree. We show that \nthree can be used to combine the parts of DL relevant for this approach and SPARQL queries. 
+% The reasoning times of both systems are then compared. We also discuss steps to further improve performance of reasoning.  
+% 
+% In \emph{Chapter~\ref{validation}} we show how \nthree can be used for the validation of \rdf graphs. 
+% Classically, SPARQL and (optional) DL reasoning are used for that task. We discuss the features of 
+% \nthree which make it a particularly well suited to test the intrinsic quality of \rdf graphs. Here, we emphasize scoped negation as failure 
+% and the fact that RIF predicates are supported.
 
 
 % A: owl
@@ -97,23 +183,23 @@ and the fact that RIF predicates are supported.
 % B: querying and RIF
 % example constraints paper (need to think about that part).
 
-\item[Part~\ref{proof} -- Proofs]
-elaborates the possibility to express proofs in \nthree and discusses the use cases for that which go 
-beyond simple verification and assessment of trustworthiness.
-
-\emph{Chapter~\ref{cal}} introduces the calculus and the language used to express proofs in \nthree. We prove the correctness of the former.
-
-We next present two applications of proofs:
-
-In \emph{Chapter~\ref{restdesc}} the RESTdesc framework is introduced. Here, \nthree rules are used to
-describe possible operations of Web APIs. These can then be automatically combined into a plan to fulfil a goal. To generate this plan, proofs are used.
-
-In \emph{Chapter~\ref{sensdesc}} a similar idea is used. With SENSDesc we describe possible queries to \rdf streams using rules. 
-A proof can then be used to determine whether a query is relevant for a request.
-
-
-\item[Part~\ref{conclusion} -- Conclusion]
-With \emph{Chapter~\ref{concl}} we conclude this thesis, come back to the research questions and discuss future work.
+% \item[Part~\ref{proof} -- Proofs]
+% elaborates the possibility to express proofs in \nthree and discusses the use cases for that which go 
+% beyond simple verification and assessment of trustworthiness.
+% 
+% \emph{Chapter~\ref{cal}} introduces the calculus and the language used to express proofs in \nthree. We prove the correctness of the former.
+% 
+% We next present two applications of proofs:
+% 
+% In \emph{Chapter~\ref{restdesc}} the RESTdesc framework is introduced. Here, \nthree rules are used to
+% describe possible operations of Web APIs. These can then be automatically combined into a plan to fulfil a goal. To generate this plan, proofs are used.
+% 
+% In \emph{Chapter~\ref{sensdesc}} a similar idea is used. With SENSDesc we describe possible queries to \rdf streams using rules. 
+% A proof can then be used to determine whether a query is relevant for a request.
+% 
+% 
+% \item[Part~\ref{conclusion} -- Conclusion]
+% With \emph{Chapter~\ref{concl}} we conclude this thesis, come back to the research questions and discuss future work.
 \end{description}
 
 
