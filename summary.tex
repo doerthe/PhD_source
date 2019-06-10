@@ -6,14 +6,14 @@ To fully realise the vision of the Semantic Web -- a machine understandable vers
 Only a clear logical language with properly defined semantics enables us to share the knowledge we have about the world with computers.
 The Semantic Web architecture foresees the use of logic for three different kinds of applications: (1) logic should enable querying,
 (2) it should make it possible to express and make sense of ontologies and taxonomies, and (3) it should support rule-based reasoning. 
-While these kinds applications have been realised so far by using different technologies -- mainly SPARQL, RDFS/OWL and RIF --
-it is part of the vision to cover these functionalities and connect these technologies by using one single framework: the \emph{Unifying logic}. 
+While these kinds of applications have been realised so far by using different technologies -- mainly SPARQL, RDFS/OWL and RIF --
+it is part of the vision to cover these functionalities and connect these technologies by using one single framework: the \emph{Unifying Logic}. 
 This logic needs to furthermore support the layer of proofs: it needs to be possible to express and exchange proofs performed by applying \emph{Unifying Logic}.
 
-In this thesis we investigate this idea of a \emph{Unifying logic} and test the suitability of one possible candidate to fulfil that role: Notation3 Logic~(N3).
+In this thesis we investigate this idea of a \emph{Unifying Logic} and test the suitability of one possible candidate to fulfil that role: Notation3 Logic~(N3).
 N3 is a rule-based logic which has been introduced about a decade ago. It extends the Resource Description Framework (RDF) -- the most used format of the Semantic Web -- 
 by universal quantification, by the possibility to cite formulas and to express rules, and by a number of different built-in predicates.
-N3 makes it possible to reason about any input which can be syntactically represented in RDF and most N3 reasoners already produce proofs to explain their 
+N3 makes it possible to reason about any input which can be syntactically represented in RDF, and most N3 reasoners already produce proofs to explain their 
 derivations. This makes N3 a promising candidate to become the \emph{Unifying Logic}, but there are also obstacles: 
 the semantics of N3 is only informally defined which not only 
 makes it difficult to study its formal properties,
@@ -25,36 +25,36 @@ as a practical tool which needs to support the common tasks associated with quer
 This tool itself needs to be part of the Semantic Web -- for example by understanding its language RDF -- and it should support the layer of proofs.
 This view is different to many other approaches which mainly try to define a logic which combines description logic and rule-based reasoning and still remains decidable.
 While we agree that this is an interesting goal, we are not convinced that this approach brings the Semantic Web further, especially if we consider that the combination 
-of RDF and OWL DL, OWL Full, is already not decidable. The semantics of the \emph{Unifying logic} should furthermore be well defined and it should be compatible with RDF.
+of RDF and OWL DL, OWL Full, is already not decidable. The semantics of the \emph{Unifying Logic} should furthermore be well defined and it should be compatible with RDF.
 
 Having identified these requirements -- (1) clear semantics, (2) compatibility with RDF, (3) support for querying, reasoning over ontologies/taxonomies and 
 rule-based inferencing, and
 (4) support of proofs -- we direct our attention to N3 in order to investigate in how far that logic can fulfil the requirements.
 
-As the Semantics of N3 is not clearly defined and implementations even differ in their understanding of certain formulas we start by performing tests to better understand the 
-problem: We detect that the reasoners EYE and Cwm disagree in their interpretation of implicitly quantified variables. In N3 is is possible to use universally or 
+As the Semantics of N3 is not clearly defined and implementations even differ in their understanding of certain formulas, we start by performing tests to better understand the 
+problem: We detect that the reasoners EYE and Cwm disagree in their interpretation of implicitly quantified variables. In N3 it is possible to use universally or 
 existentially quantified variables for which the quantifiers are not explicitly stated but implicitly assumed. The documents 
 introducing N3Logic state that implicitly universally quantified variables are quantified on their parent formula. But since this term 
-is not former explained, Cwm and EYE understand it differently.
+is not further explained, Cwm and EYE understand it differently.
 
 In order to better understand this difference and its consequences, we then define a logic which is similar to N3 but only supports explicit quantification: N3 Core Logic.
 We provide a model theory for N3 Core Logic which is mostly compatible with RDF. We then define an attribute grammar which maps formulas expressed in N3 syntax to their two
 N3 Core Logic interpretations, one following Cwm and the other following EYE. By doing so, we defined two possible semantics for N3. 
 We furthermore created a mechanism to decide for every N3 formula whether or not it leads to disagreements between the reasoners.
 
-Next, we implemented the attribute grammar we defined in Haskell. In order to be able to measure the practical impact of the problem we detected we ran our 
+Next, we implemented the attribute grammar we defined in Haskell. In order to be able to measure the practical impact of the problem we detected, we ran our 
 implementation on different N3 files which have been used in industry-related research projects. For 31\% of these files we could detect discrepancies between the 
 N3 Core Logic translations. We then further analysed these discrepancies and identified three different kinds of sources: proofs, built-ins and nested formulas 
 which do not contain proof-predicates or built-in functions. 
-As proofs are often computer-generated and  built-ins can be reasoner-dependent
+As proofs are often computer-generated and  built-ins can be reasoner-dependent,
 we argue that the last group of constructs, nested formulas which do not involve built-ins or proof-predicates, is the most dangerous:
 users writing such kinds of rules normally expect interoperability. 13\% of our critical files fall under that group.
 We therefore come to the conclusion that this problem needs to be solved by the community. We discuss the different options of which we favour 
-to simply follow the interpretation of EYE since it is easier to implement and -- at least in our opinion -- easier to understand.
+to simply follow the interpretation of EYE, since it is easier to implement and -- at least in our opinion -- easier to understand.
 
 
-Having discussed the Semantics of \nthree and its relation to RDF we next focus on the tasks which can be performed by using N3. In order to know 
-whether N3 can solve the same practical problems as OWL DL reasoning and SPARQL querying with a comparable performance we considered two use cases: a semantic nurse call 
+Having discussed the Semantics of \nthree and its relation to RDF, we next focus on the tasks which can be performed by using N3. In order to know 
+whether N3 can solve the same practical problems as OWL DL reasoning and SPARQL querying with a comparable performance, we considered two use cases: a semantic nurse call 
 system and a system to perform RDF-validation. Both use cases have been implemented previously by applying OWL DL reasoning and/or SPARQL querying.
 We approached both use cases by applying rule-based reasoning instead. Our resulting systems were able to provide the same functionality as the original ones.
 The performance of our nurse call system was faster in all cases.  
@@ -66,15 +66,15 @@ We therefore introduce the notion of \emph{simple formulas} which are formulas i
 For such formulas we define the direct semantics. We then formally define the different proof steps which can be expressed 
 using the N3 proof vocabulary and prove their correctness.
 
-Next to that formal consideration of proofs we also study how N3 proofs can be used in practice. Here we consider a use-case which goes beyond the simple establishment of trust:
+In addition to that formal consideration of proofs, we also study how N3 proofs can be used in practice. Here we consider a use-case which goes beyond the simple establishment of trust:
 In the context of automatic API composition, we use proofs as plans. If we describe possible operations
 which can be performed by calling a hypermedia API by means of rules clearly stating under which circumstances 
  the operation can be performed and which situation it will produce, these rules can be combined in a proof towards a desired goal.
-The proof can take context knowledge into account and each operation contributing to the goal is listed in the proof and can then be executed. In case the context changes,
+The proof can take context knowledge into account, and each operation contributing to the goal is listed in the proof and can then be executed. In case the context changes,
 the proof can be easily adapted. We define the concrete format to describe Web APIs, RESTdesc, and an algorithm to use and update such plans. We provide a proof for 
 the termination of our algorithm. We furthermore discuss its limits and extend the idea of using proofs as plans to another use case.
 
-In conclusion the research conducted for this thesis shows that N3 Logic is indeed a very promising candidate to become the \emph{Unifying Logic} of the Semantic Web:
+In conclusion, the research conducted for this thesis shows that N3 Logic is indeed a very promising candidate to become the \emph{Unifying Logic} of the Semantic Web:
 N3 is an extension of RDF, it supports reasoning over ontologies/taxonomies, querying and rule-based inferencing, and it supports the layer
 of proof: N3 reasoners do not only provide proofs, N3 is even expressive enough to allow the reasoner to represent such proofs in the logic itself. 
 The research has shown that it is possible 
