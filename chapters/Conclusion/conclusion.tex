@@ -133,16 +133,45 @@ can serve as a \emph{Unifying Logic} for the Semantic Web.
 
 
 \section{Open challenges and future directions}
-Having answered the research questions in the previous section, we now take an outlook to the future and discuss the challenges which lie ahead. The most important one 
-has already been mentioned in the previous section: We should work on the standardisation of \nthree. In order to do so, we started a 
-\wwwc community group\footnote{\url{https://www.w3.org/community/n3-dev/}} which currently 
-discusses\footnote{The discussions can be found on the group's git repository: \url{https://github.com/w3c/N3/issues/}} the open questions mentioned here in this thesis but also other ones 
-in order to come to an agreement. The most important points which need to be addressed are the meaning of implicit quantification, the agreement on the 
+Having answered the research questions in the previous section, we now take an outlook to the future and discuss the challenges which lie ahead. 
+
+The most important challenge 
+has already been mentioned in the previous section: We should work on the standardisation of \nthree.
+The research presented in this thesis has shown that \nthree is worth that effort. 
+Even though rule-based reasoning is very powerful, it has so far been widely neglected in the Semantic Web in favour of other frameworks like OWL DL which 
+scarify user-friendliness in order to guarantee decidability. %Semantic Web reasoning should be performed by both, rule-based and OWL DL-based reasoners, 
+Here, we do not say that one framework is better than the other -- there are use cases in which it makes sense to use an OWL DL reasoner instead of an 
+rule-based reasoner -- we just say that both frameworks should co-exist and that in cases where reasoning needs to be combined with querying, \nthree could be 
+the logic of choice. 
+
+% the semantic Web lacks a rule language to be used in practical applications and if we 
+% choose \nthree here, we most probably come
+We made a first step towards the standardisation of \nthree and started a 
+\wwwc community group\footnote{\url{https://www.w3.org/community/n3-dev/}}.
+We hope to soon be able to come to agreements in the questions discussed\footnote{The discussions can be found on the group's git repository: \url{https://github.com/w3c/N3/issues/}} 
+ to then provide a formalisation of the logic.
+% 
+% the open questions
+% %open questions mentioned here in this thesis but also other ones 
+% in order to come to an agreement. 
+The most important points which need to be addressed are the meaning of implicit quantification, the agreement on the 
 built-in functions which form part of the logic -- here it is in particular important whether or not we want to include scoped negation as failure -- and 
 the meaning of cited formulas. This last topic has not been discussed in detail here in this thesis even though the semantic definition of \nthree Core Logic gives a hint
 how we want to understand cited formulas. 
+%  here to 
+% solve this problem, but to really formalise \nthree the community needs to come to an agreement. We already started this group with the \wwwc community group (link)
+% and hope to soon be able to formalise our agreements. The most important open issues are: how do we want to deal with cited formulas and what do the \emph{mean}?
+% Which built-ins should the standard include? Do we for example introduce predicates for scoped negation as failure? Should \nthree be expressibel in plain \rdf and 
+% is that even possible?
 
 
+Apart from the standardisation of \nthreelogic we also see the need to extend the SWAP proof vocabulary: 
+Reasoners should at least have the option to express all proof steps they perform when deriving new knowledge.
+Even with a more complex vocabulary the implementers of reasoners can decide to omit proof steps they consider trivial.
+But the calculus such descriptions represent should be complete for a big part of the logic, if possible, even for the entire logic.
+% to allow reasoners to express all proof steps 
+% they apply when deriving new knowledge. It can then still be decided by the implementers of the reasoners whether they omit trivial proof steps in the proofs 
+% they display but the calculus defined should reflect the reasoning steps 
 % We showed clear ways to define the semantics of \nthree, the decision which specification we want to use depends on the community (here I want to also talk about our W3C community group)
 
 % We also clarified the relation of \nthree and \rdf: \nthree is compatible with \rdf and truely extends it. 
@@ -158,25 +187,26 @@ how we want to understand cited formulas.
 % is not standardised our answer is conditional: at the current point we do not know which built-ins will be included in a possible standard.
 % 
 
-Define proof vocabulary which reflect the reasoning steps performed by the reasoners.
+To provide a last suggestion for further research we come back to the limitations of RESTdesc: we saw that there are cases where it makes sense for a logic to
+have a notion of change. Even though the concept of time and invalid information is already part of the Semantic Web, we do not have any Semantic Web
+Logic which can deal with that concept and use it -- for example -- for planning. Of course the solution of that problem requires us to leave our comfort zone of 
+monotonic logics and try something new. But establishing this new direction as an addition to the different logical frameworks we already have we bring the Semantic 
+Web one step further towards its real materialisation.
 
-Further investigate the ontology reasoning.
-
-Go beyond RESTdesc (here I want to mention or at least give a hint that we had GPS4IC).
+% Further investigate the ontology reasoning.
+% 
+% Go beyond RESTdesc (here I want to mention or at least give a hint that we had GPS4IC).
 
 
 % General conclusion: \nthree logic is a very promising candidate to fulfil the rule as the unifying logic of the Semantic Web: It is syntactically and semantically 
 % compatible with \rdf, it supports querying and reasoning over ontologies, it supports the layer of proof.
 
-But there are also problems to solve to get there: \nthree is not standardised and this is partly because the semantics is not formally defined. We made a first step here to 
-solve this problem, but to really formalise \nthree the community needs to come to an agreement. We already started this group with the \wwwc community group (link)
-and hope to soon be able to formalise our agreements. The most important open issues are: how do we want to deal with cited formulas and what do the \emph{mean}?
-Which built-ins should the standard include? Do we for example introduce predicates for scoped negation as failure? Should \nthree be expressibel in plain \rdf and 
-is that even possible?
+%But there are also problems to solve to get there: \nthree is not standardised and this is partly because the semantics is not formally defined.
 
 
 
-Rules should finally take the role they deserve in the Web!
+
+%Rules should finally take the role they deserve in the Web!
 
 %Mention SPIN and the fact that we can use it to query. Or better: everything which has an \rdf representation can serve as input for \nthree reasoning.
 
