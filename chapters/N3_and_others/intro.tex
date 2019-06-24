@@ -1,2 +1,25 @@
-In the previous Chapters we discussed \nthreelogic and its semantics which is not always clear but can -- once the community comes to an agreement -- be formally specified. 
-Here we now want to consider \nthreelogic in the context it was created for: the Semantic Web. 
+In the previous chapters we discussed \nthreelogic, its relation to \rdf and the possibilities to fix its formal semantics. % which is not always clear but can -- once the community comes to an agreement -- be formally specified. 
+A clearly defined semantics and compatibility with \rdf were only two requirements on a \emph{Unifying Logic} we identified in Section~\ref{req}.
+% After this examination of the logic as a system in itself we now 
+% look at the context it was designed for, the Semantic Web. We discussed in Section \ref{req} that 
+A \emph{Unifying Logic} for the Semantic Web should furthermore
+connect the logical building blocks, \ie the blocks of \emph{Querying}, \emph{Ontologies/Taxonomies} and \emph{Rules}, and it should support the layer of \emph{Proofs}. 
+The last point -- proofs -- will be discussed in the following chapter. Here, we focus on \nthree's relation to the logical blocks:
+Being a rule logic itself \nthreelogic covers the \emph{Rules} block -- we can perform rule-based reasoning with \nthree.
+For \emph{Querying} and \emph{Ontologies/Taxonomies} we need to investigate further: To what extend does \nthreelogic support these two blocks? 
+Can it solve the same practical problems as the standards SPARQL and OWL-DL listed in the Semantic Web stack? If yes, is the performance comparable?
+
+%to step back and have a look at the bigger picture: Which tasks can we perform by applying Notation3 Logic?
+%Or, coming back to our discussion
+%  come back 
+% to our initial question
+% at this logic of \nthreelogic as a possible candidate to become the unifying logic of the Semantic Web:
+% Can we use \nthree to perform the tasks of querying and ontology reasoning in the same use cases SPARQL and OWL are typically used for? 
+% How is the performance of the \nthree-based solution in these cases?
+In order to answer these questions, we consider two practical use cases which both can be solved by applying a combination of ontology reasoning and querying:\begin{enumerate}
+\item a semantic nurse-call system, and
+\item a system to perform \rdf validation
+\end{enumerate}
+Both use cases have been previously implemented by either using OWL-DL or \rdf{}S reasoning and SPARQL querying and we aim to solve them by applying \nthree reasoning instead.
+Below, we describe the use cases in detail and discuss how \nthree can 
+be used to perform the same tasks as the existing implementations. Both sections finish with a comparison between the approaches. We then conclude our findings.

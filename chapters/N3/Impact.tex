@@ -1,6 +1,6 @@
 
 %What can we do?
-\chapter{The impact of the difference}\label{eva}
+\chapter{The impact of having different N3 interpretations}\label{eva}
 In the previous chapter we 
 specified how existing interpretations of formulas in \nthreelogic differ in their handling of implicit quantification. Here, 
 we take a closer look at the practical impact of these differences: 
@@ -34,7 +34,7 @@ We therefore finish the chapter with a discussion how such a solution could look
 % An explanation of the implementation, the datasets used and the results of our tests -- quantitative and qualitative -- is given below. 
 % We come to the conclusion that 
 
-\section{Implementation}\label{imp}
+\section{Implementing the attribute grammar}\label{imp}
 For our evaluation we have implemented the attribute grammar as specified above. 
 In order to stay close to our format, we used the Utrecht University Attribute Grammar (UUAG) and its compiler 
 the Utrecht University Attribute Grammar Compiler (UUAGC)~\cite{uuag}. This framework enables the user to specify attribute grammars which 
@@ -80,7 +80,7 @@ compares the meaning of an entire file and then displays the concrete difference
 
 %Question: which impact does the different scoping have for real use cases? 
 
-\section{Datasets used}\label{data}
+\section{Representative datasets}\label{data}
 To test whether the differences described above can be observed in practical applications,
 we used two kinds of datasets: a test dataset of the reasoner 
 EYE and several datasets used in previous research projects.
@@ -132,7 +132,7 @@ For our tests, we selected only the files which contain universal variables. For
 and for DiSSeCt 84 files.
 
 
-\section{Results}\label{results}
+\section{Critical formulas}\label{results}
 \begin{table}
 \begin{center}
 \begin{tabular}{rrrr}
@@ -151,8 +151,8 @@ and for DiSSeCt 84 files.
 \caption{Results of tests for differences in the interpretations of \nthree files. By \#differences we mean the number of files which are interpreted differently 
 by the two reasoners.\label{result}}
 \end{table}
-For the datasets introduced above, we  tested whether the reasoners interpret every file in the exact same way, ie whether the two 
-core logic translations produced by our 
+For the datasets introduced above, we  tested whether the reasoners interpret every file in the exact same way, \ie whether the two 
+\nthree Core Logic translations produced by our 
 software were the same (accepting differences in the naming of variables and in the order of universal and of existential quantifiers on the same 
 level of a formula), 
 or whether we can identify differences. The results 
@@ -161,7 +161,7 @@ in Table~\ref{result}. We see that every dataset contains files for which the in
 the portion of affected files varies per dataset and depends on the nature of the data. We have identified three kinds of constructs which can be related with disagreements 
 in the interpretation:
 \begin{description}
-  \item[Proofs] formulas which represent a formal \emph{proof}, ie an explanation of the derivation steps leading to a conclusion; % using the \nthree proof vocabulary~\cite{Proof};  %as introduced in Section~\ref{proofintro};
+  \item[Proofs] formulas which represent a formal \emph{proof}, \ie an explanation of the derivation steps leading to a conclusion; % using the \nthree proof vocabulary~\cite{Proof};  %as introduced in Section~\ref{proofintro};
   \item[Built-ins] formulas which contain built-in functions which have a special meaning for one or both reasoners;
   \item[Nesting] formulas which, without using built-in functions, cite graph patters, act on them or perform
 reasoning about rules.
@@ -219,7 +219,7 @@ an \texttt{r:Extraction}. This corresponds to conjunction elimination from commo
 if a bigger conjunction is known 
 to be correct, so are its conjuncts. %These can be used in further derivations.
 Here, this example step 
-is based on another step, a \texttt{r:Parsing}, ie reading information from a file which in the example has the symbolic name \texttt{rules.n3}.
+is based on another step, a \texttt{r:Parsing}, \ie reading information from a file which in the example has the symbolic name \texttt{rules.n3}.
 The proof steps yield the formula \begin{equation}\texttt{\{:s :p ?x1\} => \{:s :pp ?x1\}.}\label{fo}\end{equation} indicated by the predicate \texttt{r:gives}. 
 Interesting from a structural point of view is  
 that the formula appears in a formula expression.  For Cwm the variable \texttt{?x1} is therefore universally quantified in this expression. We get the interpretation:
@@ -508,7 +508,7 @@ This has to do with the fact that in that project one specific built-in is used 
  
 A similar figure as the one above can be produced for nested formulas. We display the share of formulas being subject of a nesting problem in all 
 formulas containing nesting in Figure~\ref{onlynests}. In Figures~\ref{datasets} and \ref{onlynests} we understand a formula as nested if it contains 
-a graph construct in a graph construct (ie a formula in nested brackets \texttt{\{}$\ldots$\texttt{\{}$\ldots$\texttt{\}}$\ldots$\texttt{\}}). 
+a graph construct in a graph construct (\ie a formula in nested brackets \texttt{\{}$\ldots$\texttt{\{}$\ldots$\texttt{\}}$\ldots$\texttt{\}}). 
 As a nesting construction leading to the problems described in this section we understand any nested construct containing a universal variable 
 for which the quantifier according to Cwm is %where Cwm quantifies this universal 
 on any other level than the top level. This rather broad definition qualifies all differences listed in Table~\ref{result} as subject to a nesting problem and these 
@@ -557,7 +557,7 @@ is counted as such even if this construct occurs in a proof or additionally cont
 \item[Proof Group]
 Every proof formula for which the reason of the contradictory interpretations is only the proof structure itself. 
 That means that the formula does not belong to the \emph{Built-in Group} and that the results of the proof 
-steps -- ie the \textit{result} part in the triples \texttt{<\#lemma> r:gives \{} \textit{result} \texttt{\}} -- do not contain any universal variables which 
+steps -- \ie the \textit{result} part in the triples \texttt{<\#lemma> r:gives \{} \textit{result} \texttt{\}} -- do not contain any universal variables which 
 Cwm quantifies on a level which is nested inside these results.
 % not belonging to the \emph{Built-in Group}
 % for which the results of all proof steps 
@@ -634,7 +634,7 @@ any special predicates, it is normally expected that the reasoning results from 
 The user  has no reason to do extra compatibility checks.
 
 Whether these cases occur depends on the use case: 
-In the DiSSeCt dataset, such cases do not occur. This has to do with the fact that the use case here is the test for constraints on \rdf data, ie data 
+In the DiSSeCt dataset, such cases do not occur. This has to do with the fact that the use case here is the test for constraints on \rdf data, \ie data 
 without formula expressions 
 or rules. 
 The constraints themselves and the results

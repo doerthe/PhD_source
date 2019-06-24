@@ -1,16 +1,9 @@
 % This section consists of three parts: first, we present the use case and the challenges related to it, then we explain how the use case can be approached using \nthree reasoning and as a last part 
 % we evaluate our implementation against an implementation which has been done earlier where \owl-DL reasoning and SPARQL querying was employed.
-Below, we first introduce our use case -- a semantic nurse call system -- and discuss the technical challenges connected to it. We then explain how this use case can be tackled by applying
-ontology reasoning and querying and present our implementation 
-with \nthreelogic:
-%.
-%Our solution involves OWL RL reasoning using the reasoner EYE. We explain how 
-We use \owl RL reasoning to be able to incorporate knowledge specified in an \owl ontology (ontology reasoning) and write extra rules to support decision 
-trees (querying). We first perform the \owl RL reasoning by directly applying the rules specified on the Web site introducing this profile~\cite{OWLRL} and then add a preprocessing step to further improve performance.  
-We compare both implementations with an implementation using \owl DL reasoning and SPARQL querying.
+%Our first use case is a semantic nurse call system.
 
-\subsection{Use case description}
-Our use case is a semantic nurse call system in a hospital:
+%\subsection{Use case description}
+Our first use case is a semantic nurse call system in a hospital:
 The system is aware of certain details about personnel and patients. % represented in an OWL-DL ontology.
 Such information can include: personal skills of a staff member, staff competences, patient information, special patient needs, and/or the 
 personal relationship between staff members and patients. 
@@ -20,10 +13,23 @@ call system should be able to assign the best staff member to answer that call. 
 varies between hospitals and can be quite complex. 
 The system additionally controls different devices. If for example staff members enter a room with a patient, 
 a light should be switched on; if they log into the room's terminal, they should have access to the medical lockers in the room. 
+
+
+We next discuss the technical challenges which need to be resolved when implementing a system as described above. 
+After that, we explain how this use case can be tackled by applying
+ontology reasoning and querying and present our implementation 
+with \nthreelogic:
+%Our solution involves OWL RL reasoning using the reasoner EYE. We explain how 
+We use \owl RL reasoning to be able to incorporate knowledge specified in an \owl ontology (ontology reasoning) and write extra rules to support decision 
+trees (querying). We first perform the \owl RL reasoning by directly applying the rules specified on the Web site introducing this profile~\cite{OWLRL} and then add a preprocessing step to further improve performance.  
+We compare both implementations with an implementation using \owl DL reasoning and SPARQL querying.
+
+
+\subsection{Technical challenges}
 %Our use case is a nurse call system in a hospital.
-The event-driven reasoning system for this use case has to fulfil certain requirements.
+An event-driven reasoning system for the use case described above needs to fulfil certain requirements:
 \begin{description}
-\item[scalability] It should cope with data sets ranging from 1000 to 100,000 relevant triples (ie triples necessary to be included for the reasoning to be correct). 
+\item[scalability] It should cope with data sets ranging from 1000 to 100,000 relevant triples (\ie triples necessary to be included for the reasoning to be correct). 
 Especially in bigger hospitals the number of staff members and patients and thereby also the amount of available information about those can be quite big. 
 It is not always possible to divide this knowledge into smaller independent chunks as this data is normally full of mutual dependencies. 
 \item[functional complexity] It should implement deterministic decision trees with varying complexities. The reasons to assign a nurse to 
@@ -31,7 +37,7 @@ a certain patient can be as manifold as the data. Previous work has shown that t
 parties interested in such a semantic system~\cite{accioontold}.
 \item[configuration] It should support the ability to change these decision trees at configuration time. Different hospitals have different 
 requirements and even in one single hospital those requirements 
-can easily change due to eg an increase of available information or a simple change in the hospital's organizational concepts or philosophy.
+can easily change due to \eg an increase of available information or a simple change in the hospital's organizational concepts or philosophy.
 \item[real-time] It should return a response within 5 seconds to any given event. Especially in such a delicate sector as patient care, seconds can make a difference. 
 Even though a semantic nurse call system will not typically be employed to assign urgent emergency calls  through complex decision trees, 
 a patient should not wait too long till his possibly pressing request is answered.
@@ -108,9 +114,9 @@ Complex decision trees can directly be implemented in rules. %, as those form th
 % 
 %Given the shortcomings of the solution using OWL DL reasoning and SPARQL it makes sense to implement the solution following another approach. 
 %Below, we describe how we used \nthreelogic to solve the problem.
-Below, we describe the details of our solution.
+Next, we describe the details of our solution.
 
-\subsection{OWL RL in \nthree}\label{owlrln3}
+\subsection{Performing OWL RL reasoning with \nthree}\label{owlrln3}
 If we use a traditional OWL DL reasoner like for example Pellet \cite{Pellet} or HermiT \cite{hermit} to reason over an existing ontology 
 this reasoner 
 natively understands the concepts which are part of the OWL DL profile and applies 
@@ -132,7 +138,7 @@ different inference steps in a predefined order to derive new knowledge. % apply
 % Prominent examples of such reasoners are Pellet \cite{Pellet} and HermiT \cite{hermit}. 
 % Both support---as others of their kind---the full OWL DL profile. 
 %As the OWL-DL profile is very expressive and contains a huge variety of different concepts and the complexity of the related reasoning,
-As OWL DL is very expressive and contains a huge variety of different concepts, OWL DL reasoners perform rather slow in comparison with, for example, rule-based reasoners. 
+As OWL DL is very expressive and contains a huge variety of different concepts, OWL DL reasoners are rather slow in comparison with rule-based reasoners. 
 % which mostly only
 % apply one kind of inference step.
 The OWL 2 profiles \cite{OWLRL} aim to overcome this gap 
@@ -140,7 +146,7 @@ by defining less expressive
 but still powerful subsets of OWL DL. One of these profiles is OWL RL, which was designed to enable rule-based reasoners to cope with OWL ontologies. 
 
 For each OWL concept which forms part of the RL profile the specification lists one or more rule %which can be written in a rule language with at least the expressiveness of Datalog~\cite{datalog}
-which can be used to draw conclusions from it. These rules written in a generic \rdf rule language with the expressiveness of Datalog~\cite{datalog} -- ie simple rules which do not allow functions 
+which can be used to draw conclusions from it. These rules written in a generic \rdf rule language with the expressiveness of Datalog~\cite{datalog} -- \ie simple rules which do not allow functions 
 or new existential variables in their conclusion
 -- and can be translated to 
 every rule language being at least equally expressive. 
@@ -219,7 +225,8 @@ In that sense we are reasoner independent. This approach furthermore makes it ea
 
 Below, we explain OWL RL reasoning in \nthree on a concrete example taken from our use case.
 The OWL RL rule we show as well as the other used in our implementation are taken from the EYE website~\cite{EYEowl}. %, where needed, additional rules were added following the 
-Knowledge is represented using the ACCIO ontology \cite{accioont} which will be further described in section \ref{ont}.
+Knowledge is represented using the ACCIO ontology\footnote{Available at: \url{https://github.com/IBCNServices/Accio-Ontology/tree/gh-pages}} \cite{accioont},
+an ontology which was designed to represent all aspects of patient care in a hospital.
 % The results of this 
 % implementation were already promising \cite{arndt_ruleml_2015},\todo{replace reference} but for larger data sets the reasoning took multiple minutes and, thus, did not meet the requirements claimed above. 
 % We explain the idea behind these OWL RL rules in \nthree %and how they can be improved
@@ -250,14 +257,7 @@ Formula~\ref{3}.
 
 
 \subsection{Decision trees}
-%REMARK: Still not sure whether we need this section?
-%The decision trees which have to be implement
-%As mentioned above, decision trees as needed in for real life use cases can be quite complex. 
-
-%Depending on the amount of available information, decision trees for nurse call systems can be quite complex. The ACCIO ontology 
-%supports a huge variety of different concepts. %It is possible to model the profile of a patient (among others the 
- 
-The ACCIO ontology provides the user with a huge variety of concepts which can, eg be used to describe patients (social background, needs, disease), 
+The ACCIO ontology provides the user with a huge variety of concepts which can, \eg be used to describe patients (social background, needs, disease), 
 staff members (skills, relationships to patients), and situations (locations of persons, states of devices). If all this information is actually available, decision trees
 can use all of it and be therefore quite complex. Here, we provide two simple rules which could be part of such a tree and we explain how these rules can
 be modified depending on the needs of an individual hospital.
@@ -320,14 +320,14 @@ there is a staff member, who is currently free and close to that location. In su
 
 
 
-Listing~\ref{lst:ex2} displays another rule: here, the reason of the active call is known. We have a staff member who has the required 
-skills to answer that kind of calls, but this staff member is currently busy. Our rule assigns the number 100 to this
-combination of call and staff member. This means, in our current decision tree, we prefer this assignment to the one described by Listing~\ref{lst:ex}.
+Listing~\ref{lst:ex2} displays another rule. This rule applies if the reason of the active call is known. If there is a staff member who has the required 
+skills to answer the call, but this staff member is currently busy, our rule assigns the number 100 to this
+combination of call and staff member. This means, in our current decision tree,  that we prefer this assignment to the one described by Listing~\ref{lst:ex}.
 
 Now, it could be, that another hospital has different priorities. Imagine for example that in this new hospital, no busy staff should be called 
 if there is still a free staff member available, regardless of the reason of the call. We could easily adapt our decision tree by simply changing the assignment number 
 of one of the rules. If we replace the triple \[\verb! (?p ?c) :assigned 100.!\] in line 15 of Listing \ref{lst:ex2} by the triple \[\verb! (?p ?c) :assigned 300.!\]
-the reasoner would prefer the assignment expressed by Listings \ref{lst:ex} to~\ref{lst:ex2}.
+the reasoner would prefer the assignment expressed by Listings \ref{lst:ex} and~\ref{lst:ex2}.
 
  
 Similarly, we can add extra conditions to the rules. Currently, the rule in listing \ref{lst:ex2} does not take the location of the staff member into account. We can
@@ -338,13 +338,14 @@ Rules with the same number are treated equally.
 
 
 
-\subsection{Improving performance by pre-producing TBox-rules}\label{reasoning}
-
-In a first attempt we implemented the reasoning and querying as explained above and could already perform better than the solution employing \owl reasoning and SPARQL querying 
-(see Section~\ref{ev} below). 
-However, we could not meet the requirements mentioned above: our reasoning did not scale well and and it did not fulfil the real-time constraint. 
-For that reason, we used an optimisation strategy 
-which takes advantage of a specific feature of \nthree: 
+\subsection{Improving performance by pre-producing TBox-rules}%\label{reasoning}
+By using the OWL RL rules as described above, we can already perform better than the solution employing \owl reasoning and SPARQL querying 
+(see Section~\ref{ev} below).
+% In a first attempt we implemented the reasoning and querying as explained above and could already perform better than the solution employing \owl reasoning and SPARQL querying 
+% (see Section~\ref{ev} below). 
+However, to be able to %we could not meet the requirements mentioned above: our reasoning did not scale well and and it did not 
+fulfil the real-time constraint we need further optimisation. 
+To improve the performance of our solution we take advantage of a specific feature of \nthree: 
 In \nthree it is possible to write and apply rules having new rules in their consequences, we call these \emph{rule-producing rules}. 
 
 % The key idea of our approach is now that there 
@@ -410,8 +411,10 @@ We perform two steps:
 
 The need of the first step has to do with the fact that 
 OWL ontologies represented in \rdf often use \emph{structural blank nodes} (see Section~\ref{strucblanks}):
-As for example the union or the intersection of two classes cannot directly serve as subject of object in a triple, an anonymous blank node is normally introduced in such cases to
-represent the construct.
+As \rdf follows a strict triple structure, compounded constructs like for example the union or the intersection of two classes cannot directly serve as subject of object in a triple. 
+To represent such constructs anonymous blank nodes are normally introduced.
+% to
+% represent the construct.
 % Blank nodes are for example used to represent the anonymous class  
 % for concepts as for example intersection or union of classes ontology can contain anonymous classes represented by blank nodes.
 Used in rules, 
@@ -598,15 +601,15 @@ the second using the traditional rule set processing the triples of the original
 and the third using the precomputed rule set of specialized rules which replaces the TBox of the ontology. %already take all TBox triples into account, 
 % therefore in this case the original TBox is not needed for 
 % further reasoning.
-All experiments were run on the same hardware settings,\footnote{Intel(R) Xeon(R) E5620@2.40GHz CPU with 12 GB RAM, Debian ``Wheezy''} using two different 
-technology stacks.\footnote{
-For the implementation with OWL DL+SPARQL: Pellet 3.0 and OWL-API 3.4.5. For the two implementations using \nthree: EYE-Autumn15 09261046Z and SWI-Prolog~6.6.6.}
+All experiments were run on the same hardware settings, namely Intel(R) Xeon(R) E5620@2.40GHz CPU with 12 GB RAM, Debian ``Wheezy'', using two different 
+technology stacks.
+For the implementation with OWL DL+SPARQL: Pellet 3.0 and OWL-API 3.4.5; for the two implementations using \nthree: EYE-Autumn15 09261046Z and SWI-Prolog~6.6.6.
 % technology stack.\footnote{ 
 % vs. EYE-Autumn15 09261046Z and SWI-Prolog~6.6.6}
 
 
 \subsubsection{Ontology and Data}\label{ont}
-To represent the data as described above we make use of the ACCIO ontology\footnote{Available at: \url{https://github.com/IBCNServices/Accio-Ontology/tree/gh-pages}} which was designed to represent all aspects of patient care in a hospital. 
+To represent the data as described above we make use of the ACCIO ontology. 
 At the time of testing the ontology contained ca. 
 3,500 triples (414 named classes, 157 object properties,  38 data type properties).
 A full description is given by Ongenae et al. \cite{accioont}. 
@@ -729,7 +732,7 @@ The reasoning times of our strategies using \nthree are in most cases better tha
 %When we review the reasoning times per call for one ward (Figure~\ref{fig:results1ward}), we 
 We furthermore observe, that the \nthree implementations have far 
 more predictable reasoning times, as they are more robust against more complex decision trees
-(eg the decision trees of the first two events are notably more complex than the other events' decision trees).
+(\eg the decision trees of the first two events are notably more complex than the other events' decision trees).
 The implementation using DL+SPARQL is much faster than both \nthree implementations in the third event, because this event does not trigger any reasoning for DL+SPARQL, however, 
 %in the EYE implementation a full reasoning cycle is performed for every incoming event.
 a full reasoning cycle is performed by the \nthree-implementations. 

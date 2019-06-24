@@ -144,7 +144,7 @@ This function  maps  each property to the set of pairs of resources (which can a
 % to the powerset of all pairs
 % of elements of the domain $\mathrm{IR}$. This function is used to determine the meaning of a property by assigning it to the set of all pairs of resources which fulfil it. 
 % These resources can at the same time properties. 
-For ground graphs, ie graphs which do not contain blank nodes, we get the following definition:
+For ground graphs, \ie graphs which do not contain blank nodes, we get the following definition:
 \begin{definition}[Semantic conditions for ground graphs]
 A simple interpretation $I$ can be applied to an element $E\in \mathrm{IRI}\cup\mathrm{L}\cup\mathcal{T}\cup\mathcal{G}$ as follows: 
 \begin{enumerate}
@@ -155,7 +155,7 @@ A simple interpretation $I$ can be applied to an element $E\in \mathrm{IRI}\cup\
  \item If $E$ is a ground graph then $\mathrm{I}(E)=\text{false}$ if there exists a triple $E'$ in $E$ for which $\mathrm{I}(E')=\text{false}$, otherwise $\mathrm{I}(E)=\text{true}$ 
  \end{enumerate}
 \end{definition}
-Note, that the mapping $\mathrm{IL}$ from Definition~\ref{si} is only a partial function, ie it is not defined for all literal values which are syntactically possible. 
+Note, that the mapping $\mathrm{IL}$ from Definition~\ref{si} is only a partial function, \ie it is not defined for all literal values which are syntactically possible. 
 The reason for that is that \rdf also covers the semantics of datatypes\footnote{We do not cover datatype semantics here since it is not relevant for this thesis. We refer the reader interested in that topic 
 to \url{https://www.w3.org/TR/rdf11-mt/\#literals-and-datatypes}.} and according to that it is possible that a literal does have a referent. 
 Triples whose objects are not in the domain of the function $\mathrm{IL}$ are according to point 3 in the above interpretation false.
@@ -293,7 +293,7 @@ This notation is syntactic sugar for the above and even when brackets are used i
 existential quantification present.
 
 \subsection{Referencing formulas in RDF}
-In Section~\ref{rdfsemantics} above  we learned that \rdf semantics understands blank nodes as implicitly existentially quantified on top level, ie if a blank node is occurring in a graph 
+In Section~\ref{rdfsemantics} above  we learned that \rdf semantics understands blank nodes as implicitly existentially quantified on top level, \ie if a blank node is occurring in a graph 
 its existential quantifier is always assumed to be in front of this graph. In this context we also mentioned that this interpretation makes sense 
 because the part of \rdf which is covered
 by \rdf semantics does not support the concept of referring to other graphs or formulas. Therefore, constructs as we have seen in Example~\ref{eq1} where we had a blank nodes nested in a
@@ -333,7 +333,7 @@ Consider the following formula:
 % % in mind,
 % 
 % Seeing this example, the reader might expect that adding a step of standardisation apart,\footnote{See also: \url{https://www.w3.org/TR/rdf11-mt/\#dfn-standardize}.} 
-% ie  a step which simply renames black nodes which are subject to the problem described, enables us to directly use Definition~\ref{rdfbl} to define the meaning of blank nodes 
+% \ie  a step which simply renames black nodes which are subject to the problem described, enables us to directly use Definition~\ref{rdfbl} to define the meaning of blank nodes 
 % in \nthree. This is not the case: According to the \wwwc team submission the blank node is quantified \emph{within} the formula it occurs in 
 % (see Quote~II above which was taken from~\cite{Notation3}). This means that the subformula carries the existential quantifier and not the formula as a whole as it would be the case if we followed
 % the strategy of combining standardisation apart with Definition~\ref{rdfbl}. 
@@ -440,7 +440,7 @@ The first order like structure we use here is only meant to clarify the exact po
 % Next to the fact that \rdf reification is only meant to refer to triples but not to their conjunctions this  way of interpreting blank nodes in referenced triples is the main difference 
 % between \rdf reification and citation of formulas in \nthree.
 %
- In this aspect  and in the fact that reification is only meant to reference triples but their conjunctions 
+ In this aspect  and in the fact that reification is only meant to reference triples but not their conjunctions 
  \rdf reification differs from citation in \nthree.
 
 % The \iri\texttt{:triple} now refers to Triple~\ref{simple} and can be used in other contexts. To have a similar notation as Formula~\ref{ref} from above

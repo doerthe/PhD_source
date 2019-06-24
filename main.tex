@@ -416,6 +416,9 @@ citecolor = black]{hyperref} % make links
 \newcommand\da[1]{\noindent\textcolor{blue}{{\bf \{D\"orthe}: #1{\bf \}}}}
 \newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}} % zentriert mit Breitenangabe
 
+%as commands just in case I want to change the way I abbreviate
+\newcommand{\ie}{i.e.\xspace}
+\newcommand{\eg}{e.g.\xspace}
 % \newcommand{\basedpapers}[1]{%
 %   %\nocite{*}
 %   \newpage
@@ -599,7 +602,8 @@ citecolor = black]{hyperref} % make links
 \begin{document}		
 \nobibliography*
 \frontmatter
-
+\blankpage
+\blankpage
     % front page %
     %%%%%%%%%%%%%%
     \input{voorblad}
@@ -661,8 +665,9 @@ citecolor = black]{hyperref} % make links
     \pdfbookmark{\contentsname}{Contents}
     \tableofcontents
 
-    \input{samenvatting}
     \input{summary}
+    \input{samenvatting}
+ 
 
     \glossarystyle{altlist}
     \printglossary[title=List of Abbreviations and Glossary] % toctitle=Terms and abbreviations]
@@ -749,19 +754,19 @@ This chapter was partly based on the publications:
 
 
 
-\chapter{Querying and ontology reasoning with Notation3 Logic}\label{others}
-\input{chapters/N3_and_others/intro}
-%\section{General Discussion}\label{gen}
-\section{Use case 1: A semantic nurse call system}\label{orca}
-\input{chapters/N3_and_others/orca}
-% \input{chapters/N3_and_others/orca1}
-% \input{chapters/N3_and_others/orca2}
-\input{chapters/N3_and_others/validation}
-%\section{Use case: Data Validation}
-\label{validation}
-
-
-\input{chapters/N3_and_others/conclusion}
+ \chapter{Querying and ontology reasoning with Notation3 Logic}\label{others}
+ \input{chapters/N3_and_others/intro}
+ %\section{General Discussion}\label{gen}
+ \section{Use case 1: Semantic nurse call system}\label{orca}
+ \input{chapters/N3_and_others/orca}
+ % \input{chapters/N3_and_others/orca1}
+ % \input{chapters/N3_and_others/orca2}
+ \input{chapters/N3_and_others/validation}
+% %\section{Use case: Data Validation}
+ \label{validation}
+% 
+% 
+ \input{chapters/N3_and_others/conclusion}
 
 
 
@@ -799,7 +804,7 @@ This chapter was partly based on the publications:
 
 \bibentry{arndt_ruleml_2015}
 
-\chapter{Applications of proofs: Adaptive API composition}\label{restdesc}
+\chapter{Applications of proofs: Adaptive planning}\label{restdesc}
 %\input{chapters/Proofs/proofcalculus}
 %\section{Applications of Proofs}
 %\input{chapters/Proofs/PP}
@@ -808,7 +813,7 @@ This chapter was partly based on the publications:
 %\section{Proofs in Use: RESTdesc}
 \input{chapters/Proofs/pragmatic-proof}
 \input{chapters/Proofs/limits}
-\section{Extending the RESTdesc idea: SENSdesc}\label{sec:sensdesc}
+\section{Proofs for Source Selection}\label{sec:sensdesc}
 \input{chapters/Proofs/sensdesc}
 \input{chapters/Proofs/conclusion}
 

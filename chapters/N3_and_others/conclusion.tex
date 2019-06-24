@@ -15,7 +15,7 @@ We compared the execution times of both implementations and saw that the solutio
 Firstly, we only took the \owl concepts which were relevant for our use case into account and not all inference steps included in the profile OWL DL. 
 This optimisation could be made because \nthreelogic is very flexible: using rules we can choose which OWL concepts we want to support. 
 Since \nthree also supports existential rules and is in most reasoners enriched with various built-ins, we can go beyond OWL RL if needed 
-(see also Section~\ref{owln3} below).
+(see also Section~\ref{ontres} below).
 The second reason for the good performance was that two different tasks -- querying and ontology reasoning -- could be performed by one single framework and
 not by two 
 different ones as in the original implementation. Here, \nthree completes the task of a \emph{unifying logic} and connected the building blocks \emph{Querying} and 
@@ -32,4 +32,8 @@ reasoning.
 Both use cases we considered were originally approached using OWL DL reasoning and/or SPARQL querying and we could retrieve 
 comparable -- and in some aspects even better -- results by applying 
 \nthreelogic instead. This indicates that \nthreelogic -- if equipped with the right set of built-in predicates -- can connect the layers \emph{Querying}
-and \emph{Ontologies/Taxonomies} for the Semantic Web stack just as we expect it from a \emph{Unifying Logic}.
+and \emph{Ontologies/Taxonomies} for the Semantic Web stack just as we expect it from the \emph{Unifying Logic}.
+
+% Getting back to our initial question which was whether or not \nthree can fulfil the role of the \emph{Unifying Logic} of the Semantic Web, we have so far covered three of the four main 
+% requirements as discussed in Section~\ref{req}:  We discussed the semantics of \nthree, its compatibility to \rdf and its ability to connect the logical building blocks. Next, we 
+% focus on the layer of proofs. This is the topic of the following two chapters.

@@ -1,5 +1,7 @@
 Having had a closer look to the advantages and shortcomings of the idea of using proofs as plans we now discuss another application of the idea:
-We can use existential rules to describe possible sensor measurements and their meaning for the context they are used in. We 
+We can use existential rules to describe possible sensor measurements and their meaning for the context they are used in.
+In complex scenarios where reasoning with all results of such sensors would be too slow, proofs enable us to identify the sensors which are relevant to retrieve the information we need. 
+We 
 explain that idea on an example taken from the health care domain.
 %In a certain sense such measurements are similar to \texttt{GET}-requests: Every new value produced adds information to the database.
 
@@ -285,7 +287,7 @@ of 200 assigned. Such an assignment can either be derived by reasoning (e.g.\ if
 Bob has a concussion and all patients with a concussion have this light threshold value) or it can be set individually to a patient (e.g.\ by a doctor).
 %Below, we show how our system uses this knowledge.
 
-\subsubsection{Ontology reasoning}
+\subsubsection{Ontology reasoning}\label{ontres}
 \begin{lstlisting}[
   float=t,
   caption={Axiom using \texttt{owl:someValuesFrom}.%\footnotemark

@@ -101,7 +101,7 @@ Formula~\ref{fff} led to discrepancies:
 \texttt{\{?x :p :a.\}.}
 \end{multline}
 The problem with that last formula was that Cwm and EYE differ in their understanding of the concept \emph{parent}  
-for universal variables which only occur nested -- ie surrounded by at least two pairs of curly brackets \texttt{\{~\}} -- in a formula.  Here, that is the case 
+for universal variables which only occur nested -- \ie surrounded by at least two pairs of curly brackets \texttt{\{~\}} -- in a formula.  Here, that is the case 
 for the universal variable
 \texttt{?y}. For Cwm, the next higher formula surrounded by curly brackets is the parent, it carries the quantifier -- that is the formula \texttt{\{?x :q ?y.\} => \{?x :r :c.\}.} in the example --
 while for EYE the top formula is always the parent. \emph{Simple formulas} are now the formulas where universal variables do not occur nested 
@@ -226,7 +226,7 @@ The \nthree Core Logic interpretations according to Cwm and EYE always quantify 
 %  
 %  Let \texttt{?x} be a universal variable occurring in the simple \nthree formula $g$. Then $\texttt{?x}\in \textit{comp}(g)\cup \textit{comp}^2(g)$.
 %  \begin{enumerate}
-%   \item \label{ppp1} If $\texttt{?x}\in \textit{comp}(g)$, then $g$ is an atomic formula, ie $g= t_1 t_2 t_3$ and $\texttt{?x}= t_i$ for at least one $i$ with $1\leq i\leq 3$. 
+%   \item \label{ppp1} If $\texttt{?x}\in \textit{comp}(g)$, then $g$ is an atomic formula, \ie $g= t_1 t_2 t_3$ and $\texttt{?x}= t_i$ for at least one $i$ with $1\leq i\leq 3$. 
 %   For the production rule 
 %   $\texttt{f ::= t}_1\texttt{t}_2\texttt{t}_3$ for atomic formulas the value for $v_1$ is computed by the rule  $ \texttt{f}.v_1 \leftarrow \texttt{t}_1.v_1\cup \texttt{t}_2.v_1\cup \texttt{t}_3.v_1$.
 %   For $t_i=\texttt{?x}$ we furthermore know because of the attribute rule $\texttt{t}.v_1\leftarrow\{\texttt{uv}\}$ on the production rule  \texttt{t ::= uv} that 
@@ -683,7 +683,7 @@ for all resources $p$ which are not properties (i.e. $p \in \text{IR}\setminus \
 % 
 %The main necessary extension would be a function which assigns domain values to formula expressions. 
 As for \nthree Core formulas, we define the structure of simple \nthree formulas only for ground terms and use a substitution (grounding function) instead of a classical valuation 
-function which maps the variables directly into the domain of discourse. The reason for that is the same as discussed above: cited formulas should not be ``\emph{referentially transparent}''~\cite[p.7]{N3Logic}, ie 
+function which maps the variables directly into the domain of discourse. The reason for that is the same as discussed above: cited formulas should not be ``\emph{referentially transparent}''~\cite[p.7]{N3Logic}, \ie 
 an interpretation needs to treat the formula expressions \texttt{\{:Superman :can :fly\}} and \texttt{\{:ClarkKent :can :fly\}} differently even if \texttt{:Superman} and \texttt{:ClarkKent} refer to the same 
 element of the domain of discourse. As a consequence, the representation level also needs to be taken into account when we assign the meaning to variables.
 For our definition of \nthree's direct semantics for simple formulas, we now take the two different ways of applying such a substitution into account:
@@ -776,7 +776,7 @@ model $\mathfrak{I}\models \Phi$ is also a model of $\phi$.
 \section{A proof calculus for N3}\label{cal}
 %\subsection{Anatomy of a~Hypermedia API Composition Proof}
 \label{sec:ProofAnatomy}
-Having the direct semantics of (simple) \nthree formulas defined we can now come to the actual topic of this chapter: proofs. When new knowledge is derived,
+Having the direct semantics of (simple) \nthree formulas defined we next want to consider proofs. When new knowledge is derived,
 a proof is a list of the different concrete steps 
  applied which led to this new knowledge. This proof can be used by others to understand and either verify or decline the derivations. A proof calculus is now a set of all 
 possible conceptual steps allowed to be used in a proof.\footnote{More about proof calculi can be found in most introductions to FOL, for example \cite{ebbinghaus,enderton,mendelson}.}
@@ -1159,7 +1159,7 @@ all reasoners' proofs contain all applications of $\verb!r:Inference!$ leading t
 which allows us to measure a~proof's length by counting applications of the generalized modus ponens.
 
 % \begin{definition}[Proof length]
-% Let $p$ be an \nthree formula representing a proof, ie a conjunction of formulas using the proof vocabulary defined in Definition~\ref{proofvoc}. 
+% Let $p$ be an \nthree formula representing a proof, \ie a conjunction of formulas using the proof vocabulary defined in Definition~\ref{proofvoc}. 
 % Then the \emph{length} of the proof is defined as the number of different resources $\texttt{x}$ for which the following triple is stated:
 %  \texttt{x a r:Inference.}
 % \end{definition}

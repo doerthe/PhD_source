@@ -8,7 +8,7 @@ Implicit quantification is widely used in different contexts. Most frameworks ar
 Hogan et al~\cite{blanks} provide an overview of their meaning and use in these different contexts. 
 Being a direct extension of \rdf, the meaning of blank nodes in RDFS is the same as in \rdf, they are assumed as existentially quantified and RDFS does not support the concept of nesting.
 % In \rdf and RDFS, blank nodes stand, just as in \nthree, for
-% implicitly existentially quantified variables. The quantification is local, ie the same blank nodes cannot be shared between different documents and the existential quantification 
+% implicitly existentially quantified variables. The quantification is local, \ie the same blank nodes cannot be shared between different documents and the existential quantification 
 % always counts for a graph. Traditionally, \rdf does not support nested graph constructions. This means that all blank nodes occurring
 % in \nthree triples which  are also valid in \rdf have the same meaning in both frameworks.
 % In the newer addition TriG~\cite{TriG} different graph constructs indicated by the \texttt{\{\}}-construct can have common blank nodes.\footnote{\url{https://www.w3.org/TR/trig/\#terms-blanks-nodes}}
@@ -33,7 +33,7 @@ which form the biggest challenge for the determination of scoping in \nthree, Pr
 The \rdf-query language SPARQL \cite{sparql} supports \emph{query variables} which, if a query is understood as some kind of filter rule, can be seen as universally quantified. 
 SPARQL allows nesting of graphs and queries. A SPARQL query consists of two parts, an outer part starting with one of the keywords SELECT, DESCRIBE, ASK, or CONSTRUCT 
 which can contain search variables and a WHERE-part which specifies 
-the search pattern. If a query is nested in another one, ie a new query occurs in the WHERE-part of another query, only the universal variables which occur in the SELECT-part of the 
+the search pattern. If a query is nested in another one, \ie a new query occurs in the WHERE-part of another query, only the universal variables which occur in the SELECT-part of the 
 sub-query share their variables with the WHERE-part of the top query.\footnote{\url{https://www.w3.org/TR/2013/REC-sparql11-query-20130321/\#subqueries}} 
 The aspect that variables in nested queries are clearly separated in these cases is slightly similar to the separation of different deeply nested graphs in \nthree.
 However, when we translate such nested queries to core logic rules, we only need to rename identical variables occurring separately on different levels, the universal quantifier for all variables 

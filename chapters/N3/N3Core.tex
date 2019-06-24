@@ -1,5 +1,5 @@
 
-\chapter{Defining the semantics of N3Logic}
+\chapter{Defining the semantics of N3Logic}\label{semofn3}
 The examples in Section~\ref{quantsec} from the previous chapter explain how \nthree formulas are interpreted differently by different reasoners. To point out these variations,
 we used natural language together with a
 first-order-logic-like structure which allowed to cite formulas. 
@@ -120,7 +120,7 @@ And Interpretation \ref{zw} as:
 Note that this notation is close to the original \nthree notation. To make a clear distinction between \nthree Core Logic and \nthreelogic, 
 we use angle brackets instead of curly brackets and
 a different kind of arrow. 
-For the same reason, we do not represent constants and variables using \iri{}s (ie we write \texttt{x} instead of \texttt{:x}) in our examples.%
+For the same reason, we do not represent constants and variables using \iri{}s (\ie we write \texttt{x} instead of \texttt{:x}) in our examples.%
 \footnote{Note that the representation of the constants and variables only depends on the choice of $\mathcal{C}$ and $\mathcal{V}$.} 
 % Note, that the distinction 
 % between literals and \iri{}s as we made it above when introducing the syntax of \rdf (see Definitions~\ref{rdfsymbs} and~\ref{rdftrips}) is not necessary here since \nthree allows literal 
@@ -160,7 +160,7 @@ We call every language element $\texttt{l}\in \mathcal{L}$ with $\text{FV}(\text
 % \[
 %  \mathcal{L}_g=\{\texttt{l}\in \mathcal{L}| \text{FV}(\texttt{l})=\emptyset\}
 % \]
-%If a formula $\texttt{f} \in \mathcal{F}$ does not contain free variables, ie $\text{FV}(\texttt{f})=\emptyset$, we call this formula \emph{ground}. 
+%If a formula $\texttt{f} \in \mathcal{F}$ does not contain free variables, \ie $\text{FV}(\texttt{f})=\emptyset$, we call this formula \emph{ground}. 
 %Accordingly, we call a term 
 %$\texttt{t}\in \mathcal{T}$ with $\text{FV}(\texttt{t})=\emptyset$ \emph{ground}. 
 We denote the set of ground language elements by $\mathcal{L}_g$, 
@@ -179,7 +179,7 @@ the variable \texttt{x} occurs bound, while \texttt{y} is free.
 \subsection{Semantics}
 To define the semantics of the core language $\mathcal{L}$ over $\mathcal{V}\cup\mathcal{C}$ we first introduce the notion of structure. 
 
-\begin{definition}[Structure]
+\begin{definition}[Structure]\label{n3corestructure}
 A structure over a language $\mathcal{L}$ 
 is a quadruple $\mathfrak{A}=(\mathcal{D},\mathcal{P}, \mathfrak{a}, \mathfrak{p})$ containing:
 \begin{itemize}
@@ -227,7 +227,7 @@ The second difference is that our structure is only defined for ground terms and
 To define the semantics for these we make use of a grounding function:
 
 
-\begin{definition}[Grounding Function]
+\begin{definition}[Grounding Function]\label{gf}
 A \emph{grounding function} $\gamma_g$ over a language $\mathcal{L}$ is a mapping from the set of variables $\mathcal{V}$ %in $\mathcal{A}$
 into the set of ground terms $\mathcal{T}_g$. 
 \end{definition}

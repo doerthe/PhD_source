@@ -1,4 +1,4 @@
-\section{Quantification}\label{quantsec}
+\section{Quantification in N3 Logic}\label{quantsec}
 %The examples of implicit quantification given in Section~\ref{n3examples} were rather  
 The example formulas we discussed in Section~\ref{n3examples} were rather simple and understanding their intended meaning was not 
  difficult (maybe with the exception of cited formulas which can lead to discussions \cite{TriGsemantics}). For the only case where 
@@ -10,7 +10,7 @@ the \wwwc team submission~\cite{Notation3} contains a clear statement which inte
 % This is different when it comes to implicit quantification. Just like \rdf, \nthree allows the usage of implicitly existentially quantified variables, called \emph{blank nodes}.
 % Blank nodes either start with ``\verb!_:!'' or are expressed using square brackets ``\texttt{[~]}''. 
 
-\MyQuote{ \label{beide} ``If both universal and existential quantification are specified for the same formula, 
+\MyQuote{  ``If both universal and existential quantification are specified for the same formula, 
 then the scope of the universal quantification is outside the scope of the existentials''.}
 
 Unfortunately, not all cases are that clear.
@@ -90,7 +90,7 @@ In contrast to for example FuXi~\cite{fuxi}, they both support rather complex co
 
 \subsection{Existentials}\label{existentials}
 We start our considerations by taking a closer look to implicit existential quantification in nested formulas, 
-ie formulas where the blank node occurs within curly brackets \{~\}.  Such constructs are typically used to cite formulas or
+\ie formulas where the blank node occurs within curly brackets \{~\}.  Such constructs are typically used to cite formulas or
 to state rules. We take the following example for the latter:
 %An example for such a formula is the following:
 % 
@@ -120,7 +120,7 @@ then the formula means
   \end{center}
   or 
 %   it can refer to two (possibly) different individuals. Here, we have two options:
-    the \texttt{\_:x} is always quantified in the direct formula it occurs in (ie the brackets \texttt{\{~\}}), then the two existentials can refer to different objects 
+    the \texttt{\_:x} is always quantified in the direct formula it occurs in (\ie the brackets \texttt{\{~\}}), then the two existentials can refer to different objects 
   and we get
 %  
 % \[
@@ -270,7 +270,7 @@ The quantifier for both occurrences of \texttt{?x} is in front of the whole form
 Here,
 the \wwwc team submission states the following:\\
 
-\MyQuote{\label{parentquote}
+\MyQuote{
  ``There is a also a shorthand syntax ?x which [...] implies that x is universally quantified not in the formula but in its \textbf{parent formula}.''}
 We learn that universal variables are quantified on their \emph{parent formula}. Unfortunately neither the \wwwc team submission nor the journal paper about \nthreelogic 
 provide us with a definition of that concept. We therefore perform some tests to better understand which formula is the parent.
@@ -406,7 +406,12 @@ and specific details like the interpretation of formulas with variables nested o
 %differently and 
 %and
 Only
-specific testing made us come to our conclusion that the above are EYE's and Cwm's interpretations. % of the formula.
+specific testing made us come to our conclusion that the above are EYE's and Cwm's interpretations. To be sure that the reasoners behave as intended we furthermore
+contacted their creators.\footnote{We got clarification about Cwm's reasoning by asking on the public mailing list \url{https://lists.w3.org/Archives/Public/public-cwm-talk/}. 
+We furthermore stood in close contact with Tim Berners-Lee with whom one of the supervisors of this thesis, Ruben Verborgh, collaborates.
+We thoroughly discussed the working of EYE with with Jos De Roo.
+}
+% of the formula.
 Most users are not even aware of the differences in interpretations and the lack of a formalism renders it difficult to discuss or even just express them. %---%
 To come to a~clear and unambiguous definition of the logic, 
 \nthree needs to be formalised and there needs to be a formalism to express the differences of existing interpretations. 
@@ -585,9 +590,16 @@ The formula
 \begin{multline}\notag
  \texttt{@forSome :x. @forAll :y. }\\\texttt{:x :thinks \{:y :is :pretty\}.}
 \end{multline}
-has the exact same meaning as the previous one, namely Interpretation \ref{both}a.\footnote{We suppose that this has historic reasons: 
+has the exact same meaning as the previous one, namely Interpretation \ref{both}a:\footnote{We suppose that this has historic reasons: 
 When \nthree was created, everything, including quantifiers,  was represented in triples. The order of triples should not matter in any context.}
-To express Interpretation \ref{both}b, a more complicated 
+$ % oder auch align
+\forall y \exists x : \text{thinks}(x,\text{is}(y,\text{pretty})) % \tag{\ref{both}a}
+$.
+To express Interpretation \ref{both}b,
+$ %\begin{equation} % oder auch align
+\exists x \forall  y : \text{thinks}(x,\text{is}(y,\text{pretty})) %\tag{\ref{both}b}
+$, %\end{equation}
+a more complicated 
 construction is needed, which could then again lead to different interpretations. 
 
 The peculiarity described above leads to open questions. %is also one of the reasons we exclude explicit quantification from the considerations in this paper. 

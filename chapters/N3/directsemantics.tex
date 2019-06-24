@@ -1,5 +1,12 @@
 \section{A direct semantics for N3}
 
+When defining the Semantics of our Core Logic in Section~\ref{core}, we took the freedom to choose the details of our interpretation function. We, for example
+chose to apply a grounding function on quantified variables before mapping these to the domain of discourse which makes the formal 
+definition of built-in functions easier but also results in the fact, that we for example cannot represent the set of real numbers in
+our version of \nthree since the set over which we can quantify is countable. When defining a direct semantics for N3 which extends the semantics of \rdf, we do not have this freedom:
+
+
+
 \subsection{Formalization of quantification}\label{formal}
 %When it comes to semantics of \nthree one aspect where the interpretations chosen by the implementers of reasoning engines differ is the understanding 
 %of quantified variables. It is not always clear in which cases the variables with the same name actually mean the same and when they have to be interpreted differently.

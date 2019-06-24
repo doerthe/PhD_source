@@ -23,11 +23,11 @@ This rule means:
 The moment we have a triple which declares someone as a person, the rule will trigger and add a triple representing
 the mother of this person. As this mother again has a mother which then again has a mother and so on, we get into an infinite loop and the reasoning process will not stop.
 
-While the loop we created here can be avoided -- it is rather unusual to write a rule which triggers on itself -- more complicated loops are more difficult to detect.
+While the loop we created here can be avoided -- it is rather unusual to write a rule which triggers on its own results -- more complicated loops are more difficult to detect.
 %and %to avoid.
 A lot of research focusses on how to restrict existential rules in order to guarantee termination %  terminate
 %A lot of research focuses on ways to restrict existential rules
-(eg \cite{krotzsch2011extending,gottlob2013combining,Baget}). 
+(\eg \cite{krotzsch2011extending,gottlob2013combining,Baget}). 
 These restrictions mostly take combinations of rules into account and cannot be imposed separately on individual rules. % format on every rule individually, 
 Therefore such approaches cannot be 
 used in the Web with its distributed nature: As we do not know which APIs can and will be combined using our algorithm, we cannot ask the provider of one service 
@@ -78,7 +78,7 @@ In settings where different alternatives need to be provided the approach cannot
 The purpose of a proof in the classical sense is to provide evidence for a derived fact. 
 Once such an evidence is found, 
 it does not really make sense to search for an alternative 
-evidence. Therefore, \nthree reasoners are not optimised to search alternative proofs. But even if they were,
+evidence. Therefore, \nthree reasoners are not optimised to find alternative proofs. But even if they were,
 the fact that we
 %If we would search for alternative paths using the approach presented, the fact that the approach combines
 combine reasoning on background knowledge and application 

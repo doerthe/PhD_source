@@ -1,6 +1,6 @@
-\section{Use case 2: Data validation}
+\section{Use case 2: Data validation}\label{usecase2}
 Our second use case is about data validation.
-Even though the amount of publicly available Linked Open Data (LOD) sets is constantly growing\footnote{See, eg statistics at: \url{http://lod-cloud.net/}.}, 
+Even though the amount of publicly available Linked Open Data (LOD) sets is constantly growing\footnote{See, \eg statistics at: \url{http://lod-cloud.net/}.}, 
 the diversity of the data employed in applications is mostly very limited:
 Only a handful of \rdf data is used frequently~\cite{rietveld2015lod}.
 One of the reasons for this is that the datasets' quality and consistency varies significantly,
@@ -18,10 +18,10 @@ This detaches the specification of the constraints from its implementation.
 
 Constraint languages allow users dealing with RDF data and vocabularies
 to express, communicate, and test their particular expectations.
-Such languages can either be (i) existing frameworks designed for different purposes, eg 
+Such languages can either be (i) existing frameworks designed for different purposes, \eg 
  SPARQL~\cite{hartmann2016,kontokostas2014test},
 or OWL~\cite{owlValidation},
-or they can be (ii) languages only designed for validation, eg
+or they can be (ii) languages only designed for validation, \eg
 ShEx~\cite{shex},
 ReSh~\cite{resh},
 Description Set Profiles (DSP)~\cite{dsp},
@@ -82,12 +82,12 @@ Data quality can be described in many dimensions,
 one of them being the intrinsic dimension, namely,
 the adherence to a data schema~\cite{zaveri2015quality}.
 In the case of \rdf data, this implies adhering to certain constraints.
-These have been carefully investigated by several authors (eg Hartmann et al~\cite{hartmann2016}).
+These have been carefully investigated by several authors (\eg Hartmann et al~\cite{hartmann2016}).
 %Languages to express constraints
-The formulation of (a subset of) these constraints can be done using existing languages (eg OWL)~\cite{owl}, 
+The formulation of (a subset of) these constraints can be done using existing languages (\eg OWL)~\cite{owl}, 
 the SPARQL Inferencing Notation (SPIN)~\cite{Knublauch2011}, or SPARQL~\cite{sparql})),
 or via dedicated languages
-(eg Shape Expressions (ShEx)~\cite{shex}, Resource Shapes (ReSh)~\cite{resh}, Description Set Profiles (DSP)~\cite{dsp}, 
+(\eg Shape Expressions (ShEx)~\cite{shex}, Resource Shapes (ReSh)~\cite{resh}, Description Set Profiles (DSP)~\cite{dsp}, 
 or Shapes Constraint Language (SHACL)~\cite{shacl}.
 Their execution is either based on reasoning frameworks, or querying frameworks.
 
@@ -108,7 +108,7 @@ Common constraints such as mathematical operations
 or specific checks on language tags
 are not covered by OWL~\cite{hartmann2016}.
 
-On the other hand, SPARQL based querying frameworks for validation execution emerged (eg Hartmann \cite{hartmann2016} or Kontokostas et al \cite{kontokostas2014test}).
+On the other hand, SPARQL based querying frameworks for validation execution emerged (\eg Hartmann \cite{hartmann2016} or Kontokostas et al \cite{kontokostas2014test}).
 Where Hartmann proposes SPIN as base language to support validation constraints, Kontokostas introduces a similar but distinct language to SPIN,
 more targeted to validation, so-called Data Quality Test Patterns (DQTP). 
 DQTPs are generalized  SPARQL queries containing an extra type of variables. In an extra step, these variables are instantiated based on the  RDFS and OWL axioms used
@@ -451,7 +451,7 @@ The rules for our implementation can be accessed at \url{https://github.com/IDLa
 \begin{lstlisting}[
   float=t,
   caption={Example inverse functional property constraint: No city can be the capital of two countries. },
-  label=example2]
+  label=example2:const]
 §\textcolor{gray}{@prefix rdfcv: \url{<http://www.dr-thomashartmann.de/phd-thesis/rdf-validation/vocabularies/rdf-constraints-vocabulary\#>}.}§
 §\textcolor{gray}{@prefix : <http://example.org/ex\#>.}§
 §\textcolor{gray}{@prefix dbo: 	<http://dbpedia.org/ontology/> .}§
@@ -484,7 +484,7 @@ the ones mentioned in Section~\ref{cons}. Each simple constraint has a constrain
 DL names, but the constraining element can also be for example the name of a SPARQL function. In some cases, the same constraint type 
 can be marked by different constraining elements as for example the constraint COMP whose constraining element is the relation 
 used to compare values 
-(eg the usual numerical orders: $<,>,\leq$, and $\geq$) or there can be different constraint types sharing the same constraining element.
+(\eg the usual numerical orders: $<,>,\leq$, and $\geq$) or there can be different constraint types sharing the same constraining element.
 To be sure that cases like this do not cause any ambiguity we additionally assign a \emph{constraint type} to every constraint. 
 The names of these types follow the names used by Hartmann~\cite[appendix]{hartmann2016}. 
 The TYPEDEP constraint from Section~\ref{reasoning} is for example of constraint type \texttt{:Subsumption}.
@@ -501,7 +501,7 @@ Since these kinds of properties can be multiple,
 they are given in a
 list. How and if the predicate  \emph{classes} is used depends on the constraint.
 The predicates \emph{leftProperties} and \emph{rightProperties} are used to do similar statements about properties. The constraint INVFUNC as displayed in 
-Listing~\ref{example2} makes for example use of it to 
+Listing~\ref{example2:const} makes for example use of it to 
 relate the constraint specified to the predicate it is valid for. The objects of the predicates \emph{leftProperties} and \emph{rightProperties} are lists. The predicate 
 \emph{constraining value}
  is used for the predicates where a literal value is needed to further specify a constraint. An example for such a constraint is MATCH as described in Section~\ref{reasoning}. To 
@@ -547,14 +547,14 @@ which take the expressed constraints and the \rdf dataset to be tested into acco
 We illustrate that by an example: In  Listing~\ref{invfunc} we provide a rule handling the constraint INVFUNC. Lines 7--11 contain the details of the constraint. The rule
 applies for simple constraints of the type \emph{inverse functional properties} for which a context class \texttt{?Class} and a list \texttt{?list} of left properties 
 is specified.
-This part of the rule's antecedence unifies with the constraint given in Listing \ref{example2}. Lines 13--18 describe which situation in the tested data causes 
+This part of the rule's antecedence unifies with the constraint given in Listing \ref{example2:const}. Lines 13--18 describe which situation in the tested data causes 
 a constraint violation: for an \texttt{?object} which is an instance of \texttt{?Class}, there are two subjects, \texttt{?x1} and \texttt{?x2}, defined 
 which are both connected 
 to \texttt{?object} via \texttt{?property}. This \texttt{?property} is an element of \texttt{?list},
-and the names, ie the \uri- or string-representations, of \texttt{?x1} and \texttt{?x} differ. The latter is expressed using the predicate
+and the names, \ie the \uri- or string-representations, of \texttt{?x1} and \texttt{?x} differ. The latter is expressed using the predicate
 \texttt{log:notEqualTo}\footnote{As explained in Section~\ref{bisec} 
 there are alternative ways to express the predicate \texttt{log:notEqualTo} in \nthree, the antecedence of the entire rule could also be expressed only using RIF predicates.} 
-(Line 18). Together with Listing~\ref{example2} that violation is thus detected if two different resource names 
+(Line 18). Together with Listing~\ref{example2:const} that violation is thus detected if two different resource names 
 for resources of the class \texttt{dbo:Country} are connected via the predicate \texttt{dbo:capital} to the same object. Assuming that \texttt{:Britain} and \texttt{:England}
 are both instances of the class \texttt{dbo:Country}, the triples in Formula~\ref{conflict} lead to the violation:
 \begin{multline}
@@ -621,7 +621,7 @@ _:constraint a rdfcv:SimpleConstraint ;
 \end{lstlisting}
 
 % As an example we  If we for example want to test, whether all occurrences of the term \texttt{rdfs:subclassOf} occurring in an \owl DL ontology were 
-% interpreted correctly by a reasoner when producing the deductive closure of the TBox and the ABox of an ontology, ie whether 
+% interpreted correctly by a reasoner when producing the deductive closure of the TBox and the ABox of an ontology, \ie whether 
 % %  Similarly, we can generate constraints using rules in case
 % % we want to test certain details based on existing patterns in an ontology. 
 % % This is what we explain
@@ -644,21 +644,22 @@ _:constraint a rdfcv:SimpleConstraint ;
 In the previous section we described how we can use \nthree to perform constraint testing and -- if necessary -- combine these tests with constraint generation or ontology reasoning.
 We call our implementation \enquote{Validatrr}: a validator using rule-based reasoning. Validatrr makes use of the EYE reasoner.
 To be able to compare our implementation with existing approaches, a Node.js JavaScript framework was created
-to discover and retrieve vocabularies and ontologies, manage command line arguments and run tests.
+to discover and retrieve vocabularies and ontologies, manage command line arguments and run tests.\footnote{
+The tool itself was not implemented by the author of this thesis but by Ben De Meester who also conducted the tests. We include the results 
+of these tests to keep this thesis self-contained. Further details can be found in \cite{ben}.}
 This framework is available at \url{https://github.com/IDLabResearch/validatrr}.
 
 For our evaluation, we compare Validatrr with an implementation based on SPARQL querying: RDFUnit~\cite{kontokostas2014test}. 
-We want to know how Validatrr performs in terms of accuracy -- that is, do they correctly detect the same constraint violations -- and execution times 
-compared to the latter. Below, we discuss both aspects separately.
+We want to know how Validatrr performs in terms of accuracy -- that is, does it correctly detect the same constraint violations -- and execution times. Below, we discuss both aspects separately.
 
 \subsubsection{Accuracy}
 \begin{table}
 	\centering
-	\caption{\small Comparing RDFUnit to Validatrr using different sets of inferencing steps ($\emptyset$ and $\upsilon$). %, and $\rho$).
-		Validatrr finds more violations given the same set of inferencing steps. % and the set of inferencing steps used impacts the result.
-		Test cases where Validatrr outperforms RDFUnit are starred. Rows where Validatrr and RDFUnit differ are marked grey.}
+	\caption{\small Comparison of  RDFUnit and Validatrr applying no extra inference $\emptyset$, and using the rule set $\upsilon$. %, and $\rho$).
+		Validatrr($\upsilon$) finds more violations. % and the set of inferencing steps used impacts the result.
+		Test cases where Validatrr outperforms RDFUnit are starred. Rows where the results differ are marked grey.}
 	\label{table:unit-test}
-	\footnotesize
+	\scriptsize
 	\begin{tabular}{rccc} \toprule
 		%\hline 
 		\bf Test Case & \multicolumn{3}{c}{\textbf{\# found violations}} \\
@@ -734,7 +735,9 @@ the different tests were orchestrated using custom scripts.
 All timings include the docker images' initialization time.
 The data is available at \url{https://github.com/IDLabResearch/validation-benchmark/tree/master/data/validation-journal}.
 
-In Figure~\ref{fig:eval-size} we show the results of our tests: we plotted the median execution time of all schemas against the \rdf graph size for both approaches.
+In Figure~\ref{fig:eval-size} we show the results of our tests: 
+We grouped the different datasets of all schemas by their size and compare the median execution time when performing validation taking into account the rule set $\upsilon$.
+%we compare the median execution time of all schemas against the \rdf graph size for both approaches.
 We clearly see that for small datasets containing less than 100,000 triples our solution is faster than RDFUnit. 
 
 % The median execution time across all schemas is plotted against \rdf graph size per approach
@@ -760,9 +763,11 @@ We clearly see that for small datasets containing less than 100,000 triples our 
 % in one single step  where other systems need to perform three.
 
 \begin{figure}[t]
-    \includegraphics[width=\linewidth]{eval_size.pdf}
-\caption{Validatrr's execution speed (dotted line) is up to an order of magnitude faster than RDFUnits's (solid line) when the number of triples per \rdf graph is below 100,000 triples.}
+\begin{center}
+    \includegraphics[width=0.9\linewidth]{Rplot20} %{eval_size.pdf}
+\caption{Validatrr's execution speed (dark blue) is up to an order of magnitude faster than RDFUnits's (light blue) when the number of triples per \rdf graph is below 100,000 triples.}
 	\label{fig:eval-size}
+	\end{center}
 \end{figure}
 
 

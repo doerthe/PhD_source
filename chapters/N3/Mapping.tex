@@ -161,7 +161,7 @@ alphabet. This contains all symbols which can appear in the concrete representat
 Let $C$ be a set of constants, $U$ a set of universal variables and $E$ a set of existential variables. Let these sets be mutually disjoint and disjoint 
 with \{\texttt{\{}, \texttt{\}}, \texttt{(}, \texttt{)}, \texttt{=>}, \texttt{false}, \texttt{.}\}.
 Then we call
-\[\mathcal{A}:=C \,\cup\, U \,\cup, E \,\cup\, \{\texttt{\{}, \texttt{\}}, \texttt{(}, \texttt{)}, \texttt{=>}, \texttt{false}, \texttt{.}\}\] an \emph{\nthree alphabet}. 
+\[\mathcal{A}:=C \,\cup\, U \,\cup\, E \,\cup\, \{\texttt{\{}, \texttt{\}}, \texttt{(}, \texttt{)}, \texttt{=>}, \texttt{false}, \texttt{.}\}\] an \emph{\nthree alphabet}. 
 \end{definition}
 %
 In concrete representations constants can either be literal values or IRIs.
@@ -170,7 +170,7 @@ Universal variables start with the symbol \texttt{?}, existential variables with
 
 Given such an \nthree alphabet $\mathcal{A}$, we define an \nthree grammar over $\mathcal{A}$ as displayed  
 in Figure \ref{N3S}
-where the node \texttt{ex} stands for an existential variable, ie an element of $E$, \texttt{uv} for a universal variable, ie an element of $U$, and \texttt{c} for a constant, ie an 
+where the node \texttt{ex} stands for an existential variable, \ie an element of $E$, \texttt{uv} for a universal variable, \ie an element of $U$, and \texttt{c} for a constant, \ie an 
 element of $C$. 
 %.  The node \texttt{ex} stands for an , \texttt{uv} and \texttt{c} result furthermore connected to symbols of the alphabet:
 %
@@ -261,7 +261,7 @@ Informally
 such a \emph{direct formula} $f$ of a term $t$ is the next formula surrounded by curly brackets \{ \} that contains $t$, or, if such a formula does not exist, 
 the top formula. 
 In EYE's interpretation, the \emph{parent formula} is now the top formula (concept $\textit{parent}_e$). 
-For Cwm, the \emph{parent formula} $g$ of $f$ is the next higher formula surrounded by curly brackets, ie the direct formula of $\{f\}$ ($\textit{parent}_c$). %is a direct component. 
+For Cwm, the \emph{parent formula} $g$ of $f$ is the next higher formula surrounded by curly brackets, \ie the direct formula of $\{f\}$ ($\textit{parent}_c$). %is a direct component. 
 %where \emph{direct} means that  $\{f\}$ is not nested in other \{\}-constructs. 
 %
 Being the top formula, the $\emph{parent}_e$ \emph{formula} is easy to find. For the \emph{direct formula} and the $\emph{parent}_c$ \emph{formula} we use the syntax tree:
@@ -269,7 +269,7 @@ The difference between a simple formula $f$ and a formula in brackets $\{f\}$ is
 a \emph{formula} \texttt{f} and a \emph{formula expression}~\texttt{e}.
 If we want to find the direct formula of a component and its $\text{parent}_c$, we can go through the syntax tree from the bottom to the top.  
 The \emph{direct formula} is then the first formula on that path which is a direct child of either an expression \texttt{e}  or the start symbol~\texttt{s}. 
-%ie the 
+%\ie the 
 %first occurrence of a production rule of the form
 %$X_0 ::= X_1\ldots X_n$ where $X_0\in \{\texttt{e}, \texttt{s}\}$ and $X_i=\texttt{f}$ for one $i$ with $1\leq i \leq n$.
 The $\emph{parent}_c$ \emph{formula} is the second such formula.\footnote{Note that universals on top level like for example in the formula \texttt{?x :p :o.} 
@@ -407,8 +407,8 @@ For each production rule, we define an \emph{attribute rule}.
 % These rules depend on the production rules $X_0 \texttt{ ::= } X_1\ldots X_n$ of the grammar. They can either depend on the rules which have an occurrence of the node on the 
 % \emph{right}
 % side of 
-% the production rule, ie the rules of the form $X_0 \texttt{ ::= } X_1\ldots N \ldots X_n$---in this case they are called \emph{inherited}---%
-% or they can depend of the production rules which have the node at the \emph{left} side of the production rule, ie on rules of the form $N \texttt{ ::= } X_1\ldots X_n$---%
+% the production rule, \ie the rules of the form $X_0 \texttt{ ::= } X_1\ldots N \ldots X_n$---in this case they are called \emph{inherited}---%
+% or they can depend of the production rules which have the node at the \emph{left} side of the production rule, \ie on rules of the form $N \texttt{ ::= } X_1\ldots X_n$---%
 % in this case they are called \emph{synthesized}.
 % Inherited attributes pass information downwards in the syntax tree, synthesised attributes pass it upwards.
 % Since we want the latter, we define our attribute \textit{ds} to be synthesized.
@@ -423,11 +423,11 @@ For each production rule, we define an \emph{attribute rule}.
 %Attributes take values for all the nodes they are defined on. %, for a node \texttt{n} and an attribute $a$ we denote that value by $\texttt{n}.a$. 
 %These values are determined by so-called \emph{attribute rules}. These are rules which depend on the production rules of the syntax. 
 % They can either follow the direction of the 
-% production rule---ie define the attribute values of the elements in the body of the production rule based on the attribute values of its head---these are the \emph{inherited} attributes; 
-% or they can go in the opposite direction of the production rule---ie define the attribute value of the node in the head of the production rules taking into 
+% production rule---\ie define the attribute values of the elements in the body of the production rule based on the attribute values of its head---these are the \emph{inherited} attributes; 
+% or they can go in the opposite direction of the production rule---\ie define the attribute value of the node in the head of the production rules taking into 
 % account the attribute values 
 % of the nodes in the body of the rule---these are the \emph{synthesized} attributes. For the process we want to model, we need \textit{ds} to be synthesized since we want to go from the bottom
-%to the top of the tree. % ie in the opposite direction of the production rules.
+%to the top of the tree. % \ie in the opposite direction of the production rules.
 %For our current purpose we need an attribute of the latter kind and let \textit{ds} therefore be synthesized.  
 %As our attribute is defined on all nodes, we need to fix one attribute rule for each production rule of the grammar. 
 These rules are displayed at the right side
@@ -888,7 +888,7 @@ existential variables which are free (see Definition~\ref{free}) under that node
 % This syntax tree is displayed in Figure~\ref{extreesimple}.
 % using an attribute grammar, we need to pass the information which variables are existentially quantified
 % under a direct formula
-% from the place where the symbol occurs, ie the bottom of the syntax tree, to
+% from the place where the symbol occurs, \ie the bottom of the syntax tree, to
 % this formula. This is the purpose of the synthesized attribute $\eq$. 
 %From a core logic's point of view the attribute value of every node is the set of free (see Definition~\ref{free}) existential variables occurring under that node.
 % For each node the value of the attribute represents the set of variables occurring in its descendent nodes
@@ -940,7 +940,7 @@ As $\eq$ is synthesised % and defined for all nodes of the grammar.
 we need to state one attribute rule  for each left-side occurrence of an attribute on a production rule of Figure~\ref{N3S}. 
 As the attribute is defined for all nodes, we need one attribute rule for each production rule.
 % 
-% From the production rules occurring at the bottom of the syntax tree, ie the rules only producing symbols of the alphabet, there is one rule which deserves special attention,
+% From the production rules occurring at the bottom of the syntax tree, \ie the rules only producing symbols of the alphabet, there is one rule which deserves special attention,
 % the production rule (\texttt{t ::= ex}): this rule produces an existential variable which at this point occurs as a free variable since we did not find its direct formula yet. 
 % The attibute rule for this production rule ($\texttt{t}.\eq \leftarrow \{\texttt{ex}\}$) collects this existential variable in a sigelton set. 
 % For all other rules only resulting in symbols of the alphabet the empty set is assigned by the attribution rule since attribute $\eq$ only collects existentials.
@@ -1154,7 +1154,7 @@ Formula~\ref{eq99'}.
 % The attribute $\eq$ passes all existentially quantified attributes up in the syntax tree till the direct formula is found, from the direct formula upwards, 
 % no variables are passed. We illustrate this in Figure~\ref{extree} where we display the syntax tree for  
 % Formula~\ref{eq99}.
-% From the rules only resulting in symbols of the alphabet, ie the first three production rules for terms \texttt{t}, only the secod
+% From the rules only resulting in symbols of the alphabet, \ie the first three production rules for terms \texttt{t}, only the secod
 % \footnote{Note that structure-wise this formula follows the same pattern as Formula~\ref{eq1}. The names of constants are only shortened to
 % make the presentation of the formula easier.}
 % \begin{equation}
@@ -1167,7 +1167,7 @@ Formula~\ref{eq99'}.
 %
 
 %
-% To produce translations, we need an inherited attribute on \texttt{f} which detects that a formula is a direct formula, ie it either directly follows the start symbol or 
+% To produce translations, we need an inherited attribute on \texttt{f} which detects that a formula is a direct formula, \ie it either directly follows the start symbol or 
 % is part of a formula expression. 
 % To understand this, consider the following formula:
 % \begin{equation}
@@ -2132,7 +2132,7 @@ means
   }
  \end{multline}
 Note that the quantifier for \texttt{y} which is nested in the interpretation of Formula~\ref{fff} is on top level in the interpretation of Formula~\ref{ffff}. 
-This is the case because the conjunction, ie the formula as a whole, is the $\text{parent}_c$ formula of the second occurrence of \texttt{?y} and thus carries a quantifier which 
+This is the case because the conjunction, \ie the formula as a whole, is the $\text{parent}_c$ formula of the second occurrence of \texttt{?y} and thus carries a quantifier which 
 also covers the nested occurrence of~\texttt{?y}.
 
 %To be able to cope with that behaviour we need another attribute which keeps track of all the variables which are already quantified on a higher formula of the syntax tree.
@@ -2303,7 +2303,7 @@ The attribute to perform this task is defined below in Section~\ref{all}.
 % \begin{description}
 %  \item[$v_1$] Synthesized attribute defined for all $X\in T\cup N$ to pass the universal variables occurring in a direct formula up to that formula.
 %  \item[$v_2$] Synthesized attribute for all $X\in T\cup N$ to pass the universal variables from a direct formula to the parent.
-%  \item[$s$] Inherited attribute for all $X\in (T\cup N)\setminus\{\texttt{s}\}$ to pass the information which variables are already scoped, ie quantified in ancestor nodes, 
+%  \item[$s$] Inherited attribute for all $X\in (T\cup N)\setminus\{\texttt{s}\}$ to pass the information which variables are already scoped, \ie quantified in ancestor nodes, 
 %  downwards in the syntax tree.
 %  \item[$q$] Inherited attribute defined for \texttt{f} which contains all universal variables which are quantified on \texttt{f}.
 % \end{description}
@@ -2312,7 +2312,7 @@ The attribute to perform this task is defined below in Section~\ref{all}.
 % In such a node \texttt{e} the 
 % value of attribute $v_1$ gets passed to attribute $v_2$ whis is then used to pass the variables further upwards to the parent. 
 % Attribute $q$ is needed for two things: for every formula it keeps track of whether it is a potential parent formula, 
-% ie whether it is the child of either the start node \texttt{s} or a node \texttt{e}. Secondly, 
+% \ie whether it is the child of either the start node \texttt{s} or a node \texttt{e}. Secondly, 
 % we need this attribute to associate the concrete variables quantified under this potential parent formula.
 %
 % 
@@ -2334,7 +2334,7 @@ The attribute to perform this task is defined below in Section~\ref{all}.
 %  and
 % \end{center}
 % \begin{equation}\texttt{\{?x :q ?y.\} => \{?x :r :c.\}}.\tag{\ref{fff}.2}\label{dif} \end{equation}
-% Since variable \texttt{?x} directly occurs (ie it is not nested in curly brackets) in Formula~\ref{p1}
+% Since variable \texttt{?x} directly occurs (\ie it is not nested in curly brackets) in Formula~\ref{p1}
 % the parent formula~(\ref{fff}) carries a universal quantifier for \texttt{?x}. 
 % This quantifier also covers subformula~\ref{dif}, the sibling formula of Formula~\ref{p1}
 % in the consequent of the implication.
@@ -2599,7 +2599,7 @@ Universal variables are thus for EYE always quantified on the top level. Formula
 To deal with universal quantification we therefore only need one attribute that passes all universal variables occurring in a formula to the top level.
 %The handling of universal variables is thus easier than the method presented 
 %in the previous section: we define one single attribute 
-We define the synthesized attribute $u$ for all nodes of the grammar. % which passes the universal variables from the level where they occur, ie the bottom of the syntax tree, to the top.
+We define the synthesized attribute $u$ for all nodes of the grammar. % which passes the universal variables from the level where they occur, \ie the bottom of the syntax tree, to the top.
 The value of $u$ for a node is always the set of universal variables occurring anywhere under that node. %The attribute is synthesized and defined on all symbols of the grammar.
 The attribute rules for $u$ are displayed in Figure~\ref{EYEAT}. As the calculation of $u$'s attribute values is rather simple, 
 we do not discuss these rules in detail and only capture for further considerations the value of the top formula  $\texttt{f}^1.u=\{\texttt{?x}, \texttt{?y}\}$.
@@ -3078,7 +3078,7 @@ The attributes deliver the expected result.
 %    | FE   f  :: Formula
 % \end{lstlisting}
 % For each kind of node of the production rule system, we can now define attributes. Together with that we also need to define the type of attribute, 
-% ie whether it is synthesized (\texttt{syn}) or inherited (\texttt{inh}).
+% \ie whether it is synthesized (\texttt{syn}) or inherited (\texttt{inh}).
 % For the synthesized predicate $\eq$ from above in Section~\ref{exsec}, which is used to collect the existentially quantified variables we declare 
 % %for the nodes of the class
 % %\texttt{Formula}:

@@ -20,13 +20,13 @@ If we want to support \nthree as it is, we need a way to translate from one reas
 \subsubsection{EYE formulas interpreted by Cwm}
 In order to make \nthree formulas written for the reasoner EYE 
 be interpreted in the exact same  way by Cwm, we can use a simple trick: Since we know that the interpretation of implicitly universally quantified variables also depends 
-on their contexts, ie on their occurrence in the different conjuncts of a formula, we can add a dummy formula which lifts the scope of deeply nested variables to the top level without changing EYE's interpretation 
+on their contexts, \ie on their occurrence in the different conjuncts of a formula, we can add a dummy formula which lifts the scope of deeply nested variables to the top level without changing EYE's interpretation 
 of the whole expression.
 %that contains universal variables with the same name as the ones occurring in 
 %deeply nested formulas. We 
 To illustrate that idea we use an example we have seen earlier: remember that in Cwm's interpretation (Interpretation~\ref{iall}) of Formula~\ref{fff} 
 the quantifier for the universal variable \texttt{?y} was 
-nested while for EYE it was on top level, ie in front of the overall formula (Interpretation~\ref{fff'}). 
+nested while for EYE it was on top level, \ie in front of the overall formula (Interpretation~\ref{fff'}). 
 If we now add the implication \texttt{\{?y ?y ?y\}=>\{?y ?y ?y\}.}\ to the formula this difference disappears. The formula
 \begin{flalign*}\tag{\ref{fff}a}\label{fffa}
 &\texttt{\{?y ?y ?y.\}=>\{?y ?y ?y.\}.} \\
