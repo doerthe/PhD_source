@@ -216,26 +216,45 @@ the
 applications of querying and ontology reasoning we investigated and many others.
 
 
-Having discussed the connection of \nthreelogic to the layers \emph{Ontology/Taxonomy} and \emph{Querying} we now continue elaborating on the connection
-of \nthree to the layer of \emph{Proofs}. In this context we asked Research question 6:
+
+
+% Having discussed the connection of \nthreelogic to the layers \emph{Ontology/Taxonomy} and \emph{Querying} we now continue elaborating on the connection
+% of \nthree to the layer of \emph{Proofs}. In this context we asked 
+The last requirement on the \emph{Unifying Logic} for the Semantics Web we covered with our research questions was the connection to the layer of \emph{Proofs}.
+For \nthree there is a proof vocabulary defined, the SWAP vocabulary,  which makes it possible to express proofs in \nthree. This vocabulary is used by different reasoners 
+to explain their derivations. This explanation is only meaningful if we know that the steps it describes are themselves correct. This correctness has not been proven so far.
+We therefore asked in Research Question 5:
 
 \emph{``How can we verify that the proof steps defined by the SWAP vocabulary are correct?''}
 
-In order to answer that research questions we first defined a set of formulas for which the reasoners EYE and Cwm both quantify all universal variables on top level (Chapter~\ref{proof}).
-For these so-called \emph{simple formulas} we then defined the direct semantics. This semantics also covers the interpretation EYE assumes for all formulas.
+The term \emph{correctness} itself depends on  the semantics we assume for a logic. As this semantics is not fixed yet for \nthree and even differs between reasoners
+we focussed on a set of \nthree formulas which are not subject to ambiguity, \emph{simple formulas} (Chapter~\ref{proof}). % in order to answer this research question.
+%In order to answer that research questions
+These are formulas
+for which both reasoners EYE and Cwm quantify all universal variables on top level.
+For these formulas we defined the direct semantics. %This semantics also covers the interpretation EYE assumes for all formulas.
 Using that definition we then formally defined the proof calculus which is expressed by the SWAP vocabulary and proved its correctness.
-After having achieved that result, we focussed on Research question 7:
-% In order to prove the correctness of the steps included in the SWAP proof vocabulary we f gave the definition of \nthree's direct semantics . This definition 
-% was following the assumption that all universal variables are quantified on top level. 
+We thus accept 
+Hypothesis 5:
+\emph{``The proof steps included in the SWAP vocabulary can be formally defined on top of the model theory for \nthree. 
+That formalisation allows us to prove that the calculus is correct.''}
 
 
-% In order to show that using \nthreelogic we can combine querying over \rdf graphs and reasoning over OWL ontologies in one single technology and
-% solve the same use cases as \owl DL reasoning and SPARQL querying  with a comparable performance.
-
-\textit{ 
-``Are there applications for \nthree proofs which go beyond the establishment of \emph{Trust}?''
-}
-
+Knowing that the calculus itself is correct we can trust proofs which list the correct applications of the different proof steps in order to verify a goal. 
+As the SWAP proof vocabulary makes it possible to express these applications directly in \nthree, a Semantic Web format, such proofs can be easily exchanged and verified between reasoners, but 
+also used in further applications. To emphasize this last aspect that proofs written in \nthree can not only help to establish the layer of \emph{Trust} but also the very important layer of 
+\emph{Applications} we provided example for the latter.
+% After having achieved that result, we focussed on Research question 7:
+% % In order to prove the correctness of the steps included in the SWAP proof vocabulary we f gave the definition of \nthree's direct semantics . This definition 
+% % was following the assumption that all universal variables are quantified on top level. 
+% 
+% 
+% % In order to show that using \nthreelogic we can combine querying over \rdf graphs and reasoning over OWL ontologies in one single technology and
+% % solve the same use cases as \owl DL reasoning and SPARQL querying  with a comparable performance.
+% 
+% \textit{ 
+% ``Are there applications for \nthree proofs which go beyond the establishment of \emph{Trust}?''
+% }
 As a use case for \nthree proofs we studied automatic composition and execution of hypermedia APIs (Chapter~\ref{restdesc}). We presented a way 
 to describe the operations such APIs can perform by means of existential rules which then could be combined in proof for a desired goal. 
 As all rules contributing to that goal also appear in such a proof, we can understand that proof as a plan, execute and -- if needed -- update it.
@@ -244,11 +263,11 @@ We discussed the limits of our approach: by using \nthree which is based on FOL 
 We concluded that use cases which do not require these two properties can be tackled by our method and presented one instance of such a use case: the localisation of critical 
 sensors in complex set-ups where context is relevant. By discussing these two use cases we showed that there are many applications which can benefit from \nthree proofs.
 
-Having answered all these research questions we can now return to our main research question, Research question 1:
-
-\textit{ 
-``To what extend can Notation3 Logic fulfil the role of a \emph{Unifying Logic} for the Semantic Web?''
-}
+% Having answered all these research questions we can now return to our main research question, Research question 1:
+% 
+% \textit{ 
+% ``To what extend can Notation3 Logic fulfil the role of a \emph{Unifying Logic} for the Semantic Web?''
+% }
 
 The research we conducted in this doctoral project showed that \nthreelogic is a promising candidate to become the \emph{Unifying Logic} of the Semantic Web:
 We were able to propose two definitions for \nthree's semantics which were mostly compatible with RDF. It depends on the agreement of the community which 
@@ -260,7 +279,7 @@ needs to be decided by the community.
 \nthree  furthermore does not only support the layer of proof, by providing the to possibility to cite formulas it even makes such proofs part of the Semantic Web.
 Proofs can be used for further reasoning, they can be exchanged and they can be used in all kinds of applications.
 If the Semantic Web community comes to an agreement about the meaning of implicit universal quantification and the built-ins which form part of the logic, this logic 
-can serve as a \emph{Unifying Logic} for the Semantic Web.
+can serve as the \emph{Unifying Logic} for the Semantic Web.
 %(here I am currently considering to change the requirement in that direction). Proofs should not only be 
 %producible, the produced proofs should also be part of the web and therefore again have a strong connection to \rdf.
 
