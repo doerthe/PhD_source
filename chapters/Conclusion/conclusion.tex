@@ -38,7 +38,7 @@ and that this difference is caused by the underspecification of the term \emph{p
 Universals are quantified on their \emph{parent formula}. For EYE the overall formula is the \emph{parent} and all universal variables are quantified on that level. For Cwm 
 universal quantification depends on the syntactic structure of a formula: Cwm's parent formula 
 is the second next formula in curly brackets
-\texttt{\{~\}} surrounding the universal variable but if this parent is already in scope of another universal quantification for the same variable this quantification also counts 
+\texttt{\{~\}} surrounding the universal variable. But, if this parent is already in scope of another universal quantification for the same variable this quantification also counts 
 for its descendants. %To be able to compare these two interpretations we needed a way to express the exact position and the scope of the universal quantification.
 The interpretations thus disagree on where exactly they assume a nested universal to be quantified. To clarify the differences between interpretations it therefore makes sense to make
 implicit quantification explicit. To do so we defined \nthree Core Logic -- a logic which is very similar to \nthree and only differs from the latter by the 
@@ -91,29 +91,59 @@ This makes it possible to identify and discuss differences, and to understand th
 % Using the attribute grammar we can assign the meanings according to EYE and to Cwm to any given \nthree formula.
 % This enabled us to answer Research question 3
 
+The consequences we are particularly interested in are related to the practical use of \nthree.
 %The second question we raised in connection with the first requirement had to do with these consequences.
 %As a follow-up question of the previous one Having discovered and formalised the difference in the interpretation of implicit universal quantification the next 
 %The second question we posed in the context of the first requirement, clear semantics, had to do with the i  
-In order to know whether the difference we found can be easily resolved by simply imposing one interpretation we next 
-Base a clear semantics for \nthree we %were interested in how we can solve the problem we found. Here, we
-raised Research Question 2:
+For the two interpretations we considered in this thesis we posed Research Question 2
+which is the second research question in the context of a clear semantic definition:
+% In order to know whether the difference we found can be easily resolved by simply imposing one interpretation we next 
+% Base a clear semantics for \nthree we %were interested in how we can solve the problem we found. Here, we
+% raised Research Question 2:
 
-Having found differences in the interpretations of implicitly universally quantified variables in \nthree
+%Having found differences in the interpretations of implicitly universally quantified variables in \nthree
 
 \emph{``How big is the impact of having different interpretations for \nthree formulas in practice?''}
 
-We can thus accept Hypothesis~2: \emph{``For at least one quarter of all \nthree formulas contained in our dataset of practical examples the interpretations by the reasoners EYE and Cwm differ.''}
+In order to answer this question we implemented the attribute grammar we defined earlier (Chapter~\ref{eva}). 
+For any given \nthree formula our implementation returns the interpretations in \nthree Core Logic 
+according to Cwm and to EYE. To understand the impact of the difference we applied our implementation to two datasets: one dataset consisting of different formulas which 
+were used in industry-related research projects -- these files were not created to test the reasoners but to solve practical problems -- the other one consisting of example formulas 
+provided for the EYE reasoner. These formulas contain examples for the different applications the users of the reasoner have reported and therefore cover a huge variety of different 
+ways to apply the logic. For these datasets we compared the two \nthree Core Logic translations of each formula and discovered that these do not concur for 31\%
+of all our files tested.
+We thus accept Hypothesis~2: \emph{``For at least one quarter of all \nthree formulas contained in our dataset of practical examples the interpretations by the reasoners EYE and Cwm differ.''}
+% By further testing we found
+%  one group of files which is particularly problematic: If users use deeply nested universal variables outside the proof environment and 
+% not in connection with built-ins, it is very likely that they are not aware of the differences of the reasoners. 
+% 13\% of the files causing differences belong to this group.
+From a practical point of view this result means that the way we define the semantics of \nthree directly influences the formulas we considered and thus the working of the applications 
+they are used for. This means that fixing the semantics of \nthree is more than just an academical exercise. In order to guarantee interoperability as required by the Semantic Web we need 
+ an agreement and to come to this agreement we should involve %be based on the agreement of %the different parties
+all parties 
+applying \nthreelogic on a practical level. % need to be involved when coming to an agreement. 
+We also discussed how such an agreement could look like: we could either follow Cwm or EYE, or exclude implicit quantification in all constructs where it leads to ambiguity and use 
+explicit quantification instead. Unfortunately, the meaning of explicit quantification in \nthree is not properly defined either which made us discard this solution.
+When choosing between EYE's and Cwm's interpretation of implicit universal quantification, we give a clear preference in quantifying all universals on top level, mainly because that is easier 
+to implement, easier to understand for the user and also much more in-line with other formalisms containing implicit universal quantification as for example Prolog. 
+A drawback of this solution is that -- at least if we exclude explicit quantification -- it makes the logic less expressive. Whether or not the expressivity of Cwm's interpretation of 
+\nthree is needed in practice is subject to future research. Independently of that result, it is also necessary to agree on the meaning of \nthree's explicit quantification, 
+a subject we omitted  in this thesis. 
+% We further analysed our findings and 
+% identified one group of files which were particularly problematic: If users use deeply nested universal variables outside the proof environment and 
+% not in connection with built-ins, it is very likely that they are not aware of the differences of the reasoners. 
+% 13\% of the files causing differences belong to this group.
+
+% We implemented the attribute grammar defined before and applied our implementations on practical cases (Chapter~\ref{eva}). As test data sets we chose
+% the test set of the EYE reasoner -- mainly because of its variety -- and different 
+% rule files which were used in research projects. For all these files we generated the interpretations according to Cwm and EYE and compared the results. In 31\%
+% of the cases we encountered differences in the interpretations.
+%This indicates that the problem we found needs to be addressed.
+%  We finished this section by proposing possible solutions. In our opinion, 
+% quantifying all universals on top level would be the solution which users understand best and which is the easiest to implement. 
 
 
-
-We implemented the attribute grammar defined before and applied our implementations on practical cases (Chapter~\ref{eva}). As test data sets we chose
-the test set of the EYE reasoner -- mainly because of its variety -- and different 
-rule files which were used in research projects. For all these files we generated the interpretations according to Cwm and EYE and compared the results. In 31\%
-of the cases we encountered differences in the interpretations. This indicates that the problem we found needs to be addressed. We further analysed our findings and 
-identified one group of files which were particularly problematic: If users use deeply nested universal variables outside the proof environment and 
-not in connection with built-ins, it is very likely that they are not aware of the differences of the reasoners. 
-13\% of the files causing differences belong to this group. We finished this section by proposing possible solutions. In our opinion, 
-quantifying all universals on top level would be the solution which users understand best and which is the easiest to implement. In the context of the previous 
+In the context of the previous 
 definitions we also tackled Research question 4:
 
 \emph{``Can the the semantics of \nthreelogic be defined such that it is compatible to \rdf?''}
