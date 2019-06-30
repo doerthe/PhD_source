@@ -1,46 +1,110 @@
 \chapter{Conclusions}\label{concl}\label{conclusion}
-In this thesis we investigated  \nthreelogic and its potential to become the \emph{Unifying logic} for the Semantic Web. 
-Many properties of \nthree make it a very strong candidate for this role: 
+In this thesis we investigated  \nthreelogic and its potential to become the \emph{Unifying Logic} for the Semantic Web. 
+Many properties of \nthree make it a very strong candidate for this role.
 It is based on \rdf, the most established standard of the Web, and it extends this framework by rules and citations. This connection makes it possible to reason 
 about the \rdf representation of \owl ontologies by using rules which support the different concepts forming part of that standard. 
 %These rules sometimes rely on built-in functions which are still not officially included in \nthree as proposed by the \wwwc team submission~\cite{Notation3}.
 \nthree furthermore supports querying. It is possible to define filter rules such that the reasoners only provide all valid consequences of these rules. \nthree supports the layer 
-of proofs: \nthree reasoners provide proofs for their conclusions. These proofs are again written in \nthree which makes it easy to share and exchange them and 
+of proofs. \nthree reasoners provide proofs for their derivations. These proofs are again written in \nthree which makes it easy to share and exchange them and 
 to use them in further applications.
 
-We also discussed the most important problem when it comes to \nthree:  As its semantics is not formally defined the implementations using this 
+We also discussed the most important open problem when it comes to \nthree:  As its semantics is not formally defined the implementations using this 
 logic differ in their understanding of implicit quantification. We tackled this problem by introducing a format close to \nthree which only supports explicit 
-quantification: \nthree Core Logic. For this Logic we provided the formal semantics and defined concrete mappings from \nthree syntax to that logic which followed 
+quantification, \nthree Core Logic. For this Logic we provided the formal semantics and defined concrete mappings from \nthree syntax to it which followed 
 the different interpretations. By doing that we made the differences between interpretations explicit. Our \nthree Core Logic makes it possible to discuss 
 different ways to define \nthree's semantics which then -- hopefully -- leads to an agreement.
 
-Below, we answer the research questions we raised in the beginning of this thesis in detail.
+Below, we connect these achievements to the research questions we posed in Section~\ref{researchquestions} and answer these in detail.
 
 
 \section{Review of the research questions}
-Since Research question 1 relies on the other, we postpone its answer till the end of this section and start with Research question 2:
+%In order to understand in how far \nthreelogic can fulfil the role of the 
+We identified four general
+requirements on the \emph{Unifying Logic} for the Semantic Web: (1) clear semantics, %the semantics of \nthree can be clearly defined by providing a model theory for the logic, 
+(2) compatibility with \rdf, 
+(3) connection of the logical layers 
+and (4) support of proofs. To understand in how far \nthree meets these requirements and is thus a candidate to fulfil that role, we posed research questions for each of these aspects.
+We now discuss how these research questions can be answered based on the research performed in this doctoral project.
 
+For the first requirement, clear semantics, we posed two questions. The first of these was Research Question 1:
 
-\emph{``How do the implemented interpretations of \nthree following the \wwwc team submission~\cite{Notation3}
+\emph{``How can the differences between the individual interpretations of \nthree assumed by different reasoners 
+following the \wwwc team submission~\cite{Notation3}
 and the journal paper~\cite{N3Logic}
-differ, and how can this difference be formally expressed?''} 
+ be formally expressed?''} 
 
-In order to answer the first part of the question we performed different tests with the reasoners Cwm and EYE (Chapter~\ref{problem}) and came to the conclusion 
-that these two reasoners differ in their understanding of implicit universal quantification. We further analysed this problem by consulting the 
-\wwwc team submission and could identify its source: The team submission states that universals are quantified on their \emph{parent level} 
-but it is not further explained what this \emph{parent} is. For EYE it is the overall formula, for Cwm it is the second next formula in curly brackets
-\texttt{\{ \}} surrounding the universal. For Cwm, we furthermore identified exceptions from this quantification on parent level: If a formula depends on another formula 
-on which the universal is already quantified, this quantifier also counts for all descendants. 
+Our analysis (Chapter~\ref{problem}) of the problem of diverging interpretations showed that the reasoners Cwm and EYE differ in their understanding of implicit universal quantification 
+and that this difference is caused by the underspecification of the term \emph{parent formula} in the \wwwc team submission.
+Universals are quantified on their \emph{parent formula}. For EYE the overall formula is the \emph{parent} and all universal variables are quantified on that level. For Cwm 
+universal quantification depends on the syntactic structure of a formula: Cwm's parent formula 
+is the second next formula in curly brackets
+\texttt{\{~\}} surrounding the universal variable but if this parent is already in scope of another universal quantification for the same variable this quantification also counts 
+for its descendants. %To be able to compare these two interpretations we needed a way to express the exact position and the scope of the universal quantification.
+The interpretations thus disagree on where exactly they assume a nested universal to be quantified. To clarify the differences between interpretations it therefore makes sense to make
+implicit quantification explicit. To do so we defined \nthree Core Logic -- a logic which is very similar to \nthree and only differs from the latter by the 
+fact that it only supports explicit quantification -- and defined two mappings from \nthree syntax to that logic, one following Cwm's semantics and one following EYE (Chapter~\ref{semofn3}).
+Especially to be able to cope with Cwm's interpretation of implicit universal quantification we used attribute grammars to define these mappings as these act directly 
+on a formula's syntax tree.
+%
+% 
+% Having analysed this problem we next focussed on the second part of the research question: To be able to express the difference between these two 
+% and possible other 
+% interpretations of \nthree we defined \nthree Core Logic (Chapter~\ref{semofn3}).
+% This logic supports the same constructs as \nthreelogic with the only exception of implicit quantification. Quantifiers in \nthree Core Logic need to be stated explicitly.
+% We defined an attribute grammar which maps formulas stated in \nthree to their \nthree Core Logic interpretations in Cwm and EYE. In the case of Cwm 
+% this grammar was rather complex which is an indication that reasoners following this interpretation are at least difficult to implement.
+Our attribute grammar assigns one \nthree Core Logic formula following the interpretation of EYE and one following Cwm  
+%the meanings according to EYE and to Cwm
+to any given \nthree formula.  These two translations can easily be compared as the position of every quantifier for every
+implicitly universally quantified variable is stated explicitly.
+% . For Cwm, we furthermore identified exceptions from this quantification on parent level: If a formula depends on another formula 
+% on which the universal is already quantified, this quantifier also counts for all descendants. 
+% As especially Cwm's understanding of this concept which determines where a universal quantifier for a variable needs to be is highly depended on a formula's syntactical ctructure
+% EYE and Cwm differ in their understanding of this concept which according to the \wwwc team submission is the formula which carries the universal quantifier. Especially the 
+% interpretation as it is implemented in Cwm highly depends on the structure of a formula's syntax tree. 
+% which is there stated 
+% as the formula where such variables are quantified.  
+We thus accept Hypothesis 1: 
+\emph{``Existing interpretations differ in their understanding of implicit quantification and this difference can be 
+expressed by mapping formulas containing such constructs to a core logic which only supports explicit quantification.''
+} By defining \nthree Core Logic we provided a tool which enables different parties implementing or using \nthreelogic to communicate their
+understanding of formulas containing implicit universal quantification. %This logic can therefore be seen as an instrument which eases the discussions about \nthree's semantics and 
+%Such a tool is crucial 
+%This enables the discussions needed in order to come to an agreement about \nthree's semantics within the Semantic Web Community.  
+This makes it possible to identify and discuss differences, and to understand their consequences. % which is an important step towards agreement. 
+ 
+%To better understand the difference between the two interpretations we considered and its practical impact, we raised Research Question 2: 
+% In order to better understand the difference between interpretations we performed tests with the reasoners Cwm and EYE (Chapter~\ref{problem}) which confirmed that 
+% these two reasoners differ in their understanding of implicit universal quantification. We further analysed this problem by consulting the 
+% \wwwc team submission and could identify its source:
+% The team submission states that universals are quantified on their \emph{parent level} 
+% but it is not further explained what this \emph{parent} is. For EYE it is the overall formula, for Cwm it is the second next formula in curly brackets
+% \texttt{\{ \}} surrounding the universal. For Cwm, we furthermore identified exceptions from this quantification on parent level: If a formula depends on another formula 
+% on which the universal is already quantified, this quantifier also counts for all descendants. 
 
-Having analysed this problem we next focussed on the second part of the research question: To be able to express the difference between these two 
-and possible other 
-interpretations of \nthree we defined \nthree Core Logic (Chapter~\ref{semofn3}).
-This logic supports the same constructs as \nthreelogic with the only exception of implicit quantification. Quantifiers in \nthree Core Logic need to be stated explicitly.
-We defined an attribute grammar which maps formulas stated in \nthree to their \nthree Core Logic interpretations in Cwm and EYE. In the case of Cwm 
-this grammar was rather complex which is an indication that reasoners following this interpretation are at least difficult to implement.
-Using the attribute grammar we can assign the meanings according to EYE and to Cwm to any given \nthree formula. This enabled us to answer Research question 3:
+% Having analysed this problem we next focussed on the second part of the research question: To be able to express the difference between these two 
+% and possible other 
+% interpretations of \nthree we defined \nthree Core Logic (Chapter~\ref{semofn3}).
+% This logic supports the same constructs as \nthreelogic with the only exception of implicit quantification. Quantifiers in \nthree Core Logic need to be stated explicitly.
+% We defined an attribute grammar which maps formulas stated in \nthree to their \nthree Core Logic interpretations in Cwm and EYE. In the case of Cwm 
+% this grammar was rather complex which is an indication that reasoners following this interpretation are at least difficult to implement.
+% Using the attribute grammar we can assign the meanings according to EYE and to Cwm to any given \nthree formula.
+% This enabled us to answer Research question 3
+
+%The second question we raised in connection with the first requirement had to do with these consequences.
+%As a follow-up question of the previous one Having discovered and formalised the difference in the interpretation of implicit universal quantification the next 
+%The second question we posed in the context of the first requirement, clear semantics, had to do with the i  
+In order to know whether the difference we found can be easily resolved by simply imposing one interpretation we next 
+Base a clear semantics for \nthree we %were interested in how we can solve the problem we found. Here, we
+raised Research Question 2:
+
+Having found differences in the interpretations of implicitly universally quantified variables in \nthree
 
 \emph{``How big is the impact of having different interpretations for \nthree formulas in practice?''}
+
+We can thus accept Hypothesis~2: \emph{``For at least one quarter of all \nthree formulas contained in our dataset of practical examples the interpretations by the reasoners EYE and Cwm differ.''}
+
+
 
 We implemented the attribute grammar defined before and applied our implementations on practical cases (Chapter~\ref{eva}). As test data sets we chose
 the test set of the EYE reasoner -- mainly because of its variety -- and different 
