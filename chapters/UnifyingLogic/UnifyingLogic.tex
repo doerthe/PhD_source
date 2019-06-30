@@ -901,7 +901,7 @@ and the reasoning tasks which are classically solved using OWL DL can also be ad
 % 
 %  
 
-\section{Research questions}
+\section{Research questions}\label{researchquestions}
 In this thesis we want to investigate to what extend \nthreelogic can fulfil the role of the \emph{Unifying Logic} for the Semantic Web.
 In Section~\ref{req} we identified the four requirements on the \emph{Unifying Logic} we want to focus on: (1) clear semantics, %the semantics of \nthree can be clearly defined by providing a model theory for the logic, 
 (2) compatibility with \rdf, 
@@ -993,14 +993,17 @@ to be formalised. In this context we need to remember that we postulated that th
 For the syntactic level, we already know that \nthree is compatible with \rdf{} -- \nthree only adds symbols and constructs to the existing \rdf syntax --
 for the semantic level we need to answer the following research question:
 
-\hyp{Research Question 3}{Can the  semantics of \nthreelogic be defined such that it is compatible to \rdf?}
+\hyp{Research Question 3}{How can we define the semantics of \nthreelogic in a way which is compatible to \rdf?}
 %\textbf{Hypothesis 2} \textit{The semantics of  \nthreelogic can be formally specified consistent to the \wwwc team submission and .}
 
-To answer this research question, we need to take a closer look to the semantics of \rdf \cite{RDFSemantics}. This is formally defined by a model theory which
--- in order to guarantee compatibility -- needs to be compatible with the model theory we define for \nthree.
+To answer this research question, we need to take a closer look to the semantics of \rdf \cite{RDFSemantics}. This semantics is defined following a model theoretic approach.
+In order  to stay consistent which these definitions, we need to follow the same apporach when defining the semantics of \nthree 
+% This is formally defined by a model theory which
+% -- in order to guarantee compatibility -- needs to be compatible with the model theory we define for \nthree.
 %which is formally defined 
-We thus formalise the semantics of \nthree following the interpretations of Cwm and EYE %choose one of the possible interpretations of \nthreelogic 
-and test the following hypothesis.
+%We thus formalise the semantics of \nthree following 
+according to the interpretations of Cwm and EYE. %choose one of the possible interpretations of \nthreelogic 
+Here, we test the following hypothesis:
 
 \hyp{Hypothesis 3:}{The model theory for \nthreelogic can be specified in such a way that it is compatible with the model theory of \rdf.}
 
