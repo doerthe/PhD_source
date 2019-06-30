@@ -165,7 +165,8 @@ Herbrand Logic~\cite{herbrandLogic}.
 As \nthree syntactically extends \rdf, the result from above that once we agreed on a semantics of \nthree this semantics can be defined in accordance 
 with \rdf{} -- with the exception we mentioned -- shows that \nthree is truly compatible with \rdf. This compatibility was something we expected from the \emph{Unifying Logic}.
 As \nthree is compatible with \rdf we can use that logic to reason about anything which can be expressed in RDF/Turtle syntax. In particular, we can reason about \owl ontologies. 
-In order to understand 
+We used this property when approaching Research Question 4 which focuses of the third requirement we had on the \emph{Unifying Logic}, its ability to connect the building 
+blocks \emph{Querying}, \emph{Ontologies/Taxonomies} and \emph{Rules} of the semantic Web stack:
 
 
 % By defining the semantics of \nthree Core Logic (Chapter~\ref{semofn3}) and formalising two mappings from \nthree syntax to this logic we also gave two possible 
@@ -180,33 +181,40 @@ In order to understand
 % Even if cited formulas refer to the same statement they should be handled differently if they contain different constants. This difference 
 % from RDF semantics is therefore unavoidable. The practical impact of this difference seems to be rather small but to be sure  further investigation is needed.
 
-Having discussed the theory of \nthree, we next turned to its practical use. Here we investigated 
-
-Research Question 4:
 
 \emph{ 
 ``In which aspects can Notation3 Logic cover and connect the building blocks \emph{Querying}, \emph{Ontologies/Taxonomies} and \emph{Rules} 
 of the Semantic Web stack?''
 }
 
-
-Hypothesis 4
-
-\emph{
-``With \nthreelogic %supports querying over \rdf graphs, reasoning over OWL ontologies and the combination of these two. It can
-we can tackle the same use cases as with \owl DL reasoning and/or SPARQL querying without suffering a loss of performance.''
-}
-
-
-In order to answer this research question we considered two use cases: a semantic nurse call 
-system and a system to perform RDF-validation (Chapter~\ref{others}). Both use cases have been implemented previously by applying OWL DL reasoning and/or SPARQL querying.
-We approached both use cases by applying rule-based reasoning instead. In our implementation we made use of \nthree, its reasoning mechanism and the different built-in 
-predicates supported by the reasoner EYE. 
+In order to realise the vision of the Semantic Web it is crucial that its concepts and technologies can be used in practical applications. We therefore 
+tackled this research question  from a practical point of view. Being a rule-based formalism, \nthree covers the building block \emph{Rules}.
+%In order to know whether we can solve the same practical use cases with \nthreelogic as we can so with \owl DL and\or SPARQL
+To understand the relationship of \nthree to querying and ontology reasoning we 
+%
+%and
+% 
+% In order to answer this research question we
+considered two practical use cases which previously have been tackled by using OWL DL reasoning and SPARQL querying: a semantic nurse call 
+system and a system to perform RDF-validation (Chapter~\ref{others}). %Both use cases have been implemented previously by applying OWL DL reasoning and/or SPARQL querying.
+We approached both use cases by applying rule-based reasoning instead. In our implementation we made use of \nthree %, its reasoning mechanism 
+as it is implemented in EYE.
+% the different built-in 
+% predicates supported by the reasoner EYE. 
 Our resulting systems were able to provide the same functionality as the original ones.
 The performance of our nurse call system was faster in all cases.  
 The RDF-validation system was faster for datasets below 100,000 triples. 
-We can thus conclude: Equipped with the right set of built-in predicates, \nthree can solve the same practical problems as OWL DL reasoning and SPARQL querying with a comparable performance.
-%but we also need to make an addition here:  
+We thus accept % conclude: Equipped with the right set of built-in predicates, \nthree can solve the same practical problems as OWL DL reasoning and SPARQL querying with a comparable performance.
+Hypothesis 4:
+\emph{
+``With \nthreelogic %supports querying over \rdf graphs, reasoning over OWL ontologies and the combination of these two. It can
+we can tackle the same use cases as with \owl DL reasoning and/or SPARQL querying without suffering a loss of performance.''
+} However, this acceptance comes with a condition: The EYE reasoner supports several built-ins which were crucial to implement the use cases we discussed. 
+As \nthreelogic is not standardised yet, it is also not fixed which of the built-in functions we used form part of the logic. Such as the semantics of \nthree, this decision should be 
+made by the Semantic Web community. If \nthree supports some form of scoped negation as failure and predicates with a similar expressivity as those defined for RIF, then \nthree supports 
+the
+applications of querying and ontology reasoning we investigated and many others.
+
 
 Having discussed the connection of \nthreelogic to the layers \emph{Ontology/Taxonomy} and \emph{Querying} we now continue elaborating on the connection
 of \nthree to the layer of \emph{Proofs}. In this context we asked Research question 6:
