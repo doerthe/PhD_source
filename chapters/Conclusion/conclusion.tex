@@ -127,7 +127,7 @@ explicit quantification instead. Unfortunately, the meaning of explicit quantifi
 When choosing between EYE's and Cwm's interpretation of implicit universal quantification, we give a clear preference in quantifying all universals on top level, mainly because that is easier 
 to implement, easier to understand for the user and also much more in-line with other formalisms containing implicit universal quantification as for example Prolog. 
 A drawback of this solution is that -- at least if we exclude explicit quantification -- it makes the logic less expressive. Whether or not the expressivity of Cwm's interpretation of 
-\nthree is needed in practice is subject to future research. Independently of that result, it is also necessary to agree on the meaning of \nthree's explicit quantification, 
+\nthree is needed in practice is subject to future research. Independent of that result, it is also necessary to agree on the meaning of \nthree's explicit quantification, 
 a subject we omitted  in this thesis. 
 % We further analysed our findings and 
 % identified one group of files which were particularly problematic: If users use deeply nested universal variables outside the proof environment and 
@@ -142,28 +142,61 @@ a subject we omitted  in this thesis.
 %  We finished this section by proposing possible solutions. In our opinion, 
 % quantifying all universals on top level would be the solution which users understand best and which is the easiest to implement. 
 
+In order understand in how far \nthree logic addresses the second requirement we had on the \emph{Unifying Logic}, the compatibility with \rdf, we raised Research Question 3:
 
-In the context of the previous 
-definitions we also tackled Research question 4:
+\emph{``How can we define the semantics of \nthreelogic in a way which is compatible to \rdf?''}
 
-\emph{``Can the the semantics of \nthreelogic be defined such that it is compatible to \rdf?''}
+To answer this research question we defined the semantics of  \nthree Core Logic using a model theoretic approach  and formalised two mappings 
+from \nthree syntax to that logic (Chapter~\ref{semofn3}). By doing so, we provided two possible definitions for the semantics of \nthree.
+The definitions we used when defining the model theory for \nthree Core Logic were compatible with those from \rdf with one exception:
+Instead of mapping implicitly quantified variables directly to elements of the domain of discourse we added a grounding step which assigned 
+\nthree constants to these variables before mapping them to the actual resources they represent.
+We thus accept Hypothesis 1: \emph{``The model theory for \nthreelogic can be specified in such a way that it is mostly compatible with the model theory of \rdf.''}
+We made this exception because
+cited  \nthree formulas should not be referentially transparent: Even if cited formulas refer to the same statement they should be
+handled differently if they contain different constants. As a consequence, we need to be able to assign constants to variables occurring in such cited formulas.
+For that reason, we had to deviate from \rdf. We expect the practical impact of that deviation to be rather small given that such a grounding step is also implemented in all 
+\nthree reasoners we are aware of. To understand the impact from a theoretical point of view, further research is needed and this research could start by studying the properties of 
+Herbrand Logic~\cite{herbrandLogic}.
+% 
+% This difference 
+% from RDF semantics is therefore unavoidable.
 
-By defining the semantics of \nthree Core Logic (Chapter~\ref{semofn3}) and formalising two mappings from \nthree syntax to this logic we also gave two possible 
-formalisations for the semantics of \nthree. These formalisations were mostly compatible with the semantics of \rdf. 
-% To interpret predicates, the interpretation for \nthree Core Logic and RDF both map these directly to the one element of the set of properties which is a subset 
-% of the domain of discourse. An additional interpretation function assigns the set of relations fulfilling the relation to that property.
-The only bigger difference between the interpretation of \nthree Core Logic as we defined it and the interpretation of RDF
-is that for the former we need to ground existentially quantified variables 
-first before we can assign them to the resource they represent. This had to do with the fact that cited  \nthree formulas should not be referentially transparent:
-Even if cited formulas refer to the same statement they should be handled differently if they contain different constants. This difference 
-from RDF semantics is therefore unavoidable. The practical impact of this difference seems to be rather small but to be sure  further investigation is needed.
+As \nthree syntactically extends \rdf, the result from above that once we agreed on a semantics of \nthree this semantics can be defined in accordance 
+with \rdf{} -- with the exception we mentioned -- shows that \nthree is truly compatible with \rdf. This compatibility was something we expected from the \emph{Unifying Logic}.
+As \nthree is compatible with \rdf we can use that logic to reason about anything which can be expressed in RDF/Turtle syntax. In particular, we can reason about \owl ontologies. 
+In order to understand 
 
-Having discussed the theory of \nthree, we next turned to its practical use. Here we investigated Research question 5:
+
+% By defining the semantics of \nthree Core Logic (Chapter~\ref{semofn3}) and formalising two mappings from \nthree syntax to this logic we also gave two possible 
+% % formalisations for the semantics of \nthree. 
+% These formalisations were mostly compatible with the semantics of \rdf. 
+% % To interpret predicates, the interpretation for \nthree Core Logic and RDF both map these directly to the one element of the set of properties which is a subset 
+% % of the domain of discourse. An additional interpretation function assigns the set of relations fulfilling the relation to that property.
+% The only bigger difference between the interpretation of \nthree Core Logic as we defined it and the interpretation of RDF
+% is that for the former we need to ground existentially quantified variables 
+% first before we can assign them to the resource they represent.
+% This had to do with the fact that cited  \nthree formulas should not be referentially transparent:
+% Even if cited formulas refer to the same statement they should be handled differently if they contain different constants. This difference 
+% from RDF semantics is therefore unavoidable. The practical impact of this difference seems to be rather small but to be sure  further investigation is needed.
+
+Having discussed the theory of \nthree, we next turned to its practical use. Here we investigated 
+
+Research Question 4:
 
 \emph{ 
 ``In which aspects can Notation3 Logic cover and connect the building blocks \emph{Querying}, \emph{Ontologies/Taxonomies} and \emph{Rules} 
 of the Semantic Web stack?''
 }
+
+
+Hypothesis 4
+
+\emph{
+``With \nthreelogic %supports querying over \rdf graphs, reasoning over OWL ontologies and the combination of these two. It can
+we can tackle the same use cases as with \owl DL reasoning and/or SPARQL querying without suffering a loss of performance.''
+}
+
 
 In order to answer this research question we considered two use cases: a semantic nurse call 
 system and a system to perform RDF-validation (Chapter~\ref{others}). Both use cases have been implemented previously by applying OWL DL reasoning and/or SPARQL querying.
