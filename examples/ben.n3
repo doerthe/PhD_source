@@ -1,0 +1,6 @@
+PREFIX : <http://example.org/ex#>
+PREFIX list: <http://www.w3.org/2000/10/swap/list#>
+
+:Ben :likes :spaghetti.
+
+

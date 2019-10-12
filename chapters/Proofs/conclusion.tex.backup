@@ -1,0 +1,26 @@
+\section{Conclusion}
+\label{sec:Conclusion}
+In this chapter we investigated how proofs produced by \nthree reasoners can be used in practice. 
+% \nthree proofs are special in the sense that they can themselves be 
+% expressed in the logic and serve as input for further reasoning which makes it possible to exchange, test or reuse them amongst different reasoning systems. The practial 
+% applications we discussed used proofs as plans: 
+The applications we discussed used proofs as plans: We describe possible API operations or possible sensor queries by means of existential rules where
+the existentials 
+represent the knowledge gained by performing the operation of executing the query. In the pre- and postconditions, this knowledge is set into context. We express 
+under which circumstances we can execute operations and queries and what their outcome means for our set-up. By that, we connect the rules to the context knowledge 
+such that plans produced with them adapt to the present situation. In combination with a goal, we use descriptions, background knowledge and rules to generate 
+proofs. 
+As every description which is relevant for the goal appears in such a proof, we can understand the proof as a plan and use the information about specific 
+query parameters or 
+call methods as instructions to execute these plans. By constantly updating such plans we can always take all necessary information into account and adapt in case 
+the situation changes.
+
+The use cases we described here were only two possible applications of \nthree proofs: The fact that \nthree reasoners produce proofs which are themselves written in \nthree 
+provides many opportunities: Proofs can be used to generate explanations together with the nurse assignments we discussed in Section~\ref{orca} 
+(the author of this thesis was involved in the development of the so-called \emph{Why-Me?-button} which exactly does that and was submitted for patent application 
+\cite{patent_15202196-0-1955}) or they can help to find the causes of constraint violations as discussed in Section~\ref{usecase2} (this is further explained in \cite{ben}).
+There are many set-ups in in which \nthree proofs can be beneficial.
+
+Coming back to our initial discussion in Chapter \ref{unilog} we can conclude that if we let the \emph{Proof layer} of the Semantic Web stack be composed by \nthree proofs,
+we have a clear and strong connection to the highest layer of the stack, the layer of \emph{Applications}. As this is the layer which ultimately needs to be supported 
+at all levels \nthree logic is a good choice

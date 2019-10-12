@@ -1,0 +1,35 @@
+\section{Conclusion}
+In order to answer the question whether \nthreelogic can solve the same practical problems as SPARQL and OWL DL reasoning with a comparable performance we considered two use cases:
+A semantic nurse call system and a system for \rdf validation.  
+
+The nurse call system has been previously implemented using OWL DL reasoning to draw conclusions from the ontology involved
+and SPARQL querying to select a nurse based on the reasoning 
+result. 
+We implemented a system which combined ontology reasoning and querying using only one framework: \nthreelogic. To draw conclusions from 
+the knowledge expressed in the ontology, we applied OWL RL reasoning. 
+% While this was enough for our use case, such rules 
+% making sense of the concepts used in OWL ontologies could be further extended if needed. 
+The decision tree
+for assigning nurses to a call depending on the current context has been implemented by directly using \nthree rules. 
+We compared the execution times of both implementations and saw that the solution using \nthree performed faster which was caused by two reasons:
+Firstly, we only took the \owl concepts which were relevant for our use case into account and not all inference steps included in the profile OWL DL. 
+This optimisation could be made because \nthreelogic is very flexible: using rules we can choose which OWL concepts we want to support. 
+Since \nthree also supports existential rules and is in most reasoners enriched with various built-ins, we can go beyond OWL RL if needed 
+(see also Section~\ref{ontres} below).
+The second reason for the good performance was that two different tasks -- querying and ontology reasoning -- could be performed by one single framework and
+not by two 
+different ones as in the original implementation. Here, \nthree completes the task of a \emph{unifying logic} and connected the building blocks \emph{Querying} and 
+\emph{Ontologies/Taxonomies}.
+
+For the second use case  we considered -- \rdf data validation -- SPARQL is normally seen as the method of choice~\cite[p. 143]{hartmann2016}. By implementing 
+rules for the constraint types supported by RDFUnit -- a very popular engine to test constraints on \rdf datasets -- 
+we showed that this typical use case for querying 
+can also be supported by \nthreelogic. The comparison of our implementation with RDFUnit showed that both implementations are comparable in terms of accuracy and 
+execution times. For small datasets our implementation was faster, for datasets containing more than 100,000 triples RDFUnit performed better.
+The real advantage of using \nthree reasoning instead of SPARQL querying was in this case again the fact that our system can be easily extended to perform more complex 
+reasoning.
+
+Both use cases we considered were originally approached using OWL DL reasoning and/or SPARQL querying and we could retrieve 
+comparable -- and in some aspects even better -- results by applying 
+\nthreelogic instead. This indicates that \nthreelogic -- if equipped with the right set of built-in predicates -- can connect the layers \emph{Querying}
+and \emph{Ontologies/Taxonomies} for the Semantic Web stack just as we expect it from a \emph{Unifying Logic}.

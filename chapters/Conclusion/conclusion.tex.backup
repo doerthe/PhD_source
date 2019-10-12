@@ -1,0 +1,366 @@
+\chapter{Conclusions}\label{concl}\label{conclusion}
+In this thesis we investigated  \nthreelogic and its potential to become the \emph{Unifying Logic} for the Semantic Web. 
+Many properties of \nthree make it a very strong candidate for this role.
+It is based on \rdf, the most established standard of the Web, and it extends this framework by rules and citations. This connection makes it possible to reason 
+about the \rdf representation of \owl ontologies by using rules which support the different concepts forming part of that standard. 
+%These rules sometimes rely on built-in functions which are still not officially included in \nthree as proposed by the \wwwc team submission~\cite{Notation3}.
+\nthree furthermore supports querying. It is possible to define filter rules such that the reasoners only provide all valid consequences of these rules. \nthree supports the layer 
+of proofs. \nthree reasoners provide proofs for their derivations. These proofs are again written in \nthree which makes it easy to share and exchange them and 
+to use them in further applications.
+
+We also discussed the most important open problem when it comes to \nthree:  As its semantics is not formally defined the implementations using this 
+logic differ in their understanding of implicit quantification. We tackled this problem by introducing a format close to \nthree which only supports explicit 
+quantification, \nthree Core Logic. For this Logic we provided the formal semantics and defined concrete mappings from \nthree syntax to it which followed 
+the different interpretations. By doing that we made the differences between interpretations explicit. Our \nthree Core Logic makes it possible to discuss 
+different ways to define \nthree's semantics which then -- hopefully -- leads to an agreement.
+
+Below, we connect these achievements to the research questions we posed in Section~\ref{researchquestions} and answer these in detail.
+
+
+\section{Review of the research questions}
+%In order to understand in how far \nthreelogic can fulfil the role of the 
+We identified four general
+requirements on the \emph{Unifying Logic} for the Semantic Web: (1) clear semantics, %the semantics of \nthree can be clearly defined by providing a model theory for the logic, 
+(2) compatibility with \rdf, 
+(3) connection of the logical layers 
+and (4) support of proofs. To understand in how far \nthree meets these requirements and is thus a candidate to fulfil that role, we posed research questions for each of these aspects.
+We now discuss how these research questions can be answered based on the research performed in this doctoral project.
+
+For the first requirement, clear semantics, we posed two questions. The first of these was Research Question 1:
+
+\emph{``How can the differences between the individual interpretations of \nthree assumed by different reasoners 
+following the \wwwc team submission~\cite{Notation3}
+and the journal paper~\cite{N3Logic}
+ be formally expressed?''} 
+
+Our analysis (Chapter~\ref{problem}) of the problem of diverging interpretations showed that the reasoners Cwm and EYE differ in their understanding of implicit universal quantification 
+and that this difference is caused by the underspecification of the term \emph{parent formula} in the \wwwc team submission.
+Universals are quantified on their \emph{parent formula}. For EYE the overall formula is the \emph{parent} and all universal variables are quantified on that level. For Cwm 
+universal quantification depends on the syntactic structure of a formula: Cwm's parent formula 
+is the second next formula in curly brackets
+\texttt{\{~\}} surrounding the universal variable. But, if this parent is already in scope of another universal quantification for the same variable this quantification also counts 
+for its descendants. %To be able to compare these two interpretations we needed a way to express the exact position and the scope of the universal quantification.
+The interpretations thus disagree on where exactly they assume a nested universal to be quantified. To clarify the differences between interpretations it therefore makes sense to make
+implicit quantification explicit. To do so we defined \nthree Core Logic -- a logic which is very similar to \nthree and only differs from the latter by the 
+fact that it only supports explicit quantification -- and defined two mappings from \nthree syntax to that logic, one following Cwm's semantics and one following EYE (Chapter~\ref{semofn3}).
+Especially to be able to cope with Cwm's interpretation of implicit universal quantification we used attribute grammars to define these mappings as these act directly 
+on a formula's syntax tree.
+%
+% 
+% Having analysed this problem we next focussed on the second part of the research question: To be able to express the difference between these two 
+% and possible other 
+% interpretations of \nthree we defined \nthree Core Logic (Chapter~\ref{semofn3}).
+% This logic supports the same constructs as \nthreelogic with the only exception of implicit quantification. Quantifiers in \nthree Core Logic need to be stated explicitly.
+% We defined an attribute grammar which maps formulas stated in \nthree to their \nthree Core Logic interpretations in Cwm and EYE. In the case of Cwm 
+% this grammar was rather complex which is an indication that reasoners following this interpretation are at least difficult to implement.
+Our attribute grammar assigns one \nthree Core Logic formula following the interpretation of EYE and one following Cwm  
+%the meanings according to EYE and to Cwm
+to any given \nthree formula.  These two translations can easily be compared as the position of every quantifier for every
+implicitly universally quantified variable is stated explicitly.
+% . For Cwm, we furthermore identified exceptions from this quantification on parent level: If a formula depends on another formula 
+% on which the universal is already quantified, this quantifier also counts for all descendants. 
+% As especially Cwm's understanding of this concept which determines where a universal quantifier for a variable needs to be is highly depended on a formula's syntactical ctructure
+% EYE and Cwm differ in their understanding of this concept which according to the \wwwc team submission is the formula which carries the universal quantifier. Especially the 
+% interpretation as it is implemented in Cwm highly depends on the structure of a formula's syntax tree. 
+% which is there stated 
+% as the formula where such variables are quantified.  
+We thus accept Hypothesis 1: 
+\emph{``Existing interpretations differ in their understanding of implicit quantification and this difference can be 
+expressed by mapping formulas containing such constructs to a core logic which only supports explicit quantification.''
+} By defining \nthree Core Logic we provided a tool which enables different parties implementing or using \nthreelogic to communicate their
+understanding of formulas containing implicit universal quantification. %This logic can therefore be seen as an instrument which eases the discussions about \nthree's semantics and 
+%Such a tool is crucial 
+%This enables the discussions needed in order to come to an agreement about \nthree's semantics within the Semantic Web Community.  
+This makes it possible to identify and discuss differences, and to understand their consequences. % which is an important step towards agreement. 
+ 
+%To better understand the difference between the two interpretations we considered and its practical impact, we raised Research Question 2: 
+% In order to better understand the difference between interpretations we performed tests with the reasoners Cwm and EYE (Chapter~\ref{problem}) which confirmed that 
+% these two reasoners differ in their understanding of implicit universal quantification. We further analysed this problem by consulting the 
+% \wwwc team submission and could identify its source:
+% The team submission states that universals are quantified on their \emph{parent level} 
+% but it is not further explained what this \emph{parent} is. For EYE it is the overall formula, for Cwm it is the second next formula in curly brackets
+% \texttt{\{ \}} surrounding the universal. For Cwm, we furthermore identified exceptions from this quantification on parent level: If a formula depends on another formula 
+% on which the universal is already quantified, this quantifier also counts for all descendants. 
+
+% Having analysed this problem we next focussed on the second part of the research question: To be able to express the difference between these two 
+% and possible other 
+% interpretations of \nthree we defined \nthree Core Logic (Chapter~\ref{semofn3}).
+% This logic supports the same constructs as \nthreelogic with the only exception of implicit quantification. Quantifiers in \nthree Core Logic need to be stated explicitly.
+% We defined an attribute grammar which maps formulas stated in \nthree to their \nthree Core Logic interpretations in Cwm and EYE. In the case of Cwm 
+% this grammar was rather complex which is an indication that reasoners following this interpretation are at least difficult to implement.
+% Using the attribute grammar we can assign the meanings according to EYE and to Cwm to any given \nthree formula.
+% This enabled us to answer Research question 3
+
+The consequences we are particularly interested in are related to the practical use of \nthree.
+%The second question we raised in connection with the first requirement had to do with these consequences.
+%As a follow-up question of the previous one Having discovered and formalised the difference in the interpretation of implicit universal quantification the next 
+%The second question we posed in the context of the first requirement, clear semantics, had to do with the i  
+For the two interpretations we considered in this thesis we posed Research Question 2
+which is the second research question in the context of a clear semantic definition:
+% In order to know whether the difference we found can be easily resolved by simply imposing one interpretation we next 
+% Base a clear semantics for \nthree we %were interested in how we can solve the problem we found. Here, we
+% raised Research Question 2:
+
+%Having found differences in the interpretations of implicitly universally quantified variables in \nthree
+
+\emph{``How big is the impact of having different interpretations for \nthree formulas in practice?''}
+
+In order to answer this question we implemented the attribute grammar we defined earlier (Chapter~\ref{eva}). 
+For any given \nthree formula our implementation returns the interpretations in \nthree Core Logic 
+according to Cwm and to EYE. To understand the impact of the difference we applied our implementation to two datasets: one dataset consisting of different formulas which 
+were used in industry-related research projects -- these files were not created to test the reasoners but to solve practical problems -- the other one consisting of example formulas 
+provided for the EYE reasoner. These formulas contain examples for the different applications the users of the reasoner have reported and therefore cover a huge variety of different 
+ways to apply the logic. For these datasets we compared the two \nthree Core Logic translations of each formula and discovered that these do not concur for 31\%
+of all our files tested.
+We thus accept Hypothesis~2: \emph{``For at least one quarter of all \nthree formulas contained in our dataset of practical examples the interpretations by the reasoners EYE and Cwm differ.''}
+% By further testing we found
+%  one group of files which is particularly problematic: If users use deeply nested universal variables outside the proof environment and 
+% not in connection with built-ins, it is very likely that they are not aware of the differences of the reasoners. 
+% 13\% of the files causing differences belong to this group.
+From a practical point of view this result means that the way we define the semantics of \nthree directly influences the formulas we considered and thus the working of the applications 
+they are used for. This means that fixing the semantics of \nthree is more than just an academical exercise. In order to guarantee interoperability as required by the Semantic Web we need 
+ an agreement and to come to this agreement we should involve %be based on the agreement of %the different parties
+all parties 
+applying \nthreelogic on a practical level. % need to be involved when coming to an agreement. 
+We also discussed how such an agreement could look like: we could either follow Cwm or EYE, or exclude implicit quantification in all constructs where it leads to ambiguity and use 
+explicit quantification instead. Unfortunately, the meaning of explicit quantification in \nthree is not properly defined either which made us discard this solution.
+When choosing between EYE's and Cwm's interpretation of implicit universal quantification, we give a clear preference in quantifying all universals on top level, mainly because that is easier 
+to implement, easier to understand for the user and also much more in-line with other formalisms containing implicit universal quantification as for example Prolog. 
+A drawback of this solution is that -- at least if we exclude explicit quantification -- it makes the logic less expressive. Whether or not the expressivity of Cwm's interpretation of 
+\nthree is needed in practice is subject to future research. Independent of that result, it is also necessary to agree on the meaning of \nthree's explicit quantification, 
+a subject we omitted  in this thesis. 
+% We further analysed our findings and 
+% identified one group of files which were particularly problematic: If users use deeply nested universal variables outside the proof environment and 
+% not in connection with built-ins, it is very likely that they are not aware of the differences of the reasoners. 
+% 13\% of the files causing differences belong to this group.
+
+% We implemented the attribute grammar defined before and applied our implementations on practical cases (Chapter~\ref{eva}). As test data sets we chose
+% the test set of the EYE reasoner -- mainly because of its variety -- and different 
+% rule files which were used in research projects. For all these files we generated the interpretations according to Cwm and EYE and compared the results. In 31\%
+% of the cases we encountered differences in the interpretations.
+%This indicates that the problem we found needs to be addressed.
+%  We finished this section by proposing possible solutions. In our opinion, 
+% quantifying all universals on top level would be the solution which users understand best and which is the easiest to implement. 
+
+In order understand in how far \nthree logic addresses the second requirement we had on the \emph{Unifying Logic}, the compatibility with \rdf, we raised Research Question 3:
+
+\emph{``How can we define the semantics of \nthreelogic in a way which is compatible to \rdf?''}
+
+To answer this research question we defined the semantics of  \nthree Core Logic using a model theoretic approach  and formalised two mappings 
+from \nthree syntax to that logic (Chapter~\ref{semofn3}). By doing so, we provided two possible definitions for the semantics of \nthree.
+The definitions we used when defining the model theory for \nthree Core Logic were compatible with those from \rdf with one exception:
+Instead of mapping implicitly quantified variables directly to elements of the domain of discourse we added a grounding step which assigned 
+\nthree constants to these variables before mapping them to the actual resources they represent.
+We thus accept Hypothesis 1: \emph{``The model theory for \nthreelogic can be specified in such a way that it is mostly compatible with the model theory of \rdf.''}
+We made this exception because
+cited  \nthree formulas should not be referentially transparent: Even if cited formulas refer to the same statement they should be
+handled differently if they contain different constants. As a consequence, we need to be able to assign constants to variables occurring in such cited formulas.
+For that reason, we had to deviate from \rdf. We expect the practical impact of that deviation to be rather small given that such a grounding step is also implemented in all 
+\nthree reasoners we are aware of. To understand the impact from a theoretical point of view, further research is needed and this research could start by studying the properties of 
+Herbrand Logic~\cite{herbrandLogic}.
+% 
+% This difference 
+% from RDF semantics is therefore unavoidable.
+
+As \nthree syntactically extends \rdf, the result from above that once we agreed on a semantics of \nthree this semantics can be defined in accordance 
+with \rdf{} -- with the exception we mentioned -- shows that \nthree is truly compatible with \rdf. This compatibility was something we expected from the \emph{Unifying Logic}.
+As \nthree is compatible with \rdf we can use that logic to reason about anything which can be expressed in RDF/Turtle syntax. In particular, we can reason about \owl ontologies. 
+We used this property when approaching Research Question 4 which focuses of the third requirement we had on the \emph{Unifying Logic}, its ability to connect the building 
+blocks \emph{Querying}, \emph{Ontologies/Taxonomies} and \emph{Rules} of the semantic Web stack:
+
+
+% By defining the semantics of \nthree Core Logic (Chapter~\ref{semofn3}) and formalising two mappings from \nthree syntax to this logic we also gave two possible 
+% % formalisations for the semantics of \nthree. 
+% These formalisations were mostly compatible with the semantics of \rdf. 
+% % To interpret predicates, the interpretation for \nthree Core Logic and RDF both map these directly to the one element of the set of properties which is a subset 
+% % of the domain of discourse. An additional interpretation function assigns the set of relations fulfilling the relation to that property.
+% The only bigger difference between the interpretation of \nthree Core Logic as we defined it and the interpretation of RDF
+% is that for the former we need to ground existentially quantified variables 
+% first before we can assign them to the resource they represent.
+% This had to do with the fact that cited  \nthree formulas should not be referentially transparent:
+% Even if cited formulas refer to the same statement they should be handled differently if they contain different constants. This difference 
+% from RDF semantics is therefore unavoidable. The practical impact of this difference seems to be rather small but to be sure  further investigation is needed.
+
+
+\emph{ 
+``In which aspects can Notation3 Logic cover and connect the building blocks \emph{Querying}, \emph{Ontologies/Taxonomies} and \emph{Rules} 
+of the Semantic Web stack?''
+}
+
+In order to realise the vision of the Semantic Web it is crucial that its concepts and technologies can be used in practical applications. We therefore 
+tackled this research question  from a practical point of view. Being a rule-based formalism, \nthree covers the building block \emph{Rules}.
+%In order to know whether we can solve the same practical use cases with \nthreelogic as we can so with \owl DL and\or SPARQL
+To understand the relationship of \nthree to querying and ontology reasoning we 
+%
+%and
+% 
+% In order to answer this research question we
+considered two practical use cases which previously have been tackled by using OWL DL reasoning and SPARQL querying: a semantic nurse call 
+system and a system to perform RDF-validation (Chapter~\ref{others}). %Both use cases have been implemented previously by applying OWL DL reasoning and/or SPARQL querying.
+We approached both use cases by applying rule-based reasoning instead. In our implementation we made use of \nthree %, its reasoning mechanism 
+as it is implemented in EYE.
+% the different built-in 
+% predicates supported by the reasoner EYE. 
+Our resulting systems were able to provide the same functionality as the original ones.
+The performance of our nurse call system was faster in all cases.  
+The RDF-validation system was faster for datasets below 100,000 triples. 
+We thus accept % conclude: Equipped with the right set of built-in predicates, \nthree can solve the same practical problems as OWL DL reasoning and SPARQL querying with a comparable performance.
+Hypothesis 4:
+\emph{
+``With \nthreelogic %supports querying over \rdf graphs, reasoning over OWL ontologies and the combination of these two. It can
+we can tackle the same use cases as with \owl DL reasoning and/or SPARQL querying without suffering a loss of performance.''
+} However, this acceptance comes with a condition: The EYE reasoner supports several built-ins which were crucial to implement the use cases we discussed. 
+As \nthreelogic is not standardised yet, it is also not fixed which of the built-in functions we used form part of the logic. Such as the semantics of \nthree, this decision should be 
+made by the Semantic Web community. If \nthree supports some form of scoped negation as failure and predicates with a similar expressivity as those defined for RIF, then \nthree supports 
+the
+applications of querying and ontology reasoning we investigated and many others.
+
+
+
+
+% Having discussed the connection of \nthreelogic to the layers \emph{Ontology/Taxonomy} and \emph{Querying} we now continue elaborating on the connection
+% of \nthree to the layer of \emph{Proofs}. In this context we asked 
+The last requirement on the \emph{Unifying Logic} for the Semantics Web we covered with our research questions was the connection to the layer of \emph{Proofs}.
+For \nthree there is a proof vocabulary defined, the SWAP vocabulary  which makes it possible to express proofs in \nthree. This vocabulary is used by different reasoners 
+to explain their derivations. This explanation is only meaningful if we know that the steps defined in SWAP vocabulary are themselves correct. This correctness has not been proven so far.
+We therefore asked in Research Question 5:
+
+\emph{``How can we verify that the proof steps defined by the SWAP vocabulary are correct?''}
+
+The correctness is closely related to the
+In order to answer that research questions we first defined a set of formulas for which the reasoners EYE and Cwm both quantify all universal variables on top level (Chapter~\ref{proof}).
+For these so-called \emph{simple formulas} we then defined the direct semantics. This semantics also covers the interpretation EYE assumes for all formulas.
+Using that definition we then formally defined the proof calculus which is expressed by the SWAP vocabulary and proved its correctness.
+
+We thus accept 
+Hypothesis 5:
+\emph{``The proof steps included in the SWAP vocabulary can be formally defined on top of the model theory for \nthree. 
+That formalisation allows us to prove that the calculus is correct.''}
+
+
+
+
+
+
+After having achieved that result, we focussed on Research question 7:
+% In order to prove the correctness of the steps included in the SWAP proof vocabulary we f gave the definition of \nthree's direct semantics . This definition 
+% was following the assumption that all universal variables are quantified on top level. 
+
+
+% In order to show that using \nthreelogic we can combine querying over \rdf graphs and reasoning over OWL ontologies in one single technology and
+% solve the same use cases as \owl DL reasoning and SPARQL querying  with a comparable performance.
+
+\textit{ 
+``Are there applications for \nthree proofs which go beyond the establishment of \emph{Trust}?''
+}
+
+As a use case for \nthree proofs we studied automatic composition and execution of hypermedia APIs (Chapter~\ref{restdesc}). We presented a way 
+to describe the operations such APIs can perform by means of existential rules which then could be combined in proof for a desired goal. 
+As all rules contributing to that goal also appear in such a proof, we can understand that proof as a plan, execute and -- if needed -- update it.
+We defined an algorithm to exactly do that and we showed that if the proof generation itself terminates, then our algorithm does as well.
+We discussed the limits of our approach: by using \nthree which is based on FOL we cannot express change, we furthermore cannot provide different options to the user.
+We concluded that use cases which do not require these two properties can be tackled by our method and presented one instance of such a use case: the localisation of critical 
+sensors in complex set-ups where context is relevant. By discussing these two use cases we showed that there are many applications which can benefit from \nthree proofs.
+
+% Having answered all these research questions we can now return to our main research question, Research question 1:
+% 
+% \textit{ 
+% ``To what extend can Notation3 Logic fulfil the role of a \emph{Unifying Logic} for the Semantic Web?''
+% }
+
+The research we conducted in this doctoral project showed that \nthreelogic is a promising candidate to become the \emph{Unifying Logic} of the Semantic Web:
+We were able to propose two definitions for \nthree's semantics which were mostly compatible with RDF. It depends on the agreement of the community which 
+of these definitions -- if any -- is chosen.
+We furthermore showed that \nthree can be used to combine \emph{Querying}, reasoning about \emph{Ontologies/Taxonomies}, and rule-based inferencing. 
+However, to properly support querying we  needed 
+built-in functions. As \nthree is not standardised (yet) there is also no agreement on the built-in functions which are part of the logic. This  issue again 
+needs to be decided by the community. 
+\nthree  furthermore does not only support the layer of proof, by providing the to possibility to cite formulas it even makes such proofs part of the Semantic Web.
+Proofs can be used for further reasoning, they can be exchanged and they can be used in all kinds of applications.
+If the Semantic Web community comes to an agreement about the meaning of implicit universal quantification and the built-ins which form part of the logic, this logic 
+can serve as the \emph{Unifying Logic} for the Semantic Web.
+%(here I am currently considering to change the requirement in that direction). Proofs should not only be 
+%producible, the produced proofs should also be part of the web and therefore again have a strong connection to \rdf.
+
+
+
+
+\section{Open challenges and future directions}
+Having answered the research questions in the previous section, we now take an outlook to the future and discuss the challenges which lie ahead. 
+
+The most important challenge 
+has already been mentioned in the previous section: We should work on the standardisation of \nthree.
+The research presented in this thesis has shown that \nthree is worth that effort. 
+Even though rule-based reasoning is very powerful, it has so far been widely neglected in the Semantic Web in favour of other frameworks like OWL DL which 
+scarify user-friendliness in order to guarantee decidability. %Semantic Web reasoning should be performed by both, rule-based and OWL DL-based reasoners, 
+Here, we do not say that one framework is better than the other -- there are use cases in which it makes sense to use an OWL DL reasoner instead of an 
+rule-based reasoner -- we just say that both frameworks should co-exist and that in cases where reasoning needs to be combined with querying, \nthree could be 
+the logic of choice. 
+
+% the semantic Web lacks a rule language to be used in practical applications and if we 
+% choose \nthree here, we most probably come
+We made a first step towards the standardisation of \nthree and started a 
+\wwwc community group\footnote{\url{https://www.w3.org/community/n3-dev/}}.
+We hope to soon be able to come to agreements in the questions discussed\footnote{The discussions can be found on the group's git repository: \url{https://github.com/w3c/N3/issues/}} 
+ to then provide a formalisation of the logic.
+% 
+% the open questions
+% %open questions mentioned here in this thesis but also other ones 
+% in order to come to an agreement. 
+The most important points which need to be addressed are the meaning of implicit quantification, the agreement on the 
+built-in functions which form part of the logic -- here it is in particular important whether or not we want to include scoped negation as failure -- and 
+the meaning of cited formulas. This last topic has not been discussed in detail here in this thesis even though the semantic definition of \nthree Core Logic gives a hint
+how we want to understand cited formulas. 
+%  here to 
+% solve this problem, but to really formalise \nthree the community needs to come to an agreement. We already started this group with the \wwwc community group (link)
+% and hope to soon be able to formalise our agreements. The most important open issues are: how do we want to deal with cited formulas and what do the \emph{mean}?
+% Which built-ins should the standard include? Do we for example introduce predicates for scoped negation as failure? Should \nthree be expressibel in plain \rdf and 
+% is that even possible?
+
+
+Apart from the standardisation of \nthreelogic we also see the need to extend the SWAP proof vocabulary: 
+Reasoners should at least have the option to express all proof steps they perform when deriving new knowledge.
+Even with a more complex vocabulary the implementers of reasoners can decide to omit proof steps they consider trivial.
+But the calculus such descriptions represent should be complete for a big part of the logic, if possible, even for the entire logic.
+% to allow reasoners to express all proof steps 
+% they apply when deriving new knowledge. It can then still be decided by the implementers of the reasoners whether they omit trivial proof steps in the proofs 
+% they display but the calculus defined should reflect the reasoning steps 
+% We showed clear ways to define the semantics of \nthree, the decision which specification we want to use depends on the community (here I want to also talk about our W3C community group)
+
+% We also clarified the relation of \nthree and \rdf: \nthree is compatible with \rdf and truely extends it. 
+% 
+% \nthree can be used for ontology reasoning and querying. But practice also needs to show whether we encounter practical cases where we get problems.
+
+% \nthree supports the layer of proof and makes this layer part of the semantic web (here I am currently considering to change the requirement in that direction). Proofs should not only be 
+% producible, the produced proofs should also be part of the web and therefore again have a strong connection to \rdf.
+% 
+% We also showed  practical applications for proofs.
+
+% The condition we added to our answer for Research question 5, the fact that we need built-in predicates, again points to the problem we discussed earlier: as long as \nthree 
+% is not standardised our answer is conditional: at the current point we do not know which built-ins will be included in a possible standard.
+% 
+
+To provide a last suggestion for further research we come back to the limitations of RESTdesc: we saw that there are cases where it makes sense for a logic to
+have a notion of change. Even though the concept of time and invalid information is already part of the Semantic Web, we do not have any Semantic Web
+Logic which can deal with that concept and use it -- for example -- for planning. Of course the solution of that problem requires us to leave our comfort zone of 
+monotonic logics and try something new. But establishing this new direction as an addition to the different logical frameworks we already have we bring the Semantic 
+Web one step further towards its real materialisation.
+
+% Further investigate the ontology reasoning.
+% 
+% Go beyond RESTdesc (here I want to mention or at least give a hint that we had GPS4IC).
+
+
+% General conclusion: \nthree logic is a very promising candidate to fulfil the rule as the unifying logic of the Semantic Web: It is syntactically and semantically 
+% compatible with \rdf, it supports querying and reasoning over ontologies, it supports the layer of proof.
+
+%But there are also problems to solve to get there: \nthree is not standardised and this is partly because the semantics is not formally defined.
+
+
+
+
+%Rules should finally take the role they deserve in the Web!
+
+%Mention SPIN and the fact that we can use it to query. Or better: everything which has an \rdf representation can serve as input for \nthree reasoning.
+
+%grounding Herbrand

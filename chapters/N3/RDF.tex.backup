@@ -1,0 +1,611 @@
+\section{Blank nodes in RDF}
+% Having seen the uncertainties regarding implicit quantification in the last section  we want to take one more step before approaching the main topic of this chapter which is providing a 
+% formal definition of \nthree's semantic
+%The goal of this chapter is to formalise the semantics for \nthreelogic. Before we provide a logic  
+The previous section showed that the meaning of implicit quantification in \nthree is not always obvious. The problems we encountered arise from the fact 
+that is is not easy to informally express where exactly universals and existentials are quantified. We therefore want to provide a formalisation.
+To better understand how the specific details of \nthree and in particular implicit quantification 
+can be formalised, we take a closer look at the logic it is extending: \rdf.
+% \rdf does not support implicit univeral quantification -- this concept is only present in \nthree -- but it understands blanknodes just the same way \nthree does: as implicitely 
+% existentially quantified variables.
+%
+% 
+% To better understand how implicit quantification can be covered in formal semantics we further explore 
+% % When we define a formal model for 
+% % \nthreelogic we need to define the meaning of this concept carefully. 
+% % Before we discuss how the uncertainties regarding implicit quantification as exemplified in the previous section can be addressed, we take one step back and have a closer 
+% % look on how the concept of 
+% % implicit quantification is handled in 
+%  the logic \nthree is extending, \rdf.
+Here, we do not find implicit universal quantification -- this is a concept that \nthreelogic adds to the \rdf 
+model -- but implicit existential quantification 
+is also present: as in \nthree blank nodes are understood as implicitly existentially quantified variables.
+% %
+% %\rdf does not support implicit universal quantification but \nthree's concept of blank nodes to specify implicitly existentially quantified variables is inherited from \rdf.
+% %  We therefore  
+% %  take a closer look to that concept.
+% % Since \nthreelogic is based on \rdf and extends this logic, it makes sense to take a closer look 
+% % on how the model theory of \rdf is defined and in particular on how implicit quantification is formalised here. \rdf does not support 
+% % implicit universal quantification but the concept of blank nodes which indicate implicit existential quantification is also present here and we discuss that below after introducing
+% % the more general concepts. %All
+% %Before specifying a model theory for N3 we want to use this section to take a closer look to the logic it is most closely related to, \rdf. We briefly summarise here, how \rdf semantics is defined. 
+% We discuss which of the ideas and concepts we encounter in the formalisation of \rdf can also be used to define the semantics of \nthreelogic.
+
+\subsection{RDF semantics}\label{rdfsemantics}
+We start by discussing \rdf's formal semantics. 
+All definitions we display here are taken from the W3C recommendation~\cite{RDFSemantics}.
+
+
+% \begin{figure}
+% \centering\small
+% \begin{tabular}{llr}
+%   \hline
+% %Syntax: &&\\
+% %&&\\
+%   \texttt{s ::=} && start: \\
+% & \texttt{f}& formula\\
+% \texttt{f ::= } & & formulas:                 \\  
+%     &  \texttt{s p o.}&                atomic formula\\
+%     &  \texttt{f f} &                 conjunction\\
+% %&&\\
+%  \texttt{s ::=}&&terms:                   \\
+%             & \texttt{ex} &                existential variable\\
+%       & \texttt{u} &                iri\\
+%  \texttt{p ::=}&&terms:                   \\
+%       & \texttt{u}\hspace{0.3\textwidth} &                iri\\
+%  \texttt{o ::=}&&terms:                   \\
+%             & \texttt{ex} &                existential variable\\
+%       & \texttt{u} &                iri\\
+%       & \texttt{l} &                literals\\
+% %      &&\\
+%   \hline
+% \end{tabular}
+% \caption{Overview RDF Syntax \label{RDFSyntax}}
+% \end{figure}
+
+As mentioned earlier, \rdf and \nthree (see Section~\ref{n3logic}) distinguish between three kinds of symbols:
+% Internationalized Resource Identifiers (\iri{}s), literals, and blank nodes.
+% In practice, \iri{}s are Unicode strings that conform to the syntax defined in RFC 3987~\cite{iri}, literals 
+
+\begin{definition}[RDF alphabet]\label{rdfsymbs}
+The alphabet of \rdf consists of the following disjoint sets of symbols:
+the set $\mathrm{IRI}$ of \iri symbols, the set $\mathrm{L}$ of literals and the set $\mathrm{B}$ of blank node symbols. 
+\end{definition}
+
+\iri{}s are all Unicode strings that conform to the syntax defined in RFC 3987~\cite{iri}. 
+Literals express concrete values such as numbers, strings or dates and consist of a lexical form combined with a datatype \iri and -- depending on the concrete datatype -- possibly 
+an additional
+language 
+tag.\footnote{Our examples often contain literals without a specific datatype. In these cases the datatype  \url{http://www.w3.org/2001/XMLSchema\#string} is assumed.
+\texttt{"example"} stands for \texttt{"example"\textasciicircum\textasciicircum<http://www.w3.org/2001/XMLSchema\#string>}.}
+The only syntactic condition the \rdf specification puts on blank nodes is that they need to be disjoint from \iri{}s and literals.
+In this thesis we follow the turtle syntax~\cite{turtle} which means that we
+either  express blank nodes using square brackets ``\texttt{[~]}'' or strings starting with underscore and column ``\texttt{\_:}''.
+These symbols can now be combined into triples and graphs:
+
+\begin{definition}[Triples and graphs]\label{rdftrips}
+ For the \rdf alphabet consisting of \iri symbols $\mathrm{IRI}$, literals $L$ and blank nodes $B$ we define:
+\begin{itemize}
+\item An \emph{\rdf triple} \texttt{s p o.} consists of three components: the \emph{subject}  $\texttt{s}\in \mathrm{IRI}\cup\mathrm{B}$, 
+   the \emph{predicate} $\texttt{p}\in\mathrm{IRI}$, and
+   the \emph{object} $\texttt{o}\in\mathrm{IRI}\cup\mathrm{B}\cup\mathrm{L}$. We denote the set of all \rdf triples by $\mathcal{T}$.
+\item An \emph{\rdf graph} is a set of \rdf triples.   We denote the set of all \rdf graphs by $\mathcal{G}=2^\mathcal{T}$.
+\end{itemize}
+\end{definition}
+% In contrast to \nthree where all kinds of symbols can occur in all positions of a triple, \rdf imposes restrictions on the kinds of symbols which can be used as subject or predicate: 
+% predicates need to be \iri{}s -- it is not possible to have quantified variables in that position -- subjects can be \iri{}s or blank nodes. 
+% Literals are only allowed in object position. 
+
+For the reader familiar with first order logic there is one detail of \rdf{} syntax -- and thereby also of \nthree{} -- which is very interesting: \rdf does not strictly distinguish between 
+constants and predicates. The definition allows all \iri{}s in all positions. It is possible to state for example
+\begin{equation}\label{urisubpred}
+\texttt{ :Kurt :knows :Albert. :knows a :Predicate. }
+\end{equation}
+This also influences how the interpretation of \rdf triples and graphs is defined:
+%the notion of a \emph{simple interpretation} in \rdf:
+
+
+%For \rdf graphs we now define the notion of a \emph{simple interpretation}:
+% \begin{definition}[Triples and graphs]
+% Let  $\mathrm{A}=(\mathrm{IRI},\mathrm{L},\mathrm{B})$ be an \rdf alphabet.
+% \begin{itemize}
+%  \item An \rdf triple $\texttt{s p o.}$ consists of $\texttt{s}\in \mathrm{IRI}\cup\mathrm{B}$, $\texttt{p}\in\mathrm{IRI}$ and $\texttt{o}\in\mathrm{IRI}\cup\mathrm{B}\cup\mathrm{L}$ 
+% \end{itemize} 
+%\end{definition}
+
+
+
+
+\begin{definition}[Simple interpretation]\label{si}
+A \emph{simple interpretation} $\mathrm{I}$ is a structure consisting of the following elements:
+\begin{enumerate}
+ \item A non-empty set $\mathrm{IR}$ of resources, called the domain or universe of $\mathrm{I}$.
+ \item A set $\mathrm{IP}$, called the set of properties of $\mathrm{I}$.
+ \item A mapping $\mathrm{IEXT}: \mathrm{IP} \rightarrow 2^{\mathrm{IR}\times \mathrm{IR}}$
+ \item A mapping $\mathrm{IS}:\mathrm{IRI}\rightarrow \mathrm{IR}\cup \mathrm{IP}$
+ \item A partial mapping $\mathrm{IL}:\mathrm{L} \nrightarrow \mathrm{IR}$
+\end{enumerate}
+\end{definition}
+Next to the domain of discourse (the set of resources $\mathrm{IR}$) as we know it from first order logic,  we additionally have 
+a set of properties $\mathrm{IP}$.
+The interpretation function $\mathrm{IS}$ maps \iri{}s to the union of $\mathrm{IR}$ and $\mathrm{IP}$. 
+\iri{}s can stand for properties, resources or -- as it is the case in Formula~\ref{urisubpred} -- both. 
+%Whether something needs to be a property, 
+% The sets $\mathrm{IR}$ and $\mathrm{IP}$ do not need to be disjoint.
+For properties there is an additional function to determine their meaning, the \emph{extension} $\mathrm{IEXT}$. 
+This function  maps  each property to the set of pairs of resources (which can again also be properties at the same time) for which the property holds.
+% for which $p$ holds to it. If our Formula~\ref{urisubpred} from above is for example valid under 
+% an interpretation $I$ then we have 
+% 
+% -- which can as in our example Formula~\ref{urisubpred} also be 
+% properties. 
+% The values of this function are sets of pairs of elements of the domain .
+% 
+% to the powerset of all pairs
+% of elements of the domain $\mathrm{IR}$. This function is used to determine the meaning of a property by assigning it to the set of all pairs of resources which fulfil it. 
+% These resources can at the same time properties. 
+For ground graphs, \ie graphs which do not contain blank nodes, we get the following definition:
+\begin{definition}[Semantic conditions for ground graphs]
+A simple interpretation $I$ can be applied to an element $E\in \mathrm{IRI}\cup\mathrm{L}\cup\mathcal{T}\cup\mathcal{G}$ as follows: 
+\begin{enumerate}
+ \item If $E$ is a literal then $\mathrm{I}(E)=\mathrm{IL}(E)$
+ \item If $E$ is a IRI then $\mathrm{I}(E)=\mathrm{IS}(E)$
+ \item If $E$ is a ground triple \texttt{s p o.} then $ \mathrm{I}(E)=\text{true}$ if $(\mathrm{I}(\texttt{s}), \mathrm{I}(\texttt{o}))\in \mathrm{IEXT}(\mathrm{I}(\texttt{p}))$, otherwise 
+ $\mathrm{I}(E)=\text{false}$
+ \item If $E$ is a ground graph then $\mathrm{I}(E)=\text{false}$ if there exists a triple $E'$ in $E$ for which $\mathrm{I}(E')=\text{false}$, otherwise $\mathrm{I}(E)=\text{true}$ 
+ \end{enumerate}
+\end{definition}
+Note, that the mapping $\mathrm{IL}$ from Definition~\ref{si} is only a partial function, \ie it is not defined for all literal values which are syntactically possible. 
+The reason for that is that \rdf also covers the semantics of datatypes\footnote{We do not cover datatype semantics here since it is not relevant for this thesis. We refer the reader interested in that topic 
+to \url{https://www.w3.org/TR/rdf11-mt/\#literals-and-datatypes}.} and according to that it is possible that a literal does have a referent. 
+Triples whose objects are not in the domain of the function $\mathrm{IL}$ are according to point 3 in the above interpretation false.
+
+Having a notation for the meaning of ground terms we now take a closer look at blank nodes: %how implicit existential quantification in \rdf is handled:
+\begin{definition}[Semantic condition for blank nodes]\label{rdfbl}
+ If $E\in \mathcal{G}$ is an \rdf graph then  $\mathrm{I}(E)=\text{true}$ if $[\mathrm{I}+\mathrm{A}](E)=\text{true}$ for some mapping $\mathrm{A}: \mathrm{B} \rightarrow \mathrm{IR}$, 
+ otherwise $\mathrm{I}(E)=\text{false}$.
+\end{definition}
+\rdf treats blank nodes as implicitly existentially quantified variables. 
+A graph is true under an interpretation if there exists one single mapping which assigns resources to all blank nodes occurring in it such that the interpretation of 
+the ground graph is true. If we had to make the implicit quantification in \rdf{} -- or at least of the part which is covered by \rdf semantics -- explicit, we would need to 
+always put the quantifier on the top formula. In that sense \rdf is simpler than \nthree: \rdf semantics does not cover such nested constructs as we explained earlier when 
+discussing Formula~\ref{eq1}.
+
+% Here, we can use such simple single mapping because \rdf{} -- or at least the part of \rdf which is covered by \rdf semantics -- does 
+% not support nested structures.
+
+
+We finish the subsection by defining the concepts of satisfaction and simple entailment:
+\begin{definition}[Satisfaction and simple entailment]
+Let $E,F,G\in \mathcal{G}$ be \rdf graphs
+\begin{itemize}
+\item An interpretation  $\mathrm{I}$ \emph{(simply) satisfies} E, written as $\mathrm{I}\models E$, if $\mathrm{I}(E)=\text{true}$.
+\item We call E (simply) satisfiable if there exists a simple interpretation $\mathrm{I}$ such that $\mathrm{I}\models E$, otherwise we call it \emph{(simply) unsatisfiable}.
+\item $G$ simply entails $E$, written as $G\models E$, if for every interpretation $I$ which satisfies $G$ ($I\models G$), also satisfies $E$ ($I\models E$). 
+\item If $E\models F$ and $F\models E$ we call $F$ and $G$ \emph{equivalent}.
+\end{itemize}
+\end{definition}
+% 
+% We now come back to implicit existential quantification: \rdf -- or at least in the part of \rdf which is covered by \rdf semantics -- does not support nested constructs. Therefore
+% 
+% \begin{equation}
+% \verb!:Kurt :denies {_:x rdf:type :Unicorn}. !
+% \end{equation}
+% 
+% 
+% 
+% We now come back to existential quantification in \rdf: 
+% Since \rdf{} -- or at least the part of \rdf which is covered in \rdf semantics -- does not allow for nested structures, blank nodes are simply quantified on top level.
+% 
+% The case of \nthree is more complicated here.
+% To understand that we come back to example Formula~\ref{eq1}:
+% \[\tag{\ref{eq1}}
+% \verb!_:x :says {_:x :knows :Albert.}.!
+%  \]
+% As discussed above, we need to understand the two occurrences of \texttt{\_:x} as two different blank nodes. If we assume, that the interpretation function for ground graphs 
+% can be extended in 
+% a way that is also covers cited graphs and that we can find an interpretation that satisfies the formula 
+% \[
+% \verb!:John :says {:Kurt :knows :Albert.}.!
+%  \]
+% it is still not enough to 
+% 
+% \[
+% \exists x_1 : \text{says}(x_1, (\exists x_2: \text{knows}(x_2, \text{Albert})))\tag{\ref{eq1}b} \label{zw}\]
+% \begin{center}\textit{``There exists someone who says that there exists someone (possibly someone else) who knows Albert.''}\end{center}
+%  
+The semantics of  \rdf covers two other kinds of interpretations: D-interpretations which handle literals and their datatypes and \rdf interpretations 
+which add a few properties and resources with a predefined meaning to the logic. These concepts are captured by the \rdf vocabulary and contain among others the predicate 
+\texttt{rdf:type}\footnote{Here and later on in this thesis the prefix \texttt{rdf:} stands for  \url{http://www.w3.org/1999/02/22-rdf-syntax-ns\#}. } which we used above and 
+\texttt{rdf:Property}, the class of all properties. 
+% The semantic definitions for some elements of the vocabulary are very strict, \texttt{rdf:type} is thoroughly defined, for some others the specification only includes 
+% the intended use.   
+% 
+% The latter define the semantics
+% of the \rdf vocabulary which contains concepts like the  predicate \texttt{rdf:type} from above and \texttt{rdf:Property}, the class of all properties. 
+The definitions done in this context can directly be added to a 
+possible definition of the semantics of \nthree, entailments defined in this context can be covered by adding rules for that. 
+%
+We therefore omit the discussion of D-interpretations and \rdf interpretations in this thesis.
+
+\subsection{Structural blank nodes}\label{strucblanks}
+Next to the definition of \rdf's semantics covered by the concept of simple, D-, and \rdf interpretations, 
+the \rdf specification also includes an informal part explaining the intended use of several elements of the \rdf vocabulary. 
+Especially %together with 
+the concepts explained in this informal part often require constructs using blank nodes which are not really 
+meant to express the existence of a resource in the domain of discourse but 
+serve a technical purpose: All knowledge in \rdf needs to be expressed in triples. In some cases these triples are rather artificial and 
+need to make use of auxiliary blank nodes. In this thesis we call these blank nodes \emph{structural blank nodes}. 
+We further explain how such blank nodes are used on the example of \emph{\rdf collections}. 
+%which are used to describe list structures in \rdf.
+
+% 
+% Many of the concepts which can be represented employing this vocabulary contain blank nodes which -- as discussed above -- need to be understood
+% as implicitly existentially quantified variables.
+% 
+% We do not discuss  all of them here, but we want to take a closer look to the concept of \emph{\rdf collections}. 
+Collections are used to describe list structures in \rdf.
+\rdf follows a similar idea as for example Prolog~\cite{Prolog,nilsson} or LISP~\cite{lisp}, which both represent lists using a binary 
+function. %\footnote{Note that both standards do not strictly distinguish between relations and functions. We chose to use the term ``relation'' in this context.}
+Starting with the empty list, the binary function can be used to recursively construct new lists from existing lists by simply adding new elements at their beginning.
+To illustrate the idea let us assume that \texttt{f} is the binary function we use in this context and \texttt{nil} is the empty list. If we want to represent a list consisting of 
+\emph{Kurt}, \emph{Albert} and \emph{John} we write:
+\begin{equation}\label{flist}
+ \texttt{f}(\textit{Kurt}, \texttt{f}(\textit{Albert}, \texttt{f}(\textit{John}, \texttt{nil})))
+\end{equation}
+As \rdf does not allow the use of compound terms in subject or object position of a triple -- we can only use simple \iri{}s, literals or blank nodes -- the above notation cannot be directly
+translated to \rdf. % but requires the usage of additional blank nodes.
+
+To express lists \rdf provides the terms \texttt{rdf:first}, \texttt{rdf:rest} and \texttt{rdf:nil}. 
+The term \texttt{rdf:nil} corresponds to the term \texttt{nil} from the example above and represents the empty list. The first and the second argument from the above function 
+\texttt{f} are expressed by the predicates \texttt{rdf:first} and \texttt{rdf:rest}, respectively. In order to connect these two arguments, blank nodes are used. The list 
+from Formula~\ref{flist} can be represented in \rdf as follows:
+% 
+% 
+% , \rdf represents lists by using first-rest pairs: 
+% The term \texttt{rdf:nil} stands for the empty list which has no elements.  To extend any existing list, we can use the predicates \texttt{rdf:first}
+% in combination with the list-element we want to add
+% and \texttt{rdf:rest} together with the existing list. A list consisting of \texttt{:Kurt}, \texttt{:Albert} and \texttt{:John} then looks as follows:
+\begin{equation}\label{firstrest}
+\begin{split}
+&\texttt{\_:c1 rdf:first :Kurt.}\\
+&\texttt{\_:c1 rdf:rest \_:c2.}\\
+&\texttt{\_:c2 rdf:first :Albert.}\\
+&\texttt{\_:c2 rdf:rest \_:c3.}\\
+&\texttt{\_:c3 rdf:first :John.}\\
+&\texttt{\_:c3 rdf:rest rdf:nil.}  
+\end{split}
+\end{equation}
+Strictly following the definitions in the previous section the above expression means that \emph{there exist} the lists \texttt{c1}, \texttt{c2} and \texttt{c3} 
+and that the first element of list \texttt{c1} is \texttt{:Kurt} and the 
+rest of the list is \texttt{c2}, that the list \texttt{c2} has \texttt{:Albert} as first element and list \texttt{c3} as rest and that \texttt{c3} has \texttt{:John} 
+as first element and the empty list as 
+rest. Using \texttt{\_:c1} in a triple is therefore not the same as directly using a list as for example in the formats mentioned above.
+%This is not exactly the same as simply naming the list. % and it is for example not clear whether 
+
+% These can be used to construct   
+% This principle is not new and also for example also present in Prolog~\cite[p.119 ff]{nilsson}
+For lists as the one above, \rdf provides an extra notation. The collection given in Formula~\ref{firstrest} can also be expressed by simply listing its elements in brackets ``\texttt{( )}'':
+\begin{equation}
+\texttt{(:Kurt :Albert :John) } 
+\end{equation}
+This notation is syntactic sugar for the above and even when brackets are used instead of first-rest-ladders in \rdf we still have implicit blank nodes and thereby there is also implicit 
+existential quantification present.
+
+\subsection{Referencing formulas in RDF}
+In Section~\ref{rdfsemantics} above  we learned that \rdf semantics understands blank nodes as implicitly existentially quantified on top level, \ie if a blank node is occurring in a graph 
+its existential quantifier is always assumed to be in front of this graph. In this context we also mentioned that this interpretation makes sense 
+because the part of \rdf which is covered
+by \rdf semantics does not support the concept of referring to other graphs or formulas. Therefore, constructs as we have seen in Example~\ref{eq1} where we had a blank nodes nested in a
+cited formula cannot occur here. 
+
+Next to the  part of \rdf which is covered by \rdf semantics there are concepts in \rdf which are syntactically valid but whose meaning is only informally defined. Some of these 
+concepts were created to serve a similar purpose as the citation of graphs in \nthree does: in some way they enable the user to reference triples or graphs. 
+For our considerations, it is interesting how exactly blank nodes occurring in these referenced graphs or triples are quantified:
+Are they quantified on top level or on a lower level? 
+
+Before we further discuss the concepts for referencing formulas and answer the question above for each of it, 
+we discuss an example in \nthree to clarify that the exact position of the existential quantifier matters.
+Consider the following formula:
+%This is what we discuss below.
+% Below, we discuss these formats and take a closer look to the exact position of the quantifier 
+% We discuss these 
+% % formats here and put a special focus on the quantification of blank nodes occurring in the referenced formulas. 
+% 
+% 
+% % can be done
+% In \nthree, the situation is more complicated:
+% As discussed in the previous section, 
+% a blank node occurring directly in an \nthree formula and a blank node occurring in a nested subformula which share the same name
+% %a blank node occurring in a subgraph of a graph which shares the same name 
+% % a blank node occurring in a nested subgraph of an \nthree graph which shares the name with a blank node occurring directly in that graph
+% % with the same name occurring in a nested \nthree graph
+% can refer to different
+% resources. We illustrated that on example Formula~\ref{eq1}:
+% \[
+% \verb!_:x :says {_:x :knows :Albert.}.!
+%  \]
+% A valid interpretation of this formula was that there is a speaker who talks about someone else who knows Albert. 
+% % Having a formula like for example 
+% % \[
+% % \verb!:John :says {:Kurt :knows :Albert.}.!
+% %  \]
+% % in mind,
+% 
+% Seeing this example, the reader might expect that adding a step of standardisation apart,\footnote{See also: \url{https://www.w3.org/TR/rdf11-mt/\#dfn-standardize}.} 
+% \ie  a step which simply renames black nodes which are subject to the problem described, enables us to directly use Definition~\ref{rdfbl} to define the meaning of blank nodes 
+% in \nthree. This is not the case: According to the \wwwc team submission the blank node is quantified \emph{within} the formula it occurs in 
+% (see Quote~II above which was taken from~\cite{Notation3}). This means that the subformula carries the existential quantifier and not the formula as a whole as it would be the case if we followed
+% the strategy of combining standardisation apart with Definition~\ref{rdfbl}. 
+%To understand the difference, take a look at the following example:\footnote{\texttt{rdf:} stands for  \url{http://www.w3.org/1999/02/22-rdf-syntax-ns\#}. }
+% 
+% But if we carefully look at the interpretation of the formula we gave above, it even if we rename\footnote{See also standardization apart: \url{https://www.w3.org/TR/rdf11-mt/\#dfn-standardize}.}
+% 
+% 
+% To formalise the interpretations of blank nodes in \nthree, we need a more complicated definition: as Example~\ref{eq1} 
+% ($\verb!_:x :says {_:x :knows :Albert.}.!$) showed, the same blank node name 
+% 
+\begin{equation}\label{denies}
+\verb!:Kurt :denies {_:x rdf:type :Unicorn}. !
+\end{equation}
+An interpretation which puts the existential quantifier on top level would be:
+\[
+\exists x : \text{denies}(\text{Kurt}, (\text{type}(x, \text{Unicorn})))\tag{\ref{denies}a} \label{dtop}
+\]
+\begin{center}\textit{
+There exists something of which Kurt denies that it is a unicorn.
+}
+\end{center}
+So, if Kurt for example knows for sure that his friend Albert is not a unicorn then this statement is true. There is no statement made whether or not Kurt beliefs 
+in the existence of unicorns in general. 
+
+This is different for the interpretation which assumes the quantifier to be nested as the \wwwc team submission for \nthree~\cite{Notation3} imposes. Here we get:
+\[
+ \text{denies}(\text{Kurt}, (\exists x : \text{type}(x, \text{Unicorn})))\tag{\ref{denies}b} \label{dnest}
+\]
+\begin{center}\textit{
+Kurt denies that unicorns exist.
+}
+\end{center}
+In this case the statement means that Kurt does not believe in the existence of unicorns. The two interpretations are fundamentally different and it is important where we put 
+the quantifier for the existentially quantified variable.
+
+Below, we explain the concepts \rdf reification, named graphs, \rdf{}* and singleton properties, and discuss how they understand blank nodes in referenced triples and formulas.
+
+
+
+
+
+
+% 
+% When we talked about blank nodes in nested \nthree formulas above we mentioned that this or similar concepts are not covered in the semantics of \rdf. However, the syntax of \rdf~\cite{rdf} does contain concepts which can -- 
+% depending on the semantics we assume for them -- be understood in a similar way as nested formulas in \nthree. We discuss these below and take a closer look on how they handle implicit existential quantification.
+
+\subsubsection{RDF reification}
+As discussed above, \rdf follows a simple triple structure which does not support the use of compound constructs in any position of the triple and it is not possible 
+to directly refer to triples or graphs. To overcome this problem in the case of triples and syntactically stay in \rdf, the concept of \emph{reification} was introduced. 
+The idea behind this concept is to represent triples by concrete \iri{}s
+%as \iri{}s 
+or blank nodes
+and thereby make them part of the domain of discourse. 
+
+For this purpose, \rdf contains the reification vocabulary consisting of the terms
+%  
+% 
+% 
+% Similar to the problem we discussed above when introducing \rdf collections where we could not have binary 
+% functions as direct parts of triples and therefore introduced a extra blank nodes
+% 
+% 
+% Reification is a method to add metadata to single triples.  As triples cannot directly be used in subject or object position of other triples 
+% 
+% 
+% 
+% In order to allow users to add metadata to triples, \rdf provides a vocabulary: 
+% The \rdf reification vocabulary consists of the concepts 
+\texttt{rdf:subject}, \texttt{rdf:predicate}, \texttt{rdf:object} and \texttt{rdf:Statement}. If we want to represent a triple like for example 
+\begin{equation}
+ \texttt{\_:x rdf:type :Unicorn.}
+\end{equation}
+we can give it a concrete name like for example \texttt{:triple1} and state which \emph{subject}, \emph{predicate} and \emph{object} it has. For our example triple we state:
+% 
+% 
+% These can be used to refer to a triple or statement. 
+% The very first \nthree triple 
+% we have seen in this thesis, Formula~\ref{simple}, 
+% \[
+%  \verb! :Kurt :knows :Albert.!
+% \]
+% can be reified as:
+\begin{equation} \label{uniex}
+\begin{split}
+\texttt{ :triple1 } & \texttt{a rdf:Statement;}\\
+&\texttt{rdf:subject \_:x;}\\
+&\texttt{rdf:predicate rdf:type;}\\
+&\texttt{rdf:object :Unicorn.}
+\end{split}
+\end{equation}
+This enables us to talk about our \texttt{:triple1} and use it further.
+We can now for example state:
+\begin{equation}\label{reideny}
+\texttt{:Kurt :denies :triple1.} 
+\end{equation}
+The exact meaning of Formula~\ref{uniex} in combination with Formula~\ref{reideny} is not formally 
+defined\footnote{For the informal definition of \rdf reification see: \url{https://www.w3.org/TR/rdf11-mt/\#reification}} and we do not want to get deeper into a probable 
+formalisation here. But even without such a formal model we can say something about the blank node contained in this example: As the reference to the triple is done in simple \rdf syntax 
+without any syntactic extension, Definition~\ref{rdfbl} holds here which states that all blank nodes occurring in simple \rdf 
+triples are quantified at graph level. 
+An interpretation of the above formulas would thus be similar\footnote{We want to emphasize here that so far Interpretations~\ref{dtop} and \ref{dnest} have no fixed meaning. 
+The first order like structure we use here is only meant to clarify the exact position of the quantifier implicitly expressed by the blank node \texttt{\_:x}.} to Interpretation~\ref{dtop} rather than to Interpretation~\ref{dnest}.
+% Next to the fact that \rdf reification is only meant to refer to triples but not to their conjunctions this  way of interpreting blank nodes in referenced triples is the main difference 
+% between \rdf reification and citation of formulas in \nthree.
+%
+ In this aspect  and in the fact that reification is only meant to reference triples but not their conjunctions 
+ \rdf reification differs from citation in \nthree.
+
+% The \iri\texttt{:triple} now refers to Triple~\ref{simple} and can be used in other contexts. To have a similar notation as Formula~\ref{ref} from above
+% \[
+%  \verb!:John :says {:Kurt :knows :Albert.}.!
+% \]
+% we can for example write
+% \begin{equation} 
+% \begin{split}
+% \texttt{:John }\hspace{0.5cm}&\texttt{:says :triple.}\\
+% \texttt{ :triple } & \texttt{a rdf:Statement;}\\
+% &\texttt{rdf:subject :Kurt;}\\
+% &\texttt{rdf:predicate :knows;}\\
+% &\texttt{rdf:object :Albert.}
+% \end{split}
+% \end{equation}
+% The meaning of this construct is only informally defined
+% \footnote{See: \url{https://www.w3.org/TR/rdf11-mt/\#reification}} and \rdf reification is only meant to refer to triples and unlike nested formulas in \nthree 
+% not to conjunctions of triples. But there is another detail which makes \rdf reification only partly comparable with nested formulas in \nthree: The quantifier of implicit existential quantification of a reified triple 
+% is always the formula as a whole and cannot be nested in any way. To illustrate that we come back to our example Formula~\ref{denies}. The most straight forward way to represent this formula using reification would be:
+% % Apart from the general problem that the semantics of \rdf reification is not defined and that reification only operates on triples and not as nested graphs in \nthree on conjunctions of triples the two concepts also differ 
+% % in the way the deal with implicit existential quantification.
+% \begin{equation}
+%  \begin{split}
+%  \texttt{:Kurt }\hspace{0.7cm} & \texttt{:denies :triple2.}\\
+%   \texttt{ :triple2 } & \texttt{a rdf:Statement;}\\
+% &\texttt{rdf:subject \_:x;}\\
+% &\texttt{rdf:predicate rdf:type;}\\
+% &\texttt{rdf:object :Unicorn.}
+%  \end{split}
+% \end{equation}
+% According to Definition~\ref{rdfbl}, the blank node \texttt{\_:x} in the above statement is quantified on on top level. 
+% This means that we might be able to define the formal semantics of \rdf reification  
+% such that the meaning of the formula 
+% corresponds to Interpretation~\ref{dtop} but we cannot find a formalisation which results in Interpretation~\ref{dnest}. 
+% Here, nested \nthree formulas fundamentally differ from \rdf reification.
+
+% and since the semantics of \rdf reification can only extend the existing definitions 
+% for \rdf semantics but not change them,
+
+% 
+% Above we discussed how implicit existential quantification on nested formulas or graphs is defined in \nthree. We mentioned that the 
+% concept of nested graphs is not covered in the semantics of \rdf. What we did not discuss yet is, that the syntax of \rdf does allow the usage of a similar concept: named graphs.
+
+\subsubsection{Named graphs}
+Next to reification which can be used to refer to triples in \rdf, \rdf syntax also provides the option to reference graphs. 
+%
+% use named graphs. 
+For this purpose the RDF Dataset Language TriG~\cite{TriG} was defined. With TriG it is possible to 
+list a graph -- a very similar construct to \nthree's nested formula -- next to a name and then use the name in other triples. A possible expression using TriG would be:
+\begin{equation}
+ \begin{split}
+& \texttt{:graph } \texttt{\{ \_:x rdf:type :Unicorn\}}\\
+& \texttt{:Kurt } \texttt{:denies :graph.}
+%   \texttt{ :triple2 } & \texttt{a rdf:Statement;}\\
+% &\texttt{rdf:subject \_:x;}\\
+% &\texttt{rdf:predicate rdf:type;}\\
+% &\texttt{rdf:object :Unicorn.}
+ \end{split}
+\end{equation}
+The problem with that construct is now, that not only the semantics of named graphs is not formally defined, there is not even a consensus within the Semantic Web community how 
+such named graphs need to be interpreted: Does \texttt{:graph} denote a graph? If yes, is that graph open or closed in the above example? If Kurt denies \texttt{:graph} does he then only deny the statement we see above or does 
+\texttt{:graph} contain more triples? Where exactly is the scope of the blank node? A list of possible interpretations of named graphs is gathered on a Web site~\cite{TriGsemantics}. 
+Here, it is also recommended to indicate the intended meaning of a named graph when using it. As long as the semantics of TriG is not fixed, it is not possible to say how the scoping 
+of blank nodes in TriG relates to scoping in \nthree. Depending on how we formalise the meaning of cited formulas in the latter, it might be possible to use \nthree to 
+express the relationship between a graph name (\texttt{:graph}) and the graph pattern which stands next to it (\texttt{\{ \_:x rdf:type :Unicorn\}}).
+
+% also a list of 
+% different -- sometimes contradicting -- interpretations which are possible for that construct~\cite{TriGsemantics}. 
+% 
+% 
+% here i want to write a little bit about trig and the lack of semantics for it - which is why it can't really help us to define N3's semantics. I want still to emphasize that 
+% it is likely that 
+% the blank nodes in trig are shared with the overall graph and that this is a problem with the position of the quantifier. This last statement I want to take as a motivation to have a 
+% logic with explicit quantification.
+
+\subsubsection{RDF*}
+Another way of referring to \rdf triples in an \rdf graph is \rdf{}*\cite{rdfstar,rdfstarposter}. \rdf{}* is not covered by the \wwwc recommendation of \rdf, 
+but it recently gained popularity in the community and 
+it is therefore very likely that it will be part of the next version of \rdf. We therefore include it in this discussion.
+To incorporate triples into triples, \rdf{}* uses angle brackets \texttt{<{}<  >{}>} in a similar way \nthree uses curly brackets \texttt{\{ \}} for graphs. 
+An example for such a construct is:
+\begin{equation}\label{starex}
+\verb!:Kurt :denies <<_:x rdf:type :Unicorn>>. !
+\end{equation}
+%In contrast to the  notion using curly brackets \texttt{\{ \}} of \nthree, the angle brackets \texttt{<{}<  >{}>} of \rdf{}* can only be used to refer to triples not to graphs. 
+As \rdf{}* is currently still at proposal stage, 
+its semantics is not fixed yet. Currently two possible ways of interpreting expressions like the one above are discussed:
+% 
+% To define the meaning of a triple similar to the one we show above two possible formalisations were discussed: 
+The 
+\texttt{<{}<  >{}>}-notation could either  be understood as syntactic sugar for reification -- which leaves us, as discussed above, without a formal 
+definition -- or it can be a proper extension of \rdf. 
+To establish the latter solution, the creators of \rdf{}*  introduce the concept of \emph{redundancy}~\cite{rdfstar}: If Formula~\ref{starex} is stated together with the \rdf triple
+\begin{equation}\label{star}
+ \texttt{\_:x rdf:type :Unicorn.}
+\end{equation}
+then this last triple is redundant. This definition is motivated by the idea that triples referencing triples are mainly used to add metadata to valid triples. 
+Following that logic, stating Formula~\ref{starex} already implies that Formula~\ref{star} is true. 
+
+In this last aspect, \rdf{}* differs from \nthree: The journal paper introducing \nthree clearly states that quoted formulas in \nthree are not necessarily true~\cite[p 11]{N3Logic}. 
+We furthermore encounter differences in the interpretation of blank nodes occurring in referenced triples: While \nthree assumes such blank nodes to be existentially quantified 
+on the nested formula both possible interpretations of referenced triples in \rdf{}* assume them to be quantified on the top graph.
+% 
+% 
+% In the informal definition of \nthree's semantics we do not find such strong assumptions. 
+% In that aspect this interpretation of \rdf{}* and \nthree really differ. 
+% 
+% If we come back to implicit existential quantification we observe that both alternatives to formalise the semantics of \rdf{}*
+% assume nested existential variables to be quantified on top level:
+Reification does not support the concept of nesting at all and from the fact that under the second possible formalisation
+Formula~\ref{starex} implies Formula~\ref{star} we can conclude that is is not possible to express nested existential quantification with \rdf{}*.
+% 
+% , the  scope of a nested implicitly existentially quantified variable is always on the top formula: for reification, we already discussed that 
+% Another observation we make for both alternatives to formalise 
+% the meaning of triples containing triples 
+% in \rdf{}* is that 
+% both of them understand blank nodes occurring in a referenced triple as being quantified at the top level: reification a 
+% We can therefore not learn from these formalisations how nested implicit existential
+% quantification can be formalised.
+% The alignment of \rdf{}* and \nthree is a desirable goal which we aim to achieve in the future. But for the moment, 
+% there is no direct connection between a referenced triple in \rdf{}* and a cited \nthree graph containing one single triple.  
+
+\subsubsection{Singelton Properties}
+As a last option to refer to triples in \rdf we discuss singleton properties~\cite{singleton}. Similar to \rdf{}* this approach of referring to triples was 
+introduced as an alternative to \rdf reification and does not form part of the standard. The idea behind singleton properties is to use unique \uri{}s for the predicates of triples 
+to be referred to. % than indicate that these so-called singleton predicates are special instances of a general property. 
+Instead of using the property \texttt{rdf:type} in Triple~\ref{star} we would use a predicate \texttt{rdf:type\#123}:\footnote{In practical cases we would use a more complex identifier than \texttt{123}
+to insure that we have indeed a property which is only used once in the Web. The triples indicated here should only be understood as an illustrative example.}
+\begin{equation}\label{123}
+ \texttt{\_:x rdf:type\#123 :Unicorn.} 
+\end{equation}
+This so-called \emph{singleton property} then 
+can be understood as a special instance of the predicate \texttt{rdf:type}. This can be indicated by adding an extra triple:
+\begin{equation}\label{1234}
+ \texttt{rdf:type\#123 rdf:singletonPropertyOf rdf:type.}
+\end{equation}
+The semantics of singleton properties is clearly defined. Singleton properties can only be used once in predicate position and in this position they have the same meaning as
+the general predicate they belong to. 
+Triple~\ref{123} stated together with Triple~\ref{1234} implies Triple~\ref{star}. 
+Additionally, singleton properties can be used in subject or object position. Following our example, we can state:
+%If we want to refer to Triple~\ref{123} we could state:
+\begin{equation}
+ \texttt{:Kurt :denies rdf:type\#123.}
+\end{equation}
+% The semantics of singleton properties is defined as an extension of \rdf semantics. % and the above triple means that Kurt denies that x is a unicorn. 
+% Used in predicate position every singleton property has the same meaning as its generic property, i.e. of the property it is singleton property of.
+%The singleton property semantics now sees the predicate 
+The singleton property \texttt{rdf:type\#123} is now understood as a resource in the domain of 
+discourse. As we know that this property  occurs only once and is therefore only connected to one subject and one object, we can understand it as a reference to the triple 
+it forms together with these two elements. In the semantics, it is not clearly defined how we need to understand blank nodes in such referred triples but since in this approach we can only 
+refer to triples which are stated on top level where blank nodes have global scoping, it also makes sense to assume the same scoping for the reference to these triples. Here this means that there exists 
+an x for which Kurt denies that it is a unicorn. Given that Triple~\ref{123} clearly states that x is indeed a unicorn, we also know that Kurt is wrong with his denial.
+
+The last example shows a clear difference between referring to formulas by using singleton properties and doing so by means of N3: while with the singleton property approach 
+it is not possible to talk about a triple which is not true, we can easily do so with N3. Another difference between the approaches is the scopni
+%but since the 
+%the triples them a simple \rdf triple which is not nested, it makes sense to assume that all cited triples are quantified on top level.
+%It is intended that the property \texttt{rdf:type\#123} stands for Triple~\ref{123} as a whole. 
+
+% But,
+% according to the semantics, Kurt would also be wrong with his denial: by stating Triple~\ref{123} we indicated that the triple must be true just as we did in Formula~\ref{starex}. 
+% Using singleton properties, it is not possible to refer to a triple whose truth value is unknown, we can only add metadata 
+% %\todo{that is not really true, add the temporal additions here}
+% 
+
+
+

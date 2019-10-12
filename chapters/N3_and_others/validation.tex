@@ -264,7 +264,10 @@ mentioned in the previous section. Luckily, that is not the case.
 As constraint validation copes with the local knowledge base,
 Scoped Negation as Failure (SNAF) (see also  Section~\ref{closedworld} and for example \cite{damasio2006supporting,kifer2005,polleres2006rules}) is enough.
 This is for example supported by FLORA-2~\cite{negflora} or \nthreelogic~\cite{N3Logic}.\footnote{As we will discuss below, SNAF in \nthree is mostly supported by built-in functions. 
-As we explicitly excluded these from our discussion in Chapter~\ref{semofn3}, our semantics does not cover SNAF yet. }
+As we explicitly excluded these from our discussion in Chapter~\ref{semofn3}, our semantics does not cover SNAF yet. 
+To ensure monotonicity a proper formalisation would need to 
+ follow 
+the contextually closed semantics with context sets as defined by Polleres et al.\ \cite{polleres2006rules} using stable model semantics.}
 
 In order to understand the idea behind Scoped Negation as Failure,
 consider the triples that form Formula~\ref{Kurt}
@@ -286,9 +289,11 @@ we can derive (either with or without reasoning) from our knowledge base consist
 \begin{multline}
  \forall \texttt{x}: ((\texttt{ x a :Researcher})\in \mathcal{K}) \wedge \neg ((\texttt{ x a :Person})\in \mathcal{K}))\\ \rightarrow (\texttt{:constraint :is :violated.})
 \end{multline}
-The second conjunct is not a simple negation, it is a negation with a certain scope, in this case $\mathcal{K}$. If we added new 
-data to our knowledge like for example Triple~\ref{person}, we would have different knowledge $\mathcal{K}'$ for which other statements hold. The truth value of the formula above 
-would not be touched since this formula explicitly mentions $\mathcal{K}$. The logic stays monotonic.
+The second conjunct is not a simple negation, it is a negation with a certain scope, in this case $\mathcal{K}$. 
+If we know that $\mathcal{K}$ is closed and has a closed context, i.e. it does not rely on any construct whose scope is not specified, we can guarantee monotonicity~\cite{polleres2006rules}.
+If we added new 
+data to our knowledge like for example Triple~\ref{person}, we would have a different scope $\mathcal{K}'$ for which other statements hold. The truth value of the formula above 
+would not be touched since this formula explicitly mentions the closed scope $\mathcal{K}$. %The logic stays monotonic.
 %Since we know all triples from $\mathcal{K}$, scoped negation is possible. 
 Scoped negation as failure is the kind of negation we actually need in \rdf validation: we do not want to make and
 test
@@ -452,9 +457,10 @@ The rules for our implementation can be accessed at \url{https://github.com/IDLa
   float=t,
   caption={Example inverse functional property constraint: No city can be the capital of two countries. },
   label=example2:const]
-§\textcolor{gray}{@prefix rdfcv: \url{<http://www.dr-thomashartmann.de/phd-thesis/rdf-validation/vocabularies/rdf-constraints-vocabulary\#>}.}§
-§\textcolor{gray}{@prefix : <http://example.org/ex\#>.}§
-§\textcolor{gray}{@prefix dbo: 	<http://dbpedia.org/ontology/> .}§
+§\textcolor{gray}{PREFIX rdfcv: <http://www.dr-thomashartmann.de/phd-thesis/}§
+§\textcolor{gray}{rdf-validation/vocabularies/rdf-constraints-vocabulary\#>}§
+§\textcolor{gray}{PREFIX : <http://example.org/ex\#>}§
+§\textcolor{gray}{PREFIX dbo: 	<http://dbpedia.org/ontology/>}§
 
 :example_constraint a rdfcv:SimpleConstraint ;
   :constraintType :InverseFunctionalProperties ;
@@ -516,10 +522,11 @@ relate the constraint specified to the predicate it is valid for. The objects of
   caption={Rule for inverse functional property (INVFUNC). The predicate \texttt{log:notEqualTo} compares the resources based on their URI and thereby supports 
   the Unique Name Assumption. },
   label=invfunc]
-§\textcolor{gray}{@prefix rdfcv: \url{<http://www.dr-thomashartmann.de/phd-thesis/rdf-validation/vocabularies/rdf-constraints-vocabulary\#>} .}§
-§\textcolor{gray}{@prefix : <http://example.org/ex\#> .}§
-§\textcolor{gray}{@prefix list: <http://www.w3.org/2000/10/swap/list\#>.}§
-§\textcolor{gray}{@prefix log: <http://www.w3.org/2000/10/swap/log\#> .}§
+§\textcolor{gray}{PREFIX rdfcv: <http://www.dr-thomashartmann.de/phd-thesis/}§
+§\textcolor{gray}{rdf-validation/vocabularies/rdf-constraints-vocabulary\#>}§
+§\textcolor{gray}{PREFIX : <http://example.org/ex\#>}§
+§\textcolor{gray}{PREFIX list: <http://www.w3.org/2000/10/swap/list\#>}§
+§\textcolor{gray}{PREFIX log: <http://www.w3.org/2000/10/swap/log\#>}§
 
 {
 ?constraint a rdfcv:SimpleConstraint;
@@ -569,8 +576,9 @@ using rules, this is what we explain below.
   float=t,
   caption={Example constraint (TYPEDEP). This constraint tests whether the derivations implied by Formula~\ref{subc} have been produced. },
   label=ty]
-§\textcolor{gray}{@prefix rdfcv: \url{<http://www.dr-thomashartmann.de/phd-thesis/rdf-validation/vocabularies/rdf-constraints-vocabulary\#>} .}§
-§\textcolor{gray}{@prefix : <http://example.org/ex\#> .}§
+§\textcolor{gray}{PREFIX rdfcv: <http://www.dr-thomashartmann.de/phd-thesis/}§
+§\textcolor{gray}{rdf-validation/vocabularies/rdf-constraints-vocabulary\#>}§
+§\textcolor{gray}{PREFIX : <http://example.org/ex\#>}§
 
 _:example_constraint_2 a rdfcv:SimpleConstraint ;
   :constraintType :Subsumption ;
@@ -603,9 +611,10 @@ which can be selected according to the user's need we have a very strong and at 
   float=t,
   caption={Rule producing a (TYPEDEP) constraint from an \texttt{rdfs:subClassOf} declaration. Such rules can be used to test reasoners. },
   label=tyrule]
-§\textcolor{gray}{@prefix rdfcv: \url{<http://www.dr-thomashartmann.de/phd-thesis/rdf-validation/vocabularies/rdf-constraints-vocabulary\#>} .}§
-§\textcolor{gray}{@prefix : <http://example.org/ex\#> .}§
-§\textcolor{gray}{@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema\#>.}§
+§\textcolor{gray}{PREFIX rdfcv: <http://www.dr-thomashartmann.de/phd-thesis/}§
+§\textcolor{gray}{rdf-validation/vocabularies/rdf-constraints-vocabulary\#>}§
+§\textcolor{gray}{PREFIX : <http://example.org/ex\#>}§
+§\textcolor{gray}{PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema\#>}§
 
 {
 ?x rdfs:subClassOf ?y
@@ -644,9 +653,10 @@ _:constraint a rdfcv:SimpleConstraint ;
 In the previous section we described how we can use \nthree to perform constraint testing and -- if necessary -- combine these tests with constraint generation or ontology reasoning.
 We call our implementation \enquote{Validatrr}: a validator using rule-based reasoning. Validatrr makes use of the EYE reasoner.
 To be able to compare our implementation with existing approaches, a Node.js JavaScript framework was created
-to discover and retrieve vocabularies and ontologies, manage command line arguments and run tests.\footnote{
-The tool itself was not implemented by the author of this thesis but by Ben De Meester who also conducted the tests. We include the results 
-of these tests to keep this thesis self-contained. Further details can be found in \cite{ben}.}
+to discover and retrieve vocabularies and ontologies, manage command line arguments and run tests.
+% \footnote{
+% The tool itself was not implemented by the author of this thesis but by Ben De Meester who also conducted the tests. We include the results 
+% of these tests to keep this thesis self-contained. Further details can be found in \cite{ben}.}
 This framework is available at \url{https://github.com/IDLabResearch/validatrr}.
 
 For our evaluation, we compare Validatrr with an implementation based on SPARQL querying: RDFUnit~\cite{kontokostas2014test}. 
@@ -775,13 +785,13 @@ We clearly see that for small datasets containing less than 100,000 triples our 
 Above we compared our rule-based \rdf validation system Validatrr with another state-of-the art system providing that service. The difference between Validatrr and RDFUnit 
 lies in the technologies used: RDFUnit first instantiates SPARQL patterns (DQPTs) using a programming script and then applies these queries 
 while Validatrr uses \nthreelogic for both of these steps. %We saw that our implementation can support all constraint types which are covered by RDFUnit. 
-This quality of a unifying logic -- supporting constraint generation and testing at the same time -- made that our approach performed faster on small datasets. Similarly,
+This quality of a \ul -- supporting constraint generation and testing at the same time -- made that our approach performed faster on small datasets. Similarly,
 more advanced reasoning as for example
 discussed in Section~\ref{owlrln3} could be added.
 Validatrr was furthermore more accurate on the test cases we 
 performed and could correctly spot more constraint violations.
 
-If we come back to our initial question ``Can \nthree solve the same practical tasks as SPARQL querying with a comparable performance?'' 
+If we come back to our initial question ``Can \nthree solve the same practical tasks as SPARQL querying without suffering a loss of performance?'' 
 we can again give a positive answer for our use case: RDF validation can 
 be performed by using \nthree reasoning and for smaller datasets \nthree outperforms the solution using SPARQL. 
 But we need again to be careful with that answer: 

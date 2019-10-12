@@ -1,0 +1,131 @@
+\chapter{Samenvatting}\label{dutch-summary}
+
+\selectlanguage{dutch}
+
+Om de visie van het Semantisch Web - een machine verstaanbare versie van ons huidige web - volledig
+te realiseren, moeten we gebruik maken van logica. Alleen een zuivere logische taal met een goed
+gedefinieerde semantiek stelt ons in staat om de kennis die we over de wereld hebben met
+computers te delen. De architectuur van het Semantisch Web voorziet het gebruik van logica voor drie
+verschillende soorten toepassingen: (1) logica moet queries mogelijk maken, (2) zij moet het mogelijk
+maken om ontologieën en taxonomieën uit te drukken en te begrijpen, en (3) zij moet regelgebaseerde redenering ondersteunen. 
+Hoewel deze toepassingen tot nu toe met
+behulp van verschillende technologieën gerealiseerd zijn - voornamelijk SPARQL, RDFS/OWL en RIF
+– is de visie om deze functionele eigenschappen te ondersteunen en deze technologieën te verbinden
+door gebruik te maken van één enkel framework: de verenigende logica. Deze logica moet bovendien
+ bewijzen ondersteunen: het moet mogelijk zijn om de uitgevoerde bewijzen uit te
+drukken en uit te wisselen door de verenigende logica toe te passen.
+
+In dit proefschrift onderzoeken wij dit idee van een verenigende logica en testen we de geschiktheid
+van een mogelijke kandidaat om die rol te vervullen: Notation3 Logic (N3). N3 is een regelgebaseerde
+logica die ongeveer tien jaar geleden is geïntroduceerd. Het vult het Resource Description
+Framework (RDF) - het meest gebruikte formaat van het Semantisch Web – aan met universele
+kwantificatie, met de mogelijkheid om formules aan te halen en regels uit te drukken, en met een
+aantal verschillende ingebouwde predicaten. N3 maakt het mogelijk te redeneren over elke input die
+syntactisch kan worden weergegeven in RDF, en de meeste N3-reasoners produceren al bewijzen om
+hun afleidingen te toe te lichten. Dit maakt N3 een veelbelovende kandidaat om de verenigende
+logica te worden, maar er zijn ook obstakels: de semantiek van N3 is alleen informeel gedefinieerd.
+Dit maakt het niet alleen moeilijk om de formele eigenschappen te bestuderen, het heeft ook
+praktische gevolgen: vaak interpreteren verschillende reasoning engines één en dezelfde formule op
+verschillende manieren.
+
+%Het proefschrift begint met een discussie van het Semantisch Web, de architectuur ervan en de rol
+%die de verenigende logica daarin speelt: 
+We begrijpen de verenigende logica als een praktisch
+hulpmiddel dat de algemene taken moet ondersteunen die verbonden zijn aan querying, redeneren
+over ontologieën en taxonomieën, en regelgebaseerde gevolgtrekking. Dit hulpmiddel moet zelf deel
+uitmaken van het Semantisch Web - bijvoorbeeld doordat het diens taal, RDF, begrijpt - en het moet
+bewijzen ondersteunen. Deze aanpak is anders dan vele andere benaderingen die vooral
+proberen om een logica te definiëren die beschrijvingslogica en regelgebaseerde redenering
+combineert en nog steeds beslisbaar blijft. Hoewel we het erover eens zijn dat dit een interessant
+doel is, zijn we er niet van overtuigd dat deze benadering het semantisch web verder brengt, vooral
+als we bedenken dat de combinatie van RDF en OWL DL, OWL Full, al niet beslisbaar is. De semantiek
+van de verenigende logica moet bovendien goed gedefinieerd zijn en compatibel zijn met RDF.
+
+Na identificatie van deze vereisten: (1) duidelijke semantiek, (2) compatibiliteit met RDF, (3)
+ondersteuning van querying, redeneren over ontologieën/taxonomieën en regelgebaseerde afleiding,
+en (4) ondersteuning van bewijzen - richten we onze aandacht op N3 om te onderzoeken in hoeverre
+deze logica aan die vereisten kan voldoen.
+
+Aangezien de semantiek van N3 niet duidelijk is gedefinieerd en implementaties zelfs verschillen in
+hun interpretatie van bepaalde formules, beginnen we met het uitvoeren van tests om het probleem beter
+te begrijpen: we stellen vast dat de reasoners EYE en Cwm het oneens zijn in hun interpretatie van
+impliciet gekwantificeerde variabelen. In N3 is het mogelijk om universeel of existentieel
+gekwantificeerde variabelen te gebruiken waarvoor de kwantoren niet expliciet worden vermeld
+maar impliciet worden verondersteld. De documenten die de N3Logic introduceren, stellen dat impliciet universeel gekwantificeerde variabelen zijn gekwantificeerd op basis van hun
+bovenliggende formule. Maar omdat deze term niet verder wordt uitgelegd, begrijpen Cwm en EYE
+hem op verschillende manieren.
+
+Om dit verschil en de gevolgen ervan beter te begrijpen, definiëren we vervolgens een logica die
+vergelijkbaar is met N3, maar die alleen expliciete kwantificering ondersteunt: N3 Core Logic. We
+bieden een modeltheorie voor N3 Core Logic aan die grotendeels compatibel is met RDF. Vervolgens
+definiëren we een attribuutgrammatica die formules in N3-syntaxis toewijst aan hun twee N3 Core
+Logic-interpretaties, de ene volgens Cwm en de andere volgens EYE. Daardoor hebben we twee
+mogelijke semantieken voor N3 gedefinieerd. Bovendien hebben we een mechanisme ontwikkeld om
+voor elke N3-formule te beslissen of het al dan niet leidt tot onenigheid tussen de reasoners.
+
+Vervolgens hebben we de attributengrammatica in Haskell geïmplementeerd. 
+Om de praktische impact van het probleem dat we hebben uitgemaakt te kunnen
+meten, hebben we onze implementatie toegepast op verschillende N3-bestanden die zijn gebruikt in
+sectorgerelateerde onderzoeksprojecten. Voor 31\% van deze bestanden konden we discrepanties
+uitmaken tussen de N3 Core Logic-vertalingen. Vervolgens hebben we deze discrepanties verder
+geanalyseerd en drie verschillende soorten bronnen geïdentificeerd: bewijzen, built-ins en geneste
+formules die geen bewijs-predicaten of ingebouwde functies bevatten. Omdat bewijzen meestal door
+de computer gegenereerd en ingebouwd kunnen worden, zijn wij van mening dat de laatste groep
+constructies, geneste formules die geen built-ins of proof-predikaten bevatten, het gevaarlijkst is:
+gebruikers die dergelijke regels schrijven, verwachten normaal gesproken interoperabiliteit. 13\% van
+onze kritieke bestanden vallen onder die groep. We komen daarom tot de conclusie dat dit probleem
+door de community moet worden opgelost. We bespreken de verschillende opties, waarvan we er de
+voorkeur aan geven om gewoon de interpretatie van EYE te volgen, omdat het gemakkelijker te
+implementeren is en - althans wat ons betreft - gemakkelijker te begrijpen is.
+
+Nadat we de semantiek van N3 en zijn relatie tot RDF hebben besproken, concentreren we ons
+daarna op de taken die kunnen worden uitgevoerd met behulp van N3. Om te weten of N3 dezelfde
+praktische problemen als OWL DL-reasoning en SPARQL-query's met een vergelijkbare prestatie kan
+oplossen, hebben we twee use-cases overwogen: een semantisch oproepsysteem voor
+verpleegkundigen en een systeem voor het uitvoeren van RDF-validatie. Beide use-cases zijn eerder
+geïmplementeerd door OWL DL-reasoning en/of SPARQL-query's toe te passen. We hebben beide
+use-cases benaderd door in plaats daarvan rule-based reasoning toe te passen. De resulterende
+systemen waren in staat om dezelfde functionaliteit te bieden als de originele. De prestaties van ons
+verpleegoproepsysteem waren in alle gevallen sneller. Het RDF-validatiesysteem was sneller voor
+datasets van minder dan 100.000 triples. We kunnen dus concluderen dat de implementaties
+vergelijkbare resultaten opleveren.
+
+Na het onderzoek naar het vermogen van N3 om ontologie-reasoning en -query’s te ondersteunen,
+gaan we over op het volgende vereiste: bewijzen. Omdat bewijzen in de visie van het Semantisch
+Web uitwisselbaar dienen te zijn tussen verschillende partijen op het web, mogen ze geen formules
+bevatten waarvan de betekenis dubbelzinnig is. We introduceren daarom het begrip simpele
+formules, dat zijn formules waarin de universele variabelen gelijk worden geïnterpreteerd door de
+reasoners Cwm en EYE. Voor dergelijke formules definiëren we de directe semantiek. Vervolgens
+formuleren we formeel de verschillende bewijsstappen die kunnen worden uitgedrukt met behulp
+van het N3-bewijsvocabulaire en we bewijzen hun juistheid.
+
+Naast die formele beschouwing van bewijzen, bestuderen we ook hoe N3-bewijzen in de praktijk
+kunnen worden gebruikt. We beschouwen hier een use-case die verder gaat dan het eenvoudig
+vaststellen van vertrouwen: in de context van automatische API-compositie gebruiken we bewijzen
+als plannen. Als we mogelijke operaties beschrijven die kunnen worden uitgevoerd door gebruik van
+een hypermedia-API aan te roepen door middel van regels die duidelijk aangeven onder welke
+omstandigheden de bewerking kan worden uitgevoerd en welke situatie dat zal produceren, kunnen
+deze regels worden gecombineerd in een bewijs van een gewenst doel. Het bewijs kan rekening
+houden met kennis van de context, en elke bewerking die bijdraagt aan het doel wordt vermeld in
+het bewijs en kan vervolgens worden uitgevoerd. Als de context verandert, kan het bewijs eenvoudig
+worden aangepast. We definiëren het concrete formaat om Web API's, RESTdesc en een algoritme te
+beschrijven om dergelijke plannen te gebruiken en bij te werken. We leveren een bewijs voor 
+het stoppen van ons algoritme. We bespreken bovendien de limitaties en breiden het idee uit om
+bewijzen als plannen voor een andere use-case te gebruiken.
+
+Concluderend laat het onderzoek voor dit proefschrift zien dat N3 Logic inderdaad een
+veelbelovende kandidaat is om de verenigende logica van het Semantisch Web te worden: N3 is een
+uitbreiding van RDF, het ondersteunt redeneren over ontologieën/taxonomieën, querying en
+regelgebaseerd afleiden en het ondersteunt de bewijslaag: N3-reasoners leveren niet alleen
+bewijzen, N3 is zelfs expressief genoeg om de reasoner in staat te stellen om dergelijke bewijzen in
+de logica zelf weer te geven. Het onderzoek heeft aangetoond dat het mogelijk is om de semantiek
+van N3 zodanig te formaliseren dat het compatibel is met RDF. Voor een gestandaardiseerde
+formalisering moet de semantic web community overeenstemming bereiken over de interpretatie
+van impliciete universele kwantificatie. We hopen dat dit proefschrift een waardevolle stap is naar
+deze overeenkomst.
+
+
+
+\selectlanguage{english}
+
+% vim: spell spelllang=nl syntax=tex tw=140 

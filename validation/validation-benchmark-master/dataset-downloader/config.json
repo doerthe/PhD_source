@@ -1,0 +1,17 @@
+{
+  "prefixes": {
+    "dbo": "http://dbpedia.org/ontology/",
+    "frbrer": "http://iflastandards.info/ns/fr/frbr/frbrer/",
+    "lgdo": "http://linkedgeodata.org/ontology/",
+    "isbd": "http://iflastandards.info/ns/isbd/elements/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "gsp": "http://www.opengis.net/ont/geosparql#",
+    "mads": "http://www.loc.gov/mads/rdf/v1#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "dcterms" : "http://purl.org/dc/terms/",
+    "ngeo" : "http://geovocab.org/geometry#",
+    "geo": "http://www.w3.org/2003/01/geo/wgs84_pos#"
+  }
+}

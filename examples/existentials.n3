@@ -1,0 +1,14 @@
+@prefix : <http://example.org/ex#>.
+
+
+
+_:x :p {_:x :b :c}.
+
+{_:x1 :p {_:x2 :b :c}}=>{:s :pp :o}.
+
+
+:a :b :c.
+
+{[ :b :c]}=>{:l :l :l}.
+
+

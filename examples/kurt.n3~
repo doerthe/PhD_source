@@ -1,0 +1,6 @@
+@PREFIX : <http://example.org/ex#>.
+
+
+:Kurt :knows :Albert.
+
+

@@ -1,0 +1,10 @@
+@prefix : <http://example.org/ex#>.
+@prefix foo: <http://foo.example.org> . 
+
+:foo :b :c.
+
+@prefix foo: <http://bar.example.org> .
+
+:foo :a :o.
+
+{?x :a :o. ?x :b :c}=>{:s :p :o}.

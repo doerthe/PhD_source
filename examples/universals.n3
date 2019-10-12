@@ -1,0 +1,5 @@
+@prefix : <http://example.org/ex#>.
+
+{{?x :p :a.} => {?x :q :b.}.} =>{{?x :r :c.} => {?x :s :d.}.}.
+
+{:e :p :a.} => {:e :q :b.}.

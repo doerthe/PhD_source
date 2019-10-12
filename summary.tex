@@ -44,7 +44,7 @@ We furthermore created a mechanism to decide for every N3 formula whether or not
 
 Next, we implemented the attribute grammar we defined in Haskell. In order to be able to measure the practical impact of the problem we detected, we ran our 
 implementation on different N3 files which have been used in industry-related research projects. For 31\% of these files we could detect discrepancies between the 
-N3 Core Logic translations. We then further analysed these discrepancies and identified three different kinds of sources: proofs, built-ins and nested formulas 
+N3 Core Logic translations. We further analysed these discrepancies and identified three different kinds of sources: proofs, built-ins and nested formulas 
 which do not contain proof-predicates or built-in functions. 
 As proofs are often computer-generated and  built-ins can be reasoner-dependent,
 we argue that the last group of constructs, nested formulas which do not involve built-ins or proof-predicates, is the most dangerous:
@@ -74,9 +74,9 @@ The proof can take context knowledge into account, and each operation contributi
 the proof can be easily adapted. We define the concrete format to describe Web APIs, RESTdesc, and an algorithm to use and update such plans. We provide a proof for 
 the termination of our algorithm. We furthermore discuss its limits and extend the idea of using proofs as plans to another use case.
 
-In conclusion, the research conducted for this thesis shows that N3 Logic is indeed a very promising candidate to become the \emph{Unifying Logic} of the Semantic Web:
+In conclusion, the research conducted for this thesis shows that N3 Logic is indeed a very promising candidate to become the \emph{Unifying Logic} of the Semantic Web.
 N3 is an extension of RDF, it supports reasoning over ontologies/taxonomies, querying and rule-based inferencing, and it supports the layer
-of proof: N3 reasoners do not only provide proofs, N3 is even expressive enough to allow the reasoner to represent such proofs in the logic itself. 
+of proof. N3 reasoners do not only provide proofs, N3 is even expressive enough to allow the reasoner to represent such proofs in the logic itself. 
 The research has shown that it is possible 
 to formalise the semantics of N3 is a way that it is compatible with RDF. For a standardised formalisation the Semantic Web community needs to 
 come to an agreement on how to interpret implicit universal quantification. We hope that this thesis provides a valuable step towards this agreement.

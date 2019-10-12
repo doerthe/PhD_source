@@ -504,7 +504,7 @@ for ReLL API composition~\cite{ReLLComposition}
 using Petri nets to describe the machine-client navigation.
 However, in contrast to \restdesc, it does not support
 automatic, functionality-based composition.
-
+%
 % \subsection{Semantic Web Reasoning}
 % \label{subsec:RelatedReasoning}
 % The Pellet reasoner~\cite{Pellet} and the various reasoners of the Jena framework~\cite{Jena}
@@ -837,8 +837,12 @@ automatic, functionality-based composition.
 % 
 % 
 % 
-
-
+Roman and Kifer introduced ServLog~\cite{servlog}, a framework for service modelling, contracting, and reasoning based on Concurrent Transaction Logic (CTL)~\cite{ctl}. 
+In their earlier work they furthermore described how CTL can be used to automatically combine Web services  \cite{roman}.
+%to describe service modeling, contracting, and reasoning  \cite{servlog} web services. 
+The description format for services used in both papers rather focusses on their role in workflows (e.g. which services rely on each other) than on their functionality (e.g.
+which result do they produce). 
+In that sense this approach can be understood as complementary to RESTdesc. 
 
 
 
@@ -1134,10 +1138,10 @@ and a postcondition which does not contain any universal variables.
   float=t,
   caption={\restdesc description of the action ``obtaining a~thumbnail'' \emph{(desc\_thumbnail.n3)}},
   label=lst:Thumbnail]
-§\textcolor{gray}{@prefix dbpedia: <http://dbpedia.org/resource/>.}§
-§\textcolor{gray}{@prefix dbpedia-owl: <http://dbpedia.org/ontology/>.}§
-§\textcolor{gray}{@prefix ex: <http://example.org/image\#>.}§
-§\textcolor{gray}{@prefix http: <http://www.w3.org/2011/http\#>.}§
+§\textcolor{gray}{PREFIX dbpedia: <http://dbpedia.org/resource/>}§
+§\textcolor{gray}{PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>}§
+§\textcolor{gray}{PREFIX ex: <http://example.org/image\#>}§
+§\textcolor{gray}{PREFIX http: <http://www.w3.org/2011/http\#>}§
 
 { ?image ex:smallThumbnail ?thumbnail. }
 =>
@@ -1186,10 +1190,10 @@ i.e., the rule is applied.
   float=t,
   caption={\restdesc description of the action ``uploading an image'' \emph{(desc\_images.n3)}},
   label=lst:Images]
-§\textcolor{gray}{@prefix dbpedia: <http://dbpedia.org/resource/>.}§
-§\textcolor{gray}{@prefix dbpedia-owl: <http://dbpedia.org/ontology/>.}§
-§\textcolor{gray}{@prefix ex: <http://example.org/image\#>.}§
-§\textcolor{gray}{@prefix http: <http://www.w3.org/2011/http\#>.}§
+§\textcolor{gray}{PREFIX dbpedia: <http://dbpedia.org/resource/>}§
+§\textcolor{gray}{PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>}§
+§\textcolor{gray}{PREFIX ex: <http://example.org/image\#>}§
+§\textcolor{gray}{PREFIX http: <http://www.w3.org/2011/http\#>}§
 
 { ?image a dbpedia:Image. }
 =>
@@ -1639,7 +1643,7 @@ which are still unknown at the time the pre-proof is to be verified.
   float=t,
   caption={The initial knowledge of the agent \emph{(agent\_knowledge.n3)}},
   label=lst:Knowledge]
-§\textcolor{gray}{@prefix dbpedia: <http://dbpedia.org/resource/>.}§
+§\textcolor{gray}{PREFIX dbpedia: <http://dbpedia.org/resource/>}§
 
 <lena.jpg> a dbpedia:Image.
 \end{lstlisting}
@@ -1648,7 +1652,7 @@ which are still unknown at the time the pre-proof is to be verified.
   float=t,
   caption={A filter rule expressing the agent's goal \emph{(agent\_goal.n3)}.},
   label=lst:Goal]
-§\textcolor{gray}{@prefix dbpedia-owl: <http://dbpedia.org/ontology/>.}§
+§\textcolor{gray}{PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>}§
 
 { <lena.jpg> dbpedia-owl:thumbnail ?thumbnail. }
 =>
@@ -1659,12 +1663,12 @@ which are still unknown at the time the pre-proof is to be verified.
   float=p,
   caption={Example hypermedia API composition proof},
   label=lst:Proof]
-§\textcolor{gray}{@prefix dbpedia: <http://dbpedia.org/resource/>.}§
-§\textcolor{gray}{@prefix dbpedia-owl: <http://dbpedia.org/ontology/>.}§
-§\textcolor{gray}{@prefix ex: <http://example.org/image\#>.}§
-§\textcolor{gray}{@prefix http: <http://www.w3.org/2011/http\#>.}§
-§\textcolor{gray}{@prefix n3: <http://www.w3.org/2004/06/rei\#>.}§
-§\textcolor{gray}{@prefix r: <http://www.w3.org/2000/10/swap/reason\#>.}§
+§\textcolor{gray}{PREFIX dbpedia: <http://dbpedia.org/resource/>}§
+§\textcolor{gray}{PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>}§
+§\textcolor{gray}{PREFIX ex: <http://example.org/image\#>}§
+§\textcolor{gray}{PREFIX http: <http://www.w3.org/2011/http\#>}§
+§\textcolor{gray}{PREFIX n3: <http://www.w3.org/2004/06/rei\#>}§
+§\textcolor{gray}{PREFIX r: <http://www.w3.org/2000/10/swap/reason\#>}§
 
 §\bfseries<\#proof> a r:Proof, r:Conjunction;\label{ln:Proof}§
   r:component <#lemma1>;

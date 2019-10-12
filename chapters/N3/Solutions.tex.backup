@@ -1,0 +1,147 @@
+\section{Possible solutions}\label{solution}
+In the previous section we examined the impact of having different interpretations for nested implicit universal quantification on practical cases and discovered that 31\% of our test files
+contained at least one critical construct. This means that the problem is not only of theoretical nature and needs to be addressed. In this section, we discuss possible solutions from two perspectives:
+First, we
+take the perspective of a
+practitioner who -- given the current situation -- needs to make sure that his rules lead to the same result in both reasoners.
+Secondly, we take a  broader perspective and clarify
+the different positions a standardisation could take.
+
+
+% and discovered that 
+% universal variables are used in nested constructs%such constructs are actually used and sometimes lead to contradictory reasoning results. 
+\subsection{Avoiding Conflicts in Practical Cases}
+Having seen which kinds of constructs lead to conflicts between the different interpretations of \nthree %and how often they occur in practice,
+we now discuss how to deal with those conflicts. One option is to avoid them from the very beginning by not using nested formula expressions. 
+The drawback of this solution is that
+this also means to not use the full power of \nthree since constructs such as rule-producing rules~\cite{ORCA2} would not be available any more. 
+If we want to support \nthree as it is, we need a way to translate from one reasoner to the other.
+
+\subsubsection{EYE formulas interpreted by Cwm}
+In order to make \nthree formulas written for the reasoner EYE 
+be interpreted in the exact same  way by Cwm, we can use a simple trick: Since we know that the interpretation of implicitly universally quantified variables also depends 
+on their contexts, ie on their occurrence in the different conjuncts of a formula, we can add a dummy formula which lifts the scope of deeply nested variables to the top level without changing EYE's interpretation 
+of the whole expression.
+%that contains universal variables with the same name as the ones occurring in 
+%deeply nested formulas. We 
+To illustrate that idea we use an example we have seen earlier: remember that in Cwm's interpretation (Interpretation~\ref{iall}) of Formula~\ref{fff} 
+the quantifier for the universal variable \texttt{?y} was 
+nested while for EYE it was on top level, ie in front of the overall formula (Interpretation~\ref{fff'}). 
+If we now add the implication \texttt{\{?y ?y ?y\}=>\{?y ?y ?y\}.}\ to the formula this difference disappears. The formula
+\begin{flalign*}\tag{\ref{fff}a}\label{fffa}
+&\texttt{\{?y ?y ?y.\}=>\{?y ?y ?y.\}.} \\
+&\texttt{\{\{?x :q ?y.\} => \{?x :r :c.\}.\}}\\
+&\hspace{4cm}\texttt{=>\{?x :p :a.\}.}\\
+\end{flalign*}
+has in both reasoners the same interpretation, namely:
+\begin{flalign*}\tag{\ref{fffa}'}\label{fffa'}
+ & \forall \texttt{x.}\forall\texttt{y.}\\
+ &\texttt{\quad<y y y>}\rightarrow\texttt{<y y y>.}\\ 
+ &\texttt{\quad<{}< x q y>} \rightarrow \texttt{< x r c>{}>}\rightarrow%\\
+  %&\hspace{4cm} 
+  \texttt{< x p a>.}
+\end{flalign*}
+Since the antecedent and the consequent of the added rule are exactly the same, its addition does not change the meaning of the whole formula according to EYE. 
+For Cwm, the meaning does
+change, the quantifier for \texttt{?y} is lifted to the top level and is no longer nested.
+
+While here, the change of meaning has been performed on purpose -- we wanted the formula to have the same interpretation in both reasoners --
+phenomena as the one above can also occur rather randomly: In our datasets there are several rules embedded in a bigger context which make use of nested universals but whose
+ interpretation does not differ between Cwm and EYE\footnote{A concrete example is the file \url{https://github.com/josd/eye/blob/master/reasoning/n3p/sample.n3} in the eye dataset.}. 
+ The reason is that they make use of rather arbitrary variable names such as \texttt{?x} and \texttt{?y} 
+which are also used in other conjuncts of the same very long formulas. Having that in mind, users of Cwm who want to use nested implicit universal quantification need to be careful
+with the variable names they are using to avoid unwanted changes of scope.
+
+\subsubsection{Cwm formulas interpreted by EYE}
+Performing the other direction -- making sure that EYE interprets a formula containing universal variables in nested graphs the same way Cwm does -- is more difficult: 
+The only way to do so is to use explicit universal quantification as one can easily see recalling Cwm's interpretation of Formula~\ref{fff}: 
+\begin{multline}\tag{\ref{fff}'}
+ \forall \texttt{x.}
+ \texttt{<} \forall \texttt{y.<x q y>} \rightarrow \texttt{<x r c>{}>}\rightarrow\texttt{<x p a>}
+\end{multline}
+Here the universal quantifier for \texttt{y} is nested, but EYE interprets all implicitly universally quantified variables as quantified on top level.
+
+%Unfortunately, 
+Due to the open issues 
+mentioned in Section~\ref{remarkExplicitQuantification}, the current version of EYE does not support nested explicit quantification which makes the desired task impossible.
+This was different in earlier versions.%
+%To get an interpretation such as Formula~\ref{iall} with EYE an older version of the reasoner needs to be used. 
+%\rv{The remark about the old version is not that interesting / might be confusing. I would remove it. Or at least phrase it in such a way that I don't have to \enquote{use} an older version, just that it was different in older versions.}
+\footnote{In all versions before EYE-2014-12
+ nested explicit quantification is allowed.} 
+A possible way to make sure that formulas written for Cwm are understood equally by EYE could be to use such an older version of the reasoner.
+Then our implementation can be used to generate the representation of an \nthree formula in core logic according to Cwm's interpretation which we could then translate 
+ to explicit quantification
+in \nthree. But even when doing that, it cannot be guaranteed that this explicit quantification in \nthree works exactly the same way explicit quantification
+in core logic does since a formal specification of the former is missing.
+Without a clearly defined explicit quantification in EYE, it is not possible for each nested formula to translate Cwm's interpretation to an \nthree formula 
+EYE interprets equally.
+
+\subsection{Definition of a Standard}
+As discussed above, in the current situation the user writing rules needs to either know beforehand with which reasoning engine he wants to use his rules, or he needs to apply the strategy discussed 
+above of adding dummy rules which lift the quantifier of deeply nested implicitly universally quantified variables to the top level. 
+Given that \nthreelogic was created for the Semantic Web where interoperability is a very crucial feature, this situation is not acceptable and  
+the community needs to come to an agreement. For such an agreement, we see three options which we discuss below.
+\subsubsection{Semantics with Nested Universal Quantifiers}
+One possible solution could be \todo{Remove!!!}, given that Cwm is the reference implementation of the \wwwc team submission,
+to use our specification as a semantics for \nthree and strictly follow that
+interpretation. 
+
+One problem with that solution is that it is rather difficult to formalise. 
+We needed to define an attribute grammar with four attributes to be able to handle Cwm's implicit universal 
+quantification. Following the same approach, scoping on top level only required the definition of one attribute. 
+%this kind of formalisation could also be done without employing attribute grammars.
+Being a direct realisation of this grammar our implementation is equally complex and so far we did not  encounter an easier way 
+to implement the scoping as intended by Cwm.
+%When implementing this attribute grammar, we faced the same difficulties and
+Even the Cwm reasoner itself has difficulties with implicit universal quantification in some cases (see \ref{bugsincwm}).
+To the best of our knowledge, there is no other logical framework supporting implicit universal quantification
+which interprets this feature the way Cwm does (we also discuss other frameworks supporting implicit quantification in Section~\ref{iq}).
+We therefore suspect that the users' intuition about implicit universal quantification could be opposed to the actual meaning. %But even if that is not the case % and a possible user simply 
+%looks up the formalisation to know how implicit universal 
+%quantification is understood by the \wwwc team submission,
+We furthermore see the
+the difficulties when formalising the semantics and implementing a parser or reasoner following it as an indication that end users writing \nthree rules 
+could also have problems to 
+understand and apply the formalisation of implicit universal quantification according to Cwm. %the \wwwc team submission.
+
+All these reasons make us to rather opt against the possibility to handle implicit universal quantification the way Cwm does.
+
+
+\subsubsection{Semantics with Quantification on Top Level}
+Another possible remedy for the problem at hand would be to strictly follow the interpretation
+which understands implicitly universally quantified variables as quantified on top level such as
+the reasoner EYE does.
+
+One argument to do so is, that this is easier to formalise and also to implement. The attribute we used for the quantification of EYE was rather simple and just passed all implicitly 
+universally quantified variables upwards in the syntax tree. A formalisation could also be made without employing attribute grammars by simply using a universal closure for all universal variables.
+As assuming the universal closure for variables freely occurring in  formulas is common practice and done in many frameworks like 
+for example Prolog~\cite{Prolog} we expect that users writing \nthree rules can easily understand this behaviour and write their rules 
+accordingly.
+
+We therefore favour the interpretation putting the quantifier of implicitly universally quantified variables on the top level.
+
+%which means to assume implicit universal variables to always be quantified on top level. 
+% An argument to do so would be that other logical frameworks with implicit universal quantification (like Prolog) also follow this approach. Additionally,
+% this kind of universal quantification is rather easy to understand and to implement. 
+
+% Of course this solution deviates from Cwm and thereby most likely from how the \wwwc team submission was meant.
+% % the
+% % most official document about \nthree and 
+% Such a change in the intended meaning of a implicit universal quantification would need to be discussed in the community.
+
+\subsubsection{Exclude Implicit Universal Quantification}
+The third solution for the problem explained in this paper would be 
+to either not allow implicit universal quantification at all or to at least only allow it in non-nested structures such that the scoping of every implicitly universally quantified variable is clearly
+defined in both interpretations. Instead, 
+explicit quantification could be employed.
+%or at least use it in cases where otherwise interpretations could differ. 
+The problem here is that, as explained in Section~\ref{remarkExplicitQuantification},
+the meaning of explicit quantification is not clearly defined in the \wwwc team submission either. Problems especially arise if explicit universal quantification is used in combination with explicit
+existential quantification -- to be consistent with the implicit case universal quantification always dominates existential quantification if both occur on the same level -- and if constants and 
+quantified variables are not clearly distinguished. In order at least make this last opportunity an applicable option, these uncertainties need to be clarified. One possible way to do that would be to
+extend the attribute grammar discussed in this paper.
+
+% In order to at least provide the opportunity to apply this last solution to the problem at hand, we plan to extend our interpretation of \nthree to also support 
+% explicit quantification. By adding this and other features of \nthree currently not covered in our formalisation, we aim to provide one step further towards the full formal understanding 
+% of the power but also the limits of this rule-based logic for the Semantic Web.

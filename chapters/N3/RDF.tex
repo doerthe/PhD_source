@@ -129,7 +129,7 @@ A \emph{simple interpretation} $\mathrm{I}$ is a structure consisting of the fol
 Next to the domain of discourse (the set of resources $\mathrm{IR}$) as we know it from first order logic,  we additionally have 
 a set of properties $\mathrm{IP}$.
 The interpretation function $\mathrm{IS}$ maps \iri{}s to the union of $\mathrm{IR}$ and $\mathrm{IP}$. 
-\iri{}s can stand for properties, resources or -- as it is the case in our example Formula~\ref{urisubpred} -- both. 
+\iri{}s can stand for properties, resources or -- as it is the case in Formula~\ref{urisubpred} -- both. 
 %Whether something needs to be a property, 
 % The sets $\mathrm{IR}$ and $\mathrm{IP}$ do not need to be disjoint.
 For properties there is an additional function to determine their meaning, the \emph{extension} $\mathrm{IEXT}$. 
@@ -160,7 +160,7 @@ The reason for that is that \rdf also covers the semantics of datatypes\footnote
 to \url{https://www.w3.org/TR/rdf11-mt/\#literals-and-datatypes}.} and according to that it is possible that a literal does have a referent. 
 Triples whose objects are not in the domain of the function $\mathrm{IL}$ are according to point 3 in the above interpretation false.
 
-Having a notation for the meaning of ground terms we now take a closer look on blank nodes: %how implicit existential quantification in \rdf is handled:
+Having a notation for the meaning of ground terms we now take a closer look at blank nodes: %how implicit existential quantification in \rdf is handled:
 \begin{definition}[Semantic condition for blank nodes]\label{rdfbl}
  If $E\in \mathcal{G}$ is an \rdf graph then  $\mathrm{I}(E)=\text{true}$ if $[\mathrm{I}+\mathrm{A}](E)=\text{true}$ for some mapping $\mathrm{A}: \mathrm{B} \rightarrow \mathrm{IR}$, 
  otherwise $\mathrm{I}(E)=\text{false}$.
@@ -245,7 +245,7 @@ We further explain how such blank nodes are used on the example of \emph{\rdf co
 % 
 % We do not discuss  all of them here, but we want to take a closer look to the concept of \emph{\rdf collections}. 
 Collections are used to describe list structures in \rdf.
-\rdf follows a similar idea as for example Prolog~\cite{Prolog,nilsson} or LISP~\cite{lisp} which both represent lists using a binary 
+\rdf follows a similar idea as for example Prolog~\cite{Prolog,nilsson} or LISP~\cite{lisp}, which both represent lists using a binary 
 function. %\footnote{Note that both standards do not strictly distinguish between relations and functions. We chose to use the term ``relation'' in this context.}
 Starting with the empty list, the binary function can be used to recursively construct new lists from existing lists by simply adding new elements at their beginning.
 To illustrate the idea let us assume that \texttt{f} is the binary function we use in this context and \texttt{nil} is the empty list. If we want to represent a list consisting of 
@@ -304,7 +304,7 @@ concepts were created to serve a similar purpose as the citation of graphs in \n
 For our considerations, it is interesting how exactly blank nodes occurring in these referenced graphs or triples are quantified:
 Are they quantified on top level or on a lower level? 
 
-Before we further discuss the concepts for referencing formulas and answer the question above for each of it 
+Before we further discuss the concepts for referencing formulas and answer the question above for each of it, 
 we discuss an example in \nthree to clarify that the exact position of the existential quantifier matters.
 Consider the following formula:
 %This is what we discuss below.
@@ -370,7 +370,7 @@ Kurt denies that unicorns exist.
 In this case the statement means that Kurt does not believe in the existence of unicorns. The two interpretations are fundamentally different and it is important where we put 
 the quantifier for the existentially quantified variable.
 
-Below, we explain the concepts \rdf reification, named graphs and \rdf{}*, and discuss how they understand blank nodes in referenced triples and formulas.
+Below, we explain the concepts \rdf reification, named graphs, \rdf{}* and singleton properties, and discuss how they understand blank nodes in referenced triples and formulas.
 
 
 
@@ -505,8 +505,8 @@ The problem with that construct is now, that not only the semantics of named gra
 such named graphs need to be interpreted: Does \texttt{:graph} denote a graph? If yes, is that graph open or closed in the above example? If Kurt denies \texttt{:graph} does he then only deny the statement we see above or does 
 \texttt{:graph} contain more triples? Where exactly is the scope of the blank node? A list of possible interpretations of named graphs is gathered on a Web site~\cite{TriGsemantics}. 
 Here, it is also recommended to indicate the intended meaning of a named graph when using it. As long as the semantics of TriG is not fixed, it is not possible to say how the scoping 
-of blank nodes in TriG relates to scoping in \nthree. Depending on how we formalise the meaning of cited formulas in the latter, it might be possible to use \nthree to 
-express the relationship between a graph name (\texttt{:graph}) and the graph pattern which stands next to it (\texttt{\{ \_:x rdf:type :Unicorn\}}).
+of blank nodes in TriG relates to scoping in \nthree. Depending on how we formalise the meaning of cited formulas in the latter, it is  possible to use \nthree to 
+express the relationship between a graph name (\texttt{:graph}) and the graph pattern which stands next to it (\texttt{\{ \_:x rdf:type :Unicorn\}})\cite{n3andnamedgraphs}.
 
 % also a list of 
 % different -- sometimes contradicting -- interpretations which are possible for that construct~\cite{TriGsemantics}. 
@@ -563,3 +563,52 @@ Formula~\ref{starex} implies Formula~\ref{star} we can conclude that is is not p
 % quantification can be formalised.
 % The alignment of \rdf{}* and \nthree is a desirable goal which we aim to achieve in the future. But for the moment, 
 % there is no direct connection between a referenced triple in \rdf{}* and a cited \nthree graph containing one single triple.  
+
+\subsubsection{Singelton Properties}
+As a last option to refer to triples in \rdf we discuss singleton properties~\cite{singleton}. Similar to \rdf{}* this approach of referring to triples was 
+introduced as an alternative to \rdf reification and does not form part of the standard. The idea behind singleton properties is to use unique \uri{}s for the predicates of triples 
+to be referred to. % than indicate that these so-called singleton predicates are special instances of a general property. 
+Instead of using the property \texttt{rdf:type} in Triple~\ref{star} we would use a predicate \texttt{rdf:type\#123}:\footnote{In practical cases we would use a more complex identifier than \texttt{123}
+to insure that we have indeed a property which is only used once in the Web. The triples indicated here should only be understood as an illustrative example.}
+\begin{equation}\label{123}
+ \texttt{\_:x rdf:type\#123 :Unicorn.} 
+\end{equation}
+This so-called \emph{singleton property} then 
+can be understood as a special instance of the predicate \texttt{rdf:type}. This can be indicated by adding an extra triple:
+\begin{equation}\label{1234}
+ \texttt{rdf:type\#123 rdf:singletonPropertyOf rdf:type.}
+\end{equation}
+The semantics of singleton properties is clearly defined. Singleton properties can only be used once in predicate position and in this position they have the same meaning as
+the general predicate they belong to. 
+Triple~\ref{123} stated together with Triple~\ref{1234} implies Triple~\ref{star}. 
+Additionally, singleton properties can be used in subject or object position. Following our example, we can state:
+%If we want to refer to Triple~\ref{123} we could state:
+\begin{equation}
+ \texttt{:Kurt :denies rdf:type\#123.}
+\end{equation}
+% The semantics of singleton properties is defined as an extension of \rdf semantics. % and the above triple means that Kurt denies that x is a unicorn. 
+% Used in predicate position every singleton property has the same meaning as its generic property, i.e. of the property it is singleton property of.
+%The singleton property semantics now sees the predicate 
+The singleton property \texttt{rdf:type\#123} is now understood as a resource in the domain of 
+discourse. As we know that this property  occurs only once and is therefore only connected to one subject and one object, we can understand it as a reference to the triple 
+it forms together with these two elements. In the semantics, it is not clearly defined how we need to understand blank nodes in such referred triples but since in this approach we can only 
+refer to triples which are stated on top level where blank nodes have global scoping, it also makes sense to assume the same scoping for the reference to these triples. Here this means that there exists 
+an x for which Kurt denies that it is a unicorn. Given that Triple~\ref{123} clearly states that x is indeed a unicorn, we also know that Kurt is wrong with his denial.
+
+The last example shows a clear difference between referring to formulas by using singleton properties and doing so by means of N3: while with the singleton property approach 
+it is not possible to talk about a triple which is not true, we can easily do so with N3. Blank nodes are not quantified in the referred triple but globally. 
+As reification and \rdf{}*, singleton ptoperties can furthermore only be used to 
+refer to triples and not -- as it is possible with named graphs and N3 -- to  graphs.
+%Another difference between the approaches is the scopni
+%but since the 
+%the triples them a simple \rdf triple which is not nested, it makes sense to assume that all cited triples are quantified on top level.
+%It is intended that the property \texttt{rdf:type\#123} stands for Triple~\ref{123} as a whole. 
+
+% But,
+% according to the semantics, Kurt would also be wrong with his denial: by stating Triple~\ref{123} we indicated that the triple must be true just as we did in Formula~\ref{starex}. 
+% Using singleton properties, it is not possible to refer to a triple whose truth value is unknown, we can only add metadata 
+% %\todo{that is not really true, add the temporal additions here}
+% 
+
+
+

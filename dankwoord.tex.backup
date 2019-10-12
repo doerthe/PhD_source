@@ -1,25 +1,111 @@
 \cleardoublepage
 
-\selectlanguage{dutch}
 \normalsize
 
-\chapter{Dankwoord}
+\chapter{Preface}
 \setlength{\epigraphrule}{0pt}
 \setlength{\epigraphwidth}{0.75\textwidth}
-\epigraph{\textit{In science, one should use all available resources to solve difficult problems. One of our most powerful resources is the insight of our colleagues.}}{Peter Agre}
+%\epigraph{\textit{Er ist ein Mathematiker und also hartnäckig.}}{Johann Wolfgang von Goethe}
+\epigraph{\textit{Mit Mathematikern ist kein heiteres Verhältnis zu gewinnen.}}{Johann Wolfgang von Goethe}
 
-Aan iedereen die heeft meegeholpen, bedankt! Aan iedereen die niet heeft meegeholpen, ook bedankt!
+%Describe the ``culture shock'' and explain why you chose the quote above. 
+Before I started this journey, I always thought that computer scientists and mathematicians are somehow similar: the former apply what the latter studied before in theory.
+Now, after I did my research, participated in different projects, read many  papers  and talked to different people at conferences, I can tell: I was wrong! In mathematics many things 
+are only done on a theoretical level and the validity 
+of the results needs to be formally proven to be sure that they are correct. As a consequence, mathematicians focus a lot on details. They 
+need to be able to exclude all possible problems. In (applied) computer science on the other hand, new ideas can be implemented.
+The fact that the resulting program works properly is then a first indication that the initial idea was not too bad.
+For many people this first indication is enough. They want to deliver working tools as fast as possible and therefore accept the risk
+that problems can occur later. 
 
+Being a mathematician who stepped over to computer science in order to learn more about this fascinating world, %this ``cultural difference''  was often a problem.
+% 
+% And even if both groups want to find the golden middle between these two approaches they always fall back to the way they were educated and this
+% education 
+% I think the best way to do things actually lies between these two extremes: details are important, but we can also get lost in them. Implementations are important as 
+% well but they can be more sustainable if we take some time to really think about the theory behind.
+%. %As this implementation step gives 
+%For many people in computer science this implementation is enough and they do not want to be further concerned with the theory.
+%and even more: for many people the implementation is the only thing what matters. They see it as the best strategy to tackle problems just when they occur.
+%Mathematicians as ``what can go wrong'' while computer scientists ask ``what can go right''. To get optimal results, we should combine both questions and 
+%
+I often struggled with this \emph{cultural difference} (as many of the persons mentioned below can confirm).
+It was not always easy to accept that some people consider theory as a burden, it was even harder to understand that they do not enjoy discussing details even if
+these details directly impact their implementations, but the hardest thing for me was that even by showing them the beauty of logic I could not change their mind. %do not want to discuss the details of %prefer to only be confronted with it if problems occur. %some people start implementing before having carefully considered all possible problems their algorithm might have and it was 
+%even more difficult to accept that there are people who do not even see the importance of a proper formalisation 
+On the other hand I also learned a lot by facing this new point of view: %But I also learned a lot:
+I learned to always take practical aspects into account if it comes to computer programs and I learned that sometimes (but just sometimes)
+it is good to start implementing before you think a problem through just to better understand it.
+%In general, I think it is a very good experience to
+
+Having the hope that everyone 
+who  did not enjoy discussing  the scoping of variables as much as I do or who sometimes did not want to solve possible problems before even having written a single line of code
+% or who 
+% thinks that I am too negative when I always try to search for possible problems 
+%had problems with my focus on logical details and my constant search for possible problems 
+%in the past few years 
+also sees \emph{some} positive aspects in having worked with me, 
+I chose the above quote 
+to let you know that you are not alone: There are many people who consider  mathematicians \emph{difficult} people among them the famous Johann Wolfgang von Goethe. 
+% 
+% \todo{Maybe add that I like to travel between because of cultural differences which always intrigued me. I also enjoyed this journey to another profession for the same reason: 
+% the different spirit and research culture makes you feel that you just entered a ``new country of research''. An while I struggeld a lot in ``Computer science land'' I also learned to speak
+% the language of its citizens and adopt to their habits. But I also need to add that the}
+Taking up that quote from above, I thank everyone who tried to get ``ein heiteres Verh\"altnis'' with me despite the difficulties mentioned above.
+
+
+In particular I thank Miel for guiding me through the writing process of this thesis, Femke for listening and helping with all kinds of problems, and the Knowledge on Web-Scale (KNoWS) team for 
+sharing their knowledge with me.
+As a team is always just as good as its members, I want to thank everyone individually (taking the risk of forgetting someone, sorry if this is the case), especially I thank my former colleagues Tom D.N., 
+Sam, Hajar, Cristian, Laurens, Gayane, Dieter D.P., Dieter D.W.
+and all current members of the team, in particular Joachim,
+Pieter C.,
+Pieter H.,
+Ben, Sven, Gerald, Martin, Julian, Harm, Brecht, Anastasia, and Ruben T.
+I also thank  all current and former members of IBCN, I had the pleasure to work with, in particular Pieter B., Mathias, Stijn and Alexander.
+%Miel, Jos, Ruben, Tom, Pieter Pauwels, Femke, Agfa etc.
+
+The research conducted in this thesis has mostly been done in the context of projects involving industry partners. I thank all these partners. In this context I want to give a special mention to Agfa healthcare.
+I thank everyone at Agfa I worked with.
+Visiting you was always the highlight of my week. In particular I thank Giovanni for always sharing the programmer's perspective with me,
+I thank Hong  for his challenging questions, Boris for helping me with decisions, and Els for always trying to keep us focussed -- I know that this is not an easy 
+task given that Jos and I really enjoy discussing logical details. 
+A very special thanks goes to Jos for exactly those discussions. I think there is no one with whom talking about logics is more enjoyable.
+It was you who reminded me how exciting research can be.
+
+I furthermore thank all members of the jury for agreeing to review my thesis. 
+Knowingly or unknowingly, you all influenced the work presented in this thesis in some way:
+You pointed me to papers, asked the right questions or introduced me to new fields.  
+% for example by short conversations, by pointing me to papers, or simply by teaching me 
+% that there are other ways to define semantics than defining a model theory. 
+A very special thanks goes to Harold for making me feel welcome in the RuleML community, especially at my very first RuleML conference (2015 in Berlin).  
+%I especially appreciate how you 
+ 
+I also want to thank my supervisors.
+I thank Tom S. for encouraging me to aim for \emph{good} papers instead of papers \emph{good enough to be accepted}.
+I thank Erik for always backing me up. I thank Ruben for sharing his enthusiasm with me and for pointing me to my research topic:
+I am very happy that you immediately anticipated my passion for \nthreelogic.  
+
+I also thank all my friends who supported me during the writing of my thesis or even before. 
+A special thanks goes to Stefanie, my former colleague, who encouraged (or forced?) me to start this journey, without her I would never have applied for my PhD position.
+I thank my family, my parents, my brothers and, especially, my sister Sabine who helped me with the Dutch translation of my summary (it was a very last minute help, so please do not judge her language skills based on that summary).
+
+Last, but not least, I thank Nicolas who gave me a lot practical and moral support during this whole process. He agreed to move to Belgium with me,  he accepted that I spent many weekends with \nthree instead of him 
+(I agree that this is a questionable choice)
+and he made sure that regardless of my stress level, I still got enough food and sleep.
+Especially in the last weeks of writing where he took care of our daughter Paula. 
+Without you this thesis would not have been possible.
+Thank you!
 
 \vspace*{\fill}
 
 \begin{flushright}
-Ward Poelmans \\
+D\"orthe Arndt \\
 Gent, \today
 \end{flushright}
 
 \vspace*{\fill}
 
-\selectlanguage{english}
+
 
 % vim: spell spelllang=nl syntax=tex tw=140 

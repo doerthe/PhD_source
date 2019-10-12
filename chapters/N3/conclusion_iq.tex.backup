@@ -1,0 +1,4 @@
+\section{Conclusion}
+In this chapter we have seen that the semantics of \nthree is not clear when it comes to implicit quantification: According to the \wwwc team submission, 
+implicitly universally quantified variables are quantified on their \emph{parent formula}. Unfortunately, it is not further defined what this \emph{parent formula} is and 
+our tests have shown that the reasoners Cwm and EYE understand this concept differently. 

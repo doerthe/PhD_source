@@ -1,0 +1,32 @@
+#Processed by Id: cwm.py,v 1.197 2007/12/13 15:38:39 syosi Exp 
+        #    using base file:///media/doerthe/4EC6F987C6F97017/store/PhD/Thesis/examples/universals.n3
+        
+#  Notation3 generation by
+#       notation3.py,v 1.200 2007/12/11 21:18:08 syosi Exp
+
+#   Base was: file:///media/doerthe/4EC6F987C6F97017/store/PhD/Thesis/examples/universals.n3
+     @prefix : <http://example.org/ex#> .
+    @prefix log: <http://www.w3.org/2000/10/swap/log#> .
+    @prefix unive: <#> .
+    {
+        :e     :p :a .
+        
+        }     log:implies {:e     :q :b .
+        } .
+    {
+         @forAll unive:x .
+        {
+            unive:x     :p :a .
+            
+            }     log:implies {unive:x     :q :b .
+            } .
+        
+        }     log:implies { @forAll unive:x .
+        {
+            unive:x     :r :c .
+            
+            }     log:implies {unive:x     :s :d .
+            } .
+        } .
+    
+#ENDS

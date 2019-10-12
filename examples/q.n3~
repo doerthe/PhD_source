@@ -1,0 +1,4 @@
+@prefix : <http://example.org/ex#>.
+
+{?x :b ?k}=>{:I :am :happy}.
+{:d ?j ?m}=>{:this did :work.}.

@@ -5,7 +5,7 @@ in most cases this quantification is not nested\footnote{The only possible excep
 to other frameworks related to \rdf or rule-based reasoning which support some kind of implicit quantification.
 
 Implicit quantification is widely used in different contexts. Most frameworks around \rdf support the use of \emph{blank nodes}. 
-Hogan et al~\cite{blanks} provide an overview of their meaning and use in these different contexts. 
+Hogan et al.~\cite{blanks} provide an overview of their meaning and use in these different contexts. 
 Being a direct extension of \rdf, the meaning of blank nodes in RDFS is the same as in \rdf, they are assumed as existentially quantified and RDFS does not support the concept of nesting.
 % In \rdf and RDFS, blank nodes stand, just as in \nthree, for
 % implicitly existentially quantified variables. The quantification is local, \ie the same blank nodes cannot be shared between different documents and the existential quantification 
@@ -14,7 +14,7 @@ Being a direct extension of \rdf, the meaning of blank nodes in RDFS is the same
 % In the newer addition TriG~\cite{TriG} different graph constructs indicated by the \texttt{\{\}}-construct can have common blank nodes.\footnote{\url{https://www.w3.org/TR/trig/\#terms-blanks-nodes}}
 % Where these blank nodes are quantified depends on the semantics chosen.
 %If we understand these constructs as nested graphs, this is a clear difference to \nthree.\todo{point out that and why this is problematic}
-Hogan et al furthermore point out that, despite the clear definition, users do not always understand and use blank nodes as existentially quantified variables in \rdf: 
+Hogan et al.{} furthermore point out that, despite the clear definition, users do not always understand and use blank nodes as existentially quantified variables in \rdf: 
 often blank nodes are rather used to refer a concrete object whose \iri is unknown. % than to express existential knowledge. 
 A possible reason 
 for that is that SPARQL~\cite{sparql} interprets blank nodes occurring in the queried \rdf graph exactly in that manner. 
@@ -24,8 +24,8 @@ for that is that SPARQL~\cite{sparql} interprets blank nodes occurring in the qu
 % \texttt{e:findall}\footnote{\url{http://eulersharp.sourceforge.net/2003/03swap/eye-builtins.html}} from EYE.
 % Built-in functions are excluded from this paper but certainly form a major challenge in our future work. 
 
-Implicit universal quantification can be found in different programming languages and \rdf related frameworks:
-in Prolog \cite{Prolog} variables are understood to be universally quantified. The scope of this quantification is the clause in which the variable occurs. This 
+Implicit universal quantification can be found in different programming languages and \rdf related frameworks.
+In Prolog \cite{Prolog} variables are understood to be universally quantified. The scope of this quantification is the clause in which the variable occurs. This 
 is similar to the universal quantification on top level as implemented in EYE.
 But as Prolog does not allow the construction of nested rules, 
 which form the biggest challenge for the determination of scoping in \nthree, Prolog's quantification is only partly comparable to \nthree's. 

@@ -1,0 +1,12 @@
+#Processed by EYE v18.0312.0936 josd
+#eye universals.n3 --pass-all --nope
+
+PREFIX : <http://example.org/ex#>
+
+{{?U_0 :p :a} => {?U_0 :q :b}} => {{?U_0 :r :c} => {?U_0 :s :d}}.
+{:x :p :a} => {:x :q :b}.
+{:x :r :c} => {:x :s :d}.
+
+#2019-01-25T16:39:56.662Z in=10 out=3 ent=4 step=8 brake=2 inf=18903 sec=0.059 inf/sec=320390
+#ENDS
+

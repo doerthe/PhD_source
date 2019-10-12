@@ -1,0 +1,614 @@
+\section{Quantification in N3 Logic}\label{quantsec}
+%The examples of implicit quantification given in Section~\ref{n3examples} were rather  
+The example formulas we discussed in Section~\ref{n3examples} were rather simple and understanding their intended meaning was not 
+ difficult (maybe with the exception of cited formulas which can lead to discussions \cite{TriGsemantics}). For the only case where 
+two different interpretations were plausible -- Formula~\ref{both} which had universals and existentials occurring together --
+the \wwwc team submission~\cite{Notation3} contains a clear statement which interpretation needs to be chosen: \\
+% This is different when it comes to implicit quantification. Just like \rdf, \nthree allows the 
+% The examples of \nthree formulas given so far were rather easy and their interpretation was rather straightforward
+% (maybe with the exception of cited formulas which can lead to discussions \cite{TriGsemantics}).
+% This is different when it comes to implicit quantification. Just like \rdf, \nthree allows the usage of implicitly existentially quantified variables, called \emph{blank nodes}.
+% Blank nodes either start with ``\verb!_:!'' or are expressed using square brackets ``\texttt{[~]}''. 
+
+\MyQuote{  ``If both universal and existential quantification are specified for the same formula, 
+then the scope of the universal quantification is outside the scope of the existentials''.}
+
+Unfortunately, not all cases are that clear.
+% 
+% 
+% in Section~\ref{n3examples}, we gave a few examples for \nthree formulas and their intended meanings. Since \nthree aims to extend \rdf, a \wwwc standard with well-defined 
+% semantics, the meaning of simple  
+%
+% In the cases illustrated in Section~\ref{n3examples}, the interpretation of the implicitly quantified formulas was rather easy:
+% the variables are existentially and universally quantified at the top of the formula; 
+% if they co-occur in the same formula, the universal quantification dominates the existential. 
+When implicitly quantified variables occur in deeply nested formulas, 
+ their intended meaning is not always obvious and the interpretations of such formulas sometimes differ between reasoning engines. 
+%
+%In the next subsections we give examples for such ambiguous formulas.
+In this section we want to better understand these differences. 
+With this goal, we perform several tests on the reasoners Cwm \cite{cwm} and EYE~\cite{eyepaper} and compare their results. 
+Cwm and EYE were chosen because they cover most constructs specified in \nthree{}'s \wwwc team submission. 
+In contrast to for example FuXi~\cite{fuxi}, they both support rather complex constructs like nested rules. 
+% and because they differ in their way to handle 
+% implicit universal quantification.
+% Further details about how differences can be detected can be found in our previous paper \cite{arndt_ruleml_2015}. % and in \ref{ap1}.
+
+
+
+% 
+% Before clarifying syntax and semantics of \nthree in a more formal way than presented in Section~\ref{n3examples}, 
+% we test how implicit quantification of \nthreelogic is understood in practice. We  take a look to the official sources of \nthree, namely the \wwwc team submission~\cite{Notation3}
+% and the journal paper about \nthree~\cite{N3Logic}, and test, how the reasoners Cwm~\cite{cwm} and EYE~\cite{eye} understand them. 
+% We choose these two reasoners because of their coverage: while for example FuXi~\cite{fuxi} only supports \nthree datalog -- a subset of \nthree which does not support nested rules --
+% the reasoners Cwm and EYE cover a big part of the specifications
+% As in \rdf, atomic formulas are triples consisting of subject, predicate and object. They can be intuitively understood as 
+% first order formulas of the form \linebreak $\text{predicate}(\text{subject}, \text{object})$. It is also easy to get an idea of the meaning of conjunctions or implications 
+% if no variables are involved. Including implicit quantification is more difficult.
+% Definition \ref{voc} distinguishes between two kinds of variables: universal and existential variables. 
+% As the names indicate, these variables are meant to be implicitly quantified. But how do we have to understand this ``implicit'' quantification?
+% Some cases are quite simple. 
+% If we have the formulas
+% \[
+% \verb! _:x :knows :Kurt.! \text{ and } \verb! ?x :knows :Kurt.!
+% \]
+% It is rather straight forward to understand them as ``someone knows Kurt.'' and ``everyone knows Kurt.'' In first order logic:
+% %We can understand that as the fact that Kurt knows someone or something, written in first order logic:
+% \[
+% \exists x: \text{knows}(x, \text{Kurt}) \text{ and } \forall x: \text{knows}(x, \text{Kurt}).
+% \]
+%Similarly simple constructions with universals can be understood:
+%\[
+%\verb! ?x :knows :Kurt.!
+%\]
+%Means that everyone knows Kurt, in first order:
+%\[
+%\forall x: \text{knows}(x, \text{Kurt}).
+%\]
+% But the above grammar also enables us to construct more complicate statements. Does the construct 
+% \begin{equation}\label{both} \verb! ?x :loves _:y.!\end{equation} mean 
+% ``everybody loves someone'' or ``there is someone
+% who is loved by everyone'', in first order formulas: 
+% %\[\forall x \exists y : \text{loves}(x,y) \tag{1}\quad \text{ vs. } \exists y \forall x : \text{loves}(x,y)\]
+% \stepcounter{equation}
+% \begin{equation} % oder auch align
+% \forall x \exists y : \text{loves}(x,y)\quad  \text{ vs. }\quad \exists y \forall x : \text{loves}(x,y) \tag{\ref{both}a, b}
+% \end{equation}
+% 
+% 
+% In this case we know the answer, the team submission \cite{Notation3} clearly chooses (\ref{both}a): 
+% 
+% \MyQuote{ \label{beide} ``If both universal and existential quantification are specified for the same formula, 
+% then the scope of the universal quantification is outside the scope of the existentials''.}
+% %
+% And also the reasoners we tested, in particular EYE and cwm, have implemented the first interpretation (\ref{both}a).
+% %\\
+% 
+% Such clarity is lacking when it comes to nested formulas or co-occurring formula expressions which contain variables. 
+% We will treat this in the following sections, first for existential variables, then for universals.
+%This is the topic of the following sections.
+
+\subsection{Existentials}\label{existentials}
+We start our considerations by taking a closer look at implicit existential quantification in nested formulas, 
+\ie formulas where the blank node occurs within curly brackets \{~\}.  Such constructs are typically used to cite formulas or
+to state rules. We take the following example for the latter:
+%An example for such a formula is the following:
+% 
+% To test how both cwm and EYE understand existential quantification, we confronted them with some examples.
+% Both reasoners offer the option to output all knowledge they are aware of, this includes all derived formulas and rules as well as the
+% input. In most cases, different variables sharing the same name are renamed to be distinguishable. %standardized apart\footnote{Cwm does standardization apart for existentials, 
+% %using square brackets ``\texttt{[ ]}'' as introduced in Remark \ref{rem}, EYE employs Prolog's standardization apart.}. %, in EYE this process includes standardization apart\footnote{As EYE is written in Prolog, 
+% %Prolog's standardization apart mechanism is used see e.g. CITATION}.   
+% Therefore we can use the derived output of such a reasoning process with a simple rule as input as indication of
+% how the formula is interpreted. As a first example %for our tests we took 
+% we invoked both reasoners with
+% a formula with nested existentials:
+\begin{equation}\label{eq1}
+\verb!_:x :says {_:x :knows :Albert.}.!
+ \end{equation}
+%  \begin{equation}\label{eqrule}
+% \verb!{_:x :knows :Albert.}=>{:Albert :knows _:x.}.!
+%  \end{equation}
+This triple is interesting because it contains the blank node \texttt{\_:x} at two positions: as a subject of the triple and inside a nested formula. We already know 
+that a blank node represents an implicitly existentially quantified variable, but what we do not know yet is: what is the exact position of its quantifier 
+and what is the scope of the variable? Depending on the answer, the two occurrences of \texttt{\_:x} could either refer to the same instance of the domain of discourse, 
+then the formula means
+%The formula could either mean
+%
+\[\exists x : \text{says}(x, \text{knows}(x, \text{Albert})) \tag{\ref{eq1}a} \label{zwei}\]
+\begin{center}\textit{``There exists someone who says about himself that he knows Albert.''}
+  \end{center}
+  or 
+%   it can refer to two (possibly) different individuals. Here, we have two options:
+    the \texttt{\_:x} is always quantified in the direct formula it occurs in (\ie the brackets \texttt{\{~\}}), then the two existentials can refer to different objects 
+  and we get
+%  
+% \[
+% \exists x_1 : \exists x_2: \text{says}(x_1, ( \text{knows}(x_2, \text{Albert})))\tag{\ref{eq1}b} \label{zw1}\]
+% \begin{center}\textit{``There exists some $x_1$ and some $x_2$ and  $x_1$ says about $x_2$ that he knows Albert.''}\end{center}
+\[
+\exists x_1 : \text{says}(x_1, (\exists x_2: \text{knows}(x_2, \text{Albert})))\tag{\ref{eq1}b} \label{zw}\]
+\begin{center}\textit{``There exists someone who says that there exists someone (possibly someone else) who knows Albert.''}\end{center}
+\begin{lstlisting}[
+  float=t,
+  caption={Reasoning result of cwm for Formula \ref{eq1}. The two occurrences of the variable \texttt{\_:x} get translated to two blank nodes in square bracket notation. },
+  label=cwm1]
+§\textcolor{gray}{@prefix : <http://example.org/ex\#>.}§
+
+[ :says { [ :knows :Albert ]. } ].
+\end{lstlisting}
+
+\begin{lstlisting}[
+  float=t,
+  caption={Reasoning result of EYE for Formula \ref{eq1}. The two occurrences of the variable \texttt{\_:x} get translated to two different blank nodes.},
+  label=third]
+§\textcolor{gray}{PREFIX : <http://example.org/ex\#>}§
+
+_:t_0 :says {_:t_1 :knows :Albert}.
+\end{lstlisting}
+As explained earlier in Section~\ref{prn3}, \nthree reasoners can be invoked to output the deductive closure of their input files. If we provide 
+Cwm and EYE with Formula~\ref{eq1}  and let them derive the deductive closure we get the result displayed in Listings~\ref{cwm1} and \ref{third}, respectively.\footnote{
+Unless indicated otherwise we use in this thesis the following versions of the reasoners:
+Cwm v 1.197 2007/12/13 15:38:39 syosi and EYE v18.0312.0936}
+We see, that Cwm uses the bracket notation \texttt{[~]}  for blank nodes where, as explained in Section~\ref{vars}, every new bracket refers to a fresh new blank node; 
+EYE gives them different names (\texttt{\_:t\_1} and \texttt{\_:t\_2}). This behaviour shows, that both reasoners understand the two occurrences of \texttt{\_:x} as different 
+blank nodes which results in Interpretation~\ref{zw}.%
+\footnote{
+Strictly speaking, this example still does not make sure that the reasoners really assume Interpretation~\ref{zw} since both blank nodes could be quantified on top level:
+$\exists x_1 : \exists x_2: \text{says}(x_1, ( \text{knows}(x_2, \text{Albert})))$.
+To exclude this possibility the reasoners can be tested with Triple~\ref{simple} and the rule \texttt{\{\_:x :knows :Albert.\} => \{:Albert :is :known.\}.}: only if 
+the quantifier for the blank node is in the antecedent of the rule, this input results in \texttt{:Albert :is :known.} This is the case for both reasoners.
+}
+%but we do not know from that example, whether this separation really results in Interpretation~\ref{zw}. It could still be that the reasoners understand the quantifier
+
+% Strictly speaking, this example still does not make sure that the reasoners really assume Interpretation~\ref{zw} since the quantifiers for the blank nodes in the formulas are 
+% not written down and the formula could still have the following meaning:
+% \[
+% \exists x_1 : \exists x_2: \text{says}(x_1, ( \text{knows}(x_2, \text{Albert})))\tag{\ref{eq1}c} \label{zw1}\]
+% \begin{center}\textit{``There exists some $x_1$ and some $x_2$ and  $x_1$ says about $x_2$ that he knows Albert.''}\end{center}
+% To exclude this possibility, we do one extra test. Depending on the position of the existential quantifier the rule 
+% % Is there someone who says about himself that he knows Albert, or does this someone just state that someone exists who knows Albert?
+% % In first order logic
+% % \[\exists x : \text{says}(x, \text{knows}(x, \text{Albert})) \tag{\ref{eq1}a}\]
+% % \hspace{6cm} or
+% % \[\exists x_1 : \text{says}(x_1, (\exists x_2: \text{knows}(x_2, \text{Albert})))\tag{\ref{eq1}b} \label{zwei}\]
+% % %
+% % Listing \ref{third} shows the output of EYE given formula (\ref{eq1}) as only input, Listing \ref{cwm1} the output of cwm. 
+% % We clearly see\footnote{To see this evidence 
+% % for cwm, recall that every new bracket ``\texttt{[}$\ldots$\texttt{]}'' corresponds with a \emph{new} existential variable, see also Remark \ref{rem} or \cite{turtle} for further information. }
+% % that both reasoners favor 
+% % option (\ref{zwei}).  
+% 
+% 
+% 
+% %\footenotetext
+% 
+% %\FloatBarrier
+% % 
+% % 
+% % We observe similar behavior using the same existential quantifier in two co-occurring graphs.
+% % In an example formula such as 
+% %
+% \begin{equation} \label{ruru}
+% \verb!{_:x :knows :Albert.} => {:Albert :is :known.}.! 
+% \end{equation}
+% either translates to
+% \[
+% (\exists x: \text{knows}(x,\text{Albert}))\rightarrow \text{is}(\text{Albert}, \text{known})\tag{\ref{ruru}a}
+% \]
+% in which case the formula is equivalent to 
+% \[
+% \forall x:( \text{knows}(x,\text{Albert}))\rightarrow \text{is}(\text{Albert}, \text{known})\tag{\ref{ruru}a'}
+% \]
+% or it translates to
+% \[
+% \exists x:( \text{knows}(x,\text{Albert}))\rightarrow \text{is}(\text{Albert}, \text{known})\tag{\ref{ruru}b}
+% \]
+% These two options can be tested against each other by giving Rule~\ref{ruru} to the reasoners together with Triple~\ref{simple},
+% $\verb! :Kurt :knows :Albert.!
+% $, if the reasoners derive 
+% \begin{equation}
+%  \verb!:Albert :is :known.!
+% \end{equation}
+% we can assume that they favour 
+% 
+% 
+% %So, for EYE, the scope of existential quantification is always only the direct formula expression the existential occurs in but 
+% %not it nested dependencies.
+% The two \verb!_:x! are interpreted as different variables by both reasoners. In first order logic this would be:
+% \[
+%  (\exists x_1: \text{knows}(x_1, \text{Albert}))\rightarrow (\exists x_2: \text{knows}(x_2, \text{Kurt}))
+% \]
+%
+%
+%
+This example shows what is meant by the following quote from the \wwwc team submission \cite{Notation3}:
+
+\MyQuote{
+``When formulae are nested, \_: blank nodes syntax \emph{[is]} used 
+to only identify blank node in the formula it occurs directly in. 
+It is an arbitrary temporary name for a symbol which is existentially quantified within the current 
+formula (not the whole file). They can only be used within a single formula, and not within nested formulae.''
+}
+%
+%This means, the scope of an existential quantifier is always only the formula-expression ``\verb!{!$\ldots$\verb!}!'' it occurs in, but not its nested dependency.
+%We added these two examples to be able to compare the interpretation of existential quantification with universal quantification.
+%Although this section might not seem surprising, we included the above 
+%We keep these examples for the scoping of existentials in the paper, to be able to emphasize the different scopes of existential and universal quantification.
+In other words: existential variables are always quantified in the direct formula -- marked by curly brackets \texttt{\{~\}} -- they occur in. 
+This quantifier does always only count for that formula and not for the nested formulas depending on it.
+
+
+\subsection{Universals}\label{universals}
+The case of implicit existential quantification in \nthree was still clear and the reasoners we tested did not disagree on the meaning of implicitly existentially 
+quantified variables. This is different for universal quantification. A typical example for a formula containing universal quantification was given before in Formula~\ref{uni}:
+\begin{multline}\tag{\ref{uni}}
+ \texttt{\{:Kurt :knows ?x.\} => }%} \\ \texttt{
+ \texttt{\{?x :knows :Kurt.\}.}%\nonumber
+\end{multline}
+It would not be very useful to handle the quantification in this equally as existential quantification. If universal quantifiers where also always quantified on their direct 
+formula we would get the interpretation:
+\[\tag{\ref{uni}a}
+(\forall x_1: \text{knows}(\text{Kurt}, x_1))\rightarrow (\forall x_2: \text{knows}(x_2, \text{Kurt}))
+\]
+\begin{center}\textit{``If everyone knows Kurt then Kurt knows everyone''}
+  \end{center}
+Here, we would never be able to write any rules which reason on \rdf triples since this rule only gets invoked for a universal statement -- ``\textit{Everyone knows Kurt.}'' 
+--  but it is not possible to 
+make universal statements in plain \rdf. Therefore, the interpretation we already discussed earlier in Section~\ref{vars} is correct in this case:
+\[\tag{\ref{uni}b}
+\forall x:(\text{knows}(\text{Kurt}, x))\rightarrow (\text{knows}(x, \text{Kurt}))
+\]
+\begin{center}\textit{``Everyone Kurt knows also knows Kurt.''}
+  \end{center}
+The quantifier for both occurrences of \texttt{?x} is in front of the whole formula. But what happens if the universal variable occurs in a deeper nested formula? 
+% We test 
+% that on the following example:
+% 
+% 
+%
+Here,
+the \wwwc team submission states the following:\\
+
+\MyQuote{
+ ``There is a also a shorthand syntax ?x which [...] implies that x is universally quantified not in the formula but in its \textbf{parent formula}.''}
+We learn that universal variables are quantified on their \emph{parent formula}. Unfortunately neither the \wwwc team submission nor the journal paper about \nthreelogic 
+provide us with a definition of that concept. We therefore perform some tests to better understand which formula is the parent.
+ 
+Consider the following formula:
+%When it comes to the definition of the scope, universal quantifiers are more complicated. To illustrate that, we consider the following example:
+%Another example is the following formula:
+%\\ %s and this is also how it is implemented in the reasoners we are considering in this paper, cwm and EYE. 
+%It gets even more difficult when it comes to nested rules. As the critical example for this paper, we consider the formula 
+\begin{multline}
+\texttt{\{\{?x :p :a.\} => \{?x :q :b.\}.\} =>}\\
+\texttt{\{\{?x :r :c.\} => \{?x :s :d.\}.\}.} \label{eq2} \end{multline}
+Are all \verb!?x! the same? If not, which ones do we have to understand as equal and where are they quantified? 
+Of the several options to interpret this formula, two seem to be most likely:
+\[\forall x: ((p(x,a)\rightarrow q(x,b))\rightarrow ( r(x,c) \rightarrow s(x,d)))\tag{\ref{eq2}a}\label{ei}\]
+\begin{center}or\end{center}
+\vspace{-\baselineskip}
+\begin{multline}
+(\forall x_1: p(x_1,a)\rightarrow q(x_1,b))\rightarrow (\forall x_2: r(x_2,c) \rightarrow s(x_2,d))\tag{\ref{eq2}b}\label{ci}
+\end{multline}
+%But which interpretation is correct?
+% \[
+% (\forall x_1: p(x_1,a)\rightarrow q(x_1,b))\rightarrow (\forall x_2: r(x_2,c) \rightarrow s(x_2,d))\tag{\ref{eq2}a}
+% \]
+% \hspace{6cm}or
+% \[\forall x: ((p(x,a)\rightarrow q(x,b))\rightarrow ( r(x,c) \rightarrow s(x,d)))\tag{\ref{eq2}b}\]
+%In interpretation \ref{ci}, 
+Interpretation~\ref{ei} understands the top formula as the parent of all other formulas, the quantifier for all occurrences of \texttt{?x} is on that formula.
+For Interpretation~\ref{ci} the parent of the first two occurrences of \texttt{?x} is the formula 
+\begin{equation}
+\texttt{\{?x :p :a.\} => \{?x :q :b.\}.}\label{sub1}
+\end{equation}
+and the parent of the third and fourth occurrence of \texttt{?x} is the formula
+\begin{equation}\texttt{\{?x :r :c.\} => \{?x :s :d.\}.}\label{sub2}\end{equation}
+In this interpretation each occurrence of curly brackets \texttt{\{ \}} marks a level. The direct formula is what we encounter inside the same brackets a variable occurs is, the parent formula is then next formula 
+outside of these brackets. This explains, why the two sub formulas above carry universal quantifiers.
+
+If a reasoner follows Interpretation~\ref{ei}, Formula~\ref{eq2} applied on the following rule
+\begin{equation}\label{ss1}
+ \texttt{\{:e :p :a.\} => \{:e :q :b.\}.}
+\end{equation}
+results in
+\begin{equation}\texttt{\{:e :r :c.\} => \{:e :s :d.\}.}\label{ss2}\end{equation}
+While this result cannot be derived by following Interpretation~\ref{ci}. %However, the latter yields Formula~\ref{sub2} when provided with Formula~\ref{sub1}.
+
+
+If we test the reasoners Cwm and EYE with Formulas~\ref{eq2} and \ref{sub1} as input we get the results displayed in Listing~\ref{cwm2}\footnote{The 
+predicate \texttt{log:implies} present in the original output is replaced here by implication arrow \texttt{=>}. The two symbols have the same meaning.} and \ref{forth}, respectively.
+\begin{lstlisting}[
+  float=t,
+  caption={Output of cwm for for Formulas~\ref{eq2} and \ref{ss1}. The reasoner does not derive Formula~\ref{ss2}. },
+  label=cwm2]  
+§\textcolor{gray}{@prefix : <http://example.org/ex\#>.}§
+§\textcolor{gray}{   @prefix unive: <\#> .}§
+{:e :p :a.}  => {:e :q :b .}.
+
+{@forAll unive:x . {unive:x :p :a .}=>{unive:x :q :b.}.} 
+=> 
+{@forAll unive:x . {unive:x :r :c .}=>{unive:x :s :d .}.}.
+\end{lstlisting}
+\begin{lstlisting}[
+  float=t,
+  caption={Output of EYE for Formulas~\ref{eq2} and \ref{ss1}. The reasoner derives Formula~\ref{ss2}.  },
+  label=forth]  
+§\textcolor{gray}{PREFIX : <http://example.org/ex\#>}§
+
+{{?U_0 :p :a}=>{?U_0 :q :b}}=>{{?U_0 :r :c}=>{?U_0 :s :d}}.
+{:e :p :a} => {:e :q :b}.
+{:e :r :c} => {:e :s :d}.
+\end{lstlisting}
+% The universals in the antecedent and consequent of the main implication reside in two different scopes.
+% %This reflects Cwm's interpretation. % as two subformulas:
+% Here, it is important that Formula~\ref{eq2} is composed of the subformulas:
+% \begin{equation}
+% \texttt{\{?x :p :a.\} => \{?x :q :b.\}.}\label{sub1}
+% \end{equation}
+% \begin{center}  
+% and 
+% \end{center}
+% \begin{equation}\texttt{\{?x :r :c.\} => \{?x :s :d.\}.}\label{sub2}\end{equation} %are direct sub-formulas of formula \ref{eq22}. 
+% Syntactically this division is marked by the use of curly brackets \texttt{\{\}}.
+% Formula \ref{sub1} has two direct subformulas (again marked by brackets), namely:
+% \[\texttt{\{?x :p :a.\}} \text{\hspace{0.5cm} and \hspace{0.5cm}} \texttt{\{?x :q :b.\}}\tag \label{\ref{sub1}a,b}\] 
+% while
+% \[\texttt{\{?x :r :c.\}} 
+% \text{\hspace{0.5cm} and \hspace{0.5cm}} \texttt{\{?x :s :d.\}}
+% \tag \label{\ref{sub2}a,b}\]are subformulas of Formula \ref{sub2}. 
+%While it is rather easy to understand, how implicitly quantified universals are handled in EYE---they are all universally quantified on top level---it is
+%worth to take a closer look into the quantification performed by cwm. 
+% Cwm now applies the \wwwc team submission:
+% 
+% 
+% \MyQuote{
+%  ``There is a also a shorthand syntax ?x which [...] implies that x is universally quantified not in the formula but in its parent formula.''}
+% %
+We clearly see that Formula~\ref{ss2} is derived by EYE but not by Cwm. 
+We furthermore see that the output of Cwm contains the key word \texttt{@forAll} at in beginning of the antecedent and of the consequent of the main rule in Lines 5 and 7. 
+Here, this keyword has the same meaning as the first order symbol $\forall$. Cwm follows Interpretation~\ref{ci}.  We see that 
+Cwm and EYE understand the concept of a \emph{parent} differently. 
+For the remainder of this thesis we write $\textit{parent}_c$ when we refer to the parent formula as implemented in Cwm and $\textit{parent}_e$ 
+for the concept of a parent realised in EYE.
+
+While the concept of $\text{parent}_e$ is rather simple -- all variables have the same parent formula -- we need to perform more tests to better understand the concept $\text{parent}_c$: What happens 
+if variables occur on different levels of a formula? Take as an example:
+\begin{equation}\label{mixedlevels}
+ \texttt{\{?x :q :b.\} =>\{ :a :b \{?x :s :d.\}.\}.}
+\end{equation}
+According to the explanation above, the parent of the second occurrence of \texttt{?x} seems to be the formula
+\texttt{ :a :b \{?x :s :d.\}.}, but is that also the formula which carries the quantifier for the variable? Listing~\ref{mio} shows the output Cwm produces for Formula~\ref{mixedlevels}. 
+We clearly see that there is only one universal quantifier (\texttt{@forAll}, Line~4)  for both occurrences of \texttt{?x}. 
+As a general rule we can derive from that behaviour that if the parent formula of a universal variable is already in scope of a universal quantifier
+this scoping also counts for its subformula. %By performing similar tests with deeper nested universals, we furthermore know that this 
+\begin{lstlisting}[
+  float=t,
+  caption={Output of Cwm for Formula~\ref{mixedlevels} in which the variable \texttt{?x} occurs on different levels. The output formula only contains one universal quantifier 
+  for both occurences. },
+  label=mio]  
+§\textcolor{gray}{@prefix : <http://example.org/ex\#>.}§
+§\textcolor{gray}{   @prefix unive: <\#> .}§
+
+@forAll unive:x. 
+ {unive:x :q :b.} =>{:a :b {unive:x :s :d.}.}.
+\end{lstlisting}
+%This special case is not covered in the \wwwc team submission and the journal paper about \nthree which both only contain the explanation given in Quote III.
+
+%The situation described above seems to be an exception from the 
+%The previous examples reveal several problems: Firstly, the idea of the quantification on the \emph{parent formula} 
+
+The previous examples reveal a general problem: 
+We needed to explain how the \wwwc team submission is \emph{interpreted} by the reasoners EYE and Cwm.  %the \wwwc team submission which does not contain more information than Quote~III above.
+There are many different possibilities how the term \emph{parent formula} could be understood 
+and specific details like the interpretation of formulas with variables nested on different levels are not even mentioned in the \wwwc team submission. 
+%differently and 
+%and
+Only
+specific testing made us come to our conclusion that the above are EYE's and Cwm's interpretations. To be sure that the reasoners behave as intended we furthermore
+contacted their creators.\footnote{We got clarification about Cwm's reasoning by asking on the public mailing list \url{https://lists.w3.org/Archives/Public/public-cwm-talk/}. 
+We furthermore stood in close contact with Tim Berners-Lee with whom one of the supervisors of this thesis, Ruben Verborgh, collaborates.
+We thoroughly discussed the working of EYE with with Jos De Roo.
+}
+% of the formula.
+Most users are not even aware of the differences in interpretations and the lack of a formalism renders it difficult to discuss or even just express them. %---%
+To come to a~clear and unambiguous definition of the logic, 
+\nthree needs to be formalised and there needs to be a formalism to express the differences of existing interpretations. 
+%This way, user can at least know how the
+% The term \emph{parent formula} of a formula $f$ is understood as the next formula $g$ either occurring in curly brackets $\{g\}$ or being the top formula 
+% for which $\texttt{\{}f\texttt{\}}$ is a direct component. % of the formula itself or -- in case it is a conjunction -- of one of its conjuncts.
+% In our example, Formula~\ref{sub1} is the parent formula of Formulas~\ref{sub1}a and b, and Formula~\ref{sub2} is the parent formula of Formulas~\ref{sub2}a and b.
+% This explains the scoping in interpretation \ref{ci}. We refer to this understanding of the concept  parent by using the subscript c, we write $\textit{parent}_c$.
+% 
+% This is the interpretation EYE applies. For the remainder of this paper we refer to this concept of the term by adding the subscript e, ie $\textit{parent}_e$ 
+% refers 
+% to the parent formula understood as the top formula.
+% 
+% 
+% 
+% 
+% As above, we gave formula (\ref{eq2}) as input for both reasoners, cwm and EYE. 
+% 
+% Lines 1-9 of Listing \ref{forth} show the result of EYE which seems to imply\footnote{Where applicable, 
+% EYE employs the ``standardization apart'' mechanism of its programming language Prolog.} that EYE supports the second interpretation (\ref{eq2}b), 
+% but as it does not differ from the input, 
+% we ran another test to verify that and added the formula 
+% \begin{equation}\label{eq4} \verb!{:e :p :a.} => {:e :q :b.}.! \end{equation}
+% to the reasoning input in order to see whether the reasoner outputs %(\ref{eq2}b) the reasoner's the result should contain the derived formula  
+% \begin{equation}\verb!{:e :r :c.} => {:e :s :d.}.!\end{equation}
+% as it would be the case with interpretation (\ref{eq2}b) but not with interpretation (\ref{eq2}a). % this formula cannot be derived. 
+% The reasoning output of EYE shown in Listing \ref{forth} (all lines)
+% verifies
+% that EYE interprets all variables with the same name which occur in one single implication equally regardless of how deeply nested they occur. %variables with the same name in all nested formulas  equally within one single implication.
+% 
+% In contrast to this, Listing \ref{cwm2} shows the result cwm gives.  Here, the keyword\linebreak %\footnote{ For further explanation of the 
+% %keyword \texttt{@forAll} see section \ref{expl}.} 
+% ``\verb!@forAll!''
+% can be understood as its first order counterpart ``$\forall$'' (see Section \ref{expl}). %Here we see a clear difference between that cwm's interpretation of the input differs from EYE. 
+% Cwm understands 
+% formula (\ref{eq2}) as stated in interpretation (\ref{eq2}a). Here we see a clear difference between the two reasoners.
+% 
+% 
+% %\FloatBarrier
+% 
+% 
+% After examining universals in co-ordinated expressions such as in the above implication, 
+% we are also interested in how those variables are handled in subordinated formula expressions, similar to those in formula (\ref{eq1}). 
+% We consider the following formula: 
+% \begin{equation}\label{nest}
+%  \verb!{?x :p :o.} => {?x :pp {?x :ppp :ooo.}.}.!
+% \end{equation}
+% To learn how the reasoners interpret this formula, we give the simple formula \begin{equation}\label{spo}\verb!:s :p :o.! \end{equation} as additional input. 
+% Listings \ref{eye4} and \ref{cwm4} show the reasoning results of EYE respectively cwm. We clearly see that the two reasoners agree in their interpretation 
+% and that this interpretation of formula (\ref{nest}) differs from the interpretation of the existential counterpart formula (\ref{eq1}). 
+% 
+% 
+% 
+% 
+% 
+% %Thus, our formalization has to carefully distinguish the interpretation of nested universals and existentials 
+% %This particular difference
+% %This difference has to be respected in the formalization in section \ref{formal}.\\
+% Having considered the contrary behavior of the reasoners in the interpretation of formula (\ref{eq2}), the obvious question is: 
+% how is this interpretation meant to be according to the official sources? The team submission \cite{Notation3} states the following:
+% %
+% %To be sure that this
+% %result has the expected meaning, we did two additional tests. For the first one we added the formula
+% %\begin{equation}\label{eq3}
+% % \verb!{:c :p :o} => {:c :p :o}.!
+% %\end{equation}
+% %for the second the formula
+% %\begin{equation}
+% % \verb!{?x :p :o} => {?x :p :o}.!
+% %\end{equation}
+% %Listing \ref{forth} shows the result.
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% %\begin{lstlisting}[
+% %  float=t,
+% %  caption={Example of nested implications containing a universal variable \emph{(example2.n3)}},
+% %  label=first]
+% 
+% %§\textcolor{gray}{@prefix : <http://example.org/test\#>.}§
+% 
+% %{
+% %  {?x :p :o.} => {?x :p :o.}.
+% %} 
+% %=> 
+% %{
+% %  {?x :pp :oo.} => {?x :pp :oo.}.
+% %}.
+% %\end{lstlisting}
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% \begin{lstlisting}[
+%   float=t,
+%   caption={Output of EYE for formulas (\ref{nest}) and (\ref{spo}) },
+%   label=eye4]  
+% §\textcolor{gray}{@prefix : <http://example.org/test\#>.}§
+% 
+% :s :p :o.
+% :s :pp {:s :ppp :ooo}.
+% {?U0 :p :o} => {?U0 :pp {?U0 :ppp :ooo}}.
+% 
+% \end{lstlisting}
+% 
+% \begin{lstlisting}[
+%   float=t,
+%   caption={Output of cwm for formulas (\ref{nest}) and (\ref{spo}) },
+%   label=cwm4]  
+% §\textcolor{gray}{@prefix : <http://example.org/test\#>.}§
+% §\textcolor{gray}{   @prefix ex: <\#> .}§
+% 
+% @forAll ex:x .   
+% :s :p :o;
+%    :pp {:s :ppp :ooo .}.
+% { ex:x :p :o .} => {ex:x :pp {ex:x :ppp :ooo.}.}.
+% \end{lstlisting}
+% 
+% 
+% 
+% 
+%  %
+% This quote strengthens the position of cwm but also makes the formalization and implementation of Notation3 challenging, 
+% %The scope of a variable is its parent formula, but 
+% especially considering it together with our observation on equations (\ref{nest}) and (\ref{spo}): %, this gets more complicated, 
+% %as the scoping also includes nested formulas.
+% %What if this parent formula
+% %depends of another formula containing the same variable?
+% If a universal variable occurs in a deeply
+% nested formula, the scope of this particular variable can either be its direct parent, the parent of any predecessor containing a variable with the same name
+% or even the direct parent of a predecessor's sibling containing the same variable on highest level. %Take for example the formula
+% Consider for example the formula
+% %\small
+% \begin{multline}\label{twovars}
+%  \texttt{\{?x :p :o.\}=> \{%} \\ \texttt{
+%  \{\{?x :p2 ?y.\} => \{?x :p3 ?y.\}.\}}\\ \texttt{=>\{\{?x :p4 ?y.\} => \{?x :p5 ?y.\}.\}.\}.}
+% \end{multline}
+% %\normalsize
+% Which, according to (III), has to be interpreted as the first order formula 
+% \[\forall x: p(x,o)\rightarrow ((\forall y_1: p_2(x, y_1) \rightarrow p_3(x, y_1))\rightarrow(\forall y_2: p_4(x, y_2)\rightarrow p_5(x, y_2))) \]
+% Note that in this example, there are two different scopes for \verb!?y!, but only one for \verb!?x!. One can easily think of more  complicated cases. 
+% %From here on we invite the interested reader to invent more complicate examples and to test them in both reasoners.
+% %There is another aspect which is interesting 
+% %in this context. It is not mentioned how nested formulas are expected to  be treated.
+% %If universal quantification really behaved as existential quantification with the one and only exception that 
+% %the quantifier is on the parent level of the formula, the behavior of the reasoners with respect to formula (\ref{nest}) should be similar to 
+% %their handling of formula (\ref{eq1}). 
+% %As both reasoners agree in their interpretation of the formulas, we understand this rather as a vagueness 
+% %in the formulation and see once again the need to formalize Notation3 logic.
+% 
+% %\clearpage
+% 
+% %\FloatBarrier 
+% 
+
+\subsection{Explicit Quantification}\label{remarkExplicitQuantification}
+We already saw above that apart from implicit quantification, \nthreelogic also provides the possibility to explicitly quantify over variables.
+To do so, the quantifiers \verb!@forSome!
+and \verb!@forAll! are used. With explicit quantification, Interpretation \ref{both}a of Formula \ref{both} can be expressed as follows:
+\begin{multline}\notag
+ \texttt{@forAll :y. @forSome :x.}\\\texttt{:x :thinks \{:y :is :pretty\}.}
+\end{multline}
+Seeing this example, the reader might think that the misunderstandings described above could be avoided by only using explicit quantification and that this notation could 
+even be used to explain the differences. Unfortunately, that is not the case. Independently of the order they appear in the formula, universal quantifiers are always understood to
+be outside of  existential quantifiers in \nthree~\cite{Notation3}.
+The formula
+\begin{multline}\notag
+ \texttt{@forSome :x. @forAll :y. }\\\texttt{:x :thinks \{:y :is :pretty\}.}
+\end{multline}
+has the exact same meaning as the previous one, namely Interpretation \ref{both}a:\footnote{We suppose that this has historic reasons: 
+When \nthree was created, everything, including quantifiers,  was represented in triples. The order of triples should not matter in any context.}
+$ % oder auch align
+\forall y \exists x : \text{thinks}(x,\text{is}(y,\text{pretty})) % \tag{\ref{both}a}
+$.
+To express Interpretation \ref{both}b,
+$ %\begin{equation} % oder auch align
+\exists x \forall  y : \text{thinks}(x,\text{is}(y,\text{pretty})) %\tag{\ref{both}b}
+$, %\end{equation}
+a more complicated 
+construction is needed, which could then again lead to different interpretations. 
+
+The peculiarity described above leads to open questions. %is also one of the reasons we exclude explicit quantification from the considerations in this paper. 
+For example, what does the following valid \nthree formula mean?
+\begin{multline}
+ \texttt{@forSome :x. :x :knows \underline{:y}.}\\ \texttt{@forAll :y. :y :knows :x.}
+\end{multline}
+The scope of the \texttt{@forAll} is outside of the scope of the \texttt{@forSome}, but what about the first occurrence of \texttt{:y} (underlined in the example)? Is \texttt{:y} a universally 
+quantified variable or a constant?
+This formula is not supported by Cwm and its intended meaning is not specified in any source we are aware of. 
+This and many similar examples make explicit quantification in \nthree a complex topic on its own, which is outside 
+the scope of this dissertation. Here we focus on implicit quantification.

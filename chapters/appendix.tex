@@ -313,7 +313,7 @@ we extend the attribute grammar by the two synthesized attributes $b$ and $bi$. 
 
 Attribute $b$ is used to pass the set of universal variables occurring in the subject or object position of a built-in predicate upwards in the syntax tree to the 
 $\text{parent}_c$ formula of that built-in. Here, it is most interesting how the attribute behaves for the production rule of a simple triple, 
-ie the rule $\texttt{f := t}_1 \texttt{t}_2 \texttt{t}_3$. In that case we make use of the attributes $m_c$ and $u$ which have been defined in Section~\ref{unicwm} 
+\ie the rule $\texttt{f := t}_1 \texttt{t}_2 \texttt{t}_3$. In that case we make use of the attributes $m_c$ and $u$ which have been defined in Section~\ref{unicwm} 
 and apply function $f_1: \mathcal{T}\times 2^{U}\times 2^{U}\rightarrow 2^{U}$  which 
 is defined as follows: 
 %
@@ -325,7 +325,7 @@ is defined as follows:
 The first argument of the function is the actual value of the predicate which can either be a built-in or not. In the case it is not a built-in, 
 the function simply passes the information collected by the attribute so far upwards. If the predicate is a built-in, the values of the attribute $u$ for
 subject and object get 
-collected, ie all universal variables which occur in these two positions. For the other production rules the attribute value is either the empty set 
+collected, \ie all universal variables which occur in these two positions. For the other production rules the attribute value is either the empty set 
 -- in case we have a rule resulting in a terminal node of the tree -- or it gets passed upwards through the tree. The only exception is the production rule
 \texttt{e ::= \{f\}} for which the attribute value of \texttt{e} is the empty set since \texttt{f} is a $\text{parent}_c$ formula. For this formula the attribute 
 value $\texttt{e}.s$ with $s$ defined as in Section~\ref{unicwm} gives information which variables are already quantified on a higher level. This is used 

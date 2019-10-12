@@ -1,0 +1,870 @@
+\documentclass[11pt,a4paper,twoside]{book}
+% add draft to the options to make the compile go faster
+
+
+
+%packages
+\usepackage{varioref} % cool references to pages etc
+\usepackage[colorlinks,
+pdfpagelabels,
+pdfstartview = FitH,
+bookmarksopen = true,
+bookmarksnumbered = true,
+linkcolor = black,
+plainpages = false,
+hypertexnames = false,
+citecolor = black]{hyperref} % make links
+
+\usepackage{makecell}
+\usepackage{url}						% urls (duh)
+\usepackage{doi}						% doi links
+\usepackage{a4wide}						% iets meer tekst op 1 pagina
+\usepackage[dutch,english]{babel}	  	% nederlands en engels inladen
+\usepackage{amsmath}					% AMS-wiskundige symbolen
+\usepackage{amssymb} 
+% invoegen van reele getallen etc
+\usepackage[]{graphicx}					% figuren invoegen
+% if you want to speed up things:
+% \usepackage[draft]{graphicx}					% figuren invoegen
+\usepackage{float}						% positie figuren etc.
+\usepackage{subfloat}						% positie figuren etc.
+\usepackage[%hang,
+	    bf]{caption}	        % captions van figuren: vet en goed gealigneerd
+\usepackage{subcaption}						% positie figuren etc.
+\usepackage{pdfpages}					% pdf pagina's invoegen
+
+\usepackage[toc]{glossaries}            % list of abbriviations
+\usepackage{imakeidx}                           % list of abbriviations - not used
+
+\usepackage{rotating}                   % tables, figures, ... rotated 
+
+%\usepackage[shortcuts]{extdash}         % more types of dashes, sometimes useful
+%\usepackage[version=3]{mhchem}          % chemistry symbols: \ce{NH3} gives NH$_3$
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables for horizontal lines
+%\usepackage{cancel}						% cancelen van termen in wiskundige uitdrukkingen
+
+\usepackage{emptypage}                  % allows inclusion of empty pdf pages
+
+\usepackage[utf8]{inputenc} % use UTF-8, to make life easier
+
+\usepackage[square,numbers,sort&compress]{natbib}
+\usepackage{nicefrac}
+%\usepackage{subfig} % does not work with hyperref
+
+%\usepackage{algorithm} % nice environment for pseudocode
+%\usepackage{algpseudocode} % pseudocode
+
+\usepackage{bookmark}
+\usepackage{mathrsfs}
+\usepackage{xcolor} % kleurtjes
+\usepackage{listings} % om source code netjes weer te geven
+\usepackage[nottoc]{tocbibind} % Bibliografie in ToC; maar de ToC zelfs niet in de ToC
+\usepackage[Gray,squaren,thinqspace,thinspace]{SIunits} % Elegant eenheden zetten
+
+\usepackage{braket} % bra ket stuff
+\usepackage{csquotes} % nice quotes
+\usepackage{amsthm} % for \newtheorem commands
+\usepackage[toc,page]{appendix}
+\usepackage{mathtools} % for dcases
+\usepackage{bbold} 
+\usepackage{dsfont} 
+%\usepackage{chemfig} 
+%\usepackage{combelow} % Typeset "comma-below" letters, as in Romanian
+%\usepackage{memhfixc} % for \cleartorecto and \cleartoverso
+\usepackage{bibentry}
+
+\usepackage{afterpage} 
+% create new blank pages with no style until the next uneven page, not do always work?
+\newcommand\blankpage{%
+    \null
+    \thispagestyle{empty}%
+    \addtocounter{page}{-1}%
+    \newpage}
+
+\usepackage{epigraph} % for nice quotes in chapters
+
+\usepackage{bibentry} % for list of publications in appendix
+
+% indenting multiline footnotes
+\usepackage{scrextend}
+\deffootnote{0em}{1.6em}{\thefootnotemark.\enskip}
+
+\usepackage{etoolbox}
+% bordermatrix with [ ] instead of ( )
+\let\bbordermatrix\bordermatrix
+\patchcmd{\bbordermatrix}{8.75}{4.75}{}{}
+\patchcmd{\bbordermatrix}{\left(}{\left[}{}{}
+\patchcmd{\bbordermatrix}{\right)}{\right]}{}{}
+
+% less white space before subequation
+\preto\subequations{\ifhmode\unskip\fi}
+
+% packages not used, but perhaps interesting
+%\usepackage{pifont}
+%\usepackage{ulem}
+%\usepackage{soul}
+%\usepackage{makeidx}                    % index
+%\usepackage{slantsc}
+%\usepackage{placeins}
+%\renewcommand*\sfdefault{uop}
+%\renewcommand*\familydefault{\sfdefault} 
+%\usepackage{svg} %to be able to show svg
+
+%% hypersetup
+\hypersetup{
+    pdfauthor={D\"orthe Arndt},
+    pdftitle={Notation3 as the Unifying Logic for the Semantic Web},
+    pdfkeywords={N3},
+    pdfsubject={},
+%    plainpages=false,
+    pdfcreator={\LaTeX\ with package \flqq hyperref\frqq}
+    pdfpagelabels,
+    bookmarksopen=true,
+    bookmarksnumbered=true,
+    unicode=true,
+}		
+
+
+% papersize required for FEA
+\usepackage{geometry}
+\geometry{papersize={16cm,24cm},layoutsize={16cm,24cm},top=2cm,bottom=2cm,left=2cm,right=2cm}
+\usepackage[strict]{changepage}
+
+% font
+\usepackage[T1]{fontenc}
+%\usepackage{bera}
+%changed here
+\usepackage{libertine}
+\renewcommand*\familydefault{\sfdefault}  % biolinum
+%\usepackage{libgreek}
+%\usepackage[libertine]{newtxmath}
+
+\usepackage{eucal}
+\usepackage{relsize}
+%\usepackage{kpfonts}					% ander lettertype
+%\usepackage[sc]{mathpazo}
+%\linespread{1.05}         % Palatino needs more leading (space between lines)
+%\usepackage[T1]{fontenc}
+
+%\usepackage{lmodern} % load a font with all the characters
+%\renewcommand*\familydefault{\sfdefault}  % biolinum
+
+%header
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\widowpenalty=1000
+\clubpenalty=1000
+\hyphenpenalty=500
+
+\fancyhead[RE]{\slshape \rightmark}
+\fancyhead[LO]{\slshape \leftmark}
+\fancyhead[RO]{}
+\fancyhead[LE]{}
+
+% alinea
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+
+\AtBeginEnvironment{adjustwidth}{\partopsep0pt}
+
+% subsubsection: different type of numbering (not 1.11.2 but just roman numbers)
+\setcounter{secnumdepth}{3} 	                % nummers tot op diepte 3
+\def\thesubsubsection{\Roman{subsubsection}.}	% Romeinse cijfers als index voor subsubfigure
+
+% title of chapter
+\renewcommand{\chaptermark}[1]{
+\markboth{#1}{}
+}
+
+% \usepackage{biblatex}
+% \DeclareCiteCommand{\fullcite}
+%   {\defcounter{maxnames}{\blx@maxbibnames}%
+%     \usebibmacro{prenote}}
+%   {\usedriver
+%      {\DeclareNameAlias{sortname}{default}}
+%      {\thefield{entrytype}}}
+%   {\multicitedelim}
+%   {\usebibmacro{postnote}}
+
+
+
+
+% tocdept in table of content
+\renewcommand{\sectionmark}[1]{\markright{#1}}
+\setcounter{tocdepth}{1}
+
+\setcounter{tocdepth}{1}
+\setcounter{secnumdepth}{2}
+
+
+\makeatother
+
+\graphicspath{{figures/}}
+
+
+
+
+\newglossaryentry{seniority}
+{
+  name=seniority,
+  description={The number of unpaired particles in the wave function}
+}
+\newglossaryentry{geminal}
+{
+  name=geminal,
+  description={A two-particle state}
+}
+\newglossaryentry{size-extensive}
+{
+  name=size extensive,
+  description={The energy scales (linearly) with the number of electrons}
+}
+\newglossaryentry{size-consistent}
+{
+  name=size consistent,
+  description={The energy of a seperated (dissociated) system is the sum of the energy of its parts}
+}
+
+\makeglossaries
+
+
+% I don't need that, but: if I want the chapters in every part could start again with 1
+% % for the papers part, reset chapter numbering a new part
+% \makeatletter
+% \@addtoreset{chapter}{part}
+% \makeatother
+
+%my own
+\usepackage[utf8]{inputenc}
+%\usepackage{stix}
+
+
+\usepackage[T1]{fontenc}
+\usepackage{csquotes}
+%\usepackage{mathptmx}
+\usepackage{amssymb}
+\setcounter{tocdepth}{1}
+\usepackage{amsthm} 
+\usepackage{amsfonts}
+\usepackage{longtable}
+\usepackage{url}
+\usepackage{amsmath} 
+%\usepackage{mathtools} 
+%\usepackage{qtree}
+\usepackage{tikz-qtree-compat}
+\usepackage{multirow}
+\usepackage{relsize}
+%\usepackage{tikz-qtree}
+%\usepackage{authblk}
+\usepackage{placeins}
+%\usepackage{syntax}
+%\usepackage{alltt}
+\usepackage{supertabular,booktabs}
+%\usepackage{pifont}
+
+%for better typewriter 
+\usepackage{courier}
+
+
+\usepackage{array}
+
+\usepackage[multiple]{footmisc}
+
+
+
+% Graphics
+\usepackage{graphicx}
+\setcounter{bottomnumber}{2}
+\usepackage{tikz}
+\usetikzlibrary{arrows,positioning,shapes.misc,calc}
+\definecolor{lightgrey}{RGB}{170, 170, 170}
+\definecolor{lightergrey}{RGB}{220,220,220}
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\usepackage{pgf-umlsd}
+
+\allowdisplaybreaks
+% for numbered quotes
+\newcounter{quotecount}
+\newcommand{\MyQuote}[1]{\hspace*{0.5cm}\vspace*{0.3cm}\addtocounter{quotecount}{1}%
+     \parbox{0.8\textwidth}{\em #1}\hspace*{0.5cm}(\Roman{quotecount})\\ %[0.5cm]
+     }
+
+%Definitionen nicht kursiv     
+%\theoremstyle{definition}
+
+%Definitionen nicht fett     
+%\theoremstyle{remark}
+
+% Listings and Verbatim environment
+\usepackage{fancyvrb}
+\usepackage{relsize}
+\usepackage{listings}
+\usepackage{pdflscape}
+\usepackage{verbatim}
+\usepackage{colortbl}
+\usepackage{alltt}
+\newcommand\listingsize{\fontsize{9pt}{10pt}}
+\RecustomVerbatimCommand{\Verb}{Verb}{fontsize=\listingsize}
+\RecustomVerbatimEnvironment{Verbatim}{Verbatim}{fontsize=\listingsize}
+\lstset{frame=lines,captionpos=b,numberbychapter=false,escapechar=§,
+        % line numbers
+        numbers=left,
+        numbersep=2ex,
+        numberstyle=\textcolor{lightgrey},
+        xleftmargin=5ex,
+        framexleftmargin=5ex,
+        aboveskip=0.5em,
+        % font style
+        basicstyle=\ttfamily\listingsize\selectfont}
+%\crefname{lstlisting}{Listing}{Listings}
+\definecolor{grey}{RGB}{130,130,130}
+\definecolor{ugentblue}{RGB}{30,100,200}
+
+
+\usepackage{roundrule}
+\usepackage{stackengine}
+\usepackage{scalerel}
+\def\rlwd{.4pt}% \rule width
+\def\lhexbrace{\kern1pt%
+\setstackgap{S}{0pt}\def\stackalignment{l}
+\ThisStyle{\scalerel*{%
+  \stackunder[-\rlwd]{%
+    \stackon[-\rlwd]{\roundrule{\rlwd}{4pt}}{\rotatebox{45}{\roundrule{4pt}{\rlwd}}}%
+  }{\rotatebox{-45}{\roundrule{4pt}{\rlwd}}}%
+}{\SavedStyle[}}}
+\def\rhexbrace{%
+\setstackgap{S}{0pt}\def\stackalignment{r}
+\ThisStyle{\scalerel*{%
+  \stackunder[-\rlwd]{%
+    \stackon[-\rlwd]{\roundrule{\rlwd}{4pt}}{\rotatebox{-45}{\roundrule{4pt}{\rlwd}}}%
+  }{\rotatebox{45}{\roundrule{4pt}{\rlwd}}}%
+}{\SavedStyle[}}\kern1pt}
+
+
+
+
+
+
+
+
+
+% Acronyms
+% Acronyms
+\usepackage{xspace}
+\newcommand{\apis}{\mbox{{API}s}\xspace}
+\newcommand{\api}{{API}\xspace}
+\newcommand{\dbpedia}{DBpedia\xspace}
+\newcommand{\cwm}{{\itshape cwm}\xspace}
+\newcommand{\http}{{HTTP}\xspace}
+\newcommand{\notationthree}{Notation3\xspace}
+\newcommand{\nthree}{{N\oldstylenums 3}\xspace}
+\newcommand{\nthreelogic}{N{\oldstylenums 3}Logic\xspace}
+\newcommand{\owl}{\mbox{OWL}\xspace}
+\newcommand{\owls}{\mbox{OWL-S}\xspace}
+\newcommand{\rdf}{RDF\xspace}
+\newcommand{\rest}{REST\xspace}
+\newcommand{\restdesc}{RESTdesc\xspace}
+\newcommand{\sla}{SLA\xspace}
+\newcommand{\soap}{SOAP\xspace}
+\newcommand{\uri}{URI\xspace}
+\newcommand{\uris}{URIs\xspace}
+\newcommand{\iri}{IRI\xspace}
+\newcommand{\URL}{URL\xspace}
+\newcommand{\wsmo}{WSMO\xspace}
+\newcommand{\wwwc}{W3C\xspace}
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newcommand{\eq}{\text{eq}}
+\newcommand{\bi}{bi}%just to be able to change the name :)
+\newcommand{\biu}{b}
+\newcommand{\col}{:}
+
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=1pt] (char) {#1};}}
+
+% labels in trees            
+\newcommand{\tr}[1]{\textcolor{ugentblue}{\textit{\tiny{#1}}}}            
+\newcommand{\trm}[1]{ \tr{$\begin{bmatrix}#1\end{bmatrix}$}} 
+\newcommand{\trmv}[4]{\tr{$\begin{bmatrix}    
+                      v_1:&\hspace{-0.3cm}#1\\
+		      v_2:&\hspace{-0.3cm}#2\\
+		      s:&\hspace{-0.3cm}#3\\
+		      q:&\hspace{-0.3cm}#4\end{bmatrix}$}}
+\newcommand{\trmd}[3]{\tr{$\begin{bmatrix}    
+                      v_1:&\hspace{-0.3cm}#1\\
+		      v_2:&\hspace{-0.3cm}#2\\
+		      s:&\hspace{-0.3cm}#3\end{bmatrix}$}}		      
+
+% Indication of to-dos
+\newcommand{\todo}[1]{\noindent\textcolor{red}{{\bf \{TODO}: #1{\bf \}}}}
+
+% Indication of questions
+\newcommand{\question}[1]{\noindent\textcolor{blue}{{\bf \{Question}: #1{\bf \}}}}
+
+% Indication of remarks
+\newcommand{\Remark}[1]{\noindent\textcolor{red}{{\bf \{Remark}: #1{\bf \}}}}
+
+% Indication of remarks
+\newcommand{\tom}[1]{\noindent\textcolor{orange}{{\bf \{Tom}: #1{\bf \}}}}
+\newcommand\rv[1]{\noindent\textcolor{orange}{{\bf \{Ruben}: #1{\bf \}}}}
+\newcommand\da[1]{\noindent\textcolor{blue}{{\bf \{D\"orthe}: #1{\bf \}}}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}} % zentriert mit Breitenangabe
+
+% \newcommand{\basedpapers}[1]{%
+%   %\nocite{*}
+%   \newpage
+%   %\noindent\makebox[\linewidth][r]{\color{PlotThree}\rule{0.75\linewidth}{0.5pt}}
+%   This chapter is partly based on the publications:
+%   \foreach \entry in {#1} {%
+%     \\\\
+%     \fullcite{\entry}\mybibexclude{\entry}
+%   }
+% }
+
+%end my own
+
+
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % my own stuff
+% 
+% 
+% \usepackage{csquotes}
+% %\usepackage{mathptmx}
+% \usepackage{amssymb}
+% \setcounter{tocdepth}{1}
+% 
+% \usepackage{amsthm} 
+% \usepackage{amsfonts}
+% \usepackage{longtable}
+% \usepackage{url}
+% \usepackage{amsmath} 
+% %\usepackage{mathtools} 
+% %\usepackage{qtree}
+% \usepackage{tikz-qtree-compat}
+% \usepackage{multirow}
+% \usepackage{relsize}
+% %\usepackage{tikz-qtree}
+% %\usepackage{authblk}
+% \usepackage{placeins}
+% %\usepackage{syntax}
+% %\usepackage{alltt}
+% \usepackage{supertabular,booktabs}
+% %\usepackage{pifont}
+% \usepackage{array}
+% 
+% %for better typewriter 
+% \usepackage{courier}
+% 
+% \usepackage[multiple]{footmisc}
+% 
+% \usepackage{subcaption}
+% 
+% 
+% \setcounter{bottomnumber}{2}
+% \usepackage{tikz}
+% \usetikzlibrary{arrows,positioning,shapes.misc,calc}
+% \definecolor{lightgrey}{RGB}{170, 170, 170}
+% \pgfdeclarelayer{background}
+% \pgfdeclarelayer{foreground}
+% \pgfsetlayers{background,main,foreground}
+% \usepackage{pgf-umlsd}
+% 
+% \allowdisplaybreaks
+% % for numbered quotes
+% \newcounter{quotecount}
+% \newcommand{\MyQuote}[1]{\hspace*{0.4cm}\vspace{0.5cm}\addtocounter{quotecount}{1}%
+%      \parbox{0.8\textwidth}{\em #1}\hspace*{0.5cm}(\Roman{quotecount})\\[0.5cm]}
+% 
+% %Definitionen nicht kursiv     
+% %\theoremstyle{definition}
+% 
+% %Definitionen nicht fett     
+% \theoremstyle{remark}
+% 
+% 
+% % Listings and Verbatim environment
+% \usepackage{fancyvrb}
+% \usepackage{relsize}
+% \usepackage{listings}
+% \usepackage{verbatim}
+% \usepackage{alltt}
+% \newcommand\listingsize{\fontsize{9pt}{10pt}}
+% \RecustomVerbatimCommand{\Verb}{Verb}{fontsize=\listingsize}
+% \RecustomVerbatimEnvironment{Verbatim}{Verbatim}{fontsize=\listingsize}
+% \lstset{frame=lines,captionpos=b,numberbychapter=false,escapechar=§,
+%         % line numbers
+%         numbers=left,
+%         numbersep=2ex,
+%         numberstyle=\textcolor{lightgrey},
+%         xleftmargin=5ex,
+%         framexleftmargin=5ex,
+%         aboveskip=0.5em,
+%         % font style
+%         basicstyle=\ttfamily\listingsize\selectfont}
+% %\crefname{lstlisting}{Listing}{Listings}
+% \definecolor{grey}{RGB}{130,130,130}
+% \definecolor{ugentblue}{RGB}{30,100,200}
+% 
+% 
+% \usepackage{roundrule}
+% \usepackage{stackengine}
+% \usepackage{scalerel}
+% \def\rlwd{.4pt}% \rule width
+% \def\lhexbrace{\kern1pt%
+% \setstackgap{S}{0pt}\def\stackalignment{l}
+% \ThisStyle{\scalerel*{%
+%   \stackunder[-\rlwd]{%
+%     \stackon[-\rlwd]{\roundrule{\rlwd}{4pt}}{\rotatebox{45}{\roundrule{4pt}{\rlwd}}}%
+%   }{\rotatebox{-45}{\roundrule{4pt}{\rlwd}}}%
+% }{\SavedStyle[}}}
+% \def\rhexbrace{%
+% \setstackgap{S}{0pt}\def\stackalignment{r}
+% \ThisStyle{\scalerel*{%
+%   \stackunder[-\rlwd]{%
+%     \stackon[-\rlwd]{\roundrule{\rlwd}{4pt}}{\rotatebox{-45}{\roundrule{4pt}{\rlwd}}}%
+%   }{\rotatebox{45}{\roundrule{4pt}{\rlwd}}}%
+% }{\SavedStyle[}}\kern1pt}
+% 
+% 
+% % Acronyms
+% % Acronyms
+% \usepackage{xspace}
+% \newcommand{\apis}{\mbox{{API}s}\xspace}
+% \newcommand{\api}{{API}\xspace}
+% \newcommand{\dbpedia}{DBpedia\xspace}
+% \newcommand{\cwm}{{\itshape cwm}\xspace}
+% \newcommand{\http}{{HTTP}\xspace}
+% \newcommand{\notationthree}{Notation3\xspace}
+% \newcommand{\nthree}{{N\oldstylenums 3}\xspace}
+% \newcommand{\nthreelogic}{N{\oldstylenums 3}Logic\xspace}
+% \newcommand{\owl}{\mbox{OWL}\xspace}
+% \newcommand{\owls}{\mbox{OWL-S}\xspace}
+% \newcommand{\rdf}{RDF\xspace}
+% \newcommand{\rest}{REST\xspace}
+% \newcommand{\restdesc}{RESTdesc\xspace}
+% \newcommand{\sla}{SLA\xspace}
+% \newcommand{\soap}{SOAP\xspace}
+% \newcommand{\uri}{URI\xspace}
+% \newcommand{\uris}{URIs\xspace}
+% \newcommand{\iri}{IRI\xspace}
+% \newcommand{\URL}{URL\xspace}
+% \newcommand{\wsmo}{WSMO\xspace}
+% \newcommand{\wwwc}{W3C\xspace}
+% \newtheorem{theorem}{Theorem}
+% \newtheorem{definition}[theorem]{Definition}
+% \newtheorem{remark}[theorem]{Remark}
+% \newtheorem{lemma}[theorem]{Lemma}
+% \newtheorem{corollary}[theorem]{Corollary}
+% \newcommand{\eq}{\operatorname{\textit{eq}}}
+% \newcommand{\bi}{\operatorname{\textit{bi}}}
+% \newcommand{\biu}{\operatorname{\textit{b}}}
+% 
+% \newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+%             \node[shape=circle,draw,inner sep=1pt] (char) {#1};}}
+% 
+% % Indication of to-dos
+% \newcommand{\todo}[1]{\noindent\textcolor{red}{{\bf \{TODO}: #1{\bf \}}}}
+% 
+% % Indication of questions
+% \newcommand{\question}[1]{\noindent\textcolor{blue}{{\bf \{Question}: #1{\bf \}}}}
+% 
+% % Indication of remarks
+% \newcommand{\Remark}[1]{\noindent\textcolor{red}{{\bf \{Remark}: #1{\bf \}}}}
+% 
+\newcommand{\hyp}[2]{\textbf{#1 }\textit{#2}}
+% 
+% 
+% \newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}} % zentriert mit Breitenangabe
+% 
+% %%%%%%%%%%%%%%%%end: own staff%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{arydshln}                   % advanced package for tables: dashed lines etc
+% this must be one of the last packages loaded
+\usepackage{cleveref}
+
+
+% special links for 'Paper' chapters, try \cref{paper1}
+\crefname{mypaper}{Paper}{Papers}
+
+%todo: change?
+\bibliographystyle{elsarticle-num} 
+%\bibliographystyle{unsrtnat} 
+
+\begin{document}		
+\nobibliography*
+\frontmatter
+\blankpage
+\blankpage
+    % front page %
+    %%%%%%%%%%%%%%
+    \input{voorblad}
+
+    % roman numbers for the preamble
+    %\includepdf[pages=1-2]{./titelpagina.pdf}
+    \pagenumbering{roman}
+    \thispagestyle{empty}
+%    \setcounter{page}{3}
+
+    \cleardoublepage 
+    \thispagestyle{empty}
+%    \newpage
+    \thispagestyle{empty}
+
+    \newpage
+    \thispagestyle{empty}
+
+
+    
+    %     \noindent
+%     \\
+% 	\vfill
+% 	\begin{figure}[h!]
+% 	  \includegraphics[width=0.15\textwidth]{acknowledge/HPCUGent.jpg} \hspace{0.3cm}
+% 	  \includegraphics[width=0.2\textwidth]{acknowledge/logo_VSC_CMYK2.pdf} \hspace{0.3cm}
+% 	  \includegraphics[width=0.2\textwidth]{acknowledge/hercules.png} \hspace{0.3cm}
+% 	  \includegraphics[width=0.2\textwidth]{acknowledge/EWI.jpg} 
+% 	\end{figure}
+% 	    {\small
+% 	    \noindent \textsf{The computational resources (Stevin Supercomputer Infrastructure) and services used in this work were provided by the VSC (Flemish Supercomputer Center), funded by Ghent University, the Hercules Foundation and the Flemish Government - department EWI.}}
+%     \vfill
+%     \begin{figure}[h!]
+% 	    \includegraphics[width=0.6\textwidth]{cmm.png}
+%     \end{figure}
+%     {\small
+%     \noindent \textsf{This research was conducted at the Center for Molecular Modeling.}
+%     }
+
+
+    % Quote page %
+    %%%%%%%%%%%%%%
+%    \include{quote}
+
+%    \newpage % strikt noodzakelijk om een header op deze blz. te vermijden
+
+    % Jury page %
+    %%%%%%%%%%%%%
+    \include{board}
+
+    \cleardoublepage
+
+    \include{dankwoord}
+
+    % table of content etc %
+    %%%%%%%%%%%%%%%%%%%%%%%%
+    % do not show the ToC in the ToC but do show it in the pdf bookmarks
+    \cleardoublepage
+    \pdfbookmark{\contentsname}{Contents}
+    \tableofcontents
+
+    \input{summary}
+    \input{samenvatting}
+ 
+
+    \glossarystyle{altlist}
+    \printglossary[title=List of Abbreviations and Glossary] % toctitle=Terms and abbreviations]
+
+%    \listoffigures
+%    \listoftables
+	
+%    \afterpage{\null\blankpage}
+
+
+\mainmatter
+ %   \part{Variational determination of the two-particle density matrix: the case of doubly-occupied space}
+
+
+ 
+%\part{Introduction} 
+\input{chapters/introduction}\label{intro}
+
+% reset all acronyms after the introduction
+%\glsresetall
+
+\input{chapters/UnifyingLogic/UnifyingLogic}
+
+%\part{Semantics}
+
+\chapter{Implicit Quantification}\label{problem}\label{semantics}
+\input{chapters/N3/intro}
+%\input{chapters/N3/Syntax} 
+ \input{chapters/N3/Finding_the_meaning}
+\input{chapters/N3/RDF}
+\section{Logics with implicit quantification}
+\input{chapters/N3/RW-ImplicitQuantification}
+\input{chapters/N3/conclusion_iq}
+
+\newpage
+This chapter was partly based on the publications:
+\vspace{0.3cm}
+
+\bibentry{arndt_jws_2019}
+
+\vspace{0.3cm}
+
+\bibentry{arndt_ruleml_2015}
+
+
+\input{chapters/N3/N3Core} %\label{ela}
+%\chapter{Mapping to Core Logic}
+\input{chapters/N3/Mapping}
+\input{chapters/N3/RelatedWork}
+\input{chapters/N3/RW-Mapping}
+\input{chapters/N3/conclusion_core}
+\newpage
+This chapter was partly based on the publications:
+\vspace{0.5cm}
+
+\bibentry{arndt_jws_2019}
+
+\vspace{0.3cm}
+
+\bibentry{arndt_ruleml_2015}
+
+\input{chapters/N3/Impact}
+\input{chapters/N3/Solutions}
+% \input{chapters/N3/directsemantics}\label{exsem}
+\input{chapters/N3/conclusion_ev}
+\newpage
+This chapter was partly based on the publications:
+\vspace{0.3cm}
+
+\bibentry{arndt_jws_2019}
+
+\vspace{0.3cm}
+
+\bibentry{arndt_ruleml_2015}
+
+
+%\input{chapters/N3/Conclusion}
+
+% \chapter{Notation3 Logic as an extension of RDF}
+% \section{The semantics of RDF}
+% \section{Differences between RDF and Notation3 Logic}
+
+
+
+
+
+\chapter{Querying and ontology reasoning with Notation3 Logic}\label{others}
+\input{chapters/N3_and_others/intro}
+%\section{General Discussion}\label{gen}
+\section{Use case 1: A semantic nurse call system}\label{orca}
+\input{chapters/N3_and_others/orca}
+% \input{chapters/N3_and_others/orca1}
+% \input{chapters/N3_and_others/orca2}
+\input{chapters/N3_and_others/validation}
+%\section{Use case: Data Validation}
+\label{validation}
+
+
+\input{chapters/N3_and_others/conclusion}
+
+
+
+
+\newpage
+This chapter was partly based on the publications:
+\vspace{0.3cm}
+
+\bibentry{arndt_ruleml_industry_2015}
+
+\vspace{0.3cm}
+
+\bibentry{arndt_owled_2015}
+
+\vspace{0.3cm}
+
+\bibentry{arndt_rulemlrr_2017}
+
+\vspace{0.3cm}
+
+\bibentry{ben}
+
+\chapter{Proofs in N3}\label{proof}
+%\section{A Proof Calculus for N3}
+\input{chapters/Proofs/proofs}
+
+\clearpage
+\newpage
+This chapter was partly based on the publications:
+\vspace{0.3cm}
+
+\bibentry{PP}
+
+\vspace{0.3cm}
+
+\bibentry{arndt_ruleml_2015}
+
+\chapter{Applications of proofs: Adaptive API composition}\label{restdesc}
+%\input{chapters/Proofs/proofcalculus}
+%\section{Applications of Proofs}
+%\input{chapters/Proofs/PP}
+%\subsection{Sensdesc}
+%\chapter{Applications of proofs}
+%\section{Proofs in Use: RESTdesc}
+\input{chapters/Proofs/pragmatic-proof}
+\input{chapters/Proofs/limits}
+\section{Extending the RESTdesc idea: SENSdesc}\label{sec:sensdesc}
+\input{chapters/Proofs/sensdesc}
+\input{chapters/Proofs/conclusion}
+
+\clearpage
+\newpage
+This chapter was partly based on the publications:
+\vspace{0.3cm}
+
+\bibentry{PP}
+
+\vspace{0.3cm}
+
+\bibentry{sensdesc}
+
+\input{chapters/Conclusion/conclusion}
+
+
+% \chapter{Going beyond: modeling change}
+% \section{Weighted Transition Logic}
+% not sure whether or not I have time to write this section. If not I should write a journal after the PhD.
+
+
+
+%\afterpage{\null\blankpage}
+
+%     \part{Papers}
+%     \let\oldchaptername\chaptername
+%     \let\oldthechapter\thechapter
+% 
+% %    \renewcommand\thechapter{\Roman{chapter}} % if you want roman numbering
+%     \renewcommand{\chaptername}{Paper}
+% 
+%     \chapter{Variational Two-Particle Density Matrix Calculation for the Hubbard Model Below Half Filling Using Spin-Adapted Lifting Conditions}
+%     \label[mypaper]{paper1}
+%     \includepdf[pages=-]{papers/paper1.pdf}
+
+    % APPENDIX &
+    %%%%%%%%%%%%
+
+%\afterpage{\null\blankpage}
+
+\bookmarksetupnext{level=part} % puts the bookmark at the same level as a part
+\begin{appendices}
+%    \input{listpapers}
+\input{chapters/appendix}
+\end{appendices}
+
+
+\backmatter
+
+    \bookmarksetupnext{level=part} % puts the bookmark at the same level as a part
+
+    \bibliography{refs}
+
+\end{document}
+
+% vim: spell spelllang=en

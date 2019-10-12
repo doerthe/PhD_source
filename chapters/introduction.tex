@@ -1,30 +1,31 @@
 \chapter{Introduction}
 \setlength{\epigraphrule}{0pt}
 \setlength{\epigraphwidth}{0.75\textwidth}
-%\epigraph{\textit{Das Wesen der Mathematik liegt in ihrer Freiheit.}}{Georg Cantor}
+% \epigraph{\textit{“Begin at the beginning," the King said, very gravely, "and go on till you come to the end: then stop.”
+% }}{Lewis Carroll, Alice in Wonderland}
 
-With the idea of the Semantic Web~\cite{SemanticWeb} a new vision how to use the Internet was born. The World Wide
+With the idea of the Semantic Web~\cite{SemanticWeb}, a new vision on how to use the Internet was born. The World Wide
 Web~\cite{bernerslee_1992} and its numerous functionalities should no longer only be used by humans -- 
 who can read websites or follow links to gain knowledge or use applications -- but also by computers. To enable the computer to use the Web -- just as humans do -- 
 it must \emph{understand} the Web. But how does a computer think? How can we teach it content? 
 And which language does it understand? 
 
 %we need logic!
-When a human user reads a text in the Web, he has an idea of the concepts behind. He \emph{knows} for example that the cockatoo is a kind of bird, that most birds can fly 
+When a human user reads a text in the Web, he has an idea of the concepts behind it. He \emph{knows} for example that the cockatoo is a kind of bird, that most birds can fly 
 and that he
 can browse the Web to find further information. To provide the computer with similar knowledge about concrete objects (the cockatoo) and bigger concepts (birds, flying),
 and to enable it to reason and draw conclusions (cockatoos can fly) a representation of these facts and a clear definition of their meaning is needed: a logic.
 
-To represent basic facts the Semantic Web follows a common standard, the Resource Description Framework (\rdf)~\cite{rdf}. 
+To represent basic facts, the Semantic Web follows a common standard, the Resource Description Framework (\rdf)~\cite{rdf}. 
 The semantics of \rdf is clearly defined and other standards are designed on top of it, 
 but \rdf itself does only include very basic entailment regimes, in other words: there is no internal
 mechanism designed how the computer is supposed to draw complex conclusions.
 To either query a graph, or to derive new knowledge applying description logics
 or rule based reasoning, there are other standards defined. The envisioned architecture of the Semantic Web then 
-foresees a \emph{unifying logic} on top of those. 
+foresees a \ul on top of those. 
 Of which nature this logic needs to be and what the possible candidates are is still subject to discussion. 
 
-In this thesis we take a closer look at the unifying logic and 
+In this thesis we take a closer look at the \ul and 
 discuss one of the candidates to become such a logic: 
 \notationthree. 
 Introduced by Tim Berners-Lee et al. \cite{N3Logic}, \notationthree Logic is a rule-based logic which extends \rdf
@@ -38,7 +39,7 @@ Next to this introduction, this thesis consists of the following chapters:
 \begin{description}
 \item[Chapter~\ref{unilog} -- Unifying Logic]
 includes an introduction to the envisioned  architecture of the Semantic Web with a special focus 
-on the concept of a \emph{unifying logic}. In this context we also introduce \nthreelogic as a promising candidate to fulfil this role.
+on the concept of a \ul. In this context we also introduce \nthreelogic as a promising candidate to fulfil this role.
 This then leads to the research questions we are going to explore in this thesis.
 
 \item[Chapter~\ref{problem} -- Implicit Quantification] discusses 
@@ -118,7 +119,7 @@ We can execute and -- in case the context changes -- update them.
 % A proof can then be used to determine whether a query is relevant for a request.
 
 
-\item[Chapter~\ref{conclusion} -- Conclusion]
+\item[Chapter~\ref{conclusion} -- Conclusions]
 concludes this thesis.  We answer the research questions and discuss the different lessons learned while performing the research which  lead to this thesis.
 We then give an outlook to future work and discuss how the Semantic Web community could move forward based on the findings of this thesis.
 % \item[Part \ref{intro} -- Introduction] 
@@ -201,6 +202,67 @@ We then give an outlook to future work and discuss how the Semantic Web communit
 % \item[Part~\ref{conclusion} -- Conclusion]
 % With \emph{Chapter~\ref{concl}} we conclude this thesis, come back to the research questions and discuss future work.
 \end{description}
+
+These chapters are partly based on peer-reviewed publications. We list these publications together with the chapters there were used in \emph{(in brackets)} below:
+
+\begin{itemize}
+ \item %[Chapters 3--5:]\hspace{0.5cm}
+ 
+ \bibentry{arndt_jws_2019}
+\emph{ (Chapters 3--5)}
+ 
+ \item %[Chapters 3--5,7:]\hspace{0.5cm} 
+\sloppy 
+ \bibentry{arndt_ruleml_2015}
+ \emph{(Chapters 3--5 and 7)}
+ 
+ \item%[Chapter 6:]\hspace{0.5cm}
+ 
+ \bibentry{ORCA}
+ \emph{(Chapter 6)}
+ \item \bibentry{ORCA2}
+ \emph{(Chapter 6)}
+ \item
+ \bibentry{ruleml2017}
+ \emph{(Chapter 6)}
+ 
+ \item
+ \bibentry{ben}
+ \emph{(Chapter 6)}
+\item %[Chapter 7:]\hspace{0.5cm}
+\bibentry{PP}
+\emph{(Chapter 7 and 8)}
+
+
+\item
+ 
+\bibentry{sensdesc}
+ 
+\emph{(Chapter 8)} 
+\end{itemize}
+
+
+% \bibentry{PP}
+% 
+% 
+% 
+% 
+% 
+% \bibentry{F4W}
+% 
+% \bibentry{arndt_ruleml_industry_2016}
+% 
+
+
+
+
+%We additionally give a list of 
+
+
+
+
+
+
 
 
 

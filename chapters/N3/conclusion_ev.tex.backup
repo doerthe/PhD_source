@@ -1,0 +1,11 @@
+\section{Conclusion}
+In this chapter we investigated which impact the fact that we have different interpretations for implicit universal quantification on 
+reasoning files used for practical applications.
+
+In order to do so, we implemented the attribute grammar defined in the previous chapter. 
+This implementations allows us to produce the concrete \nthree Core Logic equivalent of an \nthree formula following the different interpretations and 
+used for testing: Whoever wants to provide \nthree rules in the Web, can test whether the rules he or she created are subject to ambiguity.  
+
+We applied our implementation on different on the example use cases of EYE and on different sets of files which have been implemented in research projects 
+to solve practical problems. We encountered that 31\% of our files were subject to contradictions. 
+We further investigated the contexts in which we could observe these contradictions and 

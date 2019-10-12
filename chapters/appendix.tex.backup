@@ -1,0 +1,590 @@
+
+ \chapter{Problems in Cwm}\label{bugsincwm}
+ \begin{lstlisting}[
+  float=t,
+  caption={Output of Cwm when provided with Formula~\ref{cwmbug1}. },
+  label=cwmbug1int]
+§\textcolor{gray}{@prefix : <http://example.org/ex\#>}§
+§\textcolor{gray}{@prefix c: <\#>}§
+   
+@forAll c:x .
+:a :b {
+  :c :d {:e :f {c:x :g :h.}.}.
+}.
+{c:x :p :o.} => {c:x :q :o.}.
+\end{lstlisting}
+In this section we explain where the Cwm's interpretations of \nthree formulas as specified in this paper differ
+from the actual implementation. %and the \wwwc team submission of \nthree~\cite{Notation3}. 
+We start with a simple example. Consider the formula:  
+%
+\begin{multline}\label{cwmbug1} 
+\texttt{\{?x :p :o\}=>\{?x :q :o\}.}\\
+\texttt{:a :b \{:c :d \{:e :f \{?x :g :h\}\}\}.}
+\end{multline}
+According to the formalisation provided in this paper, the occurrences of the variable \texttt{?x} in the implication  are universally quantified on its
+$\text{parent}_c$ formula which is the overall formula.
+This quantification then also counts for the third occurrence of \texttt{?x} which is more deeply nested. In core logic this formula can be represented as:
+\begin{multline}\tag{\ref{cwmbug1}'}\label{cwmbugint}
+ \forall \texttt{x. <x p o>}\rightarrow\texttt{<x q o>.}\\
+ \texttt{<a b <c d <e f <x g h>{}>{}>.}
+\end{multline}
+In this case this is also the result Cwm gives. In Listing~\ref{cwmbug1int} we display the reasoning result of Cwm\footnote{Version: v 1.197 2007/12/13 15:38:39 syosi} when provided with Formula~\ref{cwmbug1}. The output is produced by using the option 
+\texttt{-{}-think} which makes the reasoner derive the deductive closure of its input dataset. During this process Cwm also translates all implicit universal quantification into its explicit counterpart.
+But if we now change the order of the conjunction to
+\begin{multline}\label{cwmbug2}
+\texttt{:a :b \{:c :d \{:e :f \{?x :g :h\}\}\}.}\\
+\texttt{\{?x :p :o\}=>\{?x :q :o\}.}
+\end{multline}
+%
+we get a different result.
+%\rv{Okay, but this is a bug, right? In that case, I'd remove the appendix.}
+According to the formalisation this formula has the same meaning as the previous one namely Interpretation~\ref{cwmbugint}. 
+In Listing~\ref{cwmbug2int} we display the reasoning output of Cwm for this formula. We clearly see that in this interpretation an extra universal quantifier for the
+deeply nested occurrence of \texttt{?x} is added (line 7). For Cwm the interpretation of the conjunction depends on the order of its conjuncts. 
+ Cwm does its translation from implicit to explicit quantification while parsing. 
+Whenever a new universal variable is encountered which is not quantified yet a universal quantifier is added on its $\text{parent}_c$ level. 
+This mechanism does not take the later encounter of universal variables on higher 
+levels into account. Such a mechanism would have a negative impact on the performance of Cwm. Similar examples can be easily constructed.
+\begin{lstlisting}[
+  float=t,
+  caption={Output of Cwm when provided with Formula~\ref{cwmbug2}. },
+  label=cwmbug2int]
+§\textcolor{gray}{@prefix : <http://example.org/ex\#>}§
+§\textcolor{gray}{@prefix c: <\#>}§
+   
+@forAll c:x .
+:a :b {
+  :c :d {
+    @forAll c:x. 
+    :e :f {c:x :g :h.}.
+  }.
+}.
+{c:x :p :o.} => {c:x :q :o.}.
+\end{lstlisting}
+%
+% \todo{Mention somewhere that there is no difference between operators and predicates?}
+% \section{Reasoning Output}\label{ap1}
+% In this appendix we give evidence for the different interpretations of the formulas displayed in Sections \ref{ovw} and \ref{n3} by the reasoners EYE\footnote{Version: v16.1027.1037 beta}
+% and cwm\footnote{Version: v 1.197 2007/12/13 15:38:39 syosi}. 
+% We limit our explanations to the cases which are not covered by our previous publication~\cite{arndt_ruleml_2015}. 
+% This is in particular the scoping of existential quantification in EYE which changed since then.
+% 
+% In Section \ref{ovw} we talk about the meaning of formula \ref{eq1} 
+% \[
+% \verb!_:x :says {_:x :knows :Albert.}.!
+%  \]
+% 
+% which is for EYE:
+% \[\exists x : \text{says}(x, \text{knows}(x, \text{Albert})) \tag{\ref{eq1}a} \]
+% \textit{``There exists someone who says about himself that he knows Albert.''}
+% 
+% 
+% and for cwm:
+% %               
+% \[
+% \exists x_1 : \text{says}(x_1, (\exists x_2: \text{knows}(x_2, \text{Albert})))\tag{\ref{eq1}b} \]
+% \textit{``There exists someone who says that there exists someone (possibly someone else) who knows Albert.''}
+% 
+% Both reasoners, EYE and cwm, offer the option to output the deductive closure of the formulas they were given. 
+% The reasoning output of cwm for Formula \ref{eq1} is displayed in Listing \ref{cwm1}. 
+% We see that both existentials are expressed by different square brackets which always stand for new variables, thus, cwm supports interpretation \ref{eq1}b.
+% \begin{lstlisting}[
+%   float=t,
+%   caption={Reasoning result of cwm for Formula \ref{eq1} },
+%   label=cwm1]
+% §\textcolor{gray}{@prefix : <http://example.org/ex\#>.}§
+% 
+% [ :says { [ :knows :Albert ]. } ].
+% \end{lstlisting}
+% 
+% 
+% To test how EYE interprets that formula, we need to add an additional rule:
+% \begin{multline}\label{eq111}
+%  \texttt{\{?x :says \{?x :knows :Albert.\}\} =>} \\ \texttt{ \{:s :p :o.\}.}
+% \end{multline}
+% This rule is interpreted as: 
+% \[
+%  \forall x: \text{says}(x, \text{knows}(x,Albert))\rightarrow p(s,o)
+% \]
+% This means that the rule should only lead to the result 
+% \[\verb!:s :p :o.!\] 
+% if interpretation \ref{eq1}a is implemented, but not in case of interpretation \ref{eq1}b. 
+% Listing \ref{eye1} displays the output of asking EYE for the deductive closure of Formula \ref{eq1} and \ref{eq111}, and indeed, the triple appears in the output.
+% Thus, EYE supports interpretation \ref{eq1}a.
+% %Running the reasoners with that option lead to the results displayed in Listings \ref{cwm1} and \ref{eye1}.
+% 
+% 
+% 
+% 
+% \begin{lstlisting}[
+%   float=t,
+%   caption={Reasoning result of eye for Formula \ref{eq1} and Formula \ref{eq111} },
+%   label=eye1]
+% §\textcolor{gray}{PREFIX : <http://example.org/ex\#>}§
+% 
+% _:e_x_1 :says 
+%            {_:e_x_1 :knows :Albert}.
+% :s :p :o.
+% 
+% {?U_0 :says {?U_0 :knows :Albert}} 
+%  => {:s :p :o}.
+% \end{lstlisting}
+% 
+% % If we give thi\ref{eq1} is given to the reasoners cwm and EYE, we get the results shown in Listings \ref{cwm1} and \ref{eye1} (Lines 1-4) respectively.
+% % Cwm again uses the \verb![]!-notation, 
+% % the occurrences of ``\verb!_:x!'' are translated into two different new blank nodes; cwm chooses~\ref{zw}.
+% 
+% % If we now take a closer look into the output of EYE (Listing~\ref{eye1}, Lines 1--4) we see that there, both 
+% % occurrences of \verb!_:x! get translated into the same variable \verb!_:e_x_1!. As the EYE reasoner gives different names to variables it interprets differently, this output 
+% % is already an indication that EYE prefers the first interpretation (\ref{zwei}). 
+% % To better illustrate that this is actually the case we ran the EYE reasoner again with the additional formula 
+% % 
+% % Together with EYE's interpretation of universally quantified variables as explained in the next subsection, this should lead to the result \[\verb!:s :p :o.!\] if EYE actually 
+% % treats both variables as the same. The result of the reasoning with Formulas \ref{eq1} and \ref{eq111} is shown in Listing \ref{eye1}, Lines 1-5. 
+% % We see that EYE indeed chooses the 
+% % second interpretation \ref{zw}\footnote{Note that this is different than it used to be when our previous paper \cite{arndt_ruleml_2015} was written,
+% % the scoping of EYE recently changed.}.
+% % 
+% % The reasons for this difference are manifold and have for example been influenced by the handling of blank nodes in TriG \cite{TriG}. In the \wwwc team submission, the topic is
+% % handled by an informal text.
+% % 
+% % 
+% % there is for example the addition of named graphs (TriG \cite{TriG}) to \rdf and the fact that identically labeled 
+% % blank nodes in different named graphs are understood as the same instances. On the other hand there is the \wwwc team submission \cite{Notation3} whose informal text
+% % seems to favor interpretation \ref{zw}.
+% 
+% % For both interpretations there are good reasons. The \wwwc team submission \cite{Notation3} 
+% % states that 
+% % in case of nested formulas blank nodes are  ``\textit{used to only identify blank node in the formula it occurs directly in}'', which supports cwm's point of view. 
+% % On the other hand the inclusion of TriG \cite{TriG} into \rdf makes is also desirable to be in line with that specification and there it is states that 
+% % ``\textit{Blank\-Nodes sharing the same label in differently labeled graph statements are considered to be the same BlankNode}'', which corresponds 
+% % with the position EYE is taking.
+% 
+% 
+% 
+% 
+% %This example is particularly interesting, because interpretation \ref{zwei} is the interpretation the EYE reasoner chooses while \ref{zw} is how cwm understands the formula. 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% %Consider the following implication:
+% %If we take a look into implicitly existentially quantified variables, we find differences in the interpretations. %As \nthreelogic allows nesting for cited formulas and rules
+% %Implicit existential quantification gets ambiguous 
+% %Whenever there is some kind of nesting involved, in particular when it is used in cited formulas and rules, formulas can be ambiguous. 
+% %To start with a less controversial example, consider the following rule:
+% %Another case where the scope of implicit quantification is not intuitively clear is the case of existential variables occurring in rules. The formula
+% \begin{multline}\label{exrule}
+%  \texttt{ \{\_:x :knows :Kurt\} =>}\\ \texttt{ \{\_:x :knows :Albert\}.}
+% \end{multline}
+% This formula could be understood as:
+% %\small
+% \begin{multline}
+%  (\exists x_1:\text{knows}(x_1, \text{Albert}))\rightarrow \\ (\exists x_2:\text{knows}(x_2, \text{Kurt}))\tag{\ref{exrule}a}\label{exra}
+% \end{multline}
+% \textit{``If there exists someone who knows Albert, then there also exists someone (probably different) who knows Kurt.''}
+% \normalsize
+% \begin{center}or\end{center}
+% \[
+%  \exists x: (\text{knows}(x, \text{Albert}))\rightarrow (\text{knows}(x, \text{Kurt}))\tag{\ref{exrule}b}\label{exrb}
+% \]
+% \textit{``There exists someone and if this someone knows Albert, then he also knows Kurt.''}
+% 
+% By giving this formula to an \nthree reasoner, 
+% 
+% To understand how this formula is interpreted by the reasoners cwm and EYE\footnote{\todo{add versions}}, we invoked them with Formula \ref{exrule} and the additional fact:
+% \begin{equation}\label{help}
+% \verb! :Kurt :knows :Albert.!
+% \end{equation}
+% % We added the last formula because in case of interpretation~\ref{exra}, this formula would cause the production of a new triple 
+% % \begin{equation}
+% %  \verb! [ :knows :Kurt.]!
+% % \end{equation}
+% %
+% Both reasoners offer the option
+% to display all conclusions they can draw from a given set of formulas, the output of this process is presented 
+% in Listings~\ref{cwm2} and~\ref{eye2}. 
+% To understand the reasoning result of cwm (Listing \ref{cwm1}), the reader has to know that in \nthree the symbol ``\texttt{[ ]}'' represents a new ``fresh'' blank node.
+% We see in Lines~5--6 in both listings, that the variables are actually understood as being different, the derivations of the triples in Line~4 furthermore show 
+% that both reasoners also put the quantifiers at the same position as in Interpretation~\ref{exrb}.
+% 
+% 
+% \begin{lstlisting}[
+%   float=t,
+%   caption={Reasoning result of cwm for Formulas \ref{exrule} and \ref{help}.},
+%   label=cwm2]
+% §\textcolor{gray}{ @prefix : <http://example.org/ex\#> .}§
+% 
+% :Albert :knows :Kurt .
+% [ :knows :Albert ].   
+% { [ :knows :Kurt ].} => 
+%           { [ :knows :Albert ].}.
+% \end{lstlisting}
+% 
+% 
+% \begin{lstlisting}[
+%   float=t,
+%   caption={Reasoning result of EYE for Formula \ref{exrule} and \ref{help}. },
+%   label=eye2]
+% §\textcolor{gray}{PREFIX : <http://example.org/ex\#>}§
+% 
+% :Albert :knows :Kurt.
+% _:sk_0 :knows :Albert.
+% {?U_1 :knows :Kurt} => 
+%             {_:sk_0 :knows :Albert}.
+% \end{lstlisting}
+% 
+% 
+% 
+% Both formulas we examined in this subsection use a \texttt{\{~\}}-construction to refer formulas. %so one might wonder why EYE makes a difference between the two constructions.
+% Cwm does not make a difference between the types of occurrences and follows the \wwwc team submission:
+% 
+% %That this is the case can be shown if we additionally run the reasoner with the rule
+% \MyQuote{
+% ``When formulae are nested, \_: blank nodes syntax \emph{[is]} used 
+% to only identify blank node in the formula it occurs directly in. 
+% It is an arbitrary temporary name for a symbol which is existentially quantified within the current 
+% formula (not the whole file). They can only be used within a single formula, and not within nested formulae.''
+% }
+% 
+% But what exactly does EYE do? %If we take a closer look into the specification of EYE, we can read on there Web-page\footnote{\url{http://eulersharp.sourceforge.net/README}}:
+% As stated on the EYE website\footnote{\url{http://eulersharp.sourceforge.net/README}}, EYE differentiates between different literals. In an Implication if the form $L_1\verb!=>!L_2$,
+% both $L_1$ and $L_2$ are understood as different literals, every statement which does not occur in a rule is understood as being part of the remaining literal of formulas. 
+% The scope of an existential is then this literal. So in the above examples, the difference is that the existentials in Formula~\ref{exrule} occurred in premise and conclusion
+% of a rules---and thereby in different literals---while in Formula~\ref{eq1} both variables were part of the same literal, the remaining literal.
+% 
+
+\chapter{Attributes and Methods for Evaluation}
+For the evaluation in Section~\ref{cases} we defined several attributes. In this section, we display the definition of these attributes
+and explain how they have been used for the categorisation
+of different cases. 
+\section{Critical Built-in Constructs}\label{cbi}
+\begin{figure*}
+\begin{minipage}{\textwidth}
+\begin{center}\scriptsize
+\begin{tabular}{llll}
+\hline
+\multicolumn{2}{l}{production rule}& rules for $b$ & rules for $bi$ \\
+  \hline
+%Syntax: &&\\
+%&&\\
+\texttt{s ::=}&\texttt{f}& $\texttt{s}.b\leftarrow \emptyset$& $\texttt{s}.\bi \leftarrow \texttt{f}.\bi$\\
+       &&\\
+\texttt{f ::=}&  $ \texttt{t}_1 \texttt{t}_2 \texttt{t}_3.$
+                  &   $\texttt{f}.\biu \leftarrow f_1( \texttt{t}_2.m_c,  (\texttt{t}_1.u  \cup \texttt{t}_3.u),$%, \bigcup_{i=1}^3 \texttt{t}_i.\biu)$
+                  %(\texttt{t}_1.\biu \cup \texttt{t}_2.\biu   \cup \texttt{t}_3.\biu))$
+       &   $ \texttt{f}.\bi \leftarrow \max(\texttt{t}_1.\bi, \texttt{t}_2.\bi, \texttt{t}_3.\bi)$                                                       \\
+       &&\hspace{2cm}$(\texttt{t}_1.\biu \cup \texttt{t}_2.\biu   \cup \texttt{t}_3.\biu))$&\\
+    &  $\texttt{e}_1 \texttt{=>}  \texttt{e}_2.$ & $\texttt{f}.\biu \leftarrow \texttt{e}_1.\biu \cup  \texttt{e}_2.\biu$& $\texttt{f}.\bi \leftarrow \max(\texttt{e}_1.\bi,  \texttt{e}_2.\bi)$\\
+%    &  \texttt{@forAll :u}     & universal quantification\\
+%    &  \texttt{@forSome :u}     & existential quantification\\
+    & $ \texttt{f}_1 \texttt{f}_2$ &                $\texttt{f}.\biu \leftarrow \texttt{f}_1.\biu\cup\texttt{f}_2.\biu$ &                $\texttt{f}.\bi \leftarrow \max(\texttt{f}_1.\bi,\texttt{f}_2.\bi)$ \\
+&&\\
+\texttt{t ::=}& \texttt{uv} 
+&                $\texttt{t}.\biu \leftarrow \emptyset $&                $\texttt{t}.\bi \leftarrow 0$ \\
+            & \texttt{ex}&               $\texttt{t}.\biu \leftarrow \emptyset$ &               $\texttt{t}.\bi \leftarrow 0$\\
+      & \texttt{c}&               $\texttt{t}.\biu \leftarrow \emptyset$ &               $\texttt{t}.\bi \leftarrow 0$\\
+ %     & \texttt{l} &                literals\\
+      & \texttt{e}&                $\texttt{t}.\biu \leftarrow\texttt{e}.\biu $ &                $\texttt{t}.\bi \leftarrow\texttt{e}.\bi $ \\
+      & \texttt{(k)}& $\texttt{t}.\biu \leftarrow\texttt{k}.\biu$& $\texttt{t}.\bi \leftarrow\texttt{k}.\bi$\\
+      & \texttt{()}& $\texttt{t}.\biu \leftarrow \emptyset$& $\texttt{t}.\bi \leftarrow 0$\\
+      &&\\
+\texttt{k ::=}& \texttt{t}& $\texttt{k}.\biu \leftarrow\texttt{t}.\biu$& $\texttt{k}.\bi \leftarrow\texttt{t}.\bi$ \\
+&$\texttt{t k}_1$& $\texttt{k}.\biu \leftarrow \texttt{t}.\biu \cup \texttt{k}_1.\biu$ & $\texttt{k}.\bi \leftarrow \max(\texttt{t}.\bi, \texttt{k}_1.\bi)$ \\
+&&\\
+\texttt{e ::=}&\texttt{\{f\}}&                $\texttt{e}.\biu \leftarrow \emptyset$ &                $\texttt{e}.\bi \leftarrow f_2 (\texttt{f}.\bi ,(\texttt{f}.\biu \setminus \texttt{e}.s))$\\
+       &\texttt{\{\}} &  $\texttt{e}.\biu \leftarrow \emptyset$ &  $\texttt{e}.\bi \leftarrow 0$\\
+       &\texttt{false}      &                $\texttt{e}.\biu \leftarrow \emptyset$ &                $\texttt{e}.\bi \leftarrow 0$\\
+  \hline
+\end{tabular}\normalsize
+\caption{Attribute rules for the synthesized attributes $\biu$ (middle) and $\bi$ (right), and their corresponding production rules (left) 
+from the \nthree grammar (Figure~\ref{N3S}).
+The attributes test whether a formula contains built-ins whose subject or object has universals which are not quantified on the parent or any higher level of the built-in.
+\label{eval}}
+\end{center}
+\end{minipage}
+\end{figure*}
+To identify the built-in constructs in our datasets which are causing conflicting interpretations 
+we extend the attribute grammar by the two synthesized attributes $b$ and $bi$. We display the rules for these attributes in Figure~\ref{eval}.
+
+Attribute $b$ is used to pass the set of universal variables occurring in the subject or object position of a built-in predicate upwards in the syntax tree to the 
+$\text{parent}_c$ formula of that built-in. Here, it is most interesting how the attribute behaves for the production rule of a simple triple, 
+ie the rule $\texttt{f := t}_1 \texttt{t}_2 \texttt{t}_3$. In that case we make use of the attributes $m_c$ and $u$ which have been defined in Section~\ref{unicwm} 
+and apply function $f_1: \mathcal{T}\times 2^{U}\times 2^{U}\rightarrow 2^{U}$  which 
+is defined as follows: 
+%
+%To collect these variables we make use of attribute $u$ defined in Section~\ref{unicwm}.
+%For $f_1: \mathcal{T}\times 2^{U}\times 2^{U}\rightarrow 2^{U}$ we have the following definition:
+\[
+ f_1(t, s_1, s_2) :=\begin{cases} s_2 & \texttt{if } t \text{ is no built-in symbol} \\ s_1 & \text{else} \end{cases} 
+\]
+The first argument of the function is the actual value of the predicate which can either be a built-in or not. In the case it is not a built-in, 
+the function simply passes the information collected by the attribute so far upwards. If the predicate is a built-in, the values of the attribute $u$ for
+subject and object get 
+collected, ie all universal variables which occur in these two positions. For the other production rules the attribute value is either the empty set 
+-- in case we have a rule resulting in a terminal node of the tree -- or it gets passed upwards through the tree. The only exception is the production rule
+\texttt{e ::= \{f\}} for which the attribute value of \texttt{e} is the empty set since \texttt{f} is a $\text{parent}_c$ formula. For this formula the attribute 
+value $\texttt{e}.s$ with $s$ defined as in Section~\ref{unicwm} gives information which variables are already quantified on a higher level. This is used 
+in the definition of attribute $bi$.
+
+Attribute $bi$ carries the information whether or not a built-in predicate has been found whose subject or object contains one or more universal variable which Cwm's 
+interpretation quantifies either on the same level the built-in function occurs or any lower level. If this is the case, the value of the attribute is 1, else it is 0.
+If we look at Figure~\ref{eval} we see that the rules for this attribute mostly simply pass information upwards with one exception: For the production rule 
+\texttt{e ::= \{f\}} we apply the function $f_2:  \mathbb{N}\times 2^{U\times U}\rightarrow \mathbb{N}$ which is defined as follows:
+% 
+% % which test for every built-in whether its subject or its object contains a universal 
+% % variable which -- according to Cwm's interpretation -- is not 
+% % quantified on the $\text{parent}_c$ level of the built in or any higher level. 
+% % These new synthesized attributes 
+% % make use of the attributes $u$ and $s$ to get the scoping information. % their full definition can be found in~\ref{cbi}.
+% which are used to determine whether a formula contains built-ins whose subject or object contains universal variables which according to Cwm's 
+% interpretation
+% are quantified either on the same level 
+% the built-in occurs (if the built-in does not occur on top-level) or on a deeper level. Our attributes depend on the attributes $s$ and $u$ defined in Section~\ref{unicwm}. 
+% We display the attribute rules in Figure~\ref{eval}. The attribute $\bi$ collects the information whether a built-in with nested universals has been found in a subformula (in this case its value is 1 otherwise 0).
+% The attribute $\biu$ collects all universal variables which are found in the subject or object of a built-in function and passes them upwards to the next formula expression.
+% 
+% The function $f_1:  \mathbb{N}\times 2^{U\times U}\rightarrow \mathbb{N}$ is defined as follows:
+\[
+ f_2 (n, s) := \begin{cases} 0 &\text{if } n=0 \text{ and } s=\emptyset\\ 1 & \text{else}\end{cases} 
+\]
+To better understand this definition, we take a closer look to the arguments the function is used with in the attribute definition: The first argument is simply used 
+to pass the information that a problematic built-in construct has been found upwards in the syntax tree. So, if its value is 1, the application of function 
+$f_2$ should also result in 1 (second case). As the second argument, we have the difference of $\texttt{f}.b$ -- the variables we collected using attribute $b$ -- and $\texttt{e}.s$
+-- the variables which are quantified on the $\text{parent}_c$ level of the formula.   
+
+This function thus tests in our application whether either an occurrence of a built-in together with a nested variable has already been found, in that case we have $n=1$ -- % 
+the information about that finding is just passed upwards -- %
+or whether the universal
+variables we have found so far in connection with a built-in are not scoped on a higher level. For the latter we compare the value of the attribute $\biu$ 
+which collects all universal variables found
+in the subject or predicate of a built-in with the set of all universal variables scoped on a higher level of the formula expression, collected by the attribute $s$.
+
+For $f_2: \mathcal{T}\times 2^{U\times U}\times 2^{U\times U}\rightarrow 2^{U\times U}$ we have the following definition:
+\[
+ f_2(t, s_1, s_2) :=\begin{cases} s_2 & \texttt{if } t \text{ is no built-in symbol} \\ s_1\cup s_2 & \text{else} \end{cases} 
+\]
+Remember that the attribute $m_c$ is used to generate the translation of the \nthree formula to core logic according to Cwm. In the cases where we have a built-in as predicate
+the values of that attribute is just the name of the built-in. The function now acts differently depending on whether a built-in is found here or not. 
+In the latter case it only passes the nested variables 
+occurring with built-ins further upwards. In the former case, all variables which occurred in predicate or object position of the built-in are also passed upwards. 
+When the calculated set then reaches
+function $f_1$ it checks whether these variables are already scoped in the formula expression the built-in occurs in.
+
+
+\section{Nested Universals}\label{nested} 
+The reasons for conflicting interpretations of a formula 
+can be overlapping. 
+Especially for proofs we want to know whether conflicts are only 
+caused by the proof vocabulary which normally uses graphs -- 
+these cases are rather harmless -- or if either a built-in construct in combination with a formula expression quantified within this expression
+or another occurrence of such a formula expressions is involved. 
+
+For built-ins we use the attributes defined in \ref{cbi}.
+%
+To find deeply nested universals we introduce the concept of depth: we measure the depth of a universal variable as one plus
+the number of formula expressions its quantifier is enclosed in when translating the \nthree formula 
+to its core logic translation according
+to Cwm. If a variable does not occur in a file at all, it has depth 0. For example, Formula~\ref{fff} from Section \ref{unicwm}  the variable \texttt{?y} has depth 2 while \texttt{?x} has depth 1. 
+
+In order to determine the depth of the deepest nested variable in a formula we define two attributes: the inherited attribute $c$ and the synthesized attribute $d$. The first attribute $c$
+simply goes downwards in the syntax tree and counts every formula expression it encounters on the way down.  
+To understand attribute $d$ we first take a closer look to the formula involved,
+$f_3: 2^{U\times U}\times\mathbb{N}\times\mathbb{N}\rightarrow \mathbb{N}$ is defined as follows:
+\[
+ f_3(s, n, m) := \begin{cases}
+                  m &\text{if } s=\emptyset\\
+                  \max(n,m) &\text{else}
+                     \end{cases}
+\]
+Attribute $d$ now takes this formula to check for every formula expression and for the top formula whether
+according to Cwm's translation there is at least one quantifier for universal variables  at that level (remember that the set of universals quantified at each level is captured by
+attribute $q$). If so, it takes the depth of the current formula which is captured by attribute $c$ 
+and compares it with the values for $d$ already found in the depending nodes. From these two values it takes the maximum. 
+If there are no universal quantifiers at a node, the attribute only passes the maximum value for $d$ of the depending nodes upwards. The value $\texttt{s}.d$ is now the depth of the deepest 
+nested universal in the formula.
+
+\begin{figure}
+%\begin{minipage}{0.95\textwidth}
+%\begin{center}%
+\small
+\begin{tabular}{llll}
+\hline
+\multicolumn{2}{l}{production rule} & rules for $d$ & rules for $c$\\
+  \hline
+%Syntax: &&\\
+%&&\\
+\texttt{s::=}&\texttt{f}& $\texttt{s}.d \leftarrow f_3(\texttt{f}.q, 1, \texttt{f}.d)$& $ \texttt{f}.c \leftarrow 1$\\
+       &&\\
+\texttt{f::=} &$\texttt{t}_1 \texttt{t}_2 \texttt{t}_3.$&   $ \texttt{f}.d \leftarrow \max_i \texttt{t}_i.d$ 
+                                                             & $\texttt{t}_i.c \leftarrow \texttt{f}.c$\\
+    &$\texttt{e}_1 \texttt{=>}  \texttt{e}_2.$& $\texttt{f}.d \leftarrow \max_i \texttt{e}_i.d$ & $\texttt{e}_i.c \leftarrow \texttt{f}.c$ \\
+%    &  \texttt{@forAll :u}     & universal quantification\\
+%    &  \texttt{@forSome :u}     & existential quantification\\
+    &$\texttt{f}_1 \texttt{f}_2$ &                $\texttt{f}.d \leftarrow \max_i \texttt{f}_i.d$  &     $\texttt{f}_i.c \leftarrow \texttt{f}.c$\\
+&&\\
+\texttt{t::=}&\texttt{uv} %\hspace{1cm}
+&                $\texttt{t}.d \leftarrow 0$ %\hspace{2cm} 
+&              \\
+            &\texttt{ex} &               $\texttt{t}.d \leftarrow 0$&              \\
+      &\texttt{c} &               $\texttt{t}.d \leftarrow 0$&               \\
+ %     & \texttt{l} &                literals\\
+      &\texttt{e} &                $\texttt{t}.d \leftarrow\texttt{e}.d $ &   $\texttt{e}.c \leftarrow\texttt{t}.c$        \\
+      &\texttt{(k)}& $\texttt{t}.d \leftarrow\texttt{k}.d$& $\texttt{k}.c \leftarrow\texttt{t}.c$\\
+      &\texttt{()}& $\texttt{t}.d \leftarrow 0$& \\
+      &&\\
+\texttt{k::=}&\texttt{t}     & $\texttt{k}.d \leftarrow\texttt{t}.d$ & $\texttt{t}.c \leftarrow\texttt{k}.c$\\
+&$\texttt{t k}_1$              & $\texttt{k}.d \leftarrow \max(\texttt{t}.d, \texttt{k}_1.d)$ & $\texttt{t}.c, \texttt{k}.c \leftarrow \texttt{k}.c$\\
+&&\\
+\texttt{e::=}&\texttt{\{f\}} &  $\texttt{e}.d \leftarrow f_3 (\texttt{f}.q ,\texttt{f}.c, \texttt{f}.d )$&   $\texttt{f}.c \leftarrow \texttt{e}.c+1$           \\
+       &\texttt{\{\}}        &  $\texttt{e}.d \leftarrow 0$ & \\
+       &\texttt{false}       &  $\texttt{e}.d \leftarrow 0$&   \\
+  \hline
+\end{tabular}
+\normalsize
+\caption{Attribute rules for the synthesized attribute $d$ (middle) and the inherited $c$ (right), and their corresponding production rules (left) 
+from the \nthree grammar (Figure~\ref{N3S}).
+The attributes keep track of the deepest nested universal in a formula.
+\label{neval}}
+%\end{center}
+%\end{minipage}
+\end{figure}
+
+Because of the nature of the proof we know that if the maximum depth of the universal quantifiers is two or lower, then the only reason for conflicting interpretations 
+is the use of the 
+predicate \texttt{r:gives} which has a graph as object. If the maximum depth of universal variables is bigger than two, 
+we know that the conflict 
+ found in the proof is more serious and caused by a deeper nesting in one of the formulas occurring in the object of \texttt{r:gives}.
+ 
+
+% \begin{equation}\label{eq11}
+% \verb!:Kurt :says {_:x :knows :Albert.}.!
+%  \end{equation}
+% 
+% can without further explanation either stand for 
+% \[
+%  \exists x: \text{says}(\text{Kurt}, \text{knows}(x, \text{Albert}))\tag{\ref{eq11}a} \label{eq11a}
+% \]
+% \textit{
+% `` There exists someone of whom Kurt says that he knows Albert.''
+% }
+% \begin{center}or\end{center}
+% \[
+% \text{says}(\text{Kurt}, (\exists x: \text{knows}(x, \text{Albert})))\tag{\ref{eq11}b} \label{eq11b}
+% \]
+% \textit{``Kurt says that there exists someone who knows Albert.''}
+
+% \MyQuote{
+% ``When formulae are nested, \_: blank nodes syntax \emph{[is]} used 
+% to only identify blank node in the formula it occurs directly in. 
+% It is an arbitrary temporary name for a symbol which is existentially quantified within the current 
+% formula (not the whole file). They can only be used within a single formula, and not within nested formulae.''
+% }
+
+
+
+
+
+
+
+
+% 
+% 
+% Conclusion: For cwm and the team submission, everything in curly brackets is a new formula and every existentially quantified formula is on quantified in that particular formula.
+% 
+% EYE distinguishes between implications and cited formulas. In implications the 
+% 
+% \begin{lstlisting}[
+%   float=t,
+%   caption={Reasoning result of cwm for Formula \ref{eq22} },
+%   label=cwm3]
+% §\textcolor{gray}{@prefix   : <http://example.org/ex\#>.}§
+% §\textcolor{gray}{@prefix ex: <\#> .}§
+% 
+% {@forAll ex:x.
+%    {ex:x :p :a.} => {ex:x :q :b.}.}     
+% => 
+% {@forAll ex:x.
+%   {ex:x :r :c.}=>{ex:x :s :d.}.}.
+% \end{lstlisting}
+% 
+% \begin{lstlisting}[
+%   float=t,
+%   caption={Reasoning result of eye for Formula \ref{eq22} and Formula \ref{eq2222} },
+%   label=eye3]
+% §\textcolor{gray}{PREFIX : <http://example.org/ex\#>}§
+% 
+% {{?U_0 :p :a} => {?U_0 :q :b}} 
+% => 
+% {{?U_0 :r :c} => {?U_0 :s :d}}.
+% 
+% {:s :r :c} => {:s :s :d}.
+% {:s :p :a} => {:s :q :b}.
+% \end{lstlisting}
+% 
+% We give these formulas to both reasoners to learn how the formula is interpreted and get the results as shown in Listings~\ref{cwm3}, and \ref{eye3}. As the initial
+% result of EYE was inconclusive, we added the following formula:
+% \begin{equation}\label{eq2222}
+%  \texttt{\{:s :p :a.\} => \{:s :q :b.\}.}
+% \end{equation}
+% 
+% 
+% 
+% 
+% 
+% If the reasoner follows interpretation~\ref{ei} that formula would derive the rule
+% \[
+%  \verb!{:s :r :c} => {:s :s :d}.!
+% \]
+% And indeed we see in the output of the EYE reasoner (Listing~\ref{eye3}) that the rule was produced, EYE follows Interpretation~\ref{ei}. 
+% The result of cwm (Listing~\ref{cwm3}) contains the \nthree construct \verb!@forAll! although that is not always the case (see Section~\ref{remarkExplicitQuantification}), 
+% here it can be understood as its first order counter part. We see that
+% cwm follows Interpretation~\ref{ci}.
+% 
+% In EYE, the quantification of universal variables is always put on top level, but how exactly is the rule for cwm? Here the \wwwc team submission gives us an indication:
+% 
+% \MyQuote{
+%  ``Apart from the set of statements, a formula also has a set of URIs of symbols which are universally quantified, 
+%  and a set of URIs of symbols which are existentially quanitified. Variables are then in general symbols which have been quantified. 
+%  There is a also a shorthand syntax ?x which is the same as :x 
+%  except that it implies that x is universally quantified not in the formula but in its parent formula.''}
+% 
+% So, if we find a new universal variable which is not quantified yet, we need to set a quantifier on its parent level. 
+% Having this in mind, we assume that adding a simple dummy rule 
+% like 
+% \begin{equation}\label{dummy}
+%  \texttt{\{?x ?x ?x.\}=>\{?x ?x ?x.\}.}
+% \end{equation}
+% would cause cwm to understand Formula~\ref{eq22} the same way EYE does. And this is indeed the behavior we can observe if we provide cwm with Formulas~\ref{dummy}, \ref{eq2222} and 
+% \ref{eq22} as displayed in Listing~\ref{cwm33}. In this case the existence of another rule using the same quantifiers (here Rule~\ref{dummy}) changes the meaning of our initially
+% examined rule (Rule~\ref{eq22}). \todo{In the actual implementation of cwm it 
+% makes a difference whether I state my dummy rule before or after the actual rule. I assume that this is simply a bug in cwm. Or should I mention that?}
+% 
+% \begin{lstlisting}[
+%   float=t,
+%   caption={Reasoning result of cwm for Formulas \ref{dummy},\ref{eq2222} and 
+% \ref{eq22} },
+%   label=cwm33]
+% §\textcolor{gray}{@prefix   : <http://example.org/ex\#>.}§
+% §\textcolor{gray}{@prefix ex: <\#> .}§
+% 
+% @forAll ex:x .
+%     
+% {:s :p :a.} => {:s :q :b.}.
+% {:s :r :c.} => {:s :s :d.}.
+%     
+% {ex:x ex:x ex:x.}=>{ex:x ex:x ex:x.}.
+% 
+% {{ex:x :p :a.} => {ex:x :q :b.}.}     
+% => 
+% {{ex:x :r :c.} => {ex:x :s :d.}.}.
+% \end{lstlisting}
+% 
+% \todo{I think this section is already long, should I add an example of subordination as the one below?}
+% \begin{equation}\label{nest}
+%  \verb!{?x :p :o.} => {?x :pp {?x :ppp :ooo.}.}.!
+% \end{equation}

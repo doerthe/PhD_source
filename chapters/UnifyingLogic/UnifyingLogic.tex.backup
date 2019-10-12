@@ -1,183 +1,1250 @@
-\chapter{A unifying logic for the Semantic Web}
-With the idea of the Semantic Web~\cite{SemanticWeb} a new vision how to use the Internet was born. The World Wide
-Web~\cite{bernerslee_1992} and its numerous functionalities should no longer only be used by humans---% 
-who can read websites or follow links to gain knowledge or use applications---but also by computers. To enable the computer to use the Web---just as humans do---%
-it must \emph{understand} the Web. But how does a computer think? How can we teach it content? 
-And which language does it understand? 
+\chapter{Unifying Logic} \label{unilog}
+% \setlength{\epigraphrule}{0pt}
+% \setlength{\epigraphwidth}{0.75\textwidth}
+% %\epigraph{\textit{Er ist ein Mathematiker und also hartnäckig.}}{Johann Wolfgang von Goethe}
+% \epigraph{\textit{[Socrates] ita disputat, ut [...] nihil se scire dicat nisi id ipsum, eoque praestare ceteris, quod illi quae nesciant scire se putent, ipse se nihil scire id unum sciat.}}{Cicero, Academica 1,16}
 
-%we need logic!
-When a human user reads a text in the Web, he has an idea of the concepts behind. He \emph{knows} for example that the cockatoo is a kind of bird, that most birds can fly 
-and that he
-can browse the Web to find further information. To provide the computer with similar knowledge about concrete objects (the cockatoo) and bigger concepts (birds, flying),
-and to enable it to reason and draw conclusions (cockatoos can fly) a representation of these facts and a clear definition of their meaning is needed: a logic.
-
-To represent basic facts the Semantic Web follows a common standard, the Resource Description Framework (\rdf)~\cite{rdf}. 
-The semantics of \rdf is clearly defined and other standards are designed on top of it, 
-but \rdf itself does not include any entailment regime, in other words: there is no internal
-mechanism designed how the computer is supposed to draw conclusions.
-To either query a graph, or to derive new knowledge applying description logics,
-or rule based reasoning, there are other standards defined. The envisioned architecture of the Semantic Web then 
-foresees a \emph{unifying logic} on top of those. Of which nature this logic needs to be and what the possible candidates are is still subject to discussion. 
-
-In this thesis we take a closer look at the unifying logic and 
-discuss one of the candidates to become such a logic: 
-\notationthree. 
-Introduced by Tim Berners-Lee et al. \cite{N3Logic}, \notationthree is a rule-based logic which extends \rdf
-by different features like an inference mechanism, the option to cite graphs and the possibility to express proofs.
+In this chapter we discuss the idea of the \ul for the Semantic Web. The term itself stems form the so-called \emph{Semantic Web Stack}.
+This schema represents the envisioned architecture for the Semantic Web and the unifying logic is one of its pieces.
+Therefore we start with a discussion of that stack in general to then focus on the parts relevant for this thesis. These considerations then lead to the research questions.
 
 
-
-% In order to enable the computer to read from the Web, understand it and draw its own conclusions different technologies are needed: first of all, knowledge needs to be 
-% represented in an unambiguous way. It is rather difficult for the computer to decide whether the term \emph{bass} refers to a fish or a musical instrument, 
-% but by using different 
-% unique names employing Uniform Resource Identifiers (\uris) it can clearly distinguish between  \texttt{dbr:Bass_guitar}.
-
-% When humans process language, a lot of knowledge is required. To decide whether the term \emph{bass} refers to a fish or a musical instrument they need context.
-% If humans browse through the Web, they read written content which they are able to process because of their knowledge of the world. Without 
-
-% All of us have already tried to directly talk to the computer---especially when we were frustrated and nothing seemed to work---but even when we scream in such situations, 
-% the computer's reaction is rather disappointing. A lot of afford is made to change this situation and to enable the computer to understand natural language, 
-% but there are still obstacles: human language tends to be ambiguous. Without knowing the context it is hard to tell whether the term 
-
-% In order to ``teach'' the computer these concepts, it needs to be able to parse the language used and to make sense of it. 
-% And even though there is an agreement that this language cannot be natural language---with all its ambiguities which are impossible or at least very difficult to resolve by a 
-% machine---but that a logic is needed, the opinions about the nature of that logic differ: description logic based formalisms are very powerful and allow for complex reasoning but they 
-% are also sensible for mistakes.
-
-
-
-\section{The vision of the Semantic Web}
-My idea for this chapter is to explain a little bit more about the semantic web in general and its architecture
-
-
-\section{Architecture}
-
-Gerber \cite{Gerber} \cite{Gerber2}. Really nice: abstracts from technnologies. Bad: the word ``unifying Logic'' dissapeared.
-
-\cite{rearch} Paper by Boley, Kifer, etc. ``realistic'' architecture, not just one technology. 
-
-\begin{figure}[h!]
+\section{The architecture of the Semantic Web}
+ To concretely realise the dream of a machine understandable Web as it was envisioned by Tim Berners-Lee et al. \cite{SemanticWeb}, 
+an architecture has been proposed, the  
+ \emph{Semantic Web Stack} (aka \emph{Semantic Web Layer Cake}).
+This stack provides a structural overview of the different concepts, technologies and standards needed for the Semantic Web to become reality. 
+Its shape has changed over the years \cite{Gerber2} due to the progress made -- several languages such as \rdf \cite{rdf} and SPARQL \cite{sparql} have been standardised
+-- but also 
+as a consequence of controversial discussion \cite{twotowers,kifer2005}. 
+Knowing that this version can -- and most probably will -- evolve and change in the coming years, 
+we focus %current 
+%version from wikipedia, which is a slight modification of 
+on the latest official 
+variant %\footnote{Available at: \url{https://www.w3.org/2007/03/layerCake.svg}.} 
+ and discuss its different parts. This variant is displayed in Figure~\ref{fig:stack}.\footnote{Colours and shapes are changed in this version to make it fit better into this book. 
+The original picture is available at: 
+\url{https://www.w3.org/2007/03/layerCake.svg}.
+A newer (unofficial) version is for example provided by Hogan \cite{hogan}.} 
+\begin{figure}[!ht]
 	\centering
 	%\begin{adjustwidth}{-\marginnotewidth}{}%
-	\includegraphics{Semantic_Web_Stack}
+	\includegraphics[width=0.8\textwidth]{stack6}
 	%\end{adjustwidth}
-	\caption{Semantic Web Stack. Source: \url{https://www.w3.org/2007/03/layerCake.svg}}
+	\caption[Semantic Web Stack]{Semantic Web Stack.}
 	\label{fig:stack}
 \end{figure}
-\subsection{Data Interchange}
-RDF
+%\footnotetext{Source: \url{https://en.wikipedia.org/wiki/Semantic_Web_Stack}}
+Each layer placed on top of other layers  depends on  these other layers but not on those above them. Neighbouring layers can, but not necessarily have to make use of each other. 
+We go from the bottom of the stack to its top to explain all its elements:
 
-\cite{rdf}
-\subsection{Querying}
-\subsection{Ontologies}
-RDFS
-OWL
-\subsection{Rule Based Logics}
-RIF
-
-SWRL
-
-N3
-
-\cite{N3Logic}
-
-\subsection{Unifying Logic}
-What do we expect from the ``unifying logic''?
-
-The vision of the Semantic Web is to enable machines to use the Web just as humans do. For that they need to be able to \emph{understand} and \emph{exchange} data through the Web. 
-An unambiguous way to express knowledge is needed, a logic. 
-This logic needs to be well defined to avoid misunderstandings and it needs to be agreed on this definition between all possible parties involved.
-
-
-Also say why you should go for N3: unifying logic is not just a theoretical construct, it also gives practical advantages: reasoning is often faster when you use only one logic.  
-It has advantages if you need 
-the features of different frameworks. Of course, if you know that, eg only querying is needed you should still go for SPARQL.
-
-
-% The Unifying Logic needs to be well-defined in itself, it needs to be able to ``understand'' the underlying formats, in particular to query, do DL reasoning and use rules. 
-% Additionally it should provide the opportunity to connect to the proof layer.
-Requirements:
 \begin{description}
- \item[clear semantic definition] 
-The meaning of every statement needs to be clearly defined.
- \item[compatibility with existing Web standards]  Existing standards of the Semantic Web need to be supported. 
- In particular, querying, Description Logics, and rule based reasoning need to be covered.
- \item[support of proofs] It must be possible to express, interchange and check all derivations made in the logic.
- \item[capability to handle change] It must be possible to express and reason about change.
+%  \item[Character Set] To be compatible with the current Web and its applications, but also with textual documents in all languages in general,
+%  the Semantic Web relies on Unicode.
+ \item[Identifiers] The Semantic Web is a global network which relies on interoperability. In such a big setting, it is crucial that the names of individuals and concepts are unique.
+ For their representation Uniform Resource Identifiers (\uris) and Internationalized Resource Identifiers (\iri{}s) are used.  
+ \item[Syntax] There are several syntax formats frequently used in the Semantic Web. Standards of the World Wide Web are employed -- such as XML or JSON -- but also formats 
+ only created for the Semantic Web such as for example the Terse RDF Triple Language (Turtle). 
+%  The fact that the Semantic Web stack only mentions XML and omits 
+%  other notations which are also used
+%  is often 
+%  a point of criticism.\footnote{See for example the discussion at: \url{https://lists.w3.org/Archives/Public/semantic-web/2016Feb/0121.html}.} 
+ \item[Data Interchange]
+In order to exchange data it must be agreed on  a common structure to express knowledge. This 
+structure should not be too complex for a machine to parse but still 
+powerful enough to make simple statements and connections. 
+In the Semantic Web the Resource Description Framework (\rdf) was developed with 
+that goal in mind. Knowledge is expressed using simple triples consisting of subject,
+predicate and object. By using unique names (\iri{}s and \uris) connections between different triples are made. 
+Ideally, one resulting graph then forms the Semantic Web.
+ \item[Taxonomies] For the simple classification of objects and properties the Semantic Web uses the standard \rdf Schema (\rdf{}S). \rdf{}S extends the basic representation format 
+ \rdf by several predicates with a predefined meaning such as for example \texttt{rdfs:subclassOf} to denote that one class is a subclass of another.\footnote{
+Here and later in this section we use the prefix 
+``\texttt{rdfs}'' which stands for  \url{http://www.w3.org/2000/01/rdf-schema\#}.
+% , the complete url of the concept we refer to here is 
+% \url{http://www.w3.org/2000/01/rdf-schema\#subClassOf}.
+In Section \ref{prefixremark} we further explain prefixes.
+%https://www.w3.org/TR/rdf11-concepts/#vocabularies
+ } 
+ %
+ \item[Ontologies]
+ The taxonomy already gives some basic information about concepts and individuals in the web. To express more complex things in a fixed way, ontologies are used. 
+ Ontologies can be understood as a collection of statements about concepts, classes and individuals using a broad variety of logical predicates which have a fixed meaning for the computer.
+ Even though, in that sense a collection of rules over \rdf data could be understood as an ontology,  in the Semantic Web context the term refers to a set of statements written in the Web 
+ Ontology Language (\owl). This language is based on description logics and a reasoner can use these statements to draw conclusions.
+ %
+ \item[Rules] Alternatively to \owl, but also in combination with this standard, there is another way of stating knowledge about concepts and data in the Semantic Web: rules. 
+ Having their origin in classical logic programming, rules are used to directly state which triples or patterns of triples can be concluded from given information. To combine rule-based reasoning 
+ with \owl reasoning the Semantic Web Rule Language (SWRL) can be used. As a general format to exchange different kinds of rules, the Rule Interchange Format (RIF) was created. 
+ There are also many other 
+ rule-based logics used in the Semantic Web which are not standardised (yet), one of them is \notationthree Logic (\nthreelogic) 
+ which is the subject of this thesis.
+ %
+ \item[Querying] Independently of whether reasoning is performed on \rdf data or not, there are many situations in which a user or an application wants to retrieve information 
+ by searching for triples of a certain kind. Therefore, querying is an important part of the Semantic Web. To query data from \rdf the SPARQL Protocol And RDF Query Language (SPARQL) is used.
+ \end{description}
+ The different layers described so far have -- at least up to some point -- already been realised -- for all building blocks there exist standards. 
+ The higher layers we discuss now
+are either not realised yet or the community has not yet agreed on a solution (or even on a concrete definition of the problem). 
+% In that sense the  following description might be subjective. For alternative views we recommend for example 
+% the introduction done by Hogan \cite{hogan}.
+ \begin{description}
+ \item[Unifying Logic]
+ Above these concepts of querying, ontologies and rule based reasoning, there is the layer of a unifying logic: 
+ a logical framework which connects the other concepts and makes it possible interoperate between them. 
+The logic should thus support the inference mechanisms of these three underlying concepts and the formats below, in particular \rdf.
+ \item[Proof]
+ Once this unifying logic is found, it should be possible to provide formal proofs for the derivations done using this logic (and thereby also for all derivations of the underlying standards). 
+ These proofs should be exchangeable by different parties and it should be possible to automatically check their correctness. Additional information like for example the source of knowledge 
+ used could also form part
+ of these proofs.
+ \item[Cryptography]
+ The cryptography layer lies aside of the layers discussed so far. For all the resources and at all layers of the Semantic Web cryptographic techniques should be used 
+ to for example verify the identity of an agent or to implement access control mechanisms. Here, existing Web technologies and protocols like for example RSA or HTTPS but 
+ also newer techniques like blockchain could be used.
+ \item[Trust]
+ The layers proof and cryptography together form the base for the trust layer: only if reasoning steps, sources of information and the trustworthiness of all parties involved
+ can be verified and manipulation 
+ can be excluded, people and machines can trust the information they get from the Semantic Web.
+ \item[User interface and applications]
+ This highest layer of the stack is also the broadest: a Semantic Web only makes sense if it is more than a scientific construct. 
+ It needs to be used by humans but also by different machines which, following
+ the original vision, should be able to interact between each other and make use of the resources available. Of course there are already applications making use of the Semantic Web implemented, but
+ together with the progress of the Semantic Web as a whole, we expect a lot more to come.
 \end{description}
-\subsection{Proofs}
-\section{Research questions}
-Question: Is N3 a suitable candidate to become the unifying logic for the semantic web?
 
-Sub-questions:
-
-Can we give a clear semantic definition of Notation3 Logic?
-
-How does Notation3 Logic interfere with other formats? Can SPARQL, OWL and RIF be expressed?
-
-Is it possible to express proofs in N3?
-
-Can N3 handle change?
-
-I think I need to be more specific. To find that: what do I actually do here?
-
-\textbf{Part 1:}
-I try to find out what the semantics of N3 is. 
-
-I find one specific problem which is not easy to solve: implicit quantification. Here I need to discuss the problem: meaning not clear.
-
-Next: who understands it how? Different ``official'' sources, tests on reasoners.
-
-
-Then: we know the differences, can we fomalize those?
-
-To do so, we go for attribute grammars, implemet a tool, test the impact of the problem.
-
-We argue that we are in favor of doing as EYE does, but for the rest of the thesis we assume the semantics as in the team submission. Following that, we also give a direct semantic which we want 
-to use in the following chapters.
-
-Question: should I display both, direct and elaboration Semantics? Alternative: only go for elaboration, but then the proofs in the RESTdesc part need to be adjusted.
-
-Conclusion: N3 is, as we will see a very nice logic. To be used in the web, a better semantics is needed. 
-
-\textbf{Part 2:}
-N3 and other standards.
-
-The idea of this chapter is to illustrade on practical cases that tasks which were already implemented by different frameworks can be taken over by N3. We have two use cases: 
-
-Firstly, a nurse call system. Here, a solution was implemented in OWL DL using SPARQL on top of it. We show that N3 can be use to combine the parts of DL relevant for this approach SPARQL queries. 
-The reasoning times of both systems are then compared. We also discuss steps to further improve performance of reasoning.  
-
-Secondly: finding constraints. Here, other approaches also suggest to use SPARQL and DL reasoning, we again argue that N3 is a very good fit for this use case. As an extra aspect, we discuss the features of 
-N3 which are important for this use case. Here, we emphasize scoped negation as failuere and the fact that RIF predicates are supported (something we need from a unifying logic).
+%After having briefly introduced the Semantic Web Stack, it is worth to mention that there are different points which are 
+% Introduction given by Hogan \cite{hogan}.
+% Gerber \cite{Gerber} \cite{Gerber2}. Really nice: abstracts from technnologies. Bad: the word ``unifying Logic'' dissapeared.
+% 
+% Ian Horrocks: two towers \cite{twotowers} -- by supporting the closed world assumption we get two semantic webs.
+% 
+% 
+% \cite{rearch} Paper by Boley, Kifer, etc. ``realistic'' architecture, not just one technology. 
+% 
+% 
+% \subsection{Data Interchange}
+% RDF
+% 
+% \cite{rdf}
+% \subsection{Querying}
+% \subsection{Ontologies}
+% RDFS
+% OWL
+% Introducing the Semantic Web stack, its critical points should also be discussed:
+%
+%Above, we explained, that the upper layers of the Semantic Web stack should depend on the lower ones, this particular detail often leads to discussion on several levels  
+%
+One detail which often leads to discussion\footnote{See for example: \url{https://lists.w3.org/Archives/Public/semantic-web/2016Feb/0121.html}} 
+is that the current stack explicitly names XML~\cite{XML} as a base for the syntax while many applications rather use formats like 
+the JSON-based JSON-LD~\cite{jsonld} or Turtle~\cite{turtle}, 
+which is also easy to read for humans, to represent \rdf.\footnote{Even though in the case of Turtle this point 
+is somehow addressed as the \rdf layer directly 
+touches the layer of identifiers which are directly used by Turtle.} This is certainly a valid criticism. 
+However, in this thesis we see the formats occurring in the stack as open lists of formalisms which have already been standardized to serve the purpose mentioned 
+rather than a simple declaration of the decision in favour of a format. To emphasize this, we added to every layer which is labelled with a standard also the general purpose this layer 
+fulfils. These names are not always present in the original stack our figure is based on.
 
 
-A: owl
-
-Show that OWL RL is quite powerful (first ORCA paper).
- - introduce use case
-Show that reasoning can be optimized with precomputation.
-
-Dhort new part that we can go beyond OWL RL, say why, but: futere work
-
-B: querying and RIF
-example constraints paper (need to think about that part).
-
-\textbf{Part 3:}
-Message: Proofs are expressible in N3. Proofs are a very useful tool with many applications beyond trust.
+% \section{The Logical Building Blocks}
+% After the overview of all layers of the Semantic Web stack, we now dive deeper into the different logical concepts involved which the layer \emph{Unifying Logic} 
+% is meant to combine. 
+% These are the the building blocks \emph{Querying}, \emph{Ontologies/Taxonomies} and \emph{Rules} and their base \emph{Data Interchange}. 
+% The focus of this section are the different formats used on these layers, their semantics and their relation between each other.
 
 
-N3 and proofs
+\section{\rdf as the Base of the Logical Building Blocks}
+While the standards proposed for the other building blocks of the Semantic Web stack are subject to discussion -- some more than others as the example of XML shows -- 
+\rdf as 
+the standard 
+used for data interchange is widely accepted. The Linked Open Data Cloud (LOD Cloud)~\cite{LODCloud} -- at the time of writing (November 2018) 
+consisting of 1,229 datasets each containing at least 1,000 \rdf triples -- is one indicator for that, the various papers using \rdf papers 
+published at different conferences, \eg \cite{iswc,eswc},
+are another. 
+%As the decision for a logic to interchange data is not only made by the \wwwc consortium, but even commonly accepted in practice
+Given this strong position of \rdf as the proposed standard for data interchange 
+the logical building blocks \emph{Querying}, \emph{Ontologies/Taxonomies} and \emph{Rules} and -- as a consequence -- also the
+\emph{Unifying Logic} need to connect to \rdf. 
+This connection can be on syntactic level -- other standards can use \rdf's syntax of triples -- but to really realise a \emph{Semantic} Web 
+such a connection needs to be stronger:
+\rdf is a logic and has its own formally defined semantics~\cite{RDFSemantics} and other logical concepts relying on it need to take that fact into account. 
+We now discuss the relation of \rdf and the different standards listed in the Semantic Web Stack in detail.
 
-First: it is possible to express proofs in N3: introduce the calculus.
+\subsection{RDF and SPARQL}
+The query language SPARQL~\cite{sparql} treats \rdf as a data structure in which can be searched for particular patterns. In that sense, SPARQL only makes use of the syntax of \rdf and 
+is agnostic about its specific semantics. However, the query semantics of SPARQL is compatible with \rdf and the specification even states, how SPARQL can be aligned with different 
+entailment regimes including simple \rdf entailment.  The syntax of SPARQL is defined on top of \rdf and uses \rdf's  triple structure to express the graph pattern to search for. 
+There exists an approach to fully express SPARQL
+queries in \rdf, the SPARQL Inferencing Notation (SPIN)~\cite{spin}. 
+While this notation is syntactically compatible with \rdf, there are several constructs which make the integration of SPIN on a semantic level problematic:
+SPIN represents SPARQL queries as blank nodes whose different properties are then specified in \rdf triples. The problem with this notation is that these blank nodes do 
+not simply represent anonymous objects in \rdf but implicitly existentially quantified variables. This means that, by using SPIN notation, a user just states that a 
+query \emph{exists}. This is something different than writing down a query which one wants to execute.\footnote{
+To understand this difference, consider the two sentences: (1) \emph{``The moon is made of cheese.''} and (2) \emph{``There exists the statement that the moon is made of cheese.``}
+The person using sentence 1 expresses his believe that the moon is made of cheese while by stating sentence 2 nothing is said about the believe of the speaker concerning the moon.
+} 
+Similar problems arise from the use of blank nodes to represent other concepts like for example the search variables of a query. 
+% Blank nodes are for example used to represent query variables which is opposed to their meaning:
+% % 
+% % To express SPARQL's query variables SPIN uses blank nodes. The problem here is
+% % that blank nodes already have a meaning, they are understood as implicitly existentially quantified variables. This is opposed to the meaning of query variables: 
+% When a variable is used
+% in a search pattern, it is the purpose of the SPARQL query to provide evidence for the \emph{existence} of an instance of the variable but in case that this is not possible
+% it is not sure whether such an instance \emph{exists}.
 
-Second: it is a very nice feature even beyond the obvious use of ``trust''. To show that, we introduce two practical applications
 
-A: Pragmatic proof: we describe Web APIs using N3 rules. Then we can use proofs to combine these. Has been used for many applications. Problem: no way to express change
+\subsection{RDF and RDFS}
+\rdf Schema (\rdf{}S)~\cite{RDFS} was developed together with \rdf and extends this rather basic logic by several predicates having a fixed meaning such as for example 
+\texttt{rdfs:range} and \texttt{rdfs:domain} to specify the domain and range of a predicate or \texttt{rdfs:subClassOf} to express hierarchies between different classes.
+%The same official document~\cite{RDFSemantics} which defines the semantics of \rdf also specified the meaning of \rdf{}S predicates and entailments which can be done using those.
+The semantics of \rdf{}S is defined in the same official document~\cite{RDFSemantics} \rdf's is and therefore it is not surprising that these two standards are fully compatible
+on both levels, syntax and semantics. 
+\rdf{}S thus truly extends \rdf. 
 
-B: Sensdesc: same idea as RESTdesc but in a different setting: we use rules to describe possible queries to streams. Then we can use the proof to determine whether a query is relevant for a request.
+\subsection{RDF and OWL}\label{rdfandowl}
+For the ontology layer the Semantic Web Stack proposes the Web Ontology Language (OWL)~\cite{owlold} which has evolved further to \linebreak OWL~2~\cite{owl}. 
+On the syntactic level \owl~2 is compatible with \rdf. There are different syntaxes defined for \owl but the \rdf{}/XML syntax is mandatory for all 
+systems supporting \owl~2 and other 
+syntaxes can be mapped to that~\cite{owltordf}.
+For the semantics the situation is more complicated: There are two different semantics for \owl~2. 
+The \emph{direct semantics}~\cite{owldsem} for the structural syntax of \owl~2~\cite{owlsyn1} is purely based on Description Logics~\cite{dl} a subset of first order logic
+which is known 
+to be decidable.
+This flavour of \owl 2 is also called \emph{\owl DL} and there are several reasoners for it and its subprofiles OWL 2 RL, OWL 2 QL and OWL 2 EL~\cite{OWLRL}
+like for example Pellet~\cite{Pellet}, HermiT~\cite{hermit} or RDFox~\cite{rdfox}.  
+Even though it can be represented using \rdf \emph{syntax}, \owl DL is not \emph{semantically compatible} with \rdf and 
+does for example not interpret blank nodes as existentially quantified variables.
+To provide a semantic connection between \owl and \rdf, 
+the \emph{\rdf-based semantics}~\cite{owlrdfsem} for the \rdf-representation of \owl 2 was created. % to  logically combine \rdf{}(S) with description logics.   
+The logic supported by this semantics is also called \emph{\owl Full}. OWL Full is not decidable and there are no reasoners implemented to fully support 
+this logic. 
+% ---there exists a representation of \owl in \rdf~\cite{owltordf}---but semantically, 
+% the situation is more complicated: There are two semantics for OWL defined, the direct semantics~\cite{owldsem} and the \rdf-based semantics~\cite{owlrdfsem}
+% More problematic is the relationship of \owl and \rdf. \owl  has been designed on the base of Description Logics~\cite{dl}. a logical framework based on First Order Logic 
+% which---in contrast to the latter---has the advantage to be decidable. For \owl there exist two syntaxes, one direct syntax 
 
-Conclusion: The feature ``proof'' is very useful. For some use cases N3 has limits.
+
+\subsection{RDF and RIF}
+For the rule layer, the Semantic Web Stack lists the Rule Interchange Format (RIF)~\cite{rif}.
+While \rdf{}S, \owl and SPARQL are concrete logics disposing 
+over their own semantics, RIF~\cite{rif} is a format to \emph{interchange} rules. 
+Being designed for that purpose, RIF supports different paradigms with sometimes 
+conflicting model-theoretic semantics (\eg well-founded vs stable semantics) or even with no model-theoretic semantics at all: 
+for the RIF Production Rule Dialect (RIF-PRD)~\cite{rifprd} only operational semantics is defined. 
+As a connection between these formats, RIF offers RIF Core \cite{rifcore}, a minimal rule language supporting common features of rule languages which can be 
+extended to define the semantics of concrete languages.
+% This broad support of different forms of rule-based languages makes it easy to create a new rule language and relate it to the standard---in that sense it is really
+% appealing from a theoretical point of view---but it also forms a burden for the bigger goal
+% behind the Semantic Web Stack: the realisation of the Semantic Web. Practitioners creating applications want to \emph{use rules}
+% and not  \emph{create or compare rule languages}. 
+% For the outsider the complex RIF landscape can be overwhelming. This is one possible reason why the 
+% full potential of RIF is barely used in practice. 
+The syntax of RIF is based directly on XML but can be mapped to an \rdf representation~\cite{rifinrdf}. 
+As it was the case with SPIN, this representation can be used for data exchange but does not really combine both logics: 
+blank nodes are used to express RIF formulas and variables. \rdf interprets these as existentially quantified.
+The semantics of 
+RIF Core and its different extensions is defined independently of \rdf. 
+The standard also specifies a way to semantically integrate \rdf to RIF~\cite{rifrdf} but to apply rules on \rdf data, this data needs to be translated
+and there are only very few reasoners which perform that translation.\footnote{From the different engines listed at \url{https://www.w3.org/2005/rules/wiki/Implementations}
+only FuXi, riftr and EYE 
+claim to support \rdf, but for the latter it is clearly stated that the RIF syntax first needs to be translated into the native syntax of EYE by an external tool. }
+% However, from the reported implementations supporting RIF\footnote{\url{https://www.w3.org/2005/rules/wiki/Implementations}} only FuXi~\cite{fuxi} and EYE~\cite{EYE}
+% explicitly state that they support \rdf. Here, it needs to be said that EYE is based on \nthreelogic and does only support RIF is a translator from RIF to N3 is used
+% and FuXi
+% Say that this is never done in practice.
+% This integration maps triples to so-called frames. The meaning of \iri{}s is preserved by the mapping. Since RIF does not directly support the concept of blank nodes, these are 
+% translated in two ways: firstly, as existentially quantified variables---RIF supports existential quantification for simple statements---and, secondly, in a skolemized version.
+% The latter is done to make it easier to apply rules on triples which in their \rdf version include blank nodes.
+% Except for \rdf{}S, the \rdf syntax of the frameworks names is rather artificial: To make statements in 
+
+% Rules
+% 
+% Another detail of the stack which is often criticised has to do with the middle layer: While \owl and SPARQL are concrete logics---in case of \owl 
+% with sub-logics~\cite{OWLRL}---disposing 
+% over their own clearly defined unambiguous semantics (see \cite{owlrdfsem,owldsem} 
+% and \cite{sparql}, respectively), RIF~\cite{rif} is a format to interchange rules. Being designed for that purpose, RIF supports different paradigms with sometimes 
+% conflicting model-theoretic semantics (eg well-founded vs stable semantics) or even with no model-theoretic semantics at all: 
+% for the RIF Production Rule Dialect (RIF-PRD)~\cite{rifprd} only operational semantics is defined. 
+% As a connection between these formats, RIF offers RIF Core \cite{rifcore}, a minimal rule language supporting common features of rule languages which can be 
+% extended to define the semantics of concrete languages.
+% This broad support of different forms of rule-based languages makes it easy to create a new rule language and relate it to the standard---in that sense it is really
+% appealing from a theoretical point of view---but it also forms a burden for the bigger goal
+% behind the Semantic Web Stack: the realisation of the Semantic Web. Practitioners creating applications want to \emph{use rules}
+% and not  \emph{create or compare rule languages}. For the outsider the complex RIF landscape can be overwhelming. This is one possible reason why the 
+% full potential of RIF is barely used in practice. 
+
+% Another aspect weakening the position of RIF in the stack is that its syntax is directly based on XML 
+% and not on \rdf which offers different syntactic variants of which only one is \rdf/XML. 
+% This makes the connection to \rdf rather loose
+
+% As discussed above, the upper layers of the Semantic Web stack should depend on the lower ones. 
+% Above, we already discussed that in the case of the syntax layer this is not always the case 
+% since XML is only one syntactical option to represent \rdf. The dependency problem is also given for the upper layers depending on \rdf:
+
+
+%\rdf and \owl can be integrated to RIF via so-called slots, the   
+%
+%Nevertheless, even this group of 
+%This means that it is a family of logics which do not all have Semantics defined.
+%As it is, RIF is a very good format to \emph{define} languages, but with its oneness   
+% Being a very open standard, RIF misses the opportunity to force the community to stick to a certain rule format which is crucial if we have in mind that it was created to 
+% serve : the crea Semantic Web.
+%RIF is standardised disagreement
+
+
+
+
+
+\section{Connecting the Logical Building Blocks}
+On top of the logical building blocks \emph{Querying}, \emph{Ontology/Taxonomy} and \emph{Rules} the Semantic Web Stack foresees a connecting layer: 
+the \emph{Unifying Logic}. 
+% How this connection should be has been subject to discussion.
+% Several approaches focussed on the connection of Description Logics, the base of OWL DL, and rule-based reasoning (eg \cite{DLP,knorr,unilogic,DLASP}). 
+% This connection normally deals with 
+% two major challenges:
+Such a connection can, for example, only support the exchange of the results obtained by the different blocks~\cite{kifer2005} 
+or semantically combine Description Logics and rule-based reasoning in one logic \cite{DLP,knorr,unilogic,DLASP,owlandrules}. 
+Especially this last approach normally deals with two major challenges: 
+the support of a \emph{closed vs open world assumption} and \emph{decidability}. We discuss both topics in detail.
+
+\subsection{Open vs. closed world}\label{closedworld}
+ Classical database languages (\eg SQL)  but also many rule languages (\eg Prolog) support the \emph{closed world} assumption which basically says that if a statement cannot 
+be derived, 
+it is considered to be false (negation as failure, NAS). While such an assumption comes in handy when we have one single database which can be completely searched by applying a query, 
+it is problematic 
+in the environment of the Web: the Web is decentralised and it is impossible to know whether or not something is stated to be true \emph{somewhere} in the Web.
+For that reason \rdf, \rdf{}S and \owl are defined with the \emph{open world assumption}. No conclusions can be taken by the fact that something cannot be derived. 
+In contrast to that, the query language SPARQL supports a form of negation as failure. The
+filter \texttt{NOT EXISTS} retrieves a positive result if no match can be found for a given pattern \cite[Section 8]{sparql}.
+For rule languages, it is more complicated:
+RIF-Core~\cite{rifcore} does not cover negation and it depends on the designer of RIF dialect whether and how this concept is handled. From the dialects 
+specified in the \wwwc recommendation, only RIF-PRD~\cite{rifprd} supports the closed world assumption. 
+
+But even these cases of negation can be covered by open world concepts: As a SPARQL query is always executed on one or more specific databases and 
+rule languages rely on facts and formulas which are explicitly stated somewhere, we  
+can use the concept of \emph{scoped negation as failure} (SNAF)~\cite{kifer2005,snaf1,snaf2}. SNAF makes use of the sources (the scope) 
+which where taken into account when executing a 
+query or performing rule-based reasoning. Instead of simply stating that something cannot be proven such as it is done when applying NAF, in SNAF  we
+draw conclusions from the fact that something cannot be derived from a \emph{fixed dataset} which we explicitly name. 
+So, even if we find out later that somewhere in the Semantic Web a fact x is declared to be true, 
+the statement that we cannot derive that fact x from a fixed knowledge base K 
+keeps being valid.  
+
+
+\subsection{Decidability}
+ Description Logics~\cite{dl} in general and with them OWL DL \cite{owldsem} in particular are decidable; for every statement expressed in the language of these logics there
+exists an effective method to decide whether or not this statement is consequence of a set of valid formulas. This is not the case for classical 
+First Order Logic~(FOL) and one of the main goals driving the development of Description Logics was to cover as much of the features of FOL as possible while still guaranteeing 
+decidability. Therefore it is not surprising that many approaches of finding a Unifying Logic mainly focus on decidability (\eg~\cite{unilogic,dllog}). 
+While this focus forms a very interesting research problem -- especially when considering the fact that simply combining decidable rule-based reasoning with description logics 
+does not lead to decidability \cite{orl} -- it is of rather theoretical nature when searching for a Unifying Logic: OWL Full, 
+the semantic combination of \rdf and OWL DL is already undecidable which is the reason why no decidable combination of rule-based reasoning and description logics can cover these 
+two important building blocks of the Semantic Web.
+%If we really want to connect all logical building blocks we cannot keep decidability since only OWL Full fully covers \rdf and that is already known to not be decidable.
+%
+% Next to these 
+% This last point shows the limits when understanding the concept of a unifying logic as a 
+% logic semantically connecting different standards listed in the stack which are not always fully compatible or 
+% show severe practical problems in terms of reasoning time when  applying them
+% 
+The quest for a Unifying Logic should therefore rather focus on ways how information specified in OWL, \rdf and rules can be used to draw conclusions
+and accept that we cannot know everything (which is not only a problem  for Semantic Web technologies but also something we all deal with in our daily life). 
+
+
+
+
+% If we want the vision 
+% of a Semantic Web become reality, 
+
+%a unifying logic should focus on the \emph{applications} and \emph{functionalities} of the different logical building blocks.
+
+% Therefore, this dissertation treats the idea of a unifying logic from a practical point of view: we need a logic which supports the \emph{applications} 
+% of the logical building blocks. This logic should be compatible with \rdf and it should also be a possible base for the next higher building block of the Semantic Web stack, 
+% the proof layer. 
+
+%The semantic Web SWRL~\cite{swrl} follows the open world assumption while RIF-PRD~\cite{rifprd} supports the closed world assumption. 
+% As Kifer et al~\cite{rearch} point out, the solution 
+% to that problem lies in a slightly modified form of negation as failure: The concept of \emph{scoped negation as failure}~\cite{snaf1,snaf2} refers 
+% to the fact that a statement cannot be derived from a given set of knowledge, the \emph{scope}.
+
+% and rather loose as a \emph{logic framework} connecting the results 
+% of description logic and rule-based reasoning 
+% \cite{rearch} or by the definition of one logic which combines these two logics \cite{knorr,unilogic,DLASP}.
+
+% So far, several approaches for a unifying logic have been proposed, all with their own advantages and disadvantages. An attempt to combine Description logics with rule-based 
+% reasoning has been 
+% %Below we discuss how such a \emph{connection} can be established and whether or not the concrete 
+% %This logic should support the functionalities of all three sub-layers and be compatible with  
+% %and ideally also provide a combined semantic model for 
+% % all standards listed in the stack.   
+% % 
+% % That especially this last goal is difficult to fulfil 
+% % can already be concluded from the last section where we have seen that the  level of compatibility with \rdf differs between different standards which makes it 
+% % even more unlikely to find on approach which syntactically and semantically combines all standards.
+% 
+% Closed versus open world.
+% Decidability.
+
+
+
+
+
+
+% We want to have a unifying logic which connects the functionalities. We want \rdf as a base. 
+% We want to be able to choose how the reasoning deals with owl given that owl full is 
+% undecidable. 
+
+
+% 
+% \cite{twotowers} think that the rules and owl should not be side by side, they see the open world assumption as problem and want to have the rule layer on top of owl dl.
+% 
+
+
+%\subsection{Rule Based Logics}
+% 
+% History about big discussion open vs. closed world assumption.
+% 
+% Discussion: closed world assumption a problem
+% 
+% comes also in \cite{rearch}.
+% 
+% Solution: scoped negation as failure.
+% 
+% The paper above sees rules without negation as failure such as swrl just as extension of owl and not as belonging to the other format.
+% 
+% rules and owl see each other as black boxes.
+% we can combine them
+% -> this reminds me a little bit of validation where we first do dl reasoning and then querying
+% 
+% the paper also see querying as some kind of rule application (I think they are right here).
+% 
+% in the paper they also say that querying and then integrating the results into each other can be a solution. On purpose they do not use
+% the term ''unifying logic`` but: ''Logic Framework``
+% 
+% RIF
+% 
+% SWRL
+% 
+% N3
+% 
+% \cite{N3Logic}
+% 
+% Explain this unifying logic, list the attempts to find one and answer the question: why N3 and not those?
+% 
+% 
+% 
+% Here or somewhere else mention description logic programs \cite{DLP} which try to combine Description Logic and Logic Programming. - OK, rather their intersection.
+% 
+% \cite{knorr} rules as unifying logic
+% 
+% \cite{unilogic} first attempt to close the rift between rule-based and description logic reasoning, problem remains: open world assumption
+% 
+% 
+% What do we expect from the ``unifying logic''?
+% 
+% 
+% Different approaches in the ``quest for a unifying logic'': extend owl (nominal schemas, same paper \cite{unilogic}), ``merge'' owl and rules (both mentioned in \cite{unilogic}). 
+% We go a third way: rules for all.
+% 
+% approaches consider worst case time complexity (e.g. \cite{unilogic}). -> argue that this is nice but we focus on practical cases.
+% 
+% unifying logic on application level, not just a construct -> we therefore exclude owl full.
+% 
+
+
+% 
+% Also say why you should go for N3: unifying logic is not just a theoretical construct, it also gives practical advantages: reasoning is often faster when you use only one logic.  
+% 
+% 
+% % The Unifying Logic needs to be well-defined in itself, it needs to be able to ``understand'' the underlying formats, in particular to query, do DL reasoning and use rules. 
+% % Additionally it should provide the opportunity to connect to the proof layer.
+% Requirements:
+% \begin{description}
+%  \item[clear semantic definition] 
+% The meaning of every statement needs to be clearly defined.
+%  \item[compatibility with existing Web standards]  Existing standards of the Semantic Web need to be supported. 
+%  In particular, querying, Description Logics, and rule based reasoning need to be covered.
+%  \item[support of proofs] It must be possible to express, interchange and check all derivations made in the logic.
+%  \item[capability to handle change] It must be possible to express and reason about change.
+% \end{description}
+% 
+
+\section{Requirements on a Unifying Logic}\label{req}
+Before we continue and discuss the research questions this thesis aims to answer, 
+we briefly discuss the aspects on a \emph{Unifying Logic} we want to focus on. The \emph{Unifying Logic} for the Semantic Web should fulfil the following requirements:
+\begin{enumerate}
+\item \textbf{Clear semantics} %Be clearly defined:} 
+The semantics of the \emph{Unifying Logic} should be formally defined to avoid ambiguities.
+% For the \emph{Unifying Logic} it is even more crucial than for any other logic to have a formally defined semantics because one key concept of 
+% the Semantic Web is interoperability. This means that different systems exchanging information and applying the logic need to have a common agreement about 
+% its meaning of formulas. % which can only be given if this is clearly defined.
+\item \textbf{Compatibility with \rdf} %Build on \rdf:} 
+The \emph{Unifying Logic} should be \emph{syntactically} and \emph{semantically} compatible with \rdf.
+\item \textbf{Connection of the logical building blocks:} %Connect the logical layers:} 
+The \emph{Unifying Logic}  should facilitate the practical tasks the 
+ building blocks \emph{Querying}, \emph{Taxonomies/Ontologies}
+and \emph{Rules} aim to solve and 
+it should support reasoning on the \rdf representation of the standards listed in the current stack (\ie RIF, OWL and SPARQL).
+\item \textbf{Support of proofs:} It should be possible to formally express proofs for derivations done in the \emph{Unifying Logic}. The proof format should be based on \rdf, it should be 
+exchangeable and it should be usable in practical applications which go  beyond their primary purpose of establishing trust.
+%the possibility to express proofs and use them in applications (4).
+\end{enumerate}
+
+We further explain these points below starting with the two aspects discussed in the previous sections:
+% The discussion so far has shown, that it is impossible to find one single logic which connects the logical layers on a semantic level while still providing a 
+% practical framework supporting reasoning with them.
+%In the last two sections we already discussed two properties which qualify a logic to become the unifying logic for the Semantic Web:
+A \emph{Unifying Logic} must be compatible with \rdf and it should 
+ connect the layers it directly relies on. We have already seen that the concept of \emph{connection} can be understood in different ways. One of these is the creation of a 
+ decidable logic which supports DL reasoning and rule-based inferencing at the same time. Since this solution excludes OWL Full and with it also \rdf we do not follow this approach here 
+ and focus on practical aspects instead: we search for a logic which supports the different practical applications the layers \emph{Querying}, \emph{Ontologies/Taxonomies} and 
+ \emph{Rules} aim to facilitate and combines them in one framework. This logic should be semantically and syntactically compatible with \rdf and
+ thereby also allow the user to directly operate 
+ on the syntactic \rdf-representations 
+ of the standards listed in the Semantic Web stack. It should furthermore have a clearly defined semantics. While this is a basic requirement every logic needs to fulfil 
+ regardless of the role it is designed for, this property has a special importance for a Semantics Web logic: One key concept of 
+the Semantic Web is interoperability. This means that different systems exchanging information and applying the logic need to have a common agreement about 
+the meaning of formulas.
+%  :
+%  it should 
+%  have a clearly defined semantics which enables us to unambiguously determine the meaning of a statement. 
+ 
+ Another important aspect of a \emph{Unifying Logic} %we have not discussed earlier
+ is its connection to the layers on top of it:
+%  , \ie the building blocks \emph{Proof}, \emph{Trust} and \emph{User 
+%  interface and applications} (Figure \ref{fig:stack}):   
+ By emphasizing the usability for practical applications, 
+ we already made a connection 
+ to the layer \emph{User Interface and Applications} but the connection to the layers in between, in particular to the next higher layer \emph{Proofs}, has not been discussed so far.
+ %there are two other layers on top of the \emph{Unifying Logic}: \emph{Proofs} and \emph{Trust}. 
+%  The \emph{Trust} layer relies 
+%  on the layer \emph{Cryptography} which is beyond the scope of this dissertation and we therefore do not discuss it here. 
+%  The layer \emph{Proofs} only relies 
+% the \emph{Unifying Logic} and \emph{Rules} and the various layers below these. 
+%It should be possible to explain the 
+%The inferencing done by applying the \emph{Unifying Logic} should be expressible in a formal proof.
+% have  the inferencing which can be performed by applying it can also be expressed in 
+%  concrete proofs.
+% In some cases we already discovered problems regarding the compatibility when connecting the standards explicitly listed in the stack---SPARQL, OWL, RDFS and RIF---to \rdf which 
+% makes it difficult to semantically and syntactically connect these
+% In this thesis we aim to find a pragmatic solution for the Unifying logic. Instead of focussing on the combination of the concrete logical standards listed in the 
+% Semantic Web stack which already show ''cracks`` without even adding the layer of a unifying logic---think of the problem of \rdf and OWL DL not being compatible---and 
+% are sometimes rather vague like RIF which represents a set of many possible rule languages, we focus on the \emph{functionalities} of the different building blocks.
+% We discovered that strictly following the existing stack and unifying
+% the standards explicitly mentioned there in only one logic is problematic:
+% The semantic and syntactic connection of RIF, OWL and SPARQL to \rdf is in some cases rather loose such that a unifying logic cannot easily connect these 
+% and be syntactically and semantically consistent with \rdf 
+% at the same time. The solution we propose here in this thesis is therefore of a practical nature
+%
+%The reasoning techniques associated with OWL DL and RIF cannot easily be connected. 
+% and the reasoning mechanisms 
+% of rule-based and DL-based reasoning are difficult to combine.
+% in the case of OWL, only OWL Full is semantically compatible with RDF. 
+% But OWL Full is also undicidable and to the best of our knowledge there is no reasoning system which even tries to tackle all concepts of this complex logic. Therefore, it is 
+% unlikely that we find a logic which connects OWL Full with RIF and SPARQL which can also be used in practice.
+%
+%
+% Having this last idea in mind, there are more aspects than just \emph{open vs. closed world assumption} and \emph{decidability}
+% which are relevant for finding a \emph{Unifying Logic}. 
+%as one single logic semantically connecting all logical building blocks, 
+%there are other views of how a unifying logic can be and in which sense it \emph{''unifies``} the underlaying layers: 
+% From a practical 
+% point of view, the concept can be understood as a logic that covers the \emph{functionalities} of the logical building blocks.
+%
+% Then, it has to be possible to implement and combine
+% the typical applications of \emph{Querying},  \emph{Taxonomies/Ontologies} and \emph{Rules} in one single unifying logic. Of course, as for every logic,
+% the semantics of such a logic  needs to be clearly defined to avoid misunderstandings and support interoperability, one of the crucial concepts of the Semantic Web. 
+% Another important aspect to keep in mind when searching for a \emph{Unifying Logic} is its connection to the other layers: it does not only need to be 
+% connect the three layers it is directly based on (to the extend possible), 
+% it also needs to be compatible to the base of these layers, the \emph{Data Interchange} layer and its representing standard \rdf. Likewise, it should support
+% the next-higher layer, the layer of 
+% \emph{Proof}. 
+It needs to be possible to formally express how conclusions are drawn applying the \emph{Unifying Logic}.
+For this, a calculus must be defined and its correctness needs to be proven. The proofs composed of the different inference steps of the calculus need to be exchangeable between 
+different parties and these need to be able to verify them. With \rdf being the most established standard of the Semantic Web, the proof layer should be compatible with it. 
+Since the implementation of the
+Semantic Web stack with its different building blocks is not a scientific goal in itself but aims to realise the vision of a Semantic Web, the connection of all the building blocks 
+occurring in the stack with the upper layer, the layer of applications, is crucial: only if the different standards support real life applications they push the realisation of the
+Semantic Web forward. We therefore also expect from the proof format based on the unifying logic that it can be used in different scenarios which preferably go beyond the establishment of trust. 
+% One obvious application is the establishment 
+% of the trust layer, but if there can be applications beside this one,  
+% 
+% was not only meant to define interesting research problems like the definition of a proof 
+% 
+% should not of pure academic nature---we do not only show that it is theoretically possible to have  but to have real applications making use of the different layers of the Semantic Web, 
+% we also need applications for which the proofs can be beneficial. 
+% The calculus used for that purpose needs to be correct and the formal expression composed by applying the calculus, the proof, needs to be exchangeable 
+% and different parties should be able to verify it by applying the logic. %---and to further use it in applications. 
+
+
+
+
+\section{Notation3 Logic}\label{n3examples}
+Having discussed the architecture of the Semantic Web and the role the \emph{Unifying Logic} plays in it we now introduce a possible candidate to fulfil this role, 
+Notation3 Logic (\nthreelogic)~\cite{N3Logic}. 
+The aim of this section is to make the reader familiar with
+%This section provides an informal overview of
+the different features of this logic and to illustrate its connection to \rdf. % to make the reader familiar with the this logic, 
+A more formal specification of \nthreelogic is given later in this thesis.
+%Where applicable, we explain which \nthree formulas are also valid in \rdf to emphasize the close connection between the two formats.
+% which make it a possible candidate to become the \emph{Unifying Logic} of the Semantic Web. 
+%Later on in this thesis we give a more thorough explanation of the meaning of the constructs discussed.
+%We give an informal introduction of \nthreelogic and show some examples showing the motivation behind our choice. 
+% Having discussed the architecture of the Semantic Web and the idea of a unifying logic in general, 
+% we now come to the topic of this dissertation in particular which  is 
+% Notation3 Logic (\nthreelogic)~\cite{N3Logic} and its potential for becoming the \emph{Unifying Logic} for the Semantics Web. 
+% We first explain which aspects of a unifying logic we want to t
+%To emphasize the close connection between both formats, we also 
+
+
+\subsection{Simple triples and conjunctions}\label{n3logic}
+\nthreelogic is an extension of \rdf. All \rdf turtle triples~\cite{turtle} are also valid in \nthree.
+Simple statements %$in \nthree and \rdf 
+can be expressed  
+in triples of the form \emph{subject}, \emph{predicate} and \emph{object}, such as:
+\begin{equation}\label{simple}
+ \verb! :Kurt :knows :Albert.!
+\end{equation}
+This triple means ``\textit{Kurt knows Albert}''. 
+Each ground component in \nthree is represented by either an Internationalized Resource Identifier (IRI)~\cite{iri}, as done here, 
+or by a literal \cite[Section 3.3]{rdf}. % or by an existentially quantified variable (blank node).
+%Different from \rdf, 
+In \nthreelogic, literals can occur in all positions of a triple. In this aspect \nthree differs from \rdf which only allows literals in object position. % respectively only object position.
+In the example the \iri is abbreviated~\cite{turtle} \label{prefixremark}
+ with the empty prefix which here and in the remainder of this thesis refers to an example namespace:
+\[
+\texttt{@prefix : <http://example.org/ex\#>.}
+\]
+For instance, \texttt{:Kurt} as it occurs in triple \ref{simple}  stands for the full \iri
+\[\texttt{<http://example.org/ex\#Kurt>}\]
+%Prefixes are further explained in~\cite{turtle}. 
+If two triples occur together as in:
+%
+\begin{equation}\label{conjunction}
+\verb!:Kurt :knows :Albert. :Albert :knows :Kurt.!
+\end{equation}
+%
+This is understood as the conjunction of the formulas:
+\textit{``Kurt knows Albert \emph{and} Albert knows Kurt.''} If two triples share the same subject, the conjunction can be abbreviated using a semicolon ``\texttt{;}''.
+\[
+\verb!:Kurt :knows :Albert; :knows John.!
+\]
+means: \textit{``Kurt knows Albert \emph{and} Kurt knows John.''}
+
+If two triples share the same subject and predicate, the comma ``\texttt{,}'' can be used to express a conjunction. The formula
+\[
+\verb!:Kurt :knows :Albert, John.!
+\]
+has the exact same meaning as the previous one.
+
+The prefix notation, the treatment of triples occurring together as their conjunction and the two ways of abbreviate such a conjunction are equally supported by \rdf.
+%
+%Having introduced this basic principle, we will now focus on the 
+%
+%\subsubsection{Referring Formulas}
+%
+%
+
+
+\subsection{Citations and Implications}\label{reffor}
+The formulas shown above, but also more complex formulas, can be cited using curly brackets. 
+The statement
+\begin{equation}\label{ref}
+ \verb!:John :says {:Kurt :knows :Albert.}.!
+\end{equation}
+means ``\textit{John says that Kurt knows Albert.}''
+%The graph or formula is understood as closed
+%semantics~\cite{TriGsemantics}
+The same notation of curly brackets is used, if one formula implies another,
+ the implication symbol is expressed by ``\verb!=>!''. The formula
+%and curly
+%brackets \verb!{ }!:
+%
+\begin{multline}%\label{twovars}
+ \texttt{\{:Kurt :knows :Albert.\} => }%} \\ \texttt{
+\\ \texttt{ \{:Albert :knows :Kurt.\}.}\label{implex}
+\end{multline}
+represents the rule ``\textit{If Kurt knows Albert then Albert knows Kurt.}''
+
+Citations and implications as presented above are not supported by \rdf.
+
+\subsection{Variables}\label{vars}
+% The examples given so far did not contain variables and their interpretation was
+% rather straightforward
+% (maybe with the exception of cited formulas which can lead to discussions \cite{TriGsemantics}).
+% This is different when it comes to implicit quantification. 
+% The formulas discussed so far were composed using literals or \iri{}s to refer to different objects and their relationships. \nthree furthermore supports the use variables. 
+% These variables can either be explicitly quantified, 
+% \ie they are used together with a universal or existential quantifier which is written down together or they c
+Next to literals and \iri{}s, \nthree supports the usage of quantified variables. The exact quantifier for these variables is not stated explicitly but it is implicitly assumed. Therefore, we distinguish between two kinds of variables, \emph{existential variables} (short: \emph{existentials}),
+also called \emph{blank nodes}, and \emph{universal variables} (short: \emph{universals}).
+We give examples for the usage of both of them.
+
+% These variables are understood as implicitly quantified. This means, they are either universally or existentially quantified, but the exact 
+% position and scope of these quantifiers is not explicitly written down. 
+%Just like \rdf, \nthree allows the usage of implicitly existentially quantified variables, called \emph{blank nodes}.
+Existential variables or blank nodes are present in \nthree as well as in \rdf%
+\footnote{Here and later on in this thesis we always represent \rdf using Turtle-syntax~\cite{turtle}. Other syntaxes for \rdf like 
+JSON-LD~\cite{jsonld} or XML syntax~\cite{rdfxml} represent blank nodes differently.}  
+and stand for an existentially quantified variable. 
+They are either represented by a string staring with ``\verb!_:!'' or they are expressed using square brackets ``\texttt{[~]}''. The formula
+\begin{equation}
+ \texttt{ \_:x :knows :Albert.}
+\end{equation}
+means ``\textit{There exists someone who knows Albert.}''
+In the formula
+\begin{equation}\label{fresh}
+ \verb! :John :knows [ :knows :Albert ].!
+\end{equation}
+the bracket stands for a ``fresh'' existentially quantified variable. The formula means
+``\textit{John knows someone who knows Albert.}''
+While \rdf allows the usage of blank nodes only in subject or object position, they can be subject, predicate or object in \nthree.
+
+% Additionally to blank nodes, \nthree allows a second type of %implicitly quantified 
+% variables, universals. These %This kind of variables 
+Universal variables are an extension \nthree makes to \rdf. They start with a question mark~\verb!?! and are understood as implicitly universally quantified. The formula  
+\begin{multline}\label{uni}
+ \texttt{\{:Kurt :knows ?x.\} => }%} \\ \texttt{
+ \texttt{\{?x :knows :Kurt.\}.}%\nonumber
+\end{multline}
+ means
+``\textit{Everyone Kurt knows also knows Kurt.}''
+% \end{paragraph}
+% 
+% \begin{paragraph}{Combination of variables}
+
+Both kinds of variables can also be combined:
+When universals and existentials occur together in the same formula the scope of the universals is always outside the scope of the existentials~\cite{Notation3}.
+% \begin{equation}\label{both}
+%  \verb! _:x :loves ?y.!
+% \end{equation}
+\begin{equation}\label{both}
+ \verb! _:x :thinks {?y :is :pretty}.!
+\end{equation}
+
+
+ is interpreted as 
+% \begin{equation} % oder auch align
+% \forall y \exists x : \text{loves}(x,y) \tag{\ref{both}a}
+% \end{equation}
+\begin{equation} % oder auch align
+\forall y \exists x : \text{thinks}(x,\text{is}(y,\text{pretty})) \tag{\ref{both}a}
+\end{equation}
+\begin{center}``\textit{For everyone there is someone who thinks that he/she is pretty}''\end{center}
+and not as
+\begin{equation} % oder auch align
+\exists x \forall  y : \text{thinks}(x,\text{is}(y,\text{pretty})) \tag{\ref{both}b}
+\end{equation}
+\begin{center}``\textit{There is someone who thinks that everyone is pretty.}'' \end{center}
+% In the cases above, the interpretation of the implicitly quantified formulas was rather easy:
+% the variables are existentially and universally quantified at the top of the formula; 
+% if they co-occur in the same formula, the universal quantification dominates the existential. 
+% When implicitly quantified variables occur in deeply nested formulas, 
+% their intended meaning becomes less intuitive. 
+
+% 
+\subsection{Proofs}\label{proofintro}
+
+By providing the option to cite formulas, \nthree also makes it possible to express proofs referring to the different rules which -- applied to the statements
+of the dataset at hand 
+--
+produce new knowledge. %In the context of the Semantic Web Application Platform (SWAP)~\cite{Proof}
+For that purpose the %\nthree
+% proof vocabulary was created~\cite{Proof}. % enables us to formalize proofs in a machine-readable way. 
+%  For that they both use the 
+ \nthree proof 
+vocabulary\footnote{\url{https://www.w3.org/2000/10/swap/reason\#}}  was
+created in the context of the Semantic Web Application
+Platform (SWAP)~\cite{SWAP}.
+\begin{lstlisting}[
+  float=t,
+  caption={Example inference step. Formula~\ref{out} gets derived by applying the rule in Formula~\ref{implex} (lemma 1) on Formula~\ref{simple} (lemma 2). 
+  },
+  label=example2]
+§\textcolor{gray}{PREFIX : <http://example.org/ex\#>}§
+§\textcolor{gray}{PREFIX r: <http://www.w3.org/2000/10/swap/reason\#>}§
+
+<#lemma3> a r:Inference; 
+ r:gives {:Albert :knows :Kurt.}; 
+ r:evidence (<#lemma2>);
+ r:rule <#lemma1>.
+\end{lstlisting}
+
+To illustrate how proofs can be expressed using this vocabulary, we first take a closer look to a possible proof step. Getting back to Formulas~\ref{simple} and \ref{implex} and 
+their meaning as discussed above, 
+ we can apply the the rule from Formula~\ref{implex} on the fact in Formula~\ref{simple} and derive the conclusion:
+\begin{equation}
+\texttt{:Albert :knows :Kurt.}\label{out}
+\end{equation}
+This step is a classical modus ponens as it can be found in most text books about mathematical logic, \eg \cite{enderton,mendelson,ebbinghaus}.
+This derivation is also valid in \nthree. 
+% and in the proof vocabulary it is referred as a \texttt{r:Inference}.\footnote{With the prefix \texttt{r} for 
+% \texttt{<http://www.w3.org/2000/10/swap/reason\#>}.} 
+
+In Listing~\ref{example2} we display how this step can be expressed in the proof vocabulary. The vocabulary refers to a generalised version of the modus ponens by the 
+name \texttt{r:Inference}. 
+For every proof step, the vocabulary provides the option to refer to its result using the predicate \texttt{r:gives}.
+In the example, the instance \texttt{<\#Lemma3>} of the proof  step \texttt{r:Inference} (Line 4) yields Formula~\ref{out} (Line 5). The vocabulary also makes it possible to 
+refer to the different formulas the proof step was applied to. For the inference step, the predicate \texttt{r:evidence} refers to the facts taken into account and the 
+predicate \texttt{r:rule} to the rule that was used. In our example these formulas are themselves consequences of the proof steps \texttt{<\#Lemma2>} (Line 6)
+and \texttt{<\#Lemma1>} (Line 7). 
+These two steps here have been the simple parsing of Formula~\ref{simple} and Formula~\ref{implex}, respectively. 
+
+A combination of different  proof steps form a proof. Proof steps covered by the vocabulary are generalised modus ponens (\texttt{r:Inference}), the parsing of an axiom 
+(\texttt{r:Parsing}), conjunction introduction (\texttt{r:Conjunction}), conjunction elimination (\texttt{r:Extraction}) and the step \texttt{r:Proof} which indicates what exactly 
+has been verified by a proof. As the example already indicates, all these proof steps for \nthree derivations can be stated using the logic itself. 
+% The fact that \nthree supports 
+% proofs is one aspect which makes it a strong candidate to become the unifying logic for the Semantic Web.
+%The formula displayed in Listing~\ref{example2} is itself again valid \nthree. 
+% In our example, 
+% the simple parsing of Formula~\ref{simple} and 
+
+%\footnote{With the prefix \texttt{r} for \texttt{<http://www.w3.org/2000/10/swap/reason\#>}.}
+%, we discuss an example proof step. This proof step is displayed in Listing~\ref{example2}. 
+
+
+
+
+\subsection{Notation3 in practice}\label{prn3}
+\sloppy
+Having introduced the different features of \nthree as a logic, we now briefly discuss how \nthree can be and is used in practise. 
+% 
+% \nthree is not just a theoretical construct, 
+
+There are various reasoners which support \nthree reasoning like Cwm~\cite{cwm}, FuXi~\cite{fuxi}, swish~\cite{swish} or EYE~\cite{eye}. They follow different reasoning strategies
+--
+Cwm for example supports only  forward-chaining while with EYE the user can decide for each rule whether it should be applied in a forward or backward manner -- and are implemented 
+in different programming languages -- swish for example in Haskell and FuXi in Python. But since all reasoners support the same logic, they are all suited for 
+a broad variety of practical 
+implementations. \nthree rules are used in health care~\cite{sun,dou}, in the construction domain~\cite{bau} and in the context of the internet of things \cite{iot} 
+to only name a few areas.
+
+Provided with different facts and rules written in \nthree, reasoners can either produce the deductive closure of this input knowledge -- this is similar to how \owl DL reasoners
+like for example 
+Pellet~\cite{Pellet} or Hermit~\cite{hermit} work -- or they can provide the answer to a specific query -- this is in some aspects similar to the idea of 
+ontology-based data access (OBDA) \cite{obda} where queries are rewritten and only the ontology knowledge relevant for a certain query is taken into account. 
+In the case of \nthree reasoning, the query is a simple \nthree rule which only differs from other rules by the simple details that it is marked as a query. We illustrate that by getting back to our previous example.
+Let us assume, that the reasoner is provided with the two formulas we already used in our proof step, namely Formula~\ref{simple} and Formula~\ref{implex}. A meaningful query for this very small knowledge base is:
+\begin{equation}
+ \texttt{\{?x :knows ?y\}=>\{?x :knows ?y\}}
+\end{equation}
+At first sight this rule might look confusing, given that its antecedent equals its consequent. But as it is given to the reasoner as a query, the reasoner will only output all ground instances of the 
+formula 
+\[
+ \texttt{?x :knows ?y.}
+\]
+which can be concluded from the given knowledge. In our example these are the Formulas~\ref{simple} and \ref{out}. 
+
+
+% There are several reasoners supporting \nthree:\footnote{A more complete list can be found at: \url{https://github.com/w3c/N3/blob/master/implementations.md}.}
+% FuXi \cite{fuxi} is a forward-chaining production system for Notation3 whose reasoning is based on the RETE algorithm. 
+% The forward-chaining cwm \cite{cwm} reasoner 
+% is a general-purpose data processing tool which can be used for querying, checking, transforming 
+% and filtering information.
+% EYE \cite{eyepaper} is a reasoner enhanced with Euler path detection. 
+% It supports 
+% backward and 
+% forward 
+% reasoning and also a user-defined mixture of both. 
+% Amongst its 
+% numerous features are the option to skolemise blank nodes
+% and  the possibility to produce and reuse proofs for further reasoning. 
+
+
+
+
+
+
+\subsection{Open challenges}
+Many of the different properties we discussed so far make \nthree a promising candidate to become the \emph{Unifying Logic} of the Semantic Web: \nthree truly extends \rdf on both the semantic and the syntactic 
+level and it contains a construct to cite formulas. This makes it possible to easily express  proofs in \nthree and there is already a specific vocabulary defined to do so.
+The fact that there are several reasoners implemented for \nthree and that these reasoners are already used in practical implementations furthermore shows that \nthreelogic is more then just a theoretical construct: 
+\nthree actually connects to the highest level of the Semantic Web stack, 
+the level of application. But there are also open challenges related to \nthree which we briefly discuss in this section.
+
+%But there are also problems which still need to be solved: 
+The first open problem we discuss here is that the semantics of \nthree lacks a formal definition. Instead, there are only websites~\cite{Notation3,Notation32} and a paper~\cite{N3Logic} explaining in 
+an informal way what the different constructs present in \nthree are supposed to mean. Next to the obvious problems resulting from this lack of formalisation -- without a proper definition of \nthree's semantics 
+the concept of correctness is not even defined and formal properties like its expressivity compared to other frameworks %formal properties 
+cannot 
+be studied -- there are also more practical consequences: since some informal explanations are rather vague, the different reasoners mentioned above assume different interpretations.  
+As a consequence the reasoning result of these reasoners can differ when provided with the same input. While a situation like this would be a problem for any logic, 
+it is in particular a problem for a logic in the Semantic Web, where interoperability is key. 
+% This becomes even more important if we consider a logic as the \emph{Unifying Logic} for the Semantic Web. 
+%The lack of a formal semantics is also one of the main obstacles of \nthreelogic being standardised, one of the main requirements of formalisms to appear in the official Semantic Web stack.
+
+Related to the problem we just described, there is another one: it is not clear yet, how \nthree logic behaves in comparison to other logics. 
+We already mentioned the expressivity which is related to the semantics. 
+Apart from this we want to know for which kinds of tasks \nthreelogic is well suited 
+and when it is better to use another formalism. Having the idea of a \emph{Unifying Logic} in mind it would be in particular be interesting to 
+know whether common SPARQL querying tasks 
+and the reasoning tasks which are classically solved using OWL DL can also be addressed applying \nthree reasoning.
+
+%
+%In the next subsections we give examples for such ambiguous formulas.
+% This is the topic of the following subsections. As examples for different understandings we take the reasoning results of the reasoners Cwm \cite{cwm} and EYE~\cite{eyepaper}. 
+% The reason for this choice is the coverage of \nthree by these reasoners -- 
+% in contrast to for example FuXi~\cite{fuxi}, they both support rather complex constructs like nested rules --  and the fact that they conceptually differ in their way to handle 
+% implicit universal quantification.
+% Further details about how differences can be detected can be found in our previous paper \cite{arndt_ruleml_2015}. % and in \ref{ap1}.
+% 
+% 
+% 
+% 
+% 
+% 
+% %Motivated by the discussion above, we ask the general research question:
+% %\footnote{A recent discussion about \nthree as a standard rule language for Semantic Web can also be found here \url{https://lists.w3.org/Archives/Public/semantic-web/2018Nov/0063.html}.}
+% There are several reasoners for \nthreelogic implemented such as cwm~\cite{cwm}, EYE~\cite{eye} and FuXi~\cite{fuxi} and it is used in practical applications~\cite{eyepaper}. 
+% \nthreelogic is thus more than just a theoretical construct. But this alone does not qualify it to become the \emph{Unifying Logic}
+% for the Semantic Web and we therefore ask our first research question:
+% 
+%  
+
+\section{Research questions}\label{researchquestions}
+In this thesis we want to investigate to what extend \nthreelogic can fulfil the role of the \emph{Unifying Logic} for the Semantic Web.
+In Section~\ref{req} we identified the four requirements on the \emph{Unifying Logic} we want to focus on: (1) clear semantics, %the semantics of \nthree can be clearly defined by providing a model theory for the logic, 
+(2) compatibility with \rdf, 
+(3) connection of the logical layers 
+and (4) support of proofs. For each of these requirements we pose research questions.
+
+
+
+% In the previous sections we already discussed which properties of \nthreelogic make it a promising candidate  for that role -- %to become the unifying logic for the Semantic Web -- 
+% it is based on \rdf, several reasoners implemented it so that it can be used in practical applications, 
+% and the logic is rather expressive and supports for example citations 
+% of formulas which makes it possible to state proofs in it -- but we also discussed various open questions connected to the four requirements 
+% mentioned above. We now go through all requirements to extract the different research questions which need to be answered.
+
+% As the previous discussion already indicates, this thesis aims to answer the general question:
+% 
+% \hyp{Research Question 1:}{
+% To what extend can Notation3 Logic fulfil the role of a \emph{Unifying Logic} for the Semantic Web?
+% %Which desired properties for a \emph{Unifying Logic} of the Semantic Web does \nthreelogic posses?
+% %What qualifies Notation3 Logic to become the \emph{Unifying Logic} of the Semantic Web?
+% }
+
+% Since the concept of a unifying logic is rather broad which also makes this question a very open one in terms of possible aspects one could discuss, 
+% we narrow down our considerations
+% to the different aspects discussed in Section~\ref{req} and test the following hypothesis:
+% 
+% Notation3 Logic is able to fulfil the requirements 
+% (1) clear semantics, %the semantics of \nthree can be clearly defined by providing a model theory for the logic, 
+% (2) compatibility with \rdf, 
+% (3) connection of the logical layers %\nthree connects the logical layers of the Semantic Web Stack on a practical level, 
+% and (4) support of proofs.
+
+
+% The hypothesis we stated here is rather long and still very general. In the previous chapters we already discussed the different challenges which are connected to the 
+% four different points listed in the hypothesis. We will go through them one by one starting with the definition of \nthree's semantics.
+%Which properties of \nthreelogic make it a good candidate to become the \emph{Unifying Logic} for the Semantic Web?
+% Requirement 1, a clear (formal) semantics for the unifying logic forms a big challenge since the semantics of \nthreelogic is not clearly defined and we can even 
+% spot differences in how different implementers of reasoners understand the 
+%To show that \nthreelogic can fulfil the first requirement, \emph{clear semantics}, we need to provide the formal definition of its semantics. 
+
+We start with the semantics of \nthree (Requirement 1).  As discussed above, there is no clear formal definition of \nthree's semantics and existing \nthree reasoners
+differ in their understanding of the informal explanation provided by the \wwwc team submission~\cite{Notation3} and the journal paper introducing this logic~\cite{N3Logic}. 
+This situation cannot be solved by simply formalising our own understanding of \nthreelogic since in the context of the Semantic Web 
+we aim for interoperability and to reach that we need a 
+common agreement. It therefore makes sense to first understand the existing problems and provide a way to discuss them. This leads us to our first research question:
+% Given that a Semantic Web logic which should be defined based on common agreement, we should further investigate the following research question before suggesting a 
+% formalisation for \nthreelogic:
+
+\hyp{\hypertarget{rq2}{Research Question 1:}}{How can the differences between the individual interpretations of \nthree assumed by different reasoners 
+following the \wwwc team submission~\cite{Notation3}
+and the journal paper~\cite{N3Logic}
+ be formally expressed?}
+
+% To answer this research question, we test reasoning engines and compare their results. One main difference we can identify is their way of handling 
+% implicit quantification: \nthreelogic allows the user to use universally or existentially quantified variables 
+% without explicitly putting a quantifier and defining the scope of this quantification. We therefore argue, that the differences between interpretations can best be expressed 
+% by making them explicit:
+%To find the differences, we perform tests on the different reasoners to see whether or not they produce contradicting results.  
+% There are many concepts about whose meaning the sources are not entirely clear. The %main difference in interpretations we could identify is on 
+% concept causing most discrepancies
+Most disagreements in the interpretations of \nthree formulas are related to 
+the concept of implicit quantification. 
+In \nthree quantified 
+formulas be written without explicitly stating the position of the quantifier as exemplified on Formula~\ref{both}. In that example one of the two possible interpretations we 
+discussed could be identified as that correct one by consulting the \wwwc team submission. If implicit quantification is used in a more complex graph structure, the sources are less 
+explicit about the intended meaning of a formula, we therefore test the hypothesis:
+
+\hyp{\hypertarget{h2}{Hypothesis 1:}}{Existing interpretations differ in their understanding of implicit quantification and this difference can be 
+expressed by mapping formulas containing such constructs to a core logic which only supports explicit quantification.}
+
+Being aware of this difference, we next want to know whether we deal with a theoretical problem which only can be observed by thoroughly testing the reasoners 
+-- then the theory needed to be fixed to avoid future problems -- or whether we can observe differences in the interpretations of \nthree 
+rules used in practical applications. We therefore ask our second research question:
+
+\hyp{\hypertarget{rq3}{Research Question 2:}}{
+How big is the impact of having different interpretations for \nthree formulas in practice?
+}
+
+To be able to answer this question, we take a closer look at such \nthree formulas used in practical applications. We take a set consisting of formulas used in different industry-related 
+research projects and of example formulas from the EYE website which were created to illustrate such use cases and test the following hypothesis:
+
+\hyp{Hypothesis 2:}{For at least one quarter of all \nthree formulas contained in our dataset of practical examples the interpretations by the reasoners EYE and Cwm differ.}
+
+Once the differences in the interpretations can be clearly identified, the community needs to agree on \emph{one} interpretation for \nthreelogic which then needs 
+to be formalised. In this context we need to remember that we postulated that the \emph{Unifying Logic} needs to be compatible with \rdf (Requirement 2).
+% 
+% The awareness of the differences will help the community to agree on one single interpretation of \nthreelogic which then needs to be formalised in a model theory. 
+%This formalisation needs to respect Requirement~2, the compatibility to \rdf. 
+For the syntactic level, we already know that \nthree is compatible with \rdf{} -- \nthree only adds symbols and constructs to the existing \rdf syntax --
+for the semantic level we need to answer the following research question:
+
+\hyp{Research Question 3}{How can we define the semantics of \nthreelogic in a way which is compatible to \rdf?}
+%\textbf{Hypothesis 2} \textit{The semantics of  \nthreelogic can be formally specified consistent to the \wwwc team submission and .}
+
+To answer this research question, we need to take a closer look to the semantics of \rdf \cite{RDFSemantics}. This semantics is defined following a model theoretic approach.
+In order  to stay consistent which these definitions, we need to follow the same apporach when defining the semantics of \nthree 
+% This is formally defined by a model theory which
+% -- in order to guarantee compatibility -- needs to be compatible with the model theory we define for \nthree.
+%which is formally defined 
+%We thus formalise the semantics of \nthree following 
+according to the interpretations of Cwm and EYE. %choose one of the possible interpretations of \nthreelogic 
+Here, we test the following hypothesis:
+
+\hyp{Hypothesis 3:}{The model theory for \nthreelogic can be specified in such a way that it is mostly compatible with the model theory of \rdf.}
+
+Next to a clear semantics and compatibility with \rdf the \emph{Unifying Logic} needs to connect the logical layers of the Semantics Web stack (Requirement~3).
+% Next to the clear definition of \nthree's semantics which needs to be in line with \rdf, the logic needs to fulfil two other requirements to become the unifying logic 
+% the Semantic Web.
+%The third requirement we identified for a logic to become the unifying logic for the Semantic Web is that it should connect the logical layers. 
+In this context we discussed that this connection can established in different ways including the definition of a decidable logic which covers as much of the three building blocks 
+as possible
+-- knowing that a full coverage can only be established by giving up decidability -- or by focussing on the different applications connected to the building blocks.
+Having the different options in mind, we ask our fourth research question:
+
+\hyp{Research Question 4:}{In which aspects can Notation3 Logic cover and connect the building blocks \emph{Querying}, \emph{Ontologies/Taxonomies} and \emph{Rules} 
+of the Semantic Web stack?}
+%argued that this connection 
+%should be a connection on application level and take into account the \rdf representation of the different standards currently mentioned in the Semantic Web Stack. %It should be able to cover and connect querying tasks, ontology reasoning and rule-based inferencing.
+
+Being a rule-based logic, we already know that \nthreelogic fully covers the building block \emph{Rules}. We furthermore know that if
+\nthree can cover the other two building blocks, it also covers their combinations.
+%For the other blocks we test the following hypothesis:
+We therefore test:
+
+\hyp{Hypothesis 4:}{With \nthreelogic %supports querying over \rdf graphs, reasoning over OWL ontologies and the combination of these two. It can
+we can tackle the same use cases as with \owl DL reasoning and/or SPARQL querying without suffering a loss of performance.
+% 
+% can be used to combine querying over \rdf graphs and reasoning over OWL ontologies in practical use cases designed for
+% OWL-DL reasoning and SPARQL querying.
+% Implementations using \nthree instead of the standards mentioned before provide a \emph{comparabl}
+% It can solve the same practical problems as the standards \owl DL and SPARQL with a comparable performance.
+}
+
+
+The last important property we identified for the \emph{Unifying Logic} was that it should support the layer of \emph{Proof} (Requirement 4).
+%Regarding Requirement~4, the support of proofs, 
+%we already know that 
+There exists a vocabulary in \nthree which was created to express proofs, the SWAP-proof vocabulary~\cite{Proof}. % makes it possible to express proofs in \nthree and the reasoners Cwm and EYE produce such proofs.
+This vocabulary offers the option to exchange proofs between different reasoning engines, check them for correctness and thereby establish the layer of \emph{Trust}.
+%We would like to know whether we can go further.
+But without a definition of the semantics of \nthree this concept of correctness is also not well-defined. 
+%Using the research done to answer the previous research questions
+We therefore ask:
+
+% But in 
+% this thesis we are particularly interested in the bigger goal behind the definition of the Semantic Web Stack, the realisation of the Semantic Web. This can only happen 
+% if we can establish the layer of \emph{Applications}, we therefore ask:
+%\hyp{Hypothesis 5}{The SWAP proof calculus for \nthree is correct.}
+
+\hyp{Research Question 5:}{How can we verify that the proof steps defined by the SWAP vocabulary are correct?}
+
+In order to answer this question we need a model theory for \nthree as it was already required to answer the previous research questions. Once we have that we can
+verify the hypothesis:
+
+\hyp{Hypothesis 5:}{The proof steps included in the SWAP vocabulary can be formally defined on top of the model theory for \nthree. 
+That formalisation allows us to prove that the calculus is correct.} 
+
+With such a correct proof calculus which can be used within the language -- proofs written with SWAP are themselves again \nthree formulas -- we can not only 
+support the layer of \emph{Trust} but also the layer of \emph{Applications}. %Among the many ways of applying proofs we consider one example in more detail:
+We illustrated that on the idea of using \nthree proofs for adaptive planning.
+%In this thesis we are not only interested in the layer of proof to establish \emph{Trust} but also in the relation of that layer to \emph{Applications}. % we ask our last research question:
+% 
+% \hyp{Research Question 7:}{Are there applications for \nthree proofs which go beyond the establishment of \emph{Trust}?} 
+% 
+%We therefore furthermore investigate 
+
+% This is a broad question which can certainly answered in several ways, we test the suitability of proofs in \nthreelogic 
+% for hypermedia API composition. 
+% for two use cases, the combination of different
+% possible steps in a workflow and the selection of relevant sources for sensor data based on context.  
+%This leads to the following hypothesis:
+
+% \hyp{Hypothesis 7:}{If we describe possible operations which can be performed by hypermedia APIs by means of \nthree rules the 
+% proofs applying such rules can be used as executions plans towards the fulfilment of the proven goal.} 
+
+% The work we did on this last point, the usage of proofs for workflow composition and source selection, showed us, next to the potential of \nthree also the current limits which it 
+% has in common with several other logical standards on the Semantic Web like OWL DL but also  of any other logic which purely bases itself on first order logic: it is impossible
+% to express or reason over the change of data over time. This leads us to a sixth research question which goes beyond the main research question of this thesis but can nevertheless
+% influence the success when establishing 
+% the Semantic Web:
+% 
+% \hyp{Research Question 6:}{How can we extend \nthreelogic to also support concepts like the change of data and the duration of actions?}
+% 
+% This leads us to our last research hypothesis:
+% 
+% \hyp{Hypothesis 6:}{}
+
+
+%The work on the first use case mentioned here
+% 
+% What do I want to do here: I want to ask the general question of whether \nthree can be the unifying logic of the semantic web.
+% 
+% I then want to say that N3 covers the 4 aspects we wanted to focus on in this thesis.
+
+% Then I want to refine: For the first point, the definition of the formal semantics we need to do some work: we need to identify the main problems and solve them. 
+% This should then lead to a formalisation.
+% Here I would like to have a nice question.
+
+% Next, I want to see whether there could be a fomilisation in-line with RDF semantics.
+
+% The next point is: Can we do querying and DL-reaasoning?
+% 
+% Then the next point is: how far can we go with the proof vocabulary? 
+% We can formally define it, proof its correctness and find applications.
+%As a last point we want to go further and see whether the unifying logic can even do more, here we could go to the work of GPS4IC.
+
+
+
+% 
+% We already discussed the four aspects we consider relevant 
+% 
+% In order to answer this question, we go back to the several requirements on a \emph{Unifying Logic} we discussed in the previous sections. 
+% In particular,
+% a clear definition of the semantics (1), a semantic and syntactic connection to \rdf (2), the possibility to perform the tasks associated with 
+% the three blocks \emph{Querying}, \emph{Taxonomies/Ontologies}
+% and \emph{Rules} (3), and the possibility to express proofs and use them in applications (4). We go through them one by one.
+% 
+% The \emph{semantics} of \nthree is not formally defined yet. The details of \nthreelogic 
+% are explained in a journal paper~\cite{N3Logic} and a \wwwc team submission~\cite{Notation3}. 
+% These two official sources explain informally what \nthree formulas are supposed to mean using examples.  Therefore, we firstly focus in providing a formalisation of this informal specification and test the following hypothesis:
+% 
+% 
+% Unfortunately, such a formalisation consistent to the official sources, the paper and the \wwwc team submission,  is not unique:
+% For some concepts, these sources are rather vague. This results in contradictory understandings of the same formula as they can for example be observed 
+% when using \nthree reasoning engines.
+% %which leads us to our next research question:
+% If we want to come to an agreement here, we need to identify these differences and make them explicit. This leads to our next research question:
+% %\textbf{Research Question 1.1:} How can N3 be formalised and what are the current problems?
+% 
+
+%\textbf{Research question 1.1.2} How the differences between interpretations be formally expressed?
+% 
+% 
+% Going through the different criteria a \emph{Unifying Logic} needs to fulfil discussed in the previous section, we come to several hypotheses:
+% To show the feasibility of this approach, we define such a core logic which respects the specific details of \nthreelogic and implement such a mapping from \nthree syntax to this
+% \nthree Core Logic. We apply this implementation on several representative \nthree files to find out:
+% If we can express the differences in the interpretations of \nthree formulas applied by different parties, we also want to know whether this difference is only something we discuss 
+% in our scientific ivory tower or whether this also has practical impact:
+% 
+% \hyp{Research question 3:}{Does this conceptual difference between existing interpretations lead to diverging interpretations of files used in practical applications?} 
+% 
+% % Of course, we cannot test if all \nthree files in all practical applications ever using \nthree are understood the same way by all reasoners. 
+% % We therefore choose a test set, consisting of the test files of the EYE reasoner and several 
+% % files written for our own research projects. We use the first set of files because it represents a broad spectrum of different applications and the second one because the creation 
+% % of these files was not aimed to merely test a reasoner but to handle practical cases. We come to the conclusion:
+% % A clear difference in the interpretation of files used in practice would have severe consequences: \nthreelogic is designed for the Semantics Web where interoperability is 
+% % one of the main goals. Different machines need to be able to exchange knowledge in forms of facts and rules without having to ask for the intended meaning. We tests the hypothesis:
+% To answer this question, we compare the two interpretations of the reasoner Cwm and EYE on a dataset of \nthree files which are used in practical applications and 
+% test the hypothesis:
+% 
+% \hyp{Hypothesis 3:}{Around one quarter of the files used in practical applications are interpreted differently by the reasoners Cwm and EYE.}  
+% 
+% Of course such a situation is not acceptable, especially if we have in mind that \nthreelogic was not designed to be used in local applications but 
+% for a global setting: the Semantic Web. Therefore, we as the Semantic Web community need to agree on the semantics of \nthreelogic.  By going back to the answers to 
+% Research question 1, we show, that \nthreelogic is worth that effort.  
+% 
+% 
+% We take a closer look to our second requirement, the connection to \rdf. The syntax of \nthree is already aligned with the syntax of \rdf: 
+% as we will discuss in the following chapter, \nthree extends the symbol set of \rdf by two simple characters,
+% the bracket symbols $\{$ and $\}$ and every syntactically valid \rdf formula is also a formula in \nthree.  For the semantic level, this is more complicated: 
+% Once we agree on an understanding of \nthreelogic this understanding needs to be formalised in line with \rdf and we therefore formulate the hypothesis:
+% %we can directly formalise it on the base of \rdf. This leads to the following hypothesis:
+% 
+% 
+% 
+% %\nthreelogic is syntactically compatible with \rdf and its semantics can be aligned with the one for \rdf.
+% This leads us to the third requirement: The unifying logic needs to support the same practical tasks which are normally approached using
+% the building blocks \emph{Querying}, \emph{Ontologies/Taxonomies} and \emph{Rules} of the Semantic Web stack.
+% % In this thesis we aim to find a pragmatic solution for the Unifying logic. Instead of focussing on the combination of the concrete logical standards listed in the 
+% % Semantic Web stack which already show ''cracks`` without even adding the layer of a unifying logic---think of the problem of \rdf and OWL DL not being compatible---and 
+% % are sometimes rather vague like RIF which represents a set of many possible rule languages, we focus on the \emph{functionalities} of the different building blocks.
+% Being a rule language, there is no evidence needed that \nthree supports rule reasoning and its practical applications. 
+% For the two other blocks 
+% \emph{Querying} and \emph{Ontologies/Taxonomies} this is different and we focus here on the possibility address such practical tasks by only one framework. 
+% We test the following hypothesis on two use cases which were originally solved by using SPARQL querying and \owl DL reasoning:
+% % To illustrate the potential of \nthree we examine its feasibility to handle a use case which
+% % is typically solved by using SPARQL querying, data validation~\cite{hartmann2016}:
+% %
+% % \hyp{Hypothesis 1.3.1:}{\nthreelogic can be used instead of SPARQL to perform the querying necessary for classical data validation.}
+% %For a \emph{unifying} logic, it is not only important that our purposes, it is not only important that the un
+% % The advantage of using rule based reasoning for data validation is that here, additional reasoning can be directly combined with querying. 
+% % Such reasoning can also take the information specified in an \owl ontology into account since syntactically \owl is mostly written in \rdf syntax. Rules can then be used 
+% % to perform reasoning on that knowledge. We test on a use case of health care, a nurse call system, 
+% % the following hypothesis:
+% 
+% 
+% Last, we discuss our forth requirement: the unifying logic should be the base for a proof layer.  
+% There exists a proof vocabulary for 
+% \nthreelogic~\cite{Proof} and the reasoners cwm and EYE use it to express and exchange proofs explaining the inference steps they perform. 
+% Without a formal definition of \nthree's semantics, it is also not possible to show the correctness of this proof calculus but with the solution of the former problem, 
+% we can also solve the latter which leads to the hypothesis:
+% % To illustrate this possibility in 
+% % more detail, we consider another use case where an \owl~DL ontology
+% % examine two use cases which have been implemented before by using a combination of OWL DL and SPARQL: 
+% % one  concerning data validation---here normally SPARQL queries are applied and sometimes OWL DL reasoning is performed before---and 
+% % reasoning based on a specified \owl ontology in combination with a complex decision tree.
+% % 
+% % A classical use case for querying is data validation~\cite{hartmann2016}
+% 
+% 
+% 
+% % \hyp{Hypothesis 1.3:}{It is possible to perform typical practical tasks 
+% % connected to the layers \emph{Querying} and \emph{Ontologies/Taxonomies} by only using \nthree.}
+% But in this thesis we do not only want to focus on theoretical properties of \nthreelogic but also on practical applications, since this is an important 
+% aspect towards  the full realisation of the Semantic Web. Proofs can be used to establish the layer of trust, but there are also more practical 
+% applications for proofs of which we want to illustrate two in this thesis by testing the hypothesis:
+
+% \hyp{Hypothesis 1.3:}{\nthreelogic supports data validation and ontology reasoning and \emph{Ontologies/Taxonomies}.}
+
+% To show its ability to perform ontology reasoning and 
+% querying, we focus on two selected tasks which where originally designed for OWL DL reasoning and SPARQL querying: 
+
+%\textbf{Hypothesis 1.3:} Notation3 Logic can perform the practical tasks connected to the different logical layers of the Semantic Web stack.
+
+
+%\textbf{Research Question 4:} Can the layer of proofs be realised in \nthree and does such a layer have practical applications?
+
+
+
+
+
+
+% Important: connection to \rdf, usable in practice (no theoretical construct, but something which can be used, maybe argue on RIF), able to cover the 
+% layers ontology/taxonomy, querying, and rules (whatever that layer is), can express proofs.
+
+
+
+
+% Sub-questions:
+% 
+% Can we give a clear semantic definition of Notation3 Logic?
+% 
+% How does Notation3 Logic interfere with other formats? Can SPARQL, OWL and RIF be expressed?
+
+% \textbf{Research question:} Is it possible to realise the proof layer in \nthree and can proofs be used for practical applications?
+% 
+% \textbf{Hypothesis:} \nthreelogic provides 
+
+% Can N3 handle change?
+% 
+% I think I need to be more specific. To find that: what do I actually do here?
+% 
+% 
 
 % \textbf{Part 4: going beyond the limits}
 % 
@@ -186,5 +1253,3 @@ Conclusion: The feature ``proof'' is very useful. For some use cases N3 has limi
 % This part is optional
 
 
-
-Somewhere I need to talk about problems, especially decidability and for example the problems of OWL full.

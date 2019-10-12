@@ -1,0 +1,1181 @@
+By now, we have discussed three of the four characteristics we identified as crucial for a \emph{Unifying Logic} for the Semantic Web (Section~\ref{req}): 
+A clearly defined semantics, 
+syntactic and semantic compatibility with \rdf, and the power to connect the logical building blocks \emph{Querying}, \emph{Ontologies/Taxonomies} and \emph{Rules}. 
+The fourth aspect in this list, the support of the layer \emph{Proof}, is the topic of the following two chapters. It should be possible to express and exchange proofs
+ by making use of the \emph{Unifying Logic}. % of the Semantic Web should support proofs:
+% It needs to be possible 
+% to express proofs in that logic in 
+These proofs should not only support the layer of \emph{Trust} but should also be suitable to be used in practical applications.  
+
+In the Semantic Web there are different ways how reasoners provide explanations for their conclusions:
+OWL DL reasoners mostly either provide a \emph{justification}~\cite{just1,just2} -- a set of facts from which the new knowledge follows -- 
+or a \emph{proof}~\cite{owlproof2,owlproof} -- 
+a list of the aforementioned facts together with the concrete reasoning steps applied on them leading to the new data. 
+While verifications leave the work of constructing a more concrete description of how inference steps have been applied to the user who needs to know the underlying calculus to make sense of it,
+DL-proofs have another disadvantage: 
+they are mostly represented in formats 
+which are not native to the Semantic Web and can therefore not easily be exchanged, reused or automatically interpreted in this context.
+
+For \nthree this is different: \nthree reasoners produce proofs using the SWAP~\cite{SWAP} proof 
+vocabulary\footnote{\url{http://www.w3.org/2000/10/swap/reason\#}}. This vocabulary enables them to explain all their derivations in \nthree. 
+By doing so, they allow other Semantic Web applications to further use these proofs
+
+
+We discuss the relationship of \nthreelogic and the layer of \emph{Proofs} in two steps: Firstly, in this chapter, 
+we further elaborate in this chapter on the SWAP~\cite{SWAP} proof vocabulary\footnote{\url{http://www.w3.org/2000/10/swap/reason\#}} 
+which we already briefly discussed in Section~\ref{proofintro}. We identify a set of formulas for which the semantics of \nthree is not ambiguous, \emph{simple formulas}.
+For these \emph{simple formulas} we define the direct semantics. This definition also defined the semantics according to EYE.
+We then formally define the calculus it expresses and prove its correctness. 
+Secondly, in the following chapter we will then take a closer look to the practical applications of proofs: next to establishing 
+trust, proofs can, for example, also be used to do planning or to identify the potentially critical streams in a bigger set-up of streaming sensors. 
+%Below, we explain these two use cases in more detail.
+% vocabulary
+% introduced in the context of the Semantic Web Application Platform (SWAP)~\cite{SWAP}
+
+% In the previous chapters we discussed how the semantics of \nthreelogic can be defined, its relation to \rdf and its ability to connect the logical building blocks
+% of the Semantic Web Layer cake. 
+% Having dons that, we covered three of the four requirements we had on a unifying logic 
+% As discussed in Section~\ref{req}, all these aspects are crucial for a logic to become the unifying logic of the Semantic Web.
+% we identified all these aspects as crucial properties for a \emph{Unifying logic} for the Semantic Web but there 
+% was one more relevant aspect for such a logic: it should support the \emph{Proof} layer. 
+% \section{Proofs and explanations in the Semantic Web}\todo{this part need to either be written or removed}
+% Before we discuss proofs in \nthree we first give a brief overview of the different approaches to explain the derivation results produced by the different reasoning systems
+% in the Semantic Web.
+% Semantic Web reasoning typically either applies Description Logics (DL)~\cite{dl} as formalised in the context of the Web Ontology language (OWL)~%~\cite{owl} 
+% or one of the several rule-based approaches,
+% e.g., swrl~\cite{swrl} or Notation3 Logic (N3 Logic)~\cite{N3Logic}. 
+
+% Together with their reasoning results most OWL DL reasoners either provide a   a \emph{justification} -- a set of facts from which the new knowledge follows --
+% or a proof in the classical sense -- a list of the aforementioned facts together with the concrete reasoning steps applied on them leading to the new data.
+% 
+
+
+
+
+
+\section{Simple formulas}
+To be able to discuss about the possible applications of proofs in \nthree, we first need to 
+clarify the calculus behind it and -- most important -- prove its correctness based on the semantics of \nthree. We already know, 
+that this semantics of \nthree is 
+rather problematic: In Section~\ref{semofn3} we formalised two possible alternatives to understand the meaning of nested implicitly universally quantified variables
+and it is very likely, that there are even more ways to understand implicit quantification in \nthree. 
+%Even though we stated our own preferences, we  rather would like this matter to be discussed in the community instead of making a concrete choice here. 
+% In the context of the Semantic Web, we want proofs to be exchangeable: different parties should be able to exchange and also test each others proofs, this is 
+% only possible if we agree on the semantics. Since this agreement should be based on discussions within the Semantic Web community and not simply be taken by 
+% one single author of a dissertation, we first specify a set of formulas which is interpreted in the same way by 
+% 
+Since we want to keep our findings valid for all implementations -- proofs should 
+be exchangeable among the different reasoners -- we 
+%limit our considerations about the proof calculus to those 
+first define a set of formulas whose implicitly universally
+quantified variables are not ambiguous.  If we make sure that the formulas we consider do not contain deeply nested universals, we can guarantee that Cwm and EYE 
+quantify these variables at the same position: on the top formula.
+%These are the formulas in which 
+% If all universal variables in a formula  %such variables 
+% do not occur in deeply nested expressions,  . 
+We call formulas fulfilling this condition \emph{simple formulas}. Below, we explain the idea of such \emph{simple formulas} in more detail.
+
+
+%\subsection{Semantics of simple formulas}
+% If we go back to the example formulas containing universals we saw so far
+% In our previous examples, 
+Based on our considerations in the previous chapters we know at this point that implicit universal quantification in \nthree always leads to contradicting interpretations 
+if the quantified variables only occur deeply nested in a formula.
+While example 
+Formula~\ref{uni} from Section~\ref{vars}
+\begin{multline}\notag
+ \texttt{\{:Kurt :knows ?x.\} => }%} \\ \texttt{
+ \texttt{\{?x :knows :Kurt.\}.}%\nonumber
+\end{multline}
+had a clear meaning in both interpretations we considered, namely
+\[
+ \forall \texttt{x}: \texttt{<Kurt knows x>}\rightarrow \texttt{<x knows Kurt>}
+\]
+Formula~\ref{fff} led to discrepancies:
+\begin{multline}\notag
+\texttt{\{\{?x :q ?y.\} => \{?x :r :c.\}.\} =>}
+\texttt{\{?x :p :a.\}.}
+\end{multline}
+The problem with that last formula was that Cwm and EYE differ in their understanding of the concept \emph{parent}  
+for universal variables which only occur nested -- ie surrounded by at least two pairs of curly brackets \texttt{\{~\}} -- in a formula.  Here, that is the case 
+for the universal variable
+\texttt{?y}. For Cwm, the next higher formula surrounded by curly brackets is the parent, it carries the quantifier -- that is the formula \texttt{\{?x :q ?y.\} => \{?x :r :c.\}.} in the example --
+while for EYE the top formula is always the parent. \emph{Simple formulas} are now the formulas where universal variables do not occur nested 
+and which are therefore interpreted 
+equally by both reasoners. 
+
+In order to formally define \emph{simple formulas}, we first introduce the concept of \emph{nested components}.
+All definitions in this chapter rely on the syntax definitions we gave in Section~\ref{n3synsec}, in particular the \nthree alphabet (Definition~\ref{alphabet}) 
+and the grammar given in 
+Figure~\ref{N3S}. 
+We will furthermore make use of two different types of brackets: brackets occurring in \nthree's syntax \texttt{\{}, \texttt{\}}, \texttt{(}, \texttt{)} and auxiliary 
+brackets we use in mathematical expressions.
+ To emphasize the difference between these two kinds of brackets,
+%  brackets which form part of the \nthree vocabulary, i.e. ``\verb!(!'', ``\verb!)!'', ``\verb!{!'', and ``\verb!}!'', 
+%  and the brackets occurring in mathematical language,
+ we will underline the \nthree brackets in all definitions where both kinds of brackets occur.
+
+% Using that notation, we define:
+% The scope of this quantification depends on how deeply nested
+% a variable occurs in a formula. To be able to make statements about that we define:
+
+
+
+\begin{definition}[Components of a formula]\label{formulacomponents}
+Given an \nthree alphabet $\mathcal{A}$.
+Let $\mathcal{F}$ be the set of \nthree formulas and $\mathcal{T}$ 
+the set of terms over $\mathcal{A}$. Let $f\in \mathcal{F}$ be a formula and $c:\mathcal{T} \rightarrow 2^\mathcal{T}$ a~function such that:
+\[c(t)=\begin{cases}
+  
+  c(t_1)\cup\ldots\cup c(t_n) & \text{if }t=\underline{\texttt{(}}t_1 \ldots t_n\underline{\texttt{)}}\text{ is a list,}\\
+  \{t\}  & \text{otherwise.}
+\end{cases}\]
+
+We define the set $\textit{comp}(f)\subset \mathcal{T}$ of \emph{direct components} of $f$ as follows:
+ \begin{itemize}
+  \item If $f$ is an atomic formula of the form $t_1~ t_2~ t_3.$, $\textit{comp}(f)=c(t_1)\cup c(t_2)\cup c(t_3)$.
+  \item If $f$ is an implication of the form $e_{1} \verb!=>!~e_{2}.$, then $\textit{comp}(f)=\{e_1, e_2\}$.
+  \item If $f$ is a conjunction of the form $f_1 f_2$, then $\textit{comp}(f)=\textit{comp}(f_1)\cup \textit{comp}(f_2)$.
+ \end{itemize}
+ Likewise, for $n\in \mathbb{N}_{>0}$, we define the \emph{components of level $n$} as:
+ \begin{flalign*} 
+  \textit{comp}^n(f):= &  
+  \{t\in \mathcal{T}|\exists f_1,\ldots, f_{n-1}\in \mathcal{F}: 
+   t\in \textit{comp}(f_1)\wedge  \underline{\texttt{\{}}f_1\underline{\texttt{\}}}\in \textit{comp}(f_2)\wedge \ldots\\& \wedge  \underline{\texttt{\{}}f_{n-1}\underline{\texttt{\}}}\in 
+  \textit{comp}(f)\} 
+\end{flalign*} 
+For all $n>1$ we call the components  $t\in\textit{comp}^n(f)$ \emph{nested components} of $f$.
+\end{definition}
+
+
+Now, we can distinguish between direct components and 
+nested components. Formula~\ref{fff} from above has  \texttt{\{\{?x :q ?y.\} => \{?x :r :c.\}.\}} and
+ \texttt{\{?x :p :a.\}} as direct components, nested components of level  two are  \texttt{\{?x :q ?y.\}}, \texttt{ \{?x :r :c.\}}, \texttt{?x}, \texttt{:p}, and \texttt{:a}, 
+ and nested components of level three are \texttt{?x}, \texttt{:q}, \texttt{?y}, \texttt{:r} and \texttt{:c}.
+Our definition of \emph{simple formulas} now excludes all formulas having universal variables at level three or deeper:
+
+% \texttt{\{\{?x :q ?y.\} => \{?x :r :c.\}.\} =>}
+% \texttt{\{?x :p :a.\}.}
+
+% In example Formula~\ref{ref} from Section~\ref{vars}:
+% \[
+%   \texttt{:John :says \{:Kurt :knows :Albert.\}.}
+% \]
+%  \verb!:John!, \verb!:says! and \verb!{:Kurt :knows :Albert.}! are direct components while \verb!:Kurt!,  \verb!:knows! and  \verb!:Albert! are nested components of
+% level two. If we go back two the two example containing universals from above, we have 
+
+%Using the above definition, we can now limit the level of nesting for universal variables:
+
+\begin{definition}[Simple formulas]
+Let $\mathcal{A}$ be an \nthree alphabet and let $U$ be the set of universal %and $E$ be the set of existential
+variables.
+We call an \nthree formula $f$ \emph{simple} iff  $\operatorname{comp}^n(f)\cap U =\emptyset$ %and  $\operatorname{comp}^n(f)\cap E =\emptyset$ 
+for all $n \in \mathbb{N}$, $n>2$.
+\end{definition}
+
+For $f=\text{ Formula~\ref{fff} }$ we have:  \[\textit{comp}^3(f)=\{\texttt{?x}, \texttt{:q}, \texttt{?y}, \texttt{:r}, \texttt{:c}\}\]
+and thus:
+\[\textit{comp}^3(f)\cap U=\{\texttt{?x}, \texttt{:q}, \texttt{?y}, \texttt{:r}, \texttt{:c}\}\cap U = \{\texttt{?x}, \texttt{?y}\}\neq \emptyset\]
+Formula~\ref{fff} is not a \emph{simple formula}. Since Formula~\ref{uni} does not contain any components of a higher level than 2, this formula is \emph{simple}.
+For \emph{simple formulas} we now have:
+
+\begin{lemma}[Universal quantification of simple formulas]
+The \nthree Core Logic interpretations according to Cwm and EYE always quantify all universal variables occurring in \emph{simple formulas} on top level. 
+\end{lemma}
+
+\begin{proof}
+ For the interpretation according to EYE the claim is trivial since EYE quantifies all universal variables exclusively on top level.
+ 
+ To see that Cwm also quantifies all universal variables occurring in a \emph{simple formula} on top level we take a closer look at the 
+ attributes from Section~\ref{unicwm} defined  in Table~\ref{uniatt}. Remember that for each formula node \texttt{f}
+ the value $\texttt{f}.q$ of attribute $q$ is exactly the set of universal variables for which \texttt{f} carries a universal quantifier 
+ in the \nthree Core Logic translation.  We use the definition of this attribute in our proof.
+ 
+ Let us assume that $g_1$ is a simple formula containing a variable \texttt{?x} as nested component which is not quantified on top level. 
+ This means, that for some $k\geq 1$ there exists a  
+ component $\texttt{\{}g_2\texttt{\}}\in \textit{comp}^k(g_1)$ for which $\texttt{?x} \in g_2.q$. Based on the fact that $g_2$ is surrounded by brackets, 
+ we know that the value  $g_2.q$ is computed using the attribute rule  
+ $\texttt{f}.q \leftarrow \texttt{f}.v_2 \setminus \texttt{e}.s$ on the production rule \texttt{e ::=\{f\}}. We therefore know that $\texttt{?x}\in g_2.v_2$. 
+ If we now look at the attribute rules for $v_2$, we furthermore see that this value can only be not empty if 
+ the attribute rule $\texttt{e}.v_2\leftarrow\texttt{f}.v_1$ has been applied
+ on a lower level in the syntax tree. As this rule is an attribute rule for the production rule
+ \texttt{e::=\{f\}} we know that there exists a direct component $\texttt{\{}g_3\texttt{\}}\in \textit{comp}(g_2)\subset\textit{comp}^{k+1}(g_1)$ for which
+ %for some $l\geq1$ there must be a $\texttt{\{}g_3\texttt{\}}\in \textit{comp}^l(g_2)$ with 
+ $\texttt{?x} \in g_3.v_1$. According to the definition of $v_1$ which only passes values upwards to the next expression \texttt{e} in the syntax tree this means
+ that \texttt{?x} is direct  component of $g_3$. We therefore know that $\texttt{?x}\in \textit{comp}(g_3)\subset \textit{comp}^2(g_2)\subset \textit{comp}^{k+2}(g_1)$. This means for 
+ $k+2>2$ we have $\textit{comp}^{k+2}(g_1)\cap U \neq \emptyset$ which contradicts the assumption that $g_1$ is a \emph{simple formula}.
+ %But since both $\texttt{\{}g_2\texttt{\}}$ and $\texttt{\{}g_3\texttt{\}}$ are nested components
+% This means that \texttt{?x} is a direct or nested component
+%  If we now look at the attribute rules for $v_1$, 
+%  we see that this means that there must be a direct or nested component $x$ of $g_3$ which is a universal variable. 
+%  But as  $\texttt{\{}g_3\texttt{\}}$ is a direct or nested component of $g_2$ there must be a $k.0$ such that $x\in \textit{comp}^{k+1}(g_2)$ 
+ 
+%  For each sub-formula for which this value is not the empty set, this value is produced by the attribute rule
+%  $\texttt{f}.q \leftarrow \texttt{f}.v_2 \setminus \texttt{e}.s$ on the production rule \texttt{e ::=\{f\}}. If $\texttt{f}.q\neq \emptyset$ then we also know that 
+%  $\texttt{f}.v_2\neq \emptyset$. This means that there must be direct or nested component of 
+ 
+ 
+%  To see that Cwm also quantifies all universals occurring in simple formulas on top level, we make use of the attributes from Section~\ref{unicwm} defined  in Table~\ref{uniatt}.
+%  For each formula node \texttt{f} in an \nthree syntax tree the value of the inherited attribute $q$ is the set of universal variables for which \texttt{f} carries a universal quantifier 
+%  in the \nthree Core Logic translation of the formula. The top formula is always produced by the production rule \texttt{s ::= f}. The corresponding attribute rule 
+%  for $q$ is: $\texttt{f}.q\leftarrow \texttt{f}.v_1 \cup \texttt{f}.v_2$. 
+%  
+%  Let \texttt{?x} be a universal variable occurring in the simple \nthree formula $g$. Then $\texttt{?x}\in \textit{comp}(g)\cup \textit{comp}^2(g)$.
+%  \begin{enumerate}
+%   \item \label{ppp1} If $\texttt{?x}\in \textit{comp}(g)$, then $g$ is an atomic formula, ie $g= t_1 t_2 t_3$ and $\texttt{?x}= t_i$ for at least one $i$ with $1\leq i\leq 3$. 
+%   For the production rule 
+%   $\texttt{f ::= t}_1\texttt{t}_2\texttt{t}_3$ for atomic formulas the value for $v_1$ is computed by the rule  $ \texttt{f}.v_1 \leftarrow \texttt{t}_1.v_1\cup \texttt{t}_2.v_1\cup \texttt{t}_3.v_1$.
+%   For $t_i=\texttt{?x}$ we furthermore know because of the attribute rule $\texttt{t}.v_1\leftarrow\{\texttt{uv}\}$ on the production rule  \texttt{t ::= uv} that 
+%   $t_i.v_1=\{\texttt{?x}\}$. Thus
+%   $\{\texttt{?x}\}\subset g.q$. 
+%   \item If $\texttt{?x}\in \textit{comp}^2(g)$ then $g$ is either a atomic formula, an implication or a conjunction. We consider these three cases separately:
+%   \begin{enumerate}
+%   \item If $g$ is an atomic formula of the form $t_1 t_2 t_3$, then $\texttt{?x}\in \textit{comp}(g_2)$ for at least one $t_i$ with $t_i=\underline{\texttt{\{}}f_2\underline{\texttt{\}}}$.
+%   This $g_2$ then needs to be an atomic formula and therefore be produced by the rule $\texttt{f ::= t}_1\texttt{t}_2\texttt{t}_3$. For this rule we have the attribute rules
+%   \item
+%   \item If $f$ is a conjunction,
+%   \end{enumerate}
+%  
+%  \end{enumerate}
+\end{proof}
+
+% We thus showed that \emph{simple formulas} are the formulas which Cwm and EYE interpret equally. Both reasoners will come to the same conclusions 
+% when provided with simple formulas. But  the goal of our restriction was to also make the proofs produced by these and other reasoners exchangeable. We therefore 
+% need to also take the cases into account where reasoners translate implicitly existentially quantified variables to universals. We illustrate that problem on an example. Consider
+% the following formula:
+% \begin{equation}\label{simpleex}
+%  \texttt{\{:a :b :c\}=>\{\{\_:x :d :e\}=>\{:f :g :h\}\}.} 
+% \end{equation}
+% According to Cwm's interpretation this formula means in \nthree Core Logic:
+% \[
+%  \texttt{<a b c>}\rightarrow \texttt{<{}<}\exists \texttt{x. x d e>}\rightarrow \texttt{<f g h>{}>.} 
+% \]
+% But this is equivalent to 
+% \[
+%  \texttt{<a b c>}\rightarrow \texttt{<} \forall \texttt{x.} \texttt{ <x d e>}\rightarrow \texttt{<f g h>{}>.} 
+% \]
+% which is again a formula with nested universal quantification. Following Cwm's semantics this could be expressed in \nthree as:
+% \begin{equation}\label{simpleall}
+%  \texttt{\{:a :b :c\}=>\{\{?x :d :e\}=>\{:f :g :h\}\}.} 
+% \end{equation}
+% % For all universal variables occurring in \emph{simple formulas} the following holds:
+% % \[
+% %  \text{parent}_c=\text{parent}_e
+% % \]
+% % The interpretations according to Cwm and EYE thus both quantify all universal variables occurring in \emph{simple formulas} on top level. 
+% % 
+% Formula~\ref{simpleall} is not a \emph{simple formula} while Formula~\ref{simpleex} is.
+
+
+\section{The direct semantics of N3}
+%\section{A proof calculus for N3}
+\label{nthree}
+% Below, we define the semantics of such formulas. %\todo{here or somewhere else: why are we not using the elaboration semantics?}
+% Opposed to the previous chapters, we will use a direct approach here, mainly because this makes the later proofs concerning the proof calculus easier to follow.  
+% 
+Below, we define a direct semantics for \nthree. We do this to make the later proofs concerning the proof calculus easier to follow. For our direct semantics we assume that universal variables are
+always quantified on top level. Using the result from the previous section we can nevertheless guarantee that this semantics is compatible with both reasoners -- EYE and Cwm -- 
+if we limit the input to \emph{simple formulas}. By this limitation proofs remain interchangeable.\footnote{As we already know from the discussion in Section~\ref{pro} the proof 
+vocabulary adds an extra level to the formulas, proofs are therefore most likely not \emph{simple formulas}. But as also discussed in that section, %this slight difference in the indoes not cause 
+Cwm and EYE interpret the implicitly universally quantified which only appear nested in a proof because of the proof vocabulary almost equally.
+}
+
+%By limiting our applications using proofs to \emph{simple formulas} in the following chapter we can despite this choice guarantee that our applications are reasoner independent.
+%In the later chapters we limit our later considerations  and to \emph{simple formulas} 
+
+%These definitions state how terms and expressions can be constructed and how these can be composed to formulas. We had three different kinds of formulas:
+% As we are going to use this terminology below, we repeat here the three different kinds of formulas we had:
+% \begin{enumerate}
+%  \item \emph{atomic formulas} \texttt{t t t.} consisting of three terms,
+%  \item \emph{implications} \texttt{e => e.} where \texttt{e} are expressions, and
+%  \item \emph{conjunctions} \texttt{f f} consisting of two formulas.
+% \end{enumerate}
+%
+% %\todo{cite \cite{semN3}}
+% 
+% %\todo{Plan: stay with my formalisation (improves version), then limit to nesting level 2 and say that we have existential rules. Maybe cite a nice paper aboout existential rules.
+% %What do you think Ruben?}
+% \restdesc descriptions are expressed in the Notation3 (\nthree) rule language~\cite{N3Logic,Notation3}.
+% We will introduce the \nthree language and its logic,
+% focusing on the aspects relevant to our purposes. Our formalization is based on the formalization we gave in a previous paper \cite{semN3} and the informal
+% semantic descriptions given in the above mentioned sources.
+% %F\todo{cite \cite{semN3}}
+% %\todo{Stay with the new formalisation of use simple FOL in the first place?}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % Syntax
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \nthree augments the RDF model with symbols for quantification, implication, and statements about formulas:
+% 
+% 
+% \begin{definition}[Basic N3 vocabulary]
+% An \emph{N3 alphabet~$A$} consists of the following disjoint classes of symbols:
+% \begin{itemize}
+% \item A set $U$ of \uri symbols.
+% \item A set $V=V_E\mathbin{\dot{\cup}} V_U$  of (quantified) variables, with $V_E$ being the set of existential variables
+% and $V_U$ the set of universal variables.
+% \item A set $L$  of literals.
+% \item A boolean literal \verb!false!
+% \item Brackets \verb!{!, \verb!}!, \verb!(!, \verb!)!
+% \item Logical implication $\verb!=>!$ 
+% \item Period \verb!.!
+% \end{itemize}
+% \end{definition}
+%
+% 
+% 
+% We define the elements of $U$ as in the corresponding specification~\cite{iri}.
+% \nthree allows to abbreviate URLs as prefixed names~\cite{turtle}.
+% Literals are strings beginning and ending with quotation marks `\verb!"!';
+% existentials start with `\verb!_:!', universals with `\verb!?!'.
+% 
+% \nthree does not distinguish between predicates and constants---%
+% a single \uri symbol can stand for both at the same time---%
+% so the first-order-concept of a~\emph{term}
+% has a~slightly different counterpart in \nthree: an \emph{expression}.
+% Since the definition of expressions (Definition~\ref{expression})
+% is closely related to the concept of a~formula (Definition~\ref{formula}),
+% the two following definitions should be considered together.
+% 
+% \begin{definition}[Expressions]\label{expression}
+%   Let $A$ be an \nthree alphabet.
+%   The set of \textit{expressions} $E \subset A^{*}$ is
+%   defined as follows:
+%   \begin{enumerate}
+%     \item Each \uri is an expression.
+%     \item Each variable is an expression.
+%     \item Each literal is an expression.
+%     \item \label{list} If $e_1,\ldots,e_n$ are expressions, $\verb!(!e_1 \ldots e_n\verb!)!$ is an expression. 
+%     \item \label{false} \verb!false! is an expression.
+%     \item $\verb!{ }!$ is an expression.
+%     \item \label{fe} If $f\in F$ is a formula, then $\verb!{!f\verb!}!$ is an expression. 
+%   \end{enumerate}
+%   The expression defined by \ref{list} is called a \textit{list}.
+%   We call the expressions defined by \ref{false}--\ref{fe}
+%   \textit{formula expressions} and denote the set of all formula expressions by $\mbox{\textit{FE}}$.
+% \end{definition}
+%
+%
+% Note that point \ref{fe} of the definition above makes use of formulas, which are defined as follows:
+% 
+% \begin{definition}[\nthree Formulas]
+%     \label{formula}
+%     The set~$F$ of \textit{\nthree formulas} over alphabet~$A$ is recursively defined as follows:
+%     \begin{enumerate}  
+%       \item \label{1} If $e_1, e_2, e_3 \in E$, then the following is a formula, called \textit{atomic} formula: \[e_1~ e_2~ e_3.\] 
+%       \item \label{2} If $t_1, t_2$ are formula expressions then the following is a formula, called \mbox{\textit{implication}}: \[t_{1} \verb!=>!~t_{2}.\] 
+%       \item \label{n} If $f_1$ and $f_2$ are formulas, then the following is a formula, called \textit{conjunction}: \[f_1 f_2\] 
+%     %  \item Nothing else is a formula.
+%     \end{enumerate}
+% \end{definition}
+% 
+% We will refer to a~formula without any variables as a~\textit{ground formula}.
+% Analogously, we call expressions without any variables \textit{ground expressions}.
+% We denote the corresponding sets by $F_g$ respectively $E_g$. 
+% An formula or expression which does not contain universal variables is called \emph{universal free}. 
+% The set of universal free formulas (possibly containing existentials) is denoted by $F_e$, the set of universal free expressions by $E_e$.
+% 
+% In the examples in the remainder of this paper, we will use the common \rdf shortcuts:
+% 
+% \begin{remark}[Syntactic variants]
+% \begin{itemize}
+% \item A formula consisting of two triple subformulas starting with the same element \verb!<d> <p> <e>. <d> <q> <f>.! can be abbreviated using a semicolon: \verb!<d> <p> <e>; <q> <f>.!\\ 
+% Two triple formulas sharing the first two elements  \verb!<d> <p> <e>. <d> <p> <f>.! can be abbreviated using a comma: \verb!<d> <p> <e>, <f>.!
+%   \item \verb![]! can be used as an expression and is a shortcut for a new existential variable. So \verb![] <p> <d>.! stands for \verb!_:x <p> <d>.!
+%   %If $[~]$ occurs in a formula $f$ instead of an expression, each instance of $[~]$  can be translated by a new existential variable.
+%  \item An expression of the form \verb![<p> <o>]! is a shortcut for a new existential variable \verb!_:x!,
+%    which is subject to the statement \verb!_:x <p> <o>.!
+%    So \verb! <s> <p> [<q> <o>].! stands for \verb!<s> <p> _:x. _:x <q> <o>.!
+%  \item \verb!a! is a~shortcut for \verb!rdf:type!~\cite{RDF}.
+%  \end{itemize}
+% \end{remark}
+% 
+
+% 
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Semantics
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% As in \rdf, s
+% Simple N3 triples of the form \verb!:s :p :o! can be understood as a first order formula $p(s,o)$. We call \texttt{:p} the predicate, \texttt{:s} 
+%  the subject and \texttt{:o} the object of a triple. More complicated constructs often contain variables:
+% in Notation3 existential and universal variables %occurring in formulas 
+% are implicitly quantified. 
+
+
+%The definition allows us to 
+ %\nthree allows more complex structures, formulas like
+% % \begin{Verbatim}[fontsize=\normalsize] 
+% %          {?x :p :o.} => {:s :p2 {{?x :p3 :o3}=>{?x :p4 :o4.}.}.}.
+% % \end{Verbatim}
+% \[
+% \verb! {{?x :p :a.} => {?x :q :b.}.} => {{?x :r :c.} => {?x :s :d.}.}.! 
+% \]
+% where for example the predicate \verb!:p! occurs as a component of level three are valid in \nthree. 
+% Such deeply nested structures require a careful treatment of scoping for variables occurring in them. 
+% Note for example that the above formula should be interpreted as
+% \[
+% (\forall x_1: p(x_1,a)\rightarrow q(x_1,b))\rightarrow (\forall x_2: r(x_2,c) \rightarrow s(x_2,d))
+% \]
+% and \emph{not} as
+% \[\forall x: ((p(x,a)\rightarrow q(x,b))\rightarrow ( r(x,c) \rightarrow s(x,d)))\]
+% Due to this particularities and because deeply nested structures are no requirement for our framework, we limit the
+% considerations of
+% this paper to \emph{simple formulas}
+% and refer the reader interested in more details to the corresponding publication \cite{semN3}.
+
+We start our formalisation by introducing ground formulas for \nthree. These are similar to the same concept in \nthree 
+Core Logic (Definition~\ref{free}) and will become relevant in the following sections. We make use of the concept of \emph{components} as specified in Definition~\ref{formulacomponents}.
+
+\begin{definition}[Ground and universal-free formulas and terms]
+Let $\mathcal{A}$ be an \nthree alphabet and let $E$ be the set of existential and $U$ the set of universal variables.
+\begin{itemize}
+\item We call an \nthree formula $f$ over $\mathcal{A}$ \emph{ground} 
+iff $\operatorname{comp}^n(f)\cap E=\emptyset$ and $\operatorname{comp}^n(f)\cap U=\emptyset$ for all $n\in\mathbb{N}$. We denote the set of ground formulas by $\mathcal{F}_g$.
+\item We call a term $t$ \emph{ground} iff $t$ is either a constant or a formula expression $\texttt{\{}f\texttt{\}}$ where $f\in \mathcal{F}_g$. We denote the set of all ground terms by $\mathcal{T}_g$.
+\item We call an \nthree formula $f$ over $\mathcal{A}$ \emph{universal-free} 
+iff $\operatorname{comp}^n(f)\cap U=\emptyset$ for all $n\in\mathbb{N}$. We denote the set of universal-free formulas by $\mathcal{F}_e$.
+\item We call a term $t$ \emph{universal-free} iff $t$ is either a constant, an existential or a formula expression $\texttt{\{}f\texttt{\}}$ where $f\in \mathcal{F}_e$. We denote the set of all ground terms by $\mathcal{T}_e$.
+\end{itemize}
+\end{definition}
+
+A \emph{ground} formula is thus a formula which does neither contain universal nor existential variables. 
+Similarly, a universal-free formula is a formula which does not contain implicitly universally quantified variables. 
+
+
+% Universal variables in \emph{simple formulas} can be understood as universally quantified on the top level of the formula.
+% The formula 
+% \[
+%  \verb!{?x :p :o1.} => {?x :q :o2.}.!
+% \]
+% is interpreted as 
+% \[
+%  \forall x: p(x, o_1)\rightarrow q(x, o_2)
+% \]
+As a next step, we define \emph{substitutions} which are similar to \emph{grounding functions} as we introduced to define the semantics of \nthree Core Logic (Definition~\ref{gf}).
+% A special detail of these substitutions is that we have two different ways to apply them: one only for the direct components and one for all direct and nested components of a formula.
+% To better understand the reason for this distinction, we consider an example:
+Substitutions can be used to replace universals or existentials by terms. We distinguish two ways how such substitutions can be applied: we either apply them to all nested or direct components 
+of a formula or -- as a second option -- only to its direct components. 
+We do that to reflect how universals and existentials are treated if variables with the same name occur on different levels. In Formula~\ref{mixedlevels} 
+\begin{equation}\notag
+ \texttt{\{?x :q :b.\} =>\{ :a :b \{?x :s :d.\}.\}.}
+\end{equation}
+the name \texttt{?x} stands twice for the same variable, the formula means: 
+\[
+ \forall \texttt{x. <x q b>}\rightarrow\texttt{< a b <x s d>{}>.}
+\]
+In contrast to that
+%To understand the need for the latter way of application we come back to
+% 
+% As we have seen earlier (Section~\ref{existentials}),
+% the scope of an existential variable is always the formula expression it occurs in as a direct component. 
+in Formula~\ref{eq1} from earlier: 
+% \[
+%  \verb!{_:x :p :o1.} => {_:x :q :o2.}.!
+% \]
+\[
+ \verb!_:x :says {_:x :knows :Albert.}.!
+\]
+the name \texttt{\_:x} stands for different variables.
+%This formula contains the blank node \texttt{\_:x} -- an implicitly existentially quantified variable -- twice. The meaning of that formula was:
+\[
+ \exists \texttt{x1. x1 says <}\exists\texttt{x2. x2 knows Albert>} 
+\]
+This motivates the following definition:
+% The existential quantification of blank nodes, in contrast to universal quantification, 
+% only counts for the direct formula they occur in and not for their subordinated formulas.
+% \[
+% (\exists x_1: p(x_1, o_1))\rightarrow (\exists x_2: q(x_2, o_2))
+% \]
+
+
+% 
+% As quantification is implicit, we need to clarify the concept of variables which are free and \emph{accessible}. 
+% By accesible we mean that the variable is quantified in the respective formula.
+% To understand the need of such a definition consider the following example:
+% \[
+%  \verb!{?x :p _:y.} => {?x :q _:y.}.!
+% \]
+% This has to be interpreted as 
+% \[\forall x: (\exists y_1: p(x, y_1))\rightarrow (\exists y_2: q(x, y_2))\]
+% While the scope of the universal variable is the whole implication, the scope of the existential is limited to antecedent and consequent of the rule. 
+% With our definition from above, this means, that universal quantification can be applied to components of level two or one, existential 
+% quantification only to components of level one:
+% 
+% %\todo{example: why}
+% \begin{definition}[Accessible variables]
+%  Let $f$ be a simple \nthree formula over an alphabet $A$. We define the set of \emph{accessible universals} $\operatorname{AC}_U(f)$ and the set of \emph{accessible
+%  existentials} $\operatorname{AC}_E(f)$ as of $f$ follows:
+%  \[\text{AC}_U(f):=(\text{comp}^1(f)\cup\text{comp}^2(f))\cap V_U 
+% \text{\hspace{0.5cm} and \hspace{0.5cm}}
+% \text{AC}_E(f) := 
+% \text{comp}(f)\cap V_E
+% \]
+%  The set of \emph{accessible variables} of $f$ is defined as: $\text{AC}(f)=\text{AC}_U(f)\cup\text{AC}_E(f)$.
+% \end{definition}
+
+%To incorporate this fact we will make use the component's definition above as every  
+%Furthermore, we need substitutions:
+
+% \begin{definition}[Substitution]
+% %
+% Let %$\mathfrak{I}$ be an Interpretation of an \nthree alphabet $A$ and 
+% $W \subset V$ a set of variables in an \nthree alphabet $A$ and $f$ an \nthree formula.
+% \begin{itemize}
+% \item A substitution  $\sigma$ of $W$ %in $\mathfrak{I}$ 
+% is a map $\sigma:W\rightarrow E$ from $W$ into the set of expressions of $A$. %domain of $\mathfrak{I}$.
+% \item We retrieve the \emph{application} $f\sigma$ of a substitution $\sigma$ on a formula $f$ by replacing every variable $x$ of the domain of $\sigma$ which occurs in $f$
+% by $\sigma(x)$.
+% %By $f\sigma$ we denote the \emph{application} of the substitution $\simga$ on the formula $f$
+% \end{itemize}
+% \end{definition}
+% 
+% We will denote substitutions as sets of pairs of the form $x/e$ which indicates that $\sigma: x \mapsto e$. We write $\sigma=\{x_1/e_1,\ldots , x_n/e_n\}$.
+%We thus define two ways to apply a substitution:
+
+
+\begin{definition}[Substitution]
+%
+Let $\mathcal{A}$ be an \nthree alphabet 
+and $f\in \mathcal{F}$ an \nthree formula over~$\mathcal{A}$. 
+\begin{itemize}
+ \item A \emph{substitution} is a finite set of pairs of terms $\{v_1/t_1, \ldots, v_n/t_n\}$ where each $t_i$ is an term and each $v_i$ is either an existential 
+ or a universal such that $v_i\neq t_i$ and 
+ $v_i \neq v_j$,
+ if $i\neq j$.  
+ \item 
+ For a formula $f$ and a substitution $\sigma=\{v_1/t_1, \ldots, v_n/t_n\}$, we obtain the \emph{component application} 
+ of $\sigma$ to $f$, $f\sigma^c$, by simultaneously replacing each $v_i$ 
+ which occurs as a \emph{direct component} in $f$ by the corresponding expression $t_i$. 
+ \item 
+ For a formula $f$ and a substitution $\sigma=\{v_1/t_1, \ldots, v_n/t_n\}$, we obtain the \emph{total application} of $\sigma$ to $f$, $f\sigma^t$, 
+ by simultaneously replacing each $v_i$ 
+ which occurs as a \emph{direct or nested component} in $f$ by the corresponding expression~$t_i$. 
+ \end{itemize}
+\end{definition}
+
+As the definition states, component application of a substitution only changes the direct components of a formula. 
+For a substitution $\mu=\{\verb!_:x!/ \verb!:Kurt!\}$ we obtain:
+\begin{multline}
+(\texttt{\_:x :says \{\_:x :knows :Albert.\}.})\mu^c  =\nonumber \\ (\texttt{ :Kurt :says \{\_:x :knows :Albert.\}.})\nonumber
+\end{multline}
+A total application of $\sigma=\{\verb!?x!/ \verb!:Kurt!\}$ in contrast, replaces each \emph{occurrence} of a variable in a formula: 
+\begin{multline}
+(\texttt{?x :says \{?x :knows :Albert.\}.})\sigma^t =\\ (\texttt{:Kurt :says \{:Kurt :knows :Albert.\}.})\nonumber
+\end{multline}
+
+
+
+
+
+%Given a substitution $\sigma$, by $\sigma\{x/e\}$ we denote 
+%the substitution which is identical to $\sigma$ except for $x\mapsto e$.
+
+
+% But even for simple formulas there is one property regarding the behavior of existential variables (blank nodes) which deserves special treatment: 
+% the scope of an existential variable is always limited to the formula expression (i.e. the brackets \verb!{!~\verb!}!) it occurs in. The formula
+% \[
+%  \verb!_:x :says {_:x :knows :Albert.}.!
+% \]
+% 
+% Is interpreted as
+% \[
+% %\exists x : \text{says}(x, \text{knows}(x, \text{Albert})) 
+% %\textit{\quad or \quad}
+% \exists x_1 : \text{says}(x_1, (\exists x_2: \text{knows}(x_2, \text{Albert})))\]
+% 
+% and \emph{not} as 
+% \[
+%  \exists x : \text{says}(x, \text{knows}(x, \text{Albert}))
+% \]
+% 
+% We will assume in our formalization that existential variables 
+
+% As the definition states, component application of a substitution only changes the direct components of a formula. For a substitution $\sigma=\{\verb!?x!/ \verb!:Kurt!\}$ we obtain:
+% \[
+% (\verb!?x :says {?x :knows :Albert.}.!)\sigma^c = (\verb!:Kurt :says {?x :knows :Albert.}.!)
+% \]
+% A total application, in contrast, replaces each \emph{occurrence} of a variable in a formula. with the same example as above, by applying $\sigma$ as a total substitution, we get:
+% \[
+% (\verb!?x :says {?x :knows :Albert.}.!)\sigma^t = (\verb!:Kurt :says {:Kurt :knows :Albert.}.!)
+% \]
+
+%For the following definition, we count the components of each level of a formula $f$ from left to right according to their position in $f$.
+%This enables us to state how the different kinds of variables in a formula should be treated by an interpretation:
+
+
+
+
+% \begin{definition}[
+% Formula expressions with unaccessible 
+% variables]\label{evilexpressions}
+% Let $A$ be an \nthree alphabet. 
+% For a formula $g\in F$ over $A$ we define the set of %ungroundable 
+% formula expressions which contain for $g$ unaccessible universals %,  $\text{FE}_X(g)$ 
+% as follows:
+% \[ \text{FE}_U(g):=\{\underline{\texttt{\{}}f\underline{\texttt{\}}}\in \text{FE}| \forall v\in V_U: n_f(v)\neq 1 \text{ and if } n_f(v)>1 \text{ then } n_g(v)=0  \} \]
+% By $\text{FE}_U:=\bigcup_{g\in F} \text{FE}_U(g)$ we denote the union of all formula expressions of that kind. %with unaccessible universals. 
+% The set of formula expressions with unaccessible existentials is defined as:
+% \[
+%  \text{FE}_E=\{\underline{\texttt{\{}}f\underline{\texttt{\}}}\in \text{FE}|\exists n\in \mathbb{N}: \text{comp}^n(f)\cap U_E\neq \emptyset\}
+% \]
+% By $\text{FE}_X:=\text{FE}_U\cup \text{FE}_E$ we denote the set of all formula expressions containing unaccessible variables, 
+% by $\text{FE}_X(g):=\text{FE}_U(g)\cup \text{FE}_E$ the corresponding set for the formula~$g$.
+% \end{definition}
+% 
+% Note that existential and universal replacements are uniquely defined by the set of their substitutions.\\
+% %Note, that both definitions can be understood as a set of substitutions which can be applied to 
+% %Both replacements allow different substitutions for the same variable. While in existential replacement a substitution is always only applied 
+% %to the \emph{components} of one level of a formula, the substituions used within universal replacement change each \emph{occurrence} of a variable in a (part-)formula. 
+% This definition states that only existential variables occurring as components in the same (sub-)formula should be treated equally. 
+% This is different for universal variables. 
+% To understand how nesting level two is of importance, we come back to our previous example:
+% \[
+% f=(\verb!{{?x :p :a.} => {?x :q :b.}.} => {{?x :r :c.} => {?x :s :d.}.}.!) 
+% \]
+% Suppose we want to apply a universal replacement $\mu= (\sigma_{ij})_{i,j \in \mathbb{N}}$ for \verb!?x!:
+% 
+% As $n_f(\verb!?x!)=3>2$ we have to consider the subformulas
+% \[f_{21}=(\verb!{?x :p :a.} => {?x :q :b.}.!)\] and \[f_{22}=(\verb!{{?x :r :c.} => {?x :s :d}.}.!)\] separately.
+% 
+% For $f_{21}$ we get $n_{f_{21}}(\verb!?x!)=2$. Therefore we apply the substitution $\sigma_{21}= \{\verb!?x!/e_{21}\}$.
+% The same holds for $f_{22}$. We get $n_{f_{22}}(\verb!?x!)=2$. Hence we apply the substitution $\sigma_{22}= \{\verb!?x!/e_{22}\}$.
+% As a result we get:
+% \[
+% \mu(f)=(\verb!{{!e_{21}\verb! :p :a.} => {!e_{21}\verb! :q :b.}.} => {{!e_{22} \verb! :r :c.} => {! e_{22}\verb! :s :d.}.}.!) 
+% \]
+% 
+% 
+% Both substitutions are applied via total applications such that, 
+% if the respective variable occurred in sub-formulas, it would be handled the same way as it is as a~component of 
+% $f_{21}$ and $f_{22}$. Note that $e_{21}$ and $e_{22}$ can be different. Our definition only ensures, that, 
+% if the same variable occurs in direct sibling formulas, it is treated in the same way.
+
+%For simple formulas 
+We can now define interpretation and semantics:
+%We embed our concepts in the definition of interpretation and semantics:
+
+\begin{definition}[Interpretation]
+An interpretation $\mathfrak{I}$ of
+an \nthree alphabet $\mathcal{A}$ consists of:
+\begin{enumerate}
+\item A set $\mathcal{D}$ called the domain of $\mathfrak{I}$.
+\item A function $\mathfrak{a}: 
+\mathcal{T}\setminus (U\cup E) \rightarrow \mathcal{D}$ called the object function.
+\item A function $\mathfrak{p}:
+\mathcal{D} \rightarrow 2^{\mathcal{D} \times \mathcal{D}}$ called the predicate function.
+\end{enumerate}
+\end{definition}
+
+Note that the above definition is very close to the definition of a structure in \nthree Core Logic (Definition~\ref{n3corestructure}) 
+and thereby also to structures in \rdf (Section~\ref{rdfsemantics} and \cite{RDFSemantics}).
+%Note that in contrast to the classical definition of \rdf-semantics \cite{RDFSemantics} 
+The main difference is that our domain does not distinguish between properties (IP) 
+and resources (IR). 
+The definitions are nevertheless compatible, as we assume $\mathfrak{p}(p)=\emptyset\in 2^{\mathcal{D} \times \mathcal{D}}$
+for all resources $p$ which are not properties (i.e. $p \in \text{IR}\setminus \text{IP}$ in the \rdf-sense). 
+% By extending given \rdf ground interpretation functions to Notation3 interpretation functions, 
+% the meaning of all valid \rdf triples can be kept in Notation3 Logic. %\\
+% 
+%The main necessary extension would be a function which assigns domain values to formula expressions. 
+As for \nthree Core formulas, we define the structure of simple \nthree formulas only for ground terms and use a substitution (grounding function) instead of a classical valuation 
+function which maps the variables directly into the domain of discourse. The reason for that is the same as discussed above: cited formulas should not be ``\emph{referentially transparent}''~\cite[p.7]{N3Logic}, ie 
+an interpretation needs to treat the formula expressions \texttt{\{:Superman :can :fly\}} and \texttt{\{:ClarkKent :can :fly\}} differently even if \texttt{:Superman} and \texttt{:ClarkKent} refer to the same 
+element of the domain of discourse. As a consequence, the representation level also needs to be taken into account when we assign the meaning to variables.
+For our definition of \nthree's direct semantics for simple formulas, we now take the two different ways of applying such a substitution into account:
+
+
+
+
+
+\begin{definition}[Direct semantics of \nthree\label{sem_n3}]
+Let $\mathfrak{I}=(\mathcal{D},\mathfrak{a,p})$ be an interpretation of an \nthree alphabet $\mathcal{A}$, let $U$ be the set of universal variable of $\mathcal{A}$ and $E$ the set of existentials,
+and let  $f$ be a \emph{simple} formula over $\mathcal{A}$. % which contains at least one variable, $f_1$ and $f_2$ be ground formulas and $c_1,c_2,p \in E$ be ground expressions.
+Then the following holds:
+\begin{enumerate}
+ \item\label{quant1} If $f$ contains universal variables then $\mathfrak{I}\models f$ iff $\mathfrak{I}\models f\sigma^t$ 
+ for every substitution $\sigma: U\rightarrow \mathcal{T}_e$. 
+ \item \label{quant2} If $f$ is universal-free and $W=\text{comp}(f)\cap E \neq \emptyset$ then $\mathfrak{I}\models f$ 
+ iff $\mathfrak{I}\models f\mu^c$ for some substitution $\mu: W\rightarrow \mathcal{T}_g$.
+%\end{enumerate %\begin{enumerate}
+  %\item  \label{quant} If $\text{AC}(f)\neq \emptyset$ then
+  %$\mathfrak{I}\models f$ iff for all substitutions 
+  %$\sigma: \text{AC}_U(f)\rightarrow E_g$ %\cup\text{FE}_E$ 
+  %there 
+  %exist a substitution $\mu: \text{AC}_E(f) \rightarrow E_g$ %\cup \text{FE}_E$ 
+  %such that:
+  %$\mathfrak{I}\models f\sigma \mu$
+  \item If $f$ is universal free and $\text{comp}(f)\cap E=\emptyset$:
+  \begin{enumerate}
+   \item If $f$ is an atomic formula $t_1\, t_2\, t_3$, then  $\mathfrak{I} \models t_1\, t_2\, t_3$. 
+  iff $(\mathfrak{a}(t_1),\mathfrak{a}(t_3))\in\mathfrak{p}(\mathfrak{a}(t_2))$.
+  \item If $f$ is a conjunction $f_1f_2$, then  $\mathfrak{I}\models f_1 f_2$ iff $\mathfrak{I}\models f_1$ and $\mathfrak{I}\models f_2$.\label{conj}
+  \item If $f$ is an implication\label{implication} then %of the form 
+  \begin{itemize}
+  %\item %$\verb!{! f_1 \verb!}! \verb!=>! \verb!{! f_2 \verb!}!$, then 
+  \item $\mathfrak{I} \models \verb!{! f_1 \verb!}! \verb!=>! \verb!{! f_2 \verb!}!$ iff $\mathfrak{I} \models f_2$ if $\mathfrak{I} \models f_1$.
+  %
+  \item \label{fal2} %$\verb!{! f_1 \verb!}! \,\verb!=>!\, \verb!false!$. then 
+  $\mathfrak{I} \models \verb!{! f_1 \verb!}! \,\verb!=>!\, \verb!false!$. iff $\mathfrak{I} \not\models f_1$.
+   \item $\mathfrak{I} \models \verb!{ }! \verb!=>! \verb!{! f_2 \verb!}!$. iff $\mathfrak{I} \models f_2$.
+   \item $\mathfrak{I} \models \texttt{false => }e$ and $\mathfrak{I}\models e\texttt{ => \{~\}}.$, for every expression $e$.
+   \end{itemize}
+ \end{enumerate}
+\end{enumerate}
+  
+\end{definition}
+
+In point~\ref{quant1} in the definition we first ground all uniersal variables. This is the same as assuming all universals to always be quantified on top level. Our semantics is thus following 
+EYE's interpretation but is also correct for all \emph{simple formulas} if we follow the semantics as implemented in Cwm.
+By grounding the universals first and then treating existentials afterwards (point~\ref{quant2}) we furthermore make sure 
+that in case of conflicts the universal quantifier is outside of the existential as it was stated in Quote~I from Section~\ref{quantsec}.
+% In N3 the statement
+% \[
+%  \verb!?x :loves _:y.!
+% \]
+% has to be interpreted as $\forall x \exists y: \text{loves}(x,y)
+% \text{ and \emph{not} as }
+% \exists y \forall x : \text{loves}(x,y)$.
+
+
+%\noindent
+With the above we can now define models:
+
+\begin{definition}[Model]
+Let $\Phi$ be a set of \nthree formulas. We call an interpretation $\mathfrak{I}=(\mathcal{D},\mathfrak{a,p})$ a \textit{model} of $\Phi$ iff $\mathfrak{I}\models f$ for every formula $f\in \Phi$.
+\end{definition}
+%
+As in first order logic, we can define the notion of logical implication:
+
+\begin{definition}[Logical implication]\label{log_impl}
+Let $\Phi$ be a set of \nthree formulas  and $\phi$ a formula over the same \nthree alphabet $A$. We say that $\Phi$ (logical) implies 
+$\phi$ ($\Phi \models \phi$) iff every
+model $\mathfrak{I}\models \Phi$ is also a model of $\phi$.
+\end{definition}
+
+% To conclude this section and to make a connection to other formalisms we summarize:
+% \begin{itemize}
+%  \item Simple triples in N3 of the form \verb!:s :p :o.! can be understood as a first order formula $p(s,o)$ with $p$ being a predicate, $s$ and $p$ being 
+%  constants. We call $s$ the subject of the formula, $p$ the predicate and $o$ the object.
+%  \item N3 supports implicit quantification. 
+%   For \emph{simple} formulas the scope of a universal variable is always the formula itself, 
+% \end{itemize}
+
+
+%\todo{elaborate}
+
+%Note that if we restrict Notation3 Logic to nesting level
+%The presented subset of Notation3 Logic corresponds to 
+
+
+
+\section{A proof calculus for N3}\label{cal}
+%\subsection{Anatomy of a~Hypermedia API Composition Proof}
+\label{sec:ProofAnatomy}
+Having the direct semantics of (simple) \nthree formulas defined we can now come to the actual topic of this chapter: proofs. When new knowledge is derived,
+a proof is a list of the different concrete steps 
+ applied which led to this new knowledge. This proof can be used by others to understand and either verify or decline the derivations. A proof calculus is now a set of all 
+possible conceptual steps allowed to be used in a proof.\footnote{More about proof calculi can be found in most introductions to FOL, for example \cite{ebbinghaus,enderton,mendelson}.}
+The proof calculus we discuss below is based on the steps which can be described by the \nthree proof vocabulary which we further describe in the next section.
+% 
+% introduce a proof calculus for \nthree. This calculus contains 
+% all steps which are covered in the proof vocabulary created in the context of the Semantic Web Application Platform (SWAP) \cite{SWAP}. We discuss the vocabulary itself in the following section.
+% % 
+% The \nthree proof vocabulary created in the context of the Semantic Web Application Platform (SWAP) \cite{SWAP} 
+% enables us to formalize proofs in a~machine-readable way.
+% This subsection gives a short introduction into the terminology used and the resulting proofs,
+% focusing on the aspects relevant to our purposes.
+% 
+% A proof is a conjunction of \nthree formulas describing 
+% inference steps
+% a reasoner has performed to come to a certain conclusion, so called \textit{proof steps}. 
+
+The \nthree proof calculus contains four different kinds of proof steps. We write them as deduction rules, using ``$\vdash$''.
+
+\begin{definition}[Proof steps]\label{proofsteps}
+Let $\mathcal{F}$ be the set of simple formulas over an \nthree alphabet $\mathcal{A}$, $U$ the set of universals and $E$ the set of existentials in $\mathcal{A}$,  $\Gamma\subset \mathcal{F}$ a set of formulas and
+$f,f_1,f_2, g\in \mathcal{F}$. 
+A \textit{proof step} is one of the following inference rules:
+\begin{enumerate}
+ \item \emph{Axiom:} If $f \in \Gamma$ then $\Gamma \vdash f$.%Parsing: The step of reading formulas out of a source file. If we see each soucre file as a formula, this step can be understood as 
+ \item \emph{Conjunction elimination:} If $\Gamma \vdash f_1f_2$ then $\Gamma \vdash f_1$ and $\Gamma \vdash f_2$.
+ \item \emph{Conjunction introduction:} Let $\Gamma\vdash f_1$ and $\Gamma \vdash f_2$ and 
+ let \[\sigma: U\rightarrow U\setminus (\bigcup_{n\in \mathbb{N}_{>0}}\text{comp}^n(f_1) )  %\text{comp}^1(f_1)\cup\text{comp}^2(f_1)) 
+ \text{ and } %$\mu$ be a substitution with
+ \mu:E\rightarrow E\setminus \text{comp}(f_1)\] be substitutions. Let $f_2'= f_2\sigma^t\mu^c$ 
+ %
+ %$\rho_1, \ldots, \rho_m$ be existential %and $\mu_1,\ldots, \mu_n$ universal 
+ %renamings such that 
+ %$\Gamma \vdash f_1f_2'$ for \[
+ %$f_2'= \rho_1\circ \ldots \circ \rho_m(f_2)$ with % being a renamed version of $f_2$ such that
+ %$\text{comp}(f_1)\cap \text{comp}(f_2') \cap V_E = \emptyset$ %and $\text{comp}^2(f_1)\cap \text{comp}^2(f_2') \cap V_U = \emptyset$
+ %
+%  is a renamed version of $f_2$ such that \[\{\text{comp}(f_1)\cup \text{comp}^2(f_1)\}\cap \{\text{comp}(f_2')\cup \text{comp}^2(f_2')\}\cap V=\emptyset,\] 
+%  then $\Gamma \vdash f_1f_2'$.
+then \[\Gamma \vdash f_1f_2'\]
+ \item \emph{Generalized modus ponens:} If $\Gamma \vdash \verb!{!f_1\verb!}=>{!f_2\verb!}.!$ and $\Gamma \vdash g$ %\mu_{1}\circ\ldots\circ\mu_{n}(f_1)$ then 
+ and there exists a substitution $\sigma:\text{comp}(f_1)\cap U \rightarrow \mathcal{T}_e$ such that 
+ \[
+  (\verb!{!f_1\verb!}=>{!f_2\verb!}.!)\sigma^t= (\verb!{!f_1'\verb!}=>{!f_2'\verb!}.!)\text{ and }
+ f'_1=g\] 
+ %universal replacements $\mu_{1}, \ldots, \mu_{n}$  %for the variables in  $\verb!{!f_1\verb!}=>{!f_2\verb!}!.$ %$\Gamma \vdash \mu_{1}\circ\ldots\circ\mu_{n}(f_2)$.
+%such that \[\mu_{1}\circ\ldots\circ\mu_{n}(\verb!{!f_1\verb!}=>{!f_2\verb!}.)!=  (\verb!{!f_1'\verb!}=>{!f_2'\verb!}.!) \text{ and } f_1'=g\] 
+then $\Gamma \vdash f_2'$.
+ \end{enumerate}
+\end{definition}
+
+When we define proof steps in order to explain derivations done in a logic, the most important requirement these steps need to fulfil is that they need to be correct: Only 
+if we can be sure that the application of a proof step on valid formulas leads again to valid formulas we can trust the proofs which have been produced applying this calculus.
+%, that is that  
+We therefore state the following theorem:
+
+\begin{theorem}[Correctness of proof calculus]\label{correctness}
+Let $\Phi$ be a set of \nthree formulas  and $\phi$ a formula over the same \nthree alphabet $\mathcal{A}$. Let $U$ be the set of universals and $E$ the set of existentials in $\mathcal{A}$. 
+Then the following holds:
+\[ \text{If } \Phi \vdash \phi \text{ then } \Phi \models \phi.\]
+\end{theorem}
+
+
+
+\begin{proof}
+
+We prove that every proof step is correct.
+%\begin{addmargin}[3cm]{2cm}
+%Inhalt
+%\end{addmargin} 
+\begin{enumerate}
+%\leftskip1.5em %this is a quick fix, if you know a better solution, please apply it here
+ \item \emph{Axiom:} For the axiom step the claim is trivial, as it corresponds to Definition~\ref{log_impl}.
+ \item \emph{Conjunction elimination:}
+ Let $\Phi\models f_1 f_2 $ and let  $\mathfrak{I}=(\mathcal{D},\mathfrak{a,p})$ be a model for $\Phi$ and $f_1 f_2$. 
+ \begin{itemize}
+ \item If $f_1 f_2$ is universal-free and $\text{comp}(f_1f_2)\cap E=\emptyset$, the claim follows immediately 
+ from Definition  \ref{sem_n3}.\ref{conj}. 
+ 
+ \item If $f_1f_2$ universal-free and $\text{comp}(f_1f_2)\neq \emptyset$ let $\mu:\text{comp}(f_1f_2)\rightarrow \mathcal{T}_g$ be a substitution such that
+ $\mathfrak{I}\models (f_1f_2)\mu^c$. Then $\mathfrak{I}\models (f_1\mu^c) (f_2\mu^c)$, thus  $\mathfrak{I}\models (f_1\mu^c)$ and 
+ $\mathfrak{I}\models (f_2\mu^c)$.
+ \item If $f_1f_2$ are not universal-free, then $\mathfrak{I}\models (f_1f_2)\sigma^t$ for all substitutions $\sigma:U\rightarrow \mathcal{T}_e$. 
+ 
+ The claim follows by the same 
+ argument as above.
+ \end{itemize}
+%  If $f_1 f_2$ is not ground let $\mu_1,\ldots ,\mu_n$ be universal replacements and $\rho_1,\ldots \rho_m$ existential replacements for all variables 
+%  occurring in $f_1 f_2$ as defined in 
+%  Definition~\ref{sem_n3}.\ref{quant} such that:
+%  \[
+%   \mathfrak{I}\models \rho_1\circ \ldots \circ \rho_m \circ \mu_1 \circ \ldots \circ \mu_n (f_1 f_2)
+%  \]
+% It follows immediately by Definition \ref{repl} and \ref{sem_n3}.\ref{conj}:
+%   \[
+%   \mathfrak{I} \models \rho_1\circ \ldots \circ \rho_m \circ \mu_1 \circ \ldots \circ \mu_n (f_1 )
+%  \] 
+% To prove the claim for $f_2$ we take into account, that according to Definition \ref{repl} the only 
+% substitution of an existential or universal replacement, which changes 
+% variables in both subformulas $f_1$ and $f_2$ from $f_1f_2$ is $\sigma_{11}$.
+% We construct new replacements $\nu'$ for each replacement $\nu = (\sigma_{ij})_{i,j \in \mathbb{N}}$ from above as follows:\\
+% Let $k_1:=0$ and for each level $i$ of $f_1$ let $k_i := |\text{comp}^{(i-1)}(f_1)\cap \text{FE}|$ be the number of formula expressions. % of $f_1$. 
+% We define
+% $\nu' := (\sigma_{i (j+k_i)})_{i,j \in \mathbb{N}}.$ Then the following holds:
+%   \[
+%   \mathfrak{I} \models \rho_1'\circ \ldots \circ \rho_m' \circ \mu_1' \circ \ldots \circ \mu_n' (f_2 )
+%  \]
+ \item \emph{Conjunction introduction:} 
+ Let $\Phi\models f_1$, $\Phi\models f_2$ and let  $\mathfrak{I}=(\mathcal{D},\mathfrak{a,p})$ be a model for $\Phi$, $f_1$ and $f_2$. 
+ %As $f_2'$ is just a renamed version of $f_2$, $\Phi\models f_2'$. The claim follows by Definition \ref{sem_n3}.\ref{conj}.
+%An existential renaming does not change the meaning of a formula.
+As the renaming substitutions $\sigma$ and $\mu$ do not change the meaning of a formula, for  $f_2'= f_2\sigma^t\mu^c$ the following holds:
+%an existential renaming does not change the meaning of a formula, 
+$\mathfrak{I}\models f_2'$. 
+%If $f_1$ or $f_2'$ is universal free 
+It immediately follows that $\mathfrak{I}\models f_1f_2'$. %If $f_1f_2'$ both contain universals
+%for $f_2'= \rho_1\circ \ldots \circ \rho_m(f_2)$, $\rho_1,\ldots,\rho_m
+% Let $\rho^1_1, \ldots, \rho^1_{m_1},\rho^2_1, \ldots, \rho^2_{m_2}$ be existential replacements and $\mu^1_1,\ldots \mu^1_{n_1}, \mu^2_1,\ldots \mu^2_{n_2}$ universal 
+% replacements as in Definition \ref{sem_n3}.\ref{quant} such that:
+%  \[
+%   \mathfrak{I}\models \rho^1_1\circ \ldots \circ \rho^1_{m_1} \circ \mu^1_1 \circ \ldots \circ \mu^1_{n_1} (f_1)
+%  \]
+% \text{ and }
+%  \[
+%   \mathfrak{I}\models \rho^2_1\circ \ldots \circ \rho^2_{m_2} \circ \mu^2_1 \circ \ldots \circ \mu^2_{n_2} (f_2')
+%  \]
+% We construct new replacements for each variable $v$ %\in \text{dom}(\nu^1)\cup \text{dom}(\nu^2)$ 
+% which occurs in $f_1$ or $f_2'$:
+% 
+% %If $v$ only occurs in one of the two formulas, 
+% % If $v$ only occurs in $f_1$ we keep the replacement and rename and renumber it 
+% % to 
+% % $\rho'_l$ resp. $\mu'_l$. 
+% If $v$ only occurs in one of the formulas there is only one replacement $\nu^1$ or $\nu^2$ for $v$, we add an additional arbitrary 
+% replacement $\nu^2$ respectively $\nu^1$ with $\text{dom}(\nu^i)= \{v\}$ to our set of replacements.
+% %If there is no replacement $\nu^1$ or $\nu^2$ for $v$ we add an arbitrary 
+% %If the variable only occurs in $f_2'$ 
+% %we add a new substitution 
+% %Now, we always have two replacements for the same variable. We take these the two replacements
+% Now, there are always two replacements for each variable $v$. We combine those two replacements
+% $\nu^1=(\sigma^1_{ij})_{i,j \in \mathbb{N}}$ and $\nu^2=(\sigma^2_{ij})_{i,j \in \mathbb{N}}$ %for $v$ 
+% and % the same variable, 
+% construct a new replacement $\nu'=(\sigma'_{ij})_{i,j \in \mathbb{N}}$: 
+% Let $k_1:=0$ and for each level $i$ of $f_1$ let $k_i := |\text{comp}^{(i-1)}(f_1)\cap \text{FE}|$ be the number of formula expressions. We define the substitutions 
+% $\sigma_{ij}'$ :
+% \[
+% \sigma_{ij}':= \begin{cases}
+%                \sigma^1_{ij} & \text{ if } j \leq k_i \\
+%                \sigma^2_{i (j+k_i)} & \text{ else.}
+%               \end{cases}
+% \]
+% The new replacements can be combined and ordered, such that
+%  \[
+%   \mathfrak{I}\models \rho'_1\circ \ldots \circ \rho'_{m} \circ \mu'_1 \circ \ldots \circ \mu'_{n} (f_1f_2')
+%  \]
+% As this procedure can be done with every set of replacements \linebreak $\rho^1_1, \ldots, \rho^1_{m_1},\rho^2_1, \ldots, \rho^2_{m_2},\mu^1_1,\ldots \mu^1_{n_1}, \mu^2_1,\ldots \mu^2_{n_2}$, 
+% the claim follows by Definition \ref{sem_n3}.\ref{quant} and \ref{sem_n3}.\ref{conj}.
+\item \emph{Generalized modus ponens:} the claim follows directly from Definitions \ref{sem_n3}.\ref{quant1} %, \ref{sem_n3}.\ref{quant2}   
+and~\ref{sem_n3}.\ref{fal2}.
+\end{enumerate}
+\end{proof}
+
+
+
+% Additional to the above mentioned steps proof steps themseves, %, the reasoner is able to apply existential renaming. 
+% the substitutions done during the reasoning process %as well as those applied in generalized modus ponens 
+% can be 
+% described by the vocabulary\footnote{The vocabulary's rdf definition can be found at: \url{http://www.w3.org/2000/10/swap/reason\#}.}.
+%Additional to the replacements done during the application of the generalized modus ponens, the proofs shown within this paper will also include existential renaming. 
+%Although this is not expressed as a proof step cannot be expressed as a proof step, the vocabulary provides the opportunity to describe the substitutions made in such a pre-step.
+%The reasoning vocabulary\footnote{The vocabulary's definition can be found at: \url{http://www.w3.org/2000/10/swap/reason\#}.}
+%enables us to name the aforementioned proof steps. 
+%their outcome, and the resources used to come to a conclusion. 
+%\todo{Remark: proof calculus is not complete since we do not have any way to come from existential to universal}
+The proof calculus is thus correct. % Based on our experiences on proof calculi in first order logic (for example \cite{ebbinghaus,enderton,mendelson})
+The natural next step here would be to also prove the completeness of the proof calculus: unfortunately, the calculus is not complete.
+% 
+% -- there are for example no proof steps
+% dealing with existential 
+% variables --
+% and we can therefore not provide such a proof. 
+To see this consider the following rule containing a blank node in its antecedent:
+\[
+ \texttt{\{\_:x :knows :Kurt.\}=>\{:Kurt :is :known\}.}
+\]
+Before they apply this rule, the reasoners Cwm and EYE internally translate it to:
+\[
+ \texttt{\{?x :knows :Kurt.\}=>\{:Kurt :is :known\}.}
+\]
+According to all definitions of \nthree's semantics we have given so far, this translation is correct. The step (or combination of steps depending on the calculus) 
+performed here is not part of the proof calculus described by the SWAP
+proof vocabulary. Therefore, it is impossible for reasoners applying this step to communicate this application to different parties. To also be complete or to at least reflect the actual 
+reasoning steps performed by the reasoners, the SWAP vocabulary would need to be extended by proof steps which act on existential variables.
+
+Before we introduce the proof vocabulary, we make an observation about the generalised modus ponens which will become important in the following chapter:
+% 
+% We will examine the generalized modus ponens in more detail,
+% as this is the proof step where implication rules, 
+% such as \restdesc descriptions, are applied.
+
+\begin{lemma}\label{lemma:Reasoning}
+Let $\mathcal{A}$ be an \nthree alphabet, $U$ the set of universal variables, %$\Gamma\subset F$ a set of formulas, 
+$f\in \mathcal{F}_g$ a ground formula and $\verb!{!f_1\verb!}=>{!f_2\verb!}!\in \mathcal{F}$ an implication formula %of nesting level 2 
+where all 
+universal variables which occur in $f_2$  
+also occur in $f_1$. If the generalized modus ponens is applicable to $f$ and $\verb!{!f_1\verb!}=>{!f_2\verb!}!$ then
+the resulting formula does not contain universal variables.
+\end{lemma}
+
+\begin{proof}
+ %Let  $\mu_{1}, \ldots, \mu_{n}$ be 
+ %universal replacements 
+ Let $\sigma:U\rightarrow \mathcal{T}_e$ be a substitution %such that 
+ such that  $(\verb!{!f_1\verb!}=>{!f_2\verb!}.!)\sigma^t= \verb!{!f\verb!}=>{!f_2'\verb!}.!$ 
+As $f$ is a ground formula, $\text{range}(\sigma|_{U\cap(\bigcup_{i\geq 1}\text{comp}^i(f_1))}) \subset E_g$. 
+With the condition that every universal variable of $f_2$ 
+is also in $f_1$, that is
+\[((\bigcup_{i\leq 1}\text{comp}^i(f_2))\cap U )\subset((\bigcup_{i\leq 1}\text{comp}^i(f_1))\cap U )\]
+the claim follows. 
+%
+ %As the implication
+ %has nesting level 2, by Definition \ref{repl}, from each replacement only the first substitution $\sigma^{\mu_i}_{11}=: \sigma_{\mu_i}$ 
+ %gets totally applied to the whole implication 
+ %and we obtain
+ %there are, by definition \ref{repl}, some substitutions $\sigma_1\ldots\sigma_n$ such that 
+ %\[\mu_{1}\circ\ldots\circ\mu_{n}(\verb!{!f_1\verb!}=>{!f_2\verb!}.!)=(\verb!{!f_1\verb!}=>{!f_2\verb!}.!)\sigma_{\mu_1}^t\ldots\sigma_{\mu_n}^t.\]
+ %Therefore all 
+ %universal variables which are replaced in $f_1$ are also replaced by the same substitution in $f_2$.
+\end{proof}
+
+
+
+\section{The proof vocabulary}\label{sec:proofvoc}
+%As explained earlier, the proof steps we introduced in the previous section all have been defined in the context of the Semantic Web Application platform SWAP. 
+%The proof steps introduced in the previous section can all be expressed in \nthree.
+After having introduced the concrete proof steps which can be described by it in the last section, we now introduce the SWAP proof vocabulary.\footnote{The vocabulary's RDF definition can be found at: \url{http://www.w3.org/2000/10/swap/reason\#}.}
+This proof vocabulary makes it possible 
+to express proofs directly in \nthree and thereby make them accessible for Semantic Web technology. Semantic Web reasoners can process proofs, exchange them among each others 
+or -- for example -- check them for correctness. By expressing proofs in \nthree, we thus make them part of the Semantic Web.
+
+Below, we define the \nthree names of the steps listed in Definition~\ref{proofsteps}. From a technical point of view, we can only be aware of \emph{axioms} 
+if we previously parse them. In the proof vocabulary, the axiom step is therefore named after this action.
+% In the \nthree proof vocabulary
+% we will discuss next,
+% this step is therefore named after this action.
+
+\begin{definition}[Proof vocabulary]\label{proofvoc}
+Let $\mathcal{A}$ be an \nthree alphabet and $\mathfrak{I}=(\mathcal{D}, \mathfrak{a}, \mathfrak{p})$ be an 
+interpretation of its formulas. Let $C$ be the set of constants in $\mathcal{A}$. Let $\verb!x!, \verb!y!,  \verb!y!_1, \ldots, \verb!y!_n \in C$ be \nthree representations of 
+proof steps and $\verb!z!_1,\verb!z!_2,\verb!z!_3\in C$.
+\begin{enumerate}
+ \item 
+ Proof step types:
+ \begin{itemize}
+\item $\mathfrak{I}\models \verb!x a r:Proof.!$ iff \verb!x! is the proof step which leads to the proven result.
+\item $\mathfrak{I}\models \verb!x a r:Parsing.!$ iff \verb!x! is a parsed axiom. %This step involves parsing the resources.
+\item $\mathfrak{I}\models \verb!x a r:Conjunction.!$ iff \verb!x! is a conjunction introduction.
+\item $\mathfrak{I}\models \verb!x a r:Inference.!$ iff \verb!x! is a generalized modus ponens.
+\item $\mathfrak{I}\models \verb!x a r:Extraction.!$ iff \verb!x! is a conjunction elimination.
+\end{itemize}
+ \item 
+ Proof predicates:
+\begin{itemize}
+\item $\mathfrak{I}\models \verb!x r:gives {!f\verb!}!$. iff $f\in F$ is the formula obtained by applying \verb!x!.
+\item $\mathfrak{I}\models \verb!x r:source u!$. iff \verb!x! is a parsed axiom and $\verb!u!\in U$ is the \uri of the %parsing's 
+parsed axiom's
+source. 
+\item $\mathfrak{I}\models \verb!x r:component y!$. iff \verb!x! is a conjunction introduction and $\verb!y!$ is a proof step which gives one of its components.
+\item $\mathfrak{I}\models \verb!x r:rule y.!$ iff \verb!x! is a generalized modus ponens and $\verb!y!$ is the proof step which leads to the applied implication.
+\item $\mathfrak{I}\models \verb!x r:evidence (y!_1,\ldots,\verb!y!_n\verb!)!$. iff \verb!x! is a generalized modus ponens and $\verb!y!_1,\ldots, \verb!y!_n$ 
+are the proof steps which lead to the formulas whose conjunction was used for the unification with the antecedent of the implication.
+\item $\mathfrak{I}\models \verb!x r:because y!$. iff \verb!x! is a conjunction elimination and $\verb!y!$ is the proof step which yields the to-be-eliminated conjunction.
+\end{itemize}
+\item
+Substitutions:
+\begin{itemize}
+ \item $\mathfrak{I}\models \verb!x r:binding z!_1.$ iff \verb!x! includes a substitution $\verb!z!_1$.
+ \item $\mathfrak{I}\models \verb!z!_1 \verb! r:variable z!_2.$ iff $\verb!z!_1$ is a substitution whose domain is $\{\verb!z!_2\}$.
+ \item $\mathfrak{I}\models \verb!z!_1 \verb! r:boundTo z!_3.$ iff $\verb!z!_1$ is a substitution whose range is $\{\verb!z!_3\}$.
+\end{itemize}
+
+\end{enumerate}
+\end{definition}
+
+
+\begin{lstlisting}[
+  float=t,
+  caption={Example proof: Formula~\ref{out} can be derived by applying Rule~\ref{uni} on Formla~\ref{ref}. },
+  label=lst:proofexample]
+§\textcolor{gray}{PREFIX : <http://example.org/ex\#>}§
+§\textcolor{gray}{PREFIX r: <http://www.w3.org/2000/10/swap/reason\#>}§
+
+[] a r:Proof, r:Conjunction;
+  r:component <#lemma1>;
+  r:gives {
+    :Albert :knows :Kurt.
+  }.
+
+<#lemma1> a r:Inference;
+  r:gives {
+    :Albert :knows :Kurt.
+  };
+  r:evidence (
+    <#lemma2>
+  );
+  r:rule <#lemma3>.
+
+<#lemma2> a r:Extraction;
+  r:gives {
+    :Kurt :knows :Albert.
+  };
+  r:because [ a r:Parsing; r:source <Formula_2.1>].
+
+<#lemma3> a r:Extraction;
+  r:gives {
+    {:Kurt :knows ?x_0_1} => {?x_0_1 :knows :Kurt}.
+  };
+  r:because [ a r:Parsing; r:source <Formula_2.7>].
+\end{lstlisting}
+
+An \nthree proof is now a conjunction of all the proof steps leading to the proven formula. To illustrate that, we discuss an example proof.
+We come back to the formulas we used in Chapter~\ref{unilog} of this thesis. From Formula~\ref{ref}
+\[
+ \verb! :Kurt :knows :Albert.!
+\]
+and Rule~\ref{uni}
+\begin{multline}\notag
+ \texttt{\{:Kurt :knows ?x.\} => }%} \\ \texttt{
+ \texttt{\{?x :knows :Kurt.\}.}%\nonumber
+\end{multline}
+we could derive Formula~\ref{out}.
+\begin{equation}\notag
+\texttt{:Albert :knows :Kurt.}
+\end{equation}
+The proof for that derivation is displayed in Listing~\ref{lst:proofexample}. To produce this proof we used Formula~\ref{uni} as a goal. The proof is produced by EYE.
+ We go through the proof from the bottom to the top: 
+ 
+\texttt{<\#lemma3>} in line 25 is an \texttt{r:Extraction} which results in the formula
+\texttt{\{:Kurt :knows ?x\_0\_1\} => \{?x\_0\_1 :knows :Kurt\}.} as indicated by the predicate \texttt{r:gives}.
+This formula was picked (\texttt{r:because}) as one conjunct from another formula produced by another proof step which here is denoted by an anonymous blank node. 
+This proof step is an \texttt{r:Parsing}  
+%This anonymous formula is an \ % \texttt{r:source} of that \texttt{r:Extraction} was the formula we get by
+having as source  (\texttt{r:source})  the source file \texttt{<Formula\_2.7>} which  contains Formula~\ref{uni}.
+
+The description of \texttt{<\#lemma2>} in line 19 is very similar to the above. We again have an \texttt{r:Extraction}, 
+this times made on a parsed formula contained in the file \texttt{<Formula\_2.1>}. This step results in the formula \texttt{:Kurt :knows :Albert}.
+
+\texttt{<\#lemma1>} in line 10 now makes use of the two formulas: The lemma is an inference step (\texttt{r:Inference}) which applies the rule (\texttt{r:rule})
+produced by \texttt{<\#lemma3>} on the formula produced by \texttt{<\#lemma1>} (\texttt{r:evidence}). This results in the formula \texttt{:Albert :knows :Kurt.}
+
+This last formula is also the result of out proof as indicated in line 4. The last proof step we apply (\texttt{r:Proof}) is a \texttt{r:Conjunction} with only one component, the 
+result of \texttt{<\#lemma1>}. We get \texttt{:Albert :knows :Kurt.}
+
+
+
+% To produce a proof for an API composition problem, the reasoner needs to be aware of all formulas at its disposal (in our case $H \cup R \cup B$) and of the goal 
+% which it is expected to prove.
+% The latter is given to the reasoner as the consequence of a~\textit{filter rule}
+% $\verb!{!f\verb!} => {!g\verb!}.!$%, the \textit{filter rule}.
+% This triggers the reasoner to prove an instance of~$f$ and in case of success,
+% return each provable ground instance of $g$ if possible,
+% or a provable instance containing existentials otherwise.
+
+The proof above has been automatically produced and in our example some of the proof steps have not really been necessary: 
+we do for example not need the conjunction of only one component indicated in line 4. The proof did on the other hand not make use of the different predicates describing a substitution. 
+It renamed the variable \texttt{?x} from our input Formula~\ref{uni} to \texttt{?x\_0\_1} (line 27) and then unified this variable \texttt{?x\_0\_1} with \texttt{:Albert} when executing 
+\texttt{<\#lemma1>} (line 10) without letting us know. 
+
+Such and other simplifications are often made by \nthree reasoners producing proofs.
+% 
+% % Even the proof step \texttt{r:Conjunction} is often applied 
+% % 
+% % To keep the proof readable and easy to produce, such adjustments are made by many reasoners -- the application of a \texttt{r:Conjunction} step is for example also often not listed 
+% 
+% 
+% For brevity, not all reasoners display every proof step in a proof:
+% especially conjunction elimination and introduction are often omitted.
+However, to the best of our knowledge,
+all reasoners' proofs contain all applications of $\verb!r:Inference!$ leading to a goal~$g$,
+which allows us to measure a~proof's length by counting applications of the generalized modus ponens.
+
+% \begin{definition}[Proof length]
+% Let $p$ be an \nthree formula representing a proof, ie a conjunction of formulas using the proof vocabulary defined in Definition~\ref{proofvoc}. 
+% Then the \emph{length} of the proof is defined as the number of different resources $\texttt{x}$ for which the following triple is stated:
+%  \texttt{x a r:Inference.}
+% \end{definition}
+
+
+%\newpage
+\section{Conclusion}
+In this chapter we introduced and explained the \nthree proof vocabulary: This vocabulary makes it possible to express the derivations performed by a reasoner in a Semantic Web format. 
+By using \nthree to express proofs, we make sure that proofs produced by one reasoner can be used as input by another reasoner. Such a reasoner
+can then verify the proofs or use them for further reasoning. 
+
+To allow this exchangeability of proofs, these proofs do not only need to share the same syntactic format, they also need to be interpreted equally by all reasoners. 
+From our consideration in the earlier chapter, we know that this can be problematic: especially the interpretation of implicitly quantified variables differs between reasoner.
+To make the exchange of proofs possible despite the discrepancies in the interpretations of \nthree formulas we 
+introduced the concept of \emph{simple formulas}: By excluding deeply nested universals,  we can guarantee for universals to  always quantified on top level. For these formulas 
+we then defined a direct semantics which assumes to level quantification for universals. With this direct semantics we proved that the calculus behind the proof vocabulary is correct.
+It is therefore save to exchange proofs only containing \emph{simple formulas} among different reasoners.
+
+With this knowledge we now go to the next chapter: we know that proofs \nthree reasoners can produce proofs, exchange and verify them and use them for further applications. 
+In the next chapter, we want to take a look at possibilities for such \emph{further applications}. We consider a concrete example: If we describe possible API operation in \nthree we can 
+use proofs to automatically combine these APIs and thereby use proofs as a kind of plan. We discuss this idea in detail in the following chapter and also explain how this  idea of 
+using proofs for planning can be applied in other scenarios.
+%and exchange proofs among different parties.

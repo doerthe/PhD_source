@@ -89,7 +89,7 @@ In contrast to for example FuXi~\cite{fuxi}, they both support rather complex co
 %This is the topic of the following sections.
 
 \subsection{Existentials}\label{existentials}
-We start our considerations by taking a closer look to implicit existential quantification in nested formulas, 
+We start our considerations by taking a closer look at implicit existential quantification in nested formulas, 
 \ie formulas where the blank node occurs within curly brackets \{~\}.  Such constructs are typically used to cite formulas or
 to state rules. We take the following example for the latter:
 %An example for such a formula is the following:
@@ -305,7 +305,8 @@ For Interpretation~\ref{ci} the parent of the first two occurrences of \texttt{?
 \end{equation}
 and the parent of the third and fourth occurrence of \texttt{?x} is the formula
 \begin{equation}\texttt{\{?x :r :c.\} => \{?x :s :d.\}.}\label{sub2}\end{equation}
-In this interpretation each occurrence of curly brackets \texttt{\{ \}} marks a level. The direct formula is what we encounter inside the same brackets a variable occurs is, the parent formula is then next formula 
+In this interpretation each occurrence of curly brackets \texttt{\{ \}} marks a level. The direct formula is what 
+we encounter inside the same brackets a variable occurs in, the parent formula is then the next formula 
 outside of these brackets. This explains, why the two sub formulas above carry universal quantifiers.
 
 If a reasoner follows Interpretation~\ref{ei}, Formula~\ref{eq2} applied on the following rule
@@ -317,7 +318,7 @@ results in
 While this result cannot be derived by following Interpretation~\ref{ci}. %However, the latter yields Formula~\ref{sub2} when provided with Formula~\ref{sub1}.
 
 
-If we test the reasoners Cwm and EYE with Formulas~\ref{eq2} and \ref{sub1} as input we get the results displayed in Listing~\ref{cwm2}\footnote{The 
+If we test the reasoners Cwm and EYE with Formulas~\ref{eq2} and \ref{ss1} as input we get the results displayed in Listing~\ref{cwm2}\footnote{The 
 predicate \texttt{log:implies} present in the original output is replaced here by implication arrow \texttt{=>}. The two symbols have the same meaning.} and \ref{forth}, respectively.
 \begin{lstlisting}[
   float=t,
@@ -367,7 +368,7 @@ predicate \texttt{log:implies} present in the original output is replaced here b
 %  ``There is a also a shorthand syntax ?x which [...] implies that x is universally quantified not in the formula but in its parent formula.''}
 % %
 We clearly see that Formula~\ref{ss2} is derived by EYE but not by Cwm. 
-We furthermore see that the output of Cwm contains the key word \texttt{@forAll} at in beginning of the antecedent and of the consequent of the main rule in Lines 5 and 7. 
+We furthermore see that the output of Cwm contains the key word \texttt{@forAll} at the beginning of the antecedent and of the consequent of the main rule in Lines 5 and 7. 
 Here, this keyword has the same meaning as the first order symbol $\forall$. Cwm follows Interpretation~\ref{ci}.  We see that 
 Cwm and EYE understand the concept of a \emph{parent} differently. 
 For the remainder of this thesis we write $\textit{parent}_c$ when we refer to the parent formula as implemented in Cwm and $\textit{parent}_e$ 

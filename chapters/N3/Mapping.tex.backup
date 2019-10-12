@@ -1,0 +1,3121 @@
+% We then map the interpretations of Cwm and EYE to that core logic.
+% This mapping is then implemented in a program which we then use to test, whether the problem we encountered is only present in our constructed test cases or whether it can also be observed in files 
+% used for practical applications.
+% We discuss several solutions for the problem and then show how, once such a solution is selected, the semantics of \nthreelogic can be defined in alignment with \rdf.
+% We set our findings into the context of related work to then conclude the chapter.
+% 
+
+
+%\section{Interpretations of N3}\label{n3}
+
+
+
+
+\section{N3 Syntax}\label{n3synsec}
+%Below, we explain this concept and specify the different attributes needed for this mapping.
+
+% \begin{figure}
+% \centering
+% \begin{tabular}{lllr}
+%   \hline
+% %Syntax: &&\\
+% %&&\\
+% \rowcolor[gray]{.9}\textbf{start}\hspace{0.2\textwidth} & \texttt{s ::=} %&& \\
+% & \texttt{f}& formula\\
+% \rowcolor[gray]{.9}&      &&\\
+% \rowcolor[gray]{.8}\textbf{formulas} & \texttt{f ::= }% & &                 \\  
+%     &  \texttt{t t t.}&                atomic formula\\
+% \rowcolor[gray]{.8}&    &  \texttt{e => e.}& implication\\
+% %    &  \texttt{@forAll :u}     & universal quantification\\
+% %    &  \texttt{@forSome :u}     & existential quantification\\
+% \rowcolor[gray]{.8}&    &  \texttt{f f} &                 conjunction\\
+% %&&\\
+% \rowcolor[gray]{.9}\textbf{terms} & \texttt{t ::=}%&&                   \\
+%       & \texttt{uv}\hspace{0.2\textwidth} &                universal variable\\
+% \rowcolor[gray]{.9}&            & \texttt{ex} &                existential variable\\
+% \rowcolor[gray]{.9}&      & \texttt{c} &                constant\\
+%  %     & \texttt{l} &                literals\\
+% \rowcolor[gray]{.9}&      & \texttt{e} &                 expression\\
+% \rowcolor[gray]{.9}&      & \texttt{(k)}& list\\
+% \rowcolor[gray]{.9}&      & \texttt{()}& empty list \\
+% %      &&\\
+% \rowcolor[gray]{.8}\textbf{list content}&\texttt{k ::=}%&& \\
+% &\texttt{t}& term\\
+% \rowcolor[gray]{.8}&&\texttt{t k} & term tail\\
+% %&&\\
+% \rowcolor[gray]{.9}\textbf{expressions}&\texttt{e ::=}%&&                    \\
+% %      &\texttt{<>} &                true\\
+%        &\texttt{\{f\}} &               formula expression\\
+% \rowcolor[gray]{.9}&       &\texttt{\{\}} & true\\
+% \rowcolor[gray]{.9}&       &\texttt{false}       &               false\\
+%   \hline
+% \end{tabular}
+% \caption{Overview N3 Syntax \label{N3S}}
+% \end{figure}
+
+
+% \begin{figure}
+% \centering\small
+% \begin{tabular}{lllr}
+%   \hline
+% %Syntax: &&\\
+% %&&\\
+% \textbf{start}\hspace{0.2\textwidth} & \texttt{s ::=} %&& \\
+% & \texttt{f}& formula\\
+% &      &&\\
+% \hline
+% \textbf{formulas} & \texttt{f ::= }% & &                 \\  
+%     &  \texttt{t t t.}&                atomic formula\\
+% &    &  \texttt{e => e.}& implication\\
+% %    &  \texttt{@forAll :u}     & universal quantification\\
+% %    &  \texttt{@forSome :u}     & existential quantification\\
+% &    &  \texttt{f f} &                 conjunction\\
+% %&&\\
+% \hline
+% \textbf{terms} & \texttt{t ::=}%&&                   \\
+%       & \texttt{uv}\hspace{0.2\textwidth} &                universal variable\\
+% &            & \texttt{ex} &                existential variable\\
+% &      & \texttt{c} &                constant\\
+%  %     & \texttt{l} &                literals\\
+% &      & \texttt{e} &                 expression\\
+% &      & \texttt{(k)}& list\\
+% &      & \texttt{()}& empty list \\
+% %      &&\\
+% \hline
+% \textbf{list content}&\texttt{k ::=}%&& \\
+% &\texttt{t}& term\\
+% &&\texttt{t k} & term tail\\
+% %&&\\
+% \hline
+% \textbf{expressions}&\texttt{e ::=}%&&                    \\
+% %      &\texttt{<>} &                true\\
+%        &\texttt{\{f\}} &               formula expression\\
+% &       &\texttt{\{\}} & true\\
+% &       &\texttt{false}       &               false\\
+% &      &&\\&      &&\\&      &&\\&      &&\\
+%   \hline
+% \end{tabular}
+% \caption{Overview N3 Syntax \label{N3S}}
+% \end{figure}
+
+\begin{figure}
+\centering\small
+\begin{tabular}{llr}
+  \hline
+%Syntax: &&\\
+%&&\\
+  \texttt{s ::=} && start: \\
+& \texttt{f}& formula\\
+\texttt{f ::= } & & formulas:                 \\  
+    &  \texttt{t t t.}&                atomic formula\\
+    &  \texttt{e => e.}& implication\\
+%    &  \texttt{@forAll :u}     & universal quantification\\
+%    &  \texttt{@forSome :u}     & existential quantification\\
+    &  \texttt{f f} &                 conjunction\\
+%&&\\
+ \texttt{t ::=}&&terms:                   \\
+      & \texttt{uv}\hspace{0.3\textwidth} &                universal variable\\
+            & \texttt{ex} &                existential variable\\
+      & \texttt{c} &                constant\\
+ %     & \texttt{l} &                literals\\
+      & \texttt{e} &                 expression\\
+      & \texttt{(k)}& list\\
+      & \texttt{()}& empty list \\
+%      &&\\
+\texttt{k ::=}&&list content: \\
+&\texttt{t}& term\\
+&\texttt{t k} & term tail\\
+%&&\\
+\texttt{e ::=}&&expressions:                    \\
+%      &\texttt{<>} &                true\\
+       &\texttt{\{f\}} &               formula expression\\
+       &\texttt{\{\}} & true\\
+       &\texttt{false}       &               false\\
+  \hline
+\end{tabular}
+\caption{Overview N3 Syntax \label{N3S}}
+\end{figure}
+
+\nthree Core Logic as defined above enables us to give more formal descriptions of the \nthree interpretations explained in Section \ref{quantsec}.
+Next, we also want to formalise the connection between \nthree syntax and its possible interpretations. In order to do so, we make use of syntax trees and define attribute 
+grammars~\cite{attributegrammar,ag2} -- a formalism allowing us to pass information through the syntax tree of a formula.
+Before we discuss this in detail, we first provide a definition of \nthree's syntax and explain how passing information through syntax trees of formulas 
+containing implicit universal quantification 
+can help use to compute their interpretations.
+
+which we are going to
+introduce in the following section. In this section we define the syntax of \nthree and illustrate t
+%Before we can do that, we first formaly define the syntax of \nthree.
+% 
+% To make the connection between \nthree syntax and its possible interpretation we use of attribute grammars~\cite{attributegrammar,ag2}. Such grammars can be used to pass information through 
+% the syntax tree of a formula 
+
+We start by giving a more accurate definition of \nthree's syntax. An \nthree alphabet contains all symbols which can appear in the concrete representation of an \nthree formula:
+\begin{definition}[\nthree Alphabet] \label{alphabet}
+Let $C$ be a set of constants, $U$ a set of universal variables and $E$ a set of existential variables. Let these sets be mutually disjoint and disjoint 
+with \{\texttt{\{}, \texttt{\}}, \texttt{(}, \texttt{)}, \texttt{=>}, \texttt{false}, \texttt{.}\}.
+Then we call
+\[\mathcal{A}:=C \,\cup\, U \,\cup, E \,\cup\, \{\texttt{\{}, \texttt{\}}, \texttt{(}, \texttt{)}, \texttt{=>}, \texttt{false}, \texttt{.}\}\] an \emph{\nthree alphabet}. 
+\end{definition}
+%
+In concrete representations constants can either be literal values or IRIs.
+Universal variables start with the symbol \texttt{?}, existential variables with \texttt{\_:}. % We call the set of all these symbols together with the other symbols which can occur 
+%in the representation of a formula, the symbols \texttt{\{}, \texttt{\}}, and \texttt{=>}, the \textit{terminal symbols} of the grammar.
+
+Given such an \nthree alphabet $\mathcal{A}$, we define an \nthree grammar over $\mathcal{A}$ as displayed  
+in Figure \ref{N3S}
+where the node \texttt{ex} stands for an existential variable, ie an element of $E$, \texttt{uv} for a universal variable, ie an element of $U$, and \texttt{c} for a constant, ie an 
+element of $C$. 
+%.  The node \texttt{ex} stands for an , \texttt{uv} and \texttt{c} result furthermore connected to symbols of the alphabet:
+%
+% \begin{align*}
+%  \texttt{ex ::= }& e \text{ with } e\in E\\
+%   \texttt{uv ::= }& u \text{ with } u\in U\\
+%    \texttt{c ::= }& c \text{ with } c\in C
+% \end{align*}
+% If we write down \nthree formulas,
+% the end of a triple is typically marked by a dot like for example in Formula~\ref{simple}.
+
+It is easy to see that \nthree syntax is very similar to the syntax of the core logic. Some differences only apply to the choice of symbols:   
+the curly brackets \texttt{\{\}} can be translated 
+into angle brackets \verb!< >! and the \nthree arrow \texttt{=>} into a simple~$\rightarrow$. 
+The formula
+%To motivate our translation function we begin with some examples. A simple formula
+\begin{equation}\label{f1}
+ \verb!{:s1 :p1 :o1.} => {:s2 :p2 :o2.}.!
+\end{equation}
+can be expressed as
+\begin{equation}\tag{\ref{f1}'}
+ \verb! <s1 p1 o1>! \rightarrow \verb!<s2 p2 o2>!
+ \end{equation}
+ 
+A major difference between core logic and \nthree as displayed here is the lack of explicit 
+quantification in the latter\footnote{As explained in Section~\ref{remarkExplicitQuantification} we exclude the discussion of 
+\nthree's explicit quantification from this chapter. It is therefore also not reflected in the grammar.} %in \nthree as discussed in this paper
+%\rv{the footnote contradicts the main text; you probably need to be more precise}
+and the existence of two different kinds of variables instead. % which will be the main challenge of the translation tackled in the following sections.
+To translate these implicitly quantified variables of \nthree into the explicit ones of the core logic we use 
+the structure of the syntax tree. 
+
+
+\begin{figure}
+\hspace*{0.5cm}
+\begin{tikzpicture}
+% [
+% level 5/.style={level distance=35pt}
+% ]
+\tikzset{every tree node/.style={align=center,anchor=base}}[sibling distance=150pt]
+\Tree [.\texttt{s} \edge[very thick, red,  <-]; [.\node(y){\texttt{f}}; %$\ldots$ 
+\edge[very thick,  <-]; 
+	[.\node(c){\texttt{e}}; \edge[very thick,  red, <-]; [.\node(a){\{ \texttt{f} \}};   
+	               \edge[very thick, <-]; 
+	                   [.\texttt{t} \edge[very thick,  <-];  [.\node[label={below:\textit{\texttt{?x}}}](x){\texttt{uv}}; ] ] 
+	                   [.\texttt{t} [.\node[label={below:\textit{\texttt{:q}}}]{\texttt{c}}; ] ] 
+	                   [.\texttt{t} [.\node[label={below:\textit{\texttt{:b}}}]{\texttt{c}};   ]  ] ] ]
+	 \edge[draw=none];  [.\texttt{=>} ] 
+	[.\texttt{e} [.{\{ \texttt{f} \}} [.\texttt{t} [.\node[label={below:\textit{\texttt{:a}}}]{\texttt{c}}; ] ] [.\texttt{t} [.\node[label={below:\textit{\texttt{:r}}}]{\texttt{c}}; ] ] [.\texttt{t} [.\node[label={below:\emph{\texttt{:c}}}]{\texttt{c}};  ]  ] ] ]
+] ]
+%[.\node[label={below:\emph{7}}]{$\texttt{d}^4$}; ]
+% \draw[very thick, ->] (x.west)  to  [bend left=90] node [midway,fill=white] {\small{parent}} (y.west);
+  \draw[very thick, ->] (x.west)   ..controls +(west:0.5) and +(west:2).. node [midway,fill=white] {\small{direct}} (a.west);
+  \draw[very thick, ->] (x.west)..controls +(west:1.5) and +(west:5).. node [midway,fill=white] {\small{$\text{parent}_c$}} (y.west);
+   \node[red] (aa) at (-1.3,-2.6) {\footnotesize{1}};
+     \node[red] (aaa) at (0.15,-0.5) {\footnotesize{2}};
+\end{tikzpicture}\normalsize
+\caption{Direct and $\text{parent}_c$ formula. 
+% When going through the nodes of the syntax tree from the bottom to the top, the \emph{direct formula} of a component
+% \emph{parent formula} of a terminal's direct formula  is
+% the formula associated with second node \texttt{f} such that \texttt{f} is a direct child of either an expression \texttt{e}  or the start symbol~\texttt{s}.    
+\label{par} }
+\end{figure}
+
+To illustrate the idea behind that, we 
+%
+take  a closer look at one of the concepts used in the informal definitions of \nthree's quantification: %on a concept which is crucial for quantification in \nthree, the concept of parent formulas. %the quantification examples seen so far:
+According to the \wwwc team submission~\cite{Notation3} existential variables are quantified on their \emph{direct formula} (Section~\ref{existentials}) and 
+universal variables are quantified on their \emph{parent formula} (Section~\ref{universals}). % which therefore need to be identified by a translation mechanism.
+%Thus, in order to do a translation from \nthree into core logic, we need to find these
+%formulas.
+%
+%The syntax tree can the concept of 
+%To find these two kinds of formulas we can use the syntax tree. %\emph{direct formula} and \emph{parent formula}. 
+% which is closely related 
+% to quantification in \nthree.
+% the behaviour of \nthree's implicit 
+% universal quantification as stated in the \wwwc team submission.
+%
+%
+\label{parentformula}
+%As discussed in Section~\ref{universals}, implicit universal variables are quantified 
+%on the \emph{parent formula} of the formula they \emph{directly occur in}.
+Informally 
+such a \emph{direct formula} $f$ of a term $t$ is the next formula surrounded by curly brackets \{ \} that contains $t$, or, if such a formula does not exist, 
+the top formula. 
+In EYE's interpretation, the \emph{parent formula} is now the top formula (concept $\textit{parent}_e$). 
+For Cwm, the \emph{parent formula} $g$ of $f$ is the next higher formula surrounded by curly brackets, ie the direct formula of $\{f\}$ ($\textit{parent}_c$). %is a direct component. 
+%where \emph{direct} means that  $\{f\}$ is not nested in other \{\}-constructs. 
+%
+Being the top formula, the $\emph{parent}_e$ \emph{formula} is easy to find. For the \emph{direct formula} and the $\emph{parent}_c$ \emph{formula} we use the syntax tree:
+The difference between a simple formula $f$ and a formula in brackets $\{f\}$ is in the grammar point of view the difference between
+a \emph{formula} \texttt{f} and a \emph{formula expression}~\texttt{e}.
+If we want to find the direct formula of a component and its $\text{parent}_c$, we can go through the syntax tree from the bottom to the top.  
+The \emph{direct formula} is then the first formula on that path which is a direct child of either an expression \texttt{e}  or the start symbol~\texttt{s}. 
+%ie the 
+%first occurrence of a production rule of the form
+%$X_0 ::= X_1\ldots X_n$ where $X_0\in \{\texttt{e}, \texttt{s}\}$ and $X_i=\texttt{f}$ for one $i$ with $1\leq i \leq n$.
+The $\emph{parent}_c$ \emph{formula} is the second such formula.\footnote{Note that universals on top level like for example in the formula \texttt{?x :p :o.} 
+do not have a $\text{parent}_c$. 
+We assume here, that these formulas are also quantified on top level. This differs from Cwm which does not support universal quantification on top level.}
+%
+%
+ %Here and in the remainder of this paper we use italic letters to write terminal symbols.
+%The parent formula of a universal variable is the second formula (\texttt{f}) we  encounter
+%when going up a syntax tree from the node containing the universal to the root. 
+%
+We illustrate this in Figure~\ref{par} on the syntax tree of the formula:
+\begin{equation}
+ \texttt{\{?x :q :b\} => \{:a :r :c\}.}\label{for}
+\end{equation}
+% If we go up the syntax tree from the terminal node \texttt{?x} to the top, we encounter as first formula expression  \texttt{\{?x :q :b.\}}, the formula 
+% \texttt{?x :q :b.} is the parent of \texttt{?x}. If we go higher
+The direct formula of the terminal node \texttt{?x} is the formula $\texttt{?x :q :b.}$, the
+$\text{parent}_c$ formula is the 
+top formula. This $\text{parent}_c$ formula carries the universal quantifier for the variable.
+ The formula means according to Cwm:
+%Thus, the formula means a:
+\begin{equation}
+\forall \texttt{x. <x q b>}\rightarrow  \texttt{<a r c>.}
+ \tag{\ref{for}'}
+\end{equation}
+Attribute grammars provide a formalism to describe the above process of \emph{going through the syntax tree} in a more precise way. 
+
+
+
+\section{Attribute Grammars}\label{ag}
+\begin{figure}\centering
+\small
+\begin{tabular}{llclcl}
+\hline
+\multicolumn{3}{l}{Grammar\hspace*{0.2\textwidth}}&\multicolumn{3}{l}{Synthesized attribute \textit{ds}}\\
+%Syntax: &&\\
+%&&\\
+\hline
+\texttt{s ::=}& \texttt{n}&&\texttt{s}.\textit{ds}&$\leftarrow$ & \texttt{n}.\textit{ds}\\
+%& \texttt{n}& number\\
+ %      &\\
+\texttt{n ::= } & %&    \hspace{0.2\textwidth}           numbers:\\  
+      \texttt{d} &&  \texttt{n}.\textit{ds} &$\leftarrow$ & %&    \hspace{0.2\textwidth}           numbers:\\  
+      \texttt{d}%.\textit{ds}  
+      \\%&                digit\\
+    &  $\texttt{n}_1 \texttt{n}_2$ &&& $\leftarrow$ & $\texttt{n}_1.\textit{ds} +\texttt{n}_2.\textit{ds}$\\
+%\texttt{d ::=}& $i$ with $i\in \{0,1,2,3,4,5,6,7,8,9\}$   \\ 
+%\texttt{d ::=}&  \\   
+\hline
+\end{tabular}
+\normalsize
+\caption{Context-free grammar producing integers of arbitrary length (left) and definition of the attribute \textit{ds} which composes the digit sum (right). \label{simplegrammar}}
+\end{figure}
+In this section we give an introduction to attribute grammars~\cite{attributegrammar,ag2}. 
+Attribute grammars are defined on top of context-free grammars like the one given above and extend this concept by so-called \emph{attributes}. 
+Such attributes 
+are defined on the nodes of the syntax tree 
+ and can take values.
+ These values can depend on other attribute values of the node itself and either its descendent nodes in the syntax tree -- in this case the attribute is called
+ \emph{synthesized} -- or 
+% they can depend on the node's attributes and 
+on the attribute values of the parent node -- in this case it is called \emph{inherited}.
+%This formalism is then applied in the following sections to solve, among others, the 
+%problem described above.
+The definitions used follow the notation of Paakki~\cite{Paakki}.
+
+
+
+\subsection{Example}
+%Before further working with this grammar,
+%we use an easier context free grammar to illustrate the idea of attribute grammars. Consider the following context free grammar in  which can be used to generate an integer:
+Before providing a formal definition, we illustrate the idea of attribute grammars on a simpler example than the grammar provided above. 
+Consider the context-free grammar displayed on the left side of Figure~\ref{simplegrammar}. 
+If \texttt{d} can take any value of the alphabet $\mathcal{A}=\{1,2,3,4,5,6,7,8,9,0\}$, %(as a rule $\texttt{d ::= <}\textit{alphabet symbol}{>}$), 
+this 
+grammar produces integers of arbitrary length.
+%
+%
+%  \begin{figure}
+% \begin{tabular}{lcl}
+% %Syntax: &&\\
+% %&&\\
+% \hline
+% \texttt{s}.\textit{ds}&$\leftarrow$ & \texttt{n}.\textit{ds}\\
+% %& \texttt{n}& number\\
+% \texttt{n}.\textit{ds} &$\leftarrow$ & %&    \hspace{0.2\textwidth}           numbers:\\  
+%       \texttt{d}  \\%&                digit\\
+%     & $\leftarrow$ & \texttt{n}.\textit{ds} +\texttt{n}.\textit{ds}\\
+% %\texttt{d}.\textit{ds}&$\leftarrow$ & $i$\\ 
+% %\texttt{d ::=}&  \\   
+% \hline
+% \end{tabular}
+% \caption{Rules for the attribute \textit{ds} which produces the digit sum for integers generated by the grammar in Figure~\ref{simplegrammar}. \label{attributeds}}
+% \end{figure}
+%This grammar can be used to generate an integer of arbitrary length. 
+%
+A possible\footnote{Note that there are several options to form a tree for 9487, attribute \textit{ds} also computes the digit sum if one of these is chosen.} syntax tree for 9487
+is displayed in Figure~\ref{simpletree}. % is displayed in Figure~\ref{simpletree}.
+%
+\begin{figure}
+\begin{center}
+\begin{tikzpicture}
+\tikzset{every tree node/.style={align=center,anchor=base}}[sibling distance=300pt]
+\Tree [.\node[label={right:\hspace{-0.2cm}\trm{ds:&\hspace{-0.3cm}28}}]{\texttt{s}}; [.\node[label={right:\hspace{-0.2cm}\trm{ds:&\hspace{-0.3cm}13+15=28}}]{$\texttt{n}^1$};
+[.\node[label={right:\hspace{-0.2cm}\trm{ds:&\hspace{-0.3cm}9+4=13}}]{$\texttt{n}^2$}; [.\node[label={right:\hspace{-0.2cm}\trm{ds:&\hspace{-0.3cm}9}}]{$\texttt{n}^4$}; 
+[.\node[label={below:\emph{9}}]{$\texttt{d}^1$}; ] ] 
+[.\node[label={right:\hspace{-0.2cm}\trm{ds:&\hspace{-0.3cm}4}}]{$\texttt{n}^5$}; [.\node[label=below:\emph{4}]{$\texttt{d}^2$}; ] ] ] 
+[.\node[label={right:\hspace{-0.2cm}\trm{ds:&\hspace{-0.3cm}8+7=15}}]{$\texttt{n}^3$}; [.\node[label={right:\hspace{-0.2cm}\trm{ds:&\hspace{-0.3cm}8}}]{$\texttt{n}^6$}; 
+[.\node[label={below:\emph{8}}]{$\texttt{d}^3$}; ] ] 
+[.\node[label={right:\hspace{-0.2cm}\trm{ds:&\hspace{-0.3cm}7}}]{$\texttt{n}^7$}; [.\node[label={below:\emph{7}}]{$\texttt{d}^4$}; ] ] ] ]
+]
+% \node (b) at (-1.9, -4.1) {} ;
+% \node (a) at (-1.9, -3.1) {} ;
+% \draw[ugentblue, semithick, ->] (b) to (a);
+\end{tikzpicture}
+\end{center}
+\caption{Syntax tree for 9487 produced by the grammar in Figure~\ref{simplegrammar} 
+with attribute values for \emph{ds} (in \color{ugentblue}{\emph{blue}}\color{black}).\label{simpletree}}
+\end{figure}
+To ease the following discussion, the tree nodes of the same kind are numbered.
+
+If we now want to get the digit sum of an integer produced by that grammar, we can go through the syntax tree from the bottom to the top:
+from the nodes resulting in a digit, 
+we store that digit. For every node higher in the syntax tree, we take the values of its children and sum them up to a new value. 
+Then the values of the start node is the digit sum of 
+the integer. 
+
+To formalise this process %of passing information from the bottom of a syntax tree to the top, 
+we define the synthesized attribute $\operatorname{\textit{ds}}$. % for all nodes of the syntax tree.
+This attribute takes values on each node and these values depend on the production rules of the grammar. 
+For each production rule, we define an \emph{attribute rule}.
+% For every node $N$ on which an attribute is defined, there are now rules which determine \emph{attribute values} for this node, the \emph{attribute rules}.
+% These rules depend on the production rules $X_0 \texttt{ ::= } X_1\ldots X_n$ of the grammar. They can either depend on the rules which have an occurrence of the node on the 
+% \emph{right}
+% side of 
+% the production rule, ie the rules of the form $X_0 \texttt{ ::= } X_1\ldots N \ldots X_n$---in this case they are called \emph{inherited}---%
+% or they can depend of the production rules which have the node at the \emph{left} side of the production rule, ie on rules of the form $N \texttt{ ::= } X_1\ldots X_n$---%
+% in this case they are called \emph{synthesized}.
+% Inherited attributes pass information downwards in the syntax tree, synthesised attributes pass it upwards.
+% Since we want the latter, we define our attribute \textit{ds} to be synthesized.
+%
+% ---in this case they pass information from the top of the syntax tree downwards and are called \emph{inherited}---%
+% or they can depend on the rules which have the node on the left hand side---in this case they pass information upwards in the syntax tree and are called \emph{synthesized}. 
+% %
+%This means that for every node which occurs in a grammar rule there must be a value assigned, the \emph{attribute value}.
+%For every node we want to collect in this attribute the digit sum of the number occurring under it.
+% for all nodes occurring in the grammar rules.
+%In order to pass information from the bottom to the top of the syntax tree as described above, this attribute needs to be \emph{synthesized}.
+%Attributes take values for all the nodes they are defined on. %, for a node \texttt{n} and an attribute $a$ we denote that value by $\texttt{n}.a$. 
+%These values are determined by so-called \emph{attribute rules}. These are rules which depend on the production rules of the syntax. 
+% They can either follow the direction of the 
+% production rule---ie define the attribute values of the elements in the body of the production rule based on the attribute values of its head---these are the \emph{inherited} attributes; 
+% or they can go in the opposite direction of the production rule---ie define the attribute value of the node in the head of the production rules taking into 
+% account the attribute values 
+% of the nodes in the body of the rule---these are the \emph{synthesized} attributes. For the process we want to model, we need \textit{ds} to be synthesized since we want to go from the bottom
+%to the top of the tree. % ie in the opposite direction of the production rules.
+%For our current purpose we need an attribute of the latter kind and let \textit{ds} therefore be synthesized.  
+%As our attribute is defined on all nodes, we need to fix one attribute rule for each production rule of the grammar. 
+These rules are displayed at the right side
+of Figure~\ref{simplegrammar}. 
+% Additionally we define that the value $\texttt{d}.\textit{ds}$ is the value of the alphabet symbol connected to \texttt{d} (more formally, we have the grammar 
+% rule $\texttt{d ::= <}\textit{alphabet symbol}{>}$ and the attribute rule $\texttt{d}.\textit{ds}\lefttarrow \texttt{<}\textit{alphabet symbol}{>}$).
+We denote the attribute value for a node \texttt{n} by \texttt{n}.\textit{ds}. When we use a node resulting in an alphabet symbol of the grammar (in our example \texttt{d}) in an attribute rule,
+that symbol refers its alphabet symbol.
+Going through the syntax tree from the bottom to the top, we get for 
+node $\texttt{n}^4$
+%We apply the rules on the syntax tree above. The four terminal nodes have the values:
+% $
+%  \texttt{d}^1.\textit{ds}=9%;\quad \texttt{d}^2.\textit{ds}= 4;\quad \texttt{d}^3.\textit{ds}= 8;\quad \texttt{d}^4.\textit{ds} = 7
+% $
+by attribute rule $\texttt{n}.\textit{ds} \leftarrow \texttt{d}$ the value %we get for the nodes $\texttt{n}^4, \texttt{n}^5, \texttt{n}^6$ and $\texttt{n}^7$:
+%\[
+ $\texttt{n}^4.\textit{ds}=9$. The same rule is used to determine $\texttt{n}^5.\textit{ds}$ to $\texttt{n}^7.\textit{ds}$
+ whose values are displayed in Figure~\ref{simpletree}.
+%  This is the value 
+% of the terminal symbol $\texttt{d}^1$ (9 in this case) upwards to the next node.  
+%;\quad \texttt{n}^5.\textit{ds}\leftarrow 4;\quad \texttt{n}^6.\textit{ds}\leftarrow 8;\quad \texttt{n}^7.\textit{ds}\leftarrow 7
+%\]
+On the next higher level, the attribute value of each node is composed by taking the sum of the attribute values of the direct descendants. This is done by the 
+rule $\texttt{n}.\textit{ds}\leftarrow \texttt{n}_1.\textit{ds}+\texttt{n}_2.\textit{ds} $. % bring for the nodes $\texttt{n}^2$ and $\texttt{n}^3$:
+We get
+ $\texttt{n}^2.\textit{ds}=13$ and
+ $\texttt{n}^3.\textit{ds}=15$.
+The same rule computes one level higher for $\texttt{n}^1$ the value
+$
+  \texttt{n}^1.\textit{ds}=28
+$
+which is then passed to the start node \texttt{s} by the rule $\texttt{s}.\textit{ds}\leftarrow \texttt{n}.\textit{ds}$.
+And 28 is indeed the digit sum of 9487.
+
+
+\subsection{Terminology}
+% \begin{definition}
+% Let  $G=\langle N, \mathcal{A}, P, S\rangle$ be a context free grammar.
+% \begin{itemize}
+%  \item For each symbol $X\in N\cup \mathcal{A}$ there exists a finite set $A(X)=I(X)\cup S(X)$ of \emph{attributes} with $I(X)\cap S(X) = \emptyset$. We call the set $I(X)$
+%  the set of \emph{inherited} attributes and the set $S(X)$ the set of \emph{synthesized} attributes.
+%  \item For each left side occurrence $X_0.a$ of a synthesized attribute $a\in S(X)$ in a production rule $p: X_0 \texttt{ ::= } X_1\ldots X_n$ there exists an \emph{attribution rule}
+%  \[
+%   X.a \leftarrow f(y_1,\ldots, y_k)
+%  \]
+% where $f$ is a function and $y_i\in A(X_0)\cup A(X_1)\cup\ldots\cup A(X_n)$ for all $1\leq i \leq k$. 
+%  \item For each right side occurrence $X_i.a$, $1\leq i \leq n$ of an inherited attribute $a\in I(X)$ in a production rule $p: X_0 \texttt{ ::= } X_1\ldots X_n$ 
+%  there exists an \emph{attribution rule}
+%  \[
+%   X_i.a \leftarrow f(y_1,\ldots, y_k)
+%  \]
+% where $f$ is a function and $y_i\in A(X_0)\cup A(X_1)\cup\ldots\cup A(X_n)$ for all $1\leq i \leq k$. 
+% \end{itemize}
+% 
+% \end{definition}
+%Having seen a concrete example, 
+After our example, we now provide a more formal introduction to attribute grammars and fix the terminology we use. 
+%
+Attribute grammars are defined on top of 
+context free grammars
+ $G=\langle  N, \mathcal{A}, P, S\rangle$, with $N$ the set of non-terminal symbols,  $\mathcal{A}$ the alphabet or set of terminal symbols, 
+$P$ the set of production rules and $S\in N$ a start symbol. 
+The set $P$ for the context-free grammar above is displayed in Figure~\ref{simplegrammar}.
+This figure also contains all non terminal symbols $N$.
+%The alphabet is defined separately and a connection to the alphabet is given by the rule $\texttt{d :: <}\textit{digitsymbol}{>}$.  
+The start symbols is \texttt{s}.
+
+For each non-terminal symbol $X\in N$  of the grammar we now define
+ a set of attributes $A(X)$. %In our example above, this set of attribute has been for every node $A(X)=\{\textit{ds}\}$.
+%
+%These attributes are used to pass information through the syntax tree.
+%To express that $a\in X$ we use the notation $X.a$.
+Each of these attributes either belongs to the set of \emph{inherited} attributes $I(X)$, or to the set of \emph{synthesized} attributes $S(X)$.
+%Synthesized attributes are used to pass information from the bottom of a syntax tree to the top like in the example of the previous section, 
+%inherited attributes are used for the opposite direction, from the top of a syntax tree to the bottom. 
+We assume these two sets of attributes to be disjoint. % $A(X)=I(X)\dot\cup S(X)$.
+In our example above we have for each node $X$: $I(X)=\emptyset$, $S(X)=\{\textit{ds}\}$, and $A(X)=\emptyset\cup\{\textit{ds}\}=\{\textit{ds}\}$.
+%
+
+To take information, the attributes have assigned values which depend on the production rules they occur in.
+%
+\begin{definition}[Attribute Occurrence]
+Let $G=\langle N, \mathcal{A}, P, S\rangle$ be a context-free grammar and $A:=\bigcup_{X\in N} A(X)$ a set of attributes defined on $N$.
+Let $p\in P$
+%This assignment depends on the production rules where $X$ occurs in. A rule
+be a production rule of the form \[X_0 ::= X_1 \cdots X_n \text{ with } n\geq 1,
+\]
+\begin{itemize}
+\item We say that $p$ has
+an \emph{attribute occurrence} $X_i.a$ for the attribute $a$ if $a \in A(X_i)$ for some $i$ with $0\leq i \leq n$.
+%\rv{exactly one?}
+\item We say that $p$ has a \emph{left-side occurrence}  $X_0.a$ of the attribute $a$, if $a\in A(X_0)$.  
+\item We say that $p$ has a \emph{right-side occurrence}  $X_k.a$ of the attribute $a$, if $a\in A(X_k)$ for some $k$ with $1 \leq k \leq n$.
+%\rv{exactly one?}
+\end{itemize}
+\end{definition} 
+
+If we consider another attribute for the grammar in Figure~\ref{simplegrammar}, which is defined only for the node \texttt{d}, the attribute \textit{at},
+then the rule
+\[
+ \texttt{n ::= d} 
+\]
+has a \emph{right-side occurrence} $\texttt{d}.\textit{at}$ of the attribute \textit{at} while the rule
+\[
+ \texttt{n ::= n}_1 \texttt{n}_2
+\]
+does not have any occurrence of \textit{at}.
+
+These occurrences $X_i.a$ now take values, so-called \emph{attribute values}, which are defined by %of a syntezised attribute $X_0.a$ and each occurence of an inherited attribute $X_i.a$, $1\leq i \leq n$, 
+ \emph{attribute rules}. These have the form % of the form
+\[X_i.a \leftarrow f(y_1\ldots y_n)\]
+where $f$ is a function and $y_1\ldots y_n$ are other attribute values. 
+An example from above for such an attribute rule is 
+\[\texttt{n}.\textit{ds}\leftarrow \texttt{n}_1.\textit{ds}+\texttt{n}_2.\textit{ds} \]
+which determines the first occurrence \texttt{n}.\textit{ds} of the attribute \textit{ds} in the production rule
+\[
+ \texttt{n ::= n}_1 \texttt{n}_2
+\]
+We denote the set of all
+attribute rules for a production rule $p\in P$ by $R(p)$. 
+Which exact attribute values can be taken into account when calculating a new attribute value  depends on the kind of attribute:
+\begin{definition}[Attribute Grammar]
+Let $G=\langle N, \mathcal{A}, P, S\rangle$ be a context-free grammar.
+For every element $X\in N$ let $A(X)=I(X)\cup S(X)$ be a finite set of attributes with  $I(X)\cap S(X)=\emptyset$. Let $A=\bigcup_{X\in \mathcal{A}\cup N} A(X)$ 
+be the set of all these attributes.
+Let  $R=\bigcup_{p\in P} R(p)$ be a finite set of attribute rules.
+We call \[AG=\langle G, A, R\rangle\] an \emph{Attribute Grammar} 
+if for each production rule $p\in P$ of the form $X_0 \texttt{ ::= } X_1\ldots X_n$ the following holds:
+\begin{itemize}
+\item for each left-side occurrence $X_0.a$ of a synthesised attribute $a\in S(X_0)$
+there exists \emph{exactly one} attribute rule $(X_0.a \leftarrow f(y_1,\ldots,y_k))\in R(p)$ where $f$ is a function and $y_i\in A(X_0)\cup \ldots \cup A(X_n)$ for all $1\leq i \leq k$.
+\item for each right-side occurrence $X_i.a$, $1\leq i \leq n$, of an inherited attribute  $a\in I(X_i)$
+there exists \emph{exactly one} attribute rule %of the form
+$(X_i.a \leftarrow f(y_1,\ldots,y_k))\in R(p)$ where $f$ is a function and $y_j\in A(X_0)\cup \ldots \cup A(X_n)$ for all $1\leq j \leq k$.
+\end{itemize}
+\end{definition}
+
+
+%In case of \emph{synthesized attributes} the attribution rules depend on the production rules having the attribute occurrence is on the left side of the rule% 
+%the value of an attribute occurrence on the \emph{left} side of a production rule
+%is determined taking the attribute values of the right side into account
+%---just as we have seen above---% 
+%in case of an \emph{inherited attribute} the attribution rules depends on the production rules which have an occurrence on the attribute on the \emph{right}
+%side of the rule.
+%is determined by taking attribute values of the 
+%left hand side into account.
+% Above we have seen a synthesized attribute, the attribution rules depended on the production rules carrying the attributed symbol on the left side. In our example, 
+% the value of attribute \textit{ds} only depended on the attribute value of \textit{ds} on other nodes. 
+% The values can also depend on values of other attributes,
+% %These values do not need to be from the same attribute. 
+% Note that the attribute value does not only need to depend on  occurrences of the same attribute on different nodes, it could also depend on other values.
+% If we for example define our attribute \textit{at} on the node \texttt{d} from above as inherited, a possible attribute rule 
+% for the occurrence of the attribute in the rule \texttt{n ::= d} could be:
+% \[
+%  \texttt{d}.\textit{at} \leftarrow \texttt{n}.\textit{ds}+5
+% \]
+%or any other value which only depends on attribute values of \texttt{n}.
+
+% Note that the definition states that \emph{inherited} attributes are defined on attribute occurence
+% of the right hand side of a rule and \emph{synthesized} attributes are output of the left hand side.
+In terms of a syntax tree generated by the grammar synthesized and inherited attributes have exactly the properties mentioned above:  
+inherited attributes pass information \emph{down} in the syntax tree, synthesized attributes pass information \emph{upwards}.
+We assume the values of synthesized attributes for terminal symbols to be defined externally. The start symbol cannot take an inherited attribute.\footnote{The attentive
+reader might have noticed another difference in the structure of the context-free grammar of the core logic (Figure~\ref{syntax}) and the syntax of \nthree (Figure~\ref{N3S}):
+the latter has an extra start symbol. The reason for this is rather technical: the attribute grammar we define in the following sections makes use of inherited attributes
+defined on the symbol \texttt{f}. Such attributes cannot be defined on a start symbol.
+} 
+
+
+\section{From N3 syntax to Core Logic}
+\begin{figure}\centering
+\small
+\begin{tabular}{llll}
+\hline
+name \hspace*{0.05\textwidth}
+& type \hspace*{0.05\textwidth}
+& defined for \hspace*{0.05\textwidth} 
+&purpose \\
+ \hline
+ $\eq$ & syn  & $ N$& existentials\\
+ \\
+ $v_1$ & syn &$ N$& universals in Cwm \\
+ $v_2$ & syn &$ N$ & universals in Cwm\\
+ $s$ & inh &$\{\texttt{f}, \texttt{t},\texttt{e}, \texttt{k}\}$& universals in Cwm \\
+  $q$ & inh &$\{\texttt{f}\}$& universals in Cwm \\
+  \\
+  $u$ & syn &$ N$& universals in EYE \\
+  \\
+  $m_c$ & syn  &$ N$& translation Cwm\\
+  $m_e$ &syn &$ N$& translation EYE \\
+  \hline
+\end{tabular}
+\normalsize
+\caption{Overview of all attributes defined in the \nthree-attribute grammar. The type can be \emph{syn} for synthesized or \emph{inh} for inherited. \label{attributes}}
+\end{figure}
+
+After the definition of attribute grammars in the previous section, 
+%Having introduced attribute grammars in the previous section, 
+we now apply this concept to 
+formalise the different interpretations of implicit quantification for \nthreelogic. 
+The context-free grammar of \nthree is given in Figure~\ref{N3S} which also contains all symbols of~$N$. The alphabet is given in Definition~\ref{alphabet}. 
+The start symbol is~\texttt{s}.
+
+On top of this grammar we now define an attribute grammar in order to be able to produce the two different translations %
+of an \nthree formula in core logic, one according to Cwm and the team submission and the other according to EYE.
+As a first step we define the sets of attributes for all symbols $X\in N$.
+% For all $X\in (N\cup \mathcal{X})\setminus \{\texttt{f}, \texttt{s}\}$ these are 
+% \[
+%  S(X)=\{\eq, v_1, v_2, u, m_c, m_e\} \text{ and } I(X)=\{s\}
+% \]
+% For \texttt{s} these are 
+% \[
+%  S(\texttt{s})=\{\eq, v_1, v_2, u, m_c, m_e\} \text{ and } I(\texttt{s})=\emptyset
+% \]
+% For \texttt{f} these are
+% \[
+%  S(\texttt{f})=\{\eq, v_1, v_2, u, m_c, m_e\} \text{ and } I(\texttt{f})=\{s, q\}
+% \]
+These are displayed in Figure~\ref{attributes}. 
+For each of these attributes we also indicated the purpose or context they are used for. This context can be grouped in four parts:  the collection of the variables which are existentially 
+quantified under a (sub-)formula (1), the collection
+of the universal variables quantified under a (sub-)formula -- once for Cwm (2) and once for EYE (3) -- and attributes to construct the concrete 
+expression in core logic which is the translation of the \nthree 
+formula dependent on the reasoner (4).
+In the following we will go through these four groups one by one, explain the need for the different attributes and provide their definition. We start with attribute $\eq$, which is used for existential scoping. 
+%We will explain and define these attributes in this and the following sections.
+%We begin with the attribute 
+%for existential variables.
+
+\subsection{Existentials}\label{exsec}
+% tree without labels
+% \begin{figure}
+% \begin{center}
+% \begin{tikzpicture}
+% \tikzset{every tree node/.style={align=center}}[sibling distance=140pt]
+% \Tree [.\texttt{s} [.\node{$\texttt{f}^1$}; %$\ldots$
+% 	[.\node{$\texttt{t}^1$}; [.\node[label={below:\textit{\texttt{\_:x}}}]{$\texttt{ex}^1$}; ] ]          
+% 	    % [.t [.\node(x)[label={right: \footnotesize{$v_1=\{\texttt{\textit{?x}}\}$}}]{\texttt{uv}\\{\textit{\texttt{?x}}}}; ] ]  [.t [.\texttt{c}\\{\textit{\texttt{:q}}} ] ] [.t [.\texttt{c}\\{\textit{\texttt{:b}}}   ]  ] ] ]
+% 	[.$\texttt{t}^2$ [.\node[label={below:\textit{\texttt{:s}}}]{$\texttt{c}^1$}; ] ] 
+% 	[.$\texttt{t}^3$ [.\node(e){\texttt{e}}; [.\node(a){\{$\texttt{f}^2$\}}; 
+% 	    [.\node{$\texttt{t}^4$}; [.\node(z)[label={below:\textit{\texttt{\_:y}}}]{$\texttt{ex}^2$}; ] ] 
+% 	    [.$\texttt{t}^5$ [.\node[label={below:\textit{\texttt{:k}}}]{$\texttt{c}^2$}; ] ] 
+% 	    [.$\texttt{t}^6$ [.\node[label={below:\textit{\texttt{:a}}}]{$\texttt{c}^3$};  ]  ] ] ]
+% ] ] ]
+% 
+%  %\draw[semithick, ->] (z) to  [bend left=90] node [midway,fill=white] {direct} (a);
+%  %\draw[semithik, ->] (z) to [bend left=80]  node [midway,fill=white] {$\operatorname{uv}_2=\{\texttt{?x}\}$} (a);
+%  %\draw[semithik, ->] (a) to [bend left=80]  node [midway,fill=white] {$\operatorname{sc}=\{\texttt{?x}\}$} (b);
+% \end{tikzpicture}\normalsize
+% \end{center}
+% \caption{Syntax tree for Formula~\ref{eq99}. \label{extreesimple} }
+% \end{figure}
+
+% \begin{figure}
+% \begin{center}
+% \begin{tikzpicture}[
+% every tree node/.style={align=center},
+% %sibling distance=1cm,
+% %level distance =100pt,
+% level 2/.style={level distance=40pt},
+% level 5/.style={level distance=40pt}
+% ]
+% \Tree [.\node[label={right:\tr{$\texttt{s}.\eq=\emptyset$}}]{\texttt{s}}; [.\node[label={right:\tr{$\texttt{f}^1.\eq=\{\texttt{\_:x}\}$}}]{$\texttt{f}^1$}; %$\ldots$
+% 	[.\node[label={right:\tr{$\texttt{t}^1.\eq=\{\texttt{\_:x}\}$}}]{$\texttt{t}^1$}; [.\node[label={below:\textit{\texttt{\_:x}}}]{$\texttt{ex}^1$}; ] ]          
+% 	    % [.t [.\node(x)[label={right: \footnotesize{$v_1=\{\texttt{\textit{?x}}\}$}}]{\texttt{uv}\\{\textit{\texttt{?x}}}}; ] ]  [.t [.\texttt{c}\\{\textit{\texttt{:q}}} ] ] [.t [.\texttt{c}\\{\textit{\texttt{:b}}}   ]  ] ] ]
+% 	[.\node[label={right:\tr{$\texttt{t}^2.\eq=\emptyset$}}]{$\texttt{t}^2$}; [.\node[ label={below:\textit{\texttt{:s}}}]{$\texttt{c}^1$}; ] ] 
+% 	[.\node[label={right:\tr{$\texttt{t}^3.\eq=\emptyset$}}]{$\texttt{t}^3$}; [.\node(e)[label={right:\tr{$\texttt{e}.\eq=\emptyset$}}]{\texttt{e}}; [.\node(a)[label={right:\tr{$\texttt{f}^2.\eq=\{\texttt{\_:y}\}$}}]{\{$\texttt{f}^2$\}}; 
+% 	    [.\node[label={right:\tr{$\texttt{t}^4.\eq=\{\texttt{\_:y}\}$}}]{$\texttt{t}^4$}; [.\node(z)[label={below:\textit{\texttt{\_:y}}}]{$\texttt{ex}^2$}; ] ] 
+% 	    [.\node[label={right:\tr{$\texttt{t}^5.\eq=\emptyset$}}]{$\texttt{t}^5$}; [.\node[label={below:\textit{\texttt{:k}}}]{$\texttt{c}^2$}; ] ] 
+% 	    [.\node[label={right:\tr{$\texttt{t}^6.\eq=\emptyset$}}]{$\texttt{t}^6$}; [.\node[label={below:\textit{\texttt{:a}}}]{$\texttt{c}^3$};  ]  ] ] ]
+% ] ] ]
+% \end{tikzpicture}\normalsize
+% \end{center}
+% \caption{Syntax tree for Formula~\ref{eq99} with values for the attribute $\eq$ (in \tr{blue}). \label{extreesimple} }
+% \end{figure}
+
+% tree with long names
+% \begin{figure}
+% \begin{center}
+% \begin{tikzpicture}[
+% every tree node/.style={align=center},
+% sibling distance=-0.1cm,
+% %level distance =100pt,
+% level 2/.style={level distance=40pt},
+% level 5/.style={level distance=40pt}
+% ]
+% \linespread{0.5}
+% \Tree [.\node[label={right:\tr{$\texttt{s}.\eq=\emptyset$}}]{\texttt{s}}; [.\node[label={right:\tr{$\texttt{f}^1.\eq=\{\texttt{\_:x}\}$}}]{$\texttt{f}^1$}; %$\ldots$
+% 	[.\node[label={[align=right]right:{\vspace{3cm}\tr{$\texttt{t}^1.\eq=\{\texttt{\_:x}\}$}}}]{$\texttt{t}^1$}; [.\node[label={below:\textit{\texttt{\_:x}}}]{$\texttt{ex}^1$}; ] ]          
+% 	    % [.t [.\node(x)[label={below: \footnotesize{$v_1=\{\texttt{\textit{?x}}\}$}}]{\texttt{uv}\\{\textit{\texttt{?x}}}}; ] ]  [.t [.\texttt{c}\\{\textit{\texttt{:q}}} ] ] [.t [.\texttt{c}\\{\textit{\texttt{:b}}}   ]  ] ] ]
+% 	[.\node[label={[align=left] right:\tr{$\texttt{t}^2.\eq=\emptyset$}\hspace{-1cm}}]{$\texttt{t}^2$}; [.\node[ label={below:\textit{\texttt{:s}}}]{$\texttt{c}^1$}; ] ] 
+% 	[.\node[label={right:\tr{$\texttt{t}^3.\eq=\emptyset$}}]{$\texttt{t}^3$}; [.\node(e)[label={right:\tr{$\texttt{e}.\eq=\emptyset$}}]{\texttt{e}}; [.\node(a)[label={left:\tr{$\texttt{f}^2.\eq=\{\texttt{\_:y}\}$}}]{\{$\texttt{f}^2$\}}; 
+% 	    [.\node[label={[font=\footnotesize, align=center]  left:\hspace{-1.5cm}\tr{$\texttt{t}^4.\eq=\{\texttt{\_:y}\}$}}]{$\texttt{t}^4$}; [.\node(z)[label={below:\textit{\texttt{\_:y}}}]{$\texttt{ex}^2$}; ] ] 
+% 	    [.\node[label={[align=right] left:\tr{$\texttt{t}^5.\eq{}={}\emptyset$}\hspace{-0.1cm}}]{$\texttt{t}^5$}; [.\node[label={below:\textit{\texttt{:k}}}]{$\texttt{c}^2$}; ] ] 
+% 	    [.\node[label={[align=right] left:\tr{$\texttt{t}^6.\eq=\emptyset$}\hspace{-0.1cm}}]{$\texttt{t}^6$}; [.\node[label={below:\textit{\texttt{:a}}}]{$\texttt{c}^3$};  ]  ] ] ]
+% ] ] ]
+% \end{tikzpicture}\normalsize
+% \end{center}
+% \caption{Syntax tree for Formula~\ref{eq99} with values for the attribute $\eq$ (in \tr{blue}). \label{extreesimple} }
+% \end{figure}
+
+\begin{figure}
+\begin{center}
+\begin{tikzpicture}[
+every tree node/.style={align=center},
+sibling distance=-0.1cm,
+%level distance =100pt,
+level 2/.style={level distance=40pt},
+level 5/.style={level distance=40pt}
+]
+\linespread{0.5}
+\Tree [.\node[label={right:\hspace{-0.2cm}\trm{eq:&\hspace{-0.3cm}\emptyset}}]{\texttt{s}}; [.\node[label={right:\hspace{-0.2cm}\trm{eq:&\hspace{-0.3cm}\{\texttt{x}\}}}]{$\texttt{f}^1$}; %$\ldots$
+	[.\node[label={right:\hspace{-0.2cm}\trm{eq:&\hspace{-0.3cm}\{\texttt{x}\}}}]{$\texttt{t}^1$}; [.\node[label={below:\textit{\texttt{\_:x}}}]{$\texttt{ex}^1$}; ] ]          
+	    % [.t [.\node(x)[label={below: \footnotesize{$v_1=\{\texttt{\textit{?x}}\}$}}]{\texttt{uv}\\{\textit{\texttt{?x}}}}; ] ]  [.t [.\texttt{c}\\{\textit{\texttt{:q}}} ] ] [.t [.\texttt{c}\\{\textit{\texttt{:b}}}   ]  ] ] ]
+	[.\node[label={right:\hspace{-0.2cm}\trm{eq:&\hspace{-0.3cm}\emptyset}}]{$\texttt{t}^2$}; [.\node[ label={below:\textit{\texttt{:s}}}]{$\texttt{c}^1$}; ] ] 
+	[.\node[label={right:\hspace{-0.2cm}\trm{eq:&\hspace{-0.3cm}\emptyset}}]{$\texttt{t}^3$}; [.\node(e)[label={right:\hspace{-0.2cm}\trm{eq:&\hspace{-0.3cm}\emptyset}}]{\texttt{e}}; 
+	 [.\node(a)[label={right:\hspace{-0.2cm}\trm{eq:&\hspace{-0.3cm}\{\texttt{y}\}}}]{\{$\texttt{f}^2$\}}; 
+	    [.\node[label={right:\hspace{-0.2cm}\trm{eq:&\hspace{-0.3cm}\{\texttt{y}\}}}]{$\texttt{t}^4$}; [.\node(z)[label={below:\textit{\texttt{\_:y}}}]{$\texttt{ex}^2$}; ] ] 
+	    [.\node[label={right:\hspace{-0.2cm}\trm{eq:&\hspace{-0.3cm}\emptyset}}]{$\texttt{t}^5$}; [.\node[label={below:\textit{\texttt{:k}}}]{$\texttt{c}^2$}; ] ] 
+	    [.\node[label={right:\hspace{-0.2cm}\trm{eq:&\hspace{-0.3cm}\emptyset}}]{$\texttt{t}^6$}; [.\node[label={below:\textit{\texttt{:a}}}]{$\texttt{c}^3$};  ]  ] ] ]
+] ] ]
+\end{tikzpicture}\normalsize
+\end{center}
+\caption{Syntax tree for Formula~\ref{eq99} with values for the attribute $\eq$ (in \tr{blue}). \label{extreesimple} }
+\end{figure}
+
+% \begin{figure}
+% \begin{tabular}{lll}
+% \hline
+% \multicolumn{2}{l}{production rule} & attribute rule\\
+%   \hline
+% %Syntax: &&\\
+% %&&\\
+% \texttt{s ::=}&\texttt{f}& $\texttt{s}.\eq \leftarrow \texttt{f}.\eq$\\
+%        &&\\
+% \texttt{f ::= } &  $ \texttt{t}_1 \texttt{t}_2 \texttt{t}_3.$&   $ \texttt{f}.\eq \leftarrow \texttt{t}_1.\eq\cup \texttt{t}_2.\eq\cup \texttt{t}_3.\eq$ \\
+%     &  $\texttt{e}_1 \texttt{=>}  \texttt{e}_2.$& $\texttt{f}.\eq \leftarrow \texttt{e}_1.\eq\cup \texttt{e}_2.\eq$ \\
+% %    &  \texttt{@forAll :u}     & universal quantification\\
+% %    &  \texttt{@forSome :u}     & existential quantification\\
+%     & $ \texttt{f}_1 \texttt{f}_2$ &                $\texttt{f}.\eq \leftarrow \texttt{f}_1.\eq\cup \texttt{f}_2.\eq$ \\
+% &&\\
+% \texttt{t ::=}& \texttt{uv}\hspace{0.07\textwidth} &                $\texttt{t}.\eq \leftarrow\emptyset$\\
+%             & \texttt{ex} &               $\texttt{t}.\eq \leftarrow \{\texttt{ex}\}$\\
+%       & \texttt{c} &               $\texttt{t}.\eq \leftarrow\emptyset$\\
+%  %     & \texttt{l} &                literals\\
+%       & \texttt{e} &                $\texttt{t}.\eq \leftarrow\texttt{e}.\eq $\\
+%       & \texttt{(k)}& $\texttt{t}.\eq \leftarrow\texttt{k}.\eq$\\
+%       & \texttt{()}& $\texttt{t}.\eq \leftarrow\emptyset$\\
+%       &&\\
+% \texttt{k ::=}& \texttt{t}& $\texttt{k}.\eq \leftarrow\texttt{t}.\eq$\\
+% &\texttt{t k} & $\texttt{k}.\eq \leftarrow\texttt{t}.\eq\cup\texttt{k}.\eq$\\
+% &&\\
+% \texttt{e ::=}&\texttt{\{f\}} &                $\texttt{e}.\eq \leftarrow\emptyset$\\
+%        &\texttt{\{\}} &  $\texttt{e}.\eq \leftarrow\emptyset$\\
+%        &\texttt{false}       &                $\texttt{e}.\eq \leftarrow\emptyset$\\
+%   \hline
+% \end{tabular}
+% \caption{Attribute rules for the synthesized attribute $\eq$ (right) and their corresponding production rules (left) from the \nthree grammar (Figure~\ref{N3S}).\label{EQ}}
+% \end{figure}
+
+As we have seen in Section~\ref{existentials} the scope on an implicitly existentially quantified variable is the \emph{direct} formula it occurs in. 
+The concept of a \emph{direct formula} has been further explained above: 
+the direct formula is either the next formula in curly brackets surrounding the existential variable, or -- in case such a formula does not exist -- the formula as a whole.
+To recall the idea, consider the following formula:\footnote{Note that structure-wise this formula follows the same pattern as Formula~\ref{eq1}. 
+The names of constants are only shortened to
+make the presentation of the formula easier.}
+% Version without underbrace
+\begin{equation}
+\texttt{\_:x :s \{\_:y :k :a.\}.} \label{eq99}
+\end{equation}
+% \begin{equation}
+% \underbrace{\texttt{\_:x :s }\underbrace{\texttt{\{\_:y :k :a.\}}}_{\text{direct formula of} \texttt{\_:y}}.}_{\text{direct formula of} \texttt{\_:x}} \label{eq99}
+% \end{equation}
+The direct formula of variable \texttt{\_:y} is the sub-formula \texttt{\_:y :k :a.} The direct formula of \texttt{\_:x} is
+the formula as a whole.
+Translated into core logic the formula means:
+\begin{equation}\tag{\ref{eq99}'}\label{eq99'}
+ \exists \texttt{x.x s <}\exists \texttt{y.y k a>.}
+\end{equation}
+
+
+% The direct formula of variable \texttt{\_:y} is the sub-formula \texttt{\_:y :k :a.} and this is also the formula which carries the existential quantifier for the variable. The direct formula of \texttt{\_:x} is
+% the formula as a whole and that is also the formula on which this variable is quantified.
+% Translated into core logic the formula means:
+% \begin{equation}\tag{\ref{eq99}'}\label{eq99'}
+%  \exists \texttt{x.x s <}\exists \texttt{y.y k a>.}
+% \end{equation}
+% In Section~\ref{n3synsec} we also discussed the idea of using the syntax tree 
+% As discussed in Section~\ref{n3synsec} we can use the syntax tree to find a variable's direct formula. This syntax tree is displayed in Figure~\ref{extreesimple} 
+% and we again numbered the different occurrences of the same node. 
+% To find the direct formula of an existential variable we can go up from the terminal 
+% node the variable occurs in till the node in which the 
+%Attribute $\eq$ is now used to 
+%We now want to define an attribute whose value is the set of existential variables which are quantified within the same direct formula as the node carrying the attribute and occur under this particular node.
+In Section~\ref{n3synsec} we discussed the idea of using the syntax tree to find the direct formula. 
+If we go upwards in the syntax tree from the occurrence of an existential variable to the next higher node \texttt{e} or \texttt{s}, 
+the child formula \texttt{f} of that node
+is the existential's direct formula which thus carries its quantifier. %As an example consider 
+The syntax tree for our example, Formula~\ref{eq99}, is displayed in Figure~\ref{extreesimple}. 
+Here node $\texttt{f}^2$ is such a node
+for \texttt{\_:y}  and node $\texttt{f}^1$ for \texttt{\_:x}.
+
+Attribute $\eq$ is now used in this context to keep track of all existential variables which need to be quantified.
+%In order to construct a translation as
+%
+%under such a direct formula. 
+If we do a direct translation
+of the symbols of the alphabet as mentioned at the end of Section~\ref{n3synsec} and add existential quantifiers whenever we encounter a direct formula, 
+the attribute carries for each node the set of
+existential variables which are free (see Definition~\ref{free}) under that node and need to be bound when new existential quantifiers are added.
+
+%For the node $\texttt{f}_1$
+%In such a process (which will be further explained in Section~\ref{all})
+%Let's assume that the quantifiers are added by an synthesized attribute which does this addition whenever a step from a formula \texttt{f} 
+%to either the node \texttt{e} or \texttt{s}
+%is done (we explain this in detail in Section~\ref{all}), then the value of this attribute on the node $\texttt{f}_1$ is:
+% At the step which adds the quantifiers to a translated formula (this is explained in Section~\ref{all}) the value of the attribute $\eq$ is used to know which existential 
+% variables need to be quantified.
+%To add the existential quantifiers in the translation, we can then make use of the value of $\eq$ whenever we reach a direct formula.
+% For the language element 
+% \[
+%  \texttt{x s <}\exists \texttt{y.y k a>.}
+% \]
+% Here the variable \texttt{x} is free while \texttt{y} is bound. The value of $\eq$ contains exactly this variable \texttt{x} and
+% the translating process uses this information to produce the Formula~\ref{eq99'} as attribute value for the start node \texttt{s}.
+%In the translation process whose attributes are further explained in Section~\ref{all} this will be the 
+% value of the translation when performing the step from the formula to a node \texttt{s} or \texttt{e} the existential quantifiers are added for all the existential
+% variables which occur freely under the node. This would here lead to Formula~\ref{eq99'}. 
+% 
+% 
+% 
+% is following this idea: 
+% 
+% in order to be able to construct such a Core Logic translation as provided in Formula~\ref{eq99'}
+% %form Formula~\ref{eq99} 
+% we 
+% need to know which variables are existentially quantified under a direct formula. 
+% The synthesized attribute is passing existentially quantified variables
+% upwards in the syntax tree till they reach their direct formula. When constructing a translation, these variables 
+% get bound on that direct formula. 
+% They are irrelevant for higher nodes of the syntax tree and are therefore not passed further.
+% 
+% 
+% 
+%  
+% 
+% 
+% To be able to
+% then also construct a translation, we do not only need to find the formulas which carry quantifiers, we also need to pass the quantified variables to that direct formula. 
+% This is the purpose of the synthesized attribute $\eq$  
+% 
+% 
+% to perform the translation from  Formula~\ref{eq99} to Formula~\ref{eq99'}.
+% This syntax tree is displayed in Figure~\ref{extreesimple}.
+% using an attribute grammar, we need to pass the information which variables are existentially quantified
+% under a direct formula
+% from the place where the symbol occurs, ie the bottom of the syntax tree, to
+% this formula. This is the purpose of the synthesized attribute $\eq$. 
+%From a core logic's point of view the attribute value of every node is the set of free (see Definition~\ref{free}) existential variables occurring under that node.
+% For each node the value of the attribute represents the set of variables occurring in its descendent nodes
+% which are quantified on the same direct formula the node occurs in. From the translations point of view, 
+% for every node which does not represent a direct formula the value of $\eq$
+% is the set of existential variables which occur as free variables (see Definition~\ref{free}) under that node.
+\begin{figure}\centering
+\small
+\begin{tabular}{lll}
+\hline
+\multicolumn{2}{l}{production rule\hspace*{0.2\textwidth}} & attribute rule\\
+  \hline
+%Syntax: &&\\
+%&&\\
+\texttt{s ::=}&\texttt{f}& $\texttt{s}.\eq \leftarrow \emptyset$\\
+%       &&\\
+\texttt{f ::= } &  $ \texttt{t}_1 \texttt{t}_2 \texttt{t}_3.$&   $ \texttt{f}.\eq \leftarrow \texttt{t}_1.\eq\cup \texttt{t}_2.\eq\cup \texttt{t}_3.\eq$ \\
+    &  $\texttt{e}_1 \texttt{=>}  \texttt{e}_2.$& $\texttt{f}.\eq \leftarrow \texttt{e}_1.\eq\cup \texttt{e}_2.\eq$ \\
+%    &  \texttt{@forAll :u}     & universal quantification\\
+%    &  \texttt{@forSome :u}     & existential quantification\\
+    & $ \texttt{f}_1 \texttt{f}_2$ &                $\texttt{f}.\eq \leftarrow \texttt{f}_1.\eq\cup \texttt{f}_2.\eq$ \\
+%&&\\
+\texttt{t ::=}& \texttt{uv}\hspace{0.07\textwidth} &                $\texttt{t}.\eq \leftarrow\emptyset$\\
+            & \texttt{ex} &               $\texttt{t}.\eq \leftarrow \{\texttt{ex}\}$\\
+      & \texttt{c} &               $\texttt{t}.\eq \leftarrow\emptyset$\\
+ %     & \texttt{l} &                literals\\
+      & \texttt{e} &                $\texttt{t}.\eq \leftarrow\texttt{e}.\eq $\\
+      & \texttt{(k)}& $\texttt{t}.\eq \leftarrow\texttt{k}.\eq$\\
+      & \texttt{()}& $\texttt{t}.\eq \leftarrow\emptyset$\\
+%      &&\\
+\texttt{k ::=}& \texttt{t}& $\texttt{k}.\eq \leftarrow\texttt{t}.\eq$\\
+&$\texttt{t k}_1$ & $\texttt{k}.\eq \leftarrow\texttt{t}.\eq\cup\texttt{k}_1.\eq$\\
+%&&\\
+\texttt{e ::=}&\texttt{\{f\}} &                $\texttt{e}.\eq \leftarrow\emptyset$\\
+       &\texttt{\{\}} &  $\texttt{e}.\eq \leftarrow\emptyset$\\
+       &\texttt{false}       &                $\texttt{e}.\eq \leftarrow\emptyset$\\
+  \hline
+\end{tabular}
+  \normalsize
+\caption{Attribute rules for the synthesized attribute $\eq$ (right) and their corresponding production rules (left) from the \nthree grammar (Figure~\ref{N3S}).\label{EQ}}
+\end{figure}
+%
+%
+
+Following that idea, we define the attribute rules for $\eq$.
+%To better understand this idea, we now define the attribute rules:
+As $\eq$ is synthesised % and defined for all nodes of the grammar.
+%To formalise the idea above we need to define the attribute rules for $\eq$. As $\eq$ is synthesised and defined on all symbols of the grammar, 
+we need to state one attribute rule  for each left-side occurrence of an attribute on a production rule of Figure~\ref{N3S}. 
+As the attribute is defined for all nodes, we need one attribute rule for each production rule.
+% 
+% From the production rules occurring at the bottom of the syntax tree, ie the rules only producing symbols of the alphabet, there is one rule which deserves special attention,
+% the production rule (\texttt{t ::= ex}): this rule produces an existential variable which at this point occurs as a free variable since we did not find its direct formula yet. 
+% The attibute rule for this production rule ($\texttt{t}.\eq \leftarrow \{\texttt{ex}\}$) collects this existential variable in a sigelton set. 
+% For all other rules only resulting in symbols of the alphabet the empty set is assigned by the attribution rule since attribute $\eq$ only collects existentials.
+% 
+% Most other rules now pass the set of existentials upwards in the syntax tree like for example all rules defined for formulas \texttt{f}. There are two exeptions from this:
+% 
+% 
+% 
+These attribute rules are displayed in Figure~\ref{EQ} (right) next to their corresponding production rules (left). 
+To illustrate how this attribute works, we added the attribute values for each node to the syntax tree in Figure~\ref{extreesimple}.
+We explain these rules by going through the tree %The attribute values for each node of the tree are 
+%We 
+beginning at the bottom.
+%To better understand how the rules work, we compute the attribute values for the nodes of the syntax tree in Figure~\ref{extreesimple}.
+
+The production rule (\texttt{t ::= ex}) results in an existential variable and this variable is not quantified under that node.
+%When this rule is applied, there is thus Under the node \texttt{t} whose descendent is produced by this rule, there is thus
+%exactly one existential variable occurring freely under that node, the existential \texttt{ex}. 
+Therefore, the corresponding attribute rule ($\texttt{t}.\eq \leftarrow \{\texttt{ex}\}$) collects this variable in a singleton set 
+(values $\texttt{t}^1.\eq$ and $\texttt{t}^4.\eq$). 
+%we have the attribute rule .
+%For $\texttt{t}^1$ and $\texttt{t}^4$ we get: %whose rule (\texttt{t~::=~ex}) produces existential variables we get via $\texttt{t}.\eq \leftarrow \{\texttt{ex}\}$:
+%\[
+% \texttt{t}^1.\eq \leftarrow \{\texttt{ex}\}=\{\texttt{\_:x}\}\quad \text{and} \quad  \texttt{t}^4.\eq \leftarrow\{\texttt{ex}\}= \{\texttt{\_:y}\}
+%\]
+%Here the attribute value stores the existential variable occurring under the node for which the direct formula has not been found yet. 
+The attribute rules for other production rules directly resulting in only symbols of the alphabet do not pass any values since there are
+no free existential variables occurring under them. 
+For the applications of \texttt{t ::= c} %in our syntax tree we get via 
+the attribute rule
+%
+ $\texttt{t}\leftarrow \emptyset$ assigns the empty set to the nodes $\texttt{t}^2$, $\texttt{t}^5$ and $\texttt{t}^6$.
+% \[
+%  \texttt{t}^2.\eq \leftarrow \emptyset; \quad  \texttt{t}^5.\eq \leftarrow \emptyset;\quad  \texttt{t}^6.\eq \leftarrow \emptyset
+% \]
+Most other rules now pass the variables from the descendant nodes up to the parents. 
+The attribute value  of a
+ formula node \texttt{f} 
+is the union of its descendants' values. For $\texttt{f}^2$ that is the set $\{\texttt{\_:y}\}$.
+% For the production rule ($\texttt{f ::= t}_1 \texttt{t}_2 \texttt{t}_3$) 
+% we have the attribute rule $\texttt{f}.\eq \leftarrow \texttt{t}_1.\eq\cup \texttt{t}_2.\eq \cup \texttt{t}_3.\eq$ and get for $\texttt{f}^2$:
+% \[
+%  \texttt{f}^2 \leftarrow \texttt{t}^4.\eq\cup \texttt{t}^5.\eq\cup \texttt{t}^6.\eq= \{\texttt{\_:y}\}\cup \emptyset \cup \emptyset = \{\texttt{\_:y}\}
+% \]
+The only exceptions for this behaviour of passing the variables upwards can be found on the attribute rules for the production rules \texttt{s ::= f} 
+and \texttt{e ::= \{f\}}. 
+As discussed above, the child formulas \texttt{f} of 
+\texttt{e} or \texttt{s} are \emph{direct formulas}. % and can thus carry existential quantifiers. 
+All free existential variables occurring 
+under such direct formulas get bound on these formulas. The attribute rules for \texttt{s ::= f} 
+and \texttt{e ::= \{f\}} thus do  not pass any variables upwards. 
+%and assign the empty set as
+%attribute value. 
+% The attribute rule for $\texttt{f}_2$'s parent now deserves special attention. If the production rule (\texttt{e ::= \{f\}}) is applied, we know that \texttt{f} is a 
+% \emph{direct formula}, all free existentially quantified variables occurring under the node \texttt{f} are bound by existential quantifiers on this formula in the translation. 
+% The attribute rule does thus not pass any existential variable to the parent node. % and has the form $\texttt{e}\leftarrow \emptyset$. 
+The attribute value for node \texttt{e} in our syntax tree is the empty set.
+% \[
+%  \texttt{e}.\eq\leftarrow \emptyset
+% \]
+This value is again passed upwards via the attribute rule $\texttt{t}.\eq\leftarrow \texttt{e}.\eq$ % for the production rule (\texttt{t ::= e}):
+% \[
+% \texttt{t}^3.\eq\leftarrow \texttt{e}.\eq= \emptyset 
+% \]
+and can the be used to determine the attribute value for $\texttt{f}_1$
+which is again the union of all its direct descendants' 
+values ($\texttt{f}^2.\eq = \{\texttt{\_:x}\}$).
+% , again by applying the rule $\texttt{f}.\eq \leftarrow \texttt{t}_1.\eq\cup \texttt{t}_2.\eq \cup \texttt{t}_3.\eq$:
+% \[
+%  \texttt{f}^2 \leftarrow \texttt{t}^1.\eq\cup \texttt{t}^2.\eq\cup \texttt{t}^3.\eq= \{\texttt{\_:x}\}\cup \emptyset \cup \emptyset = \{\texttt{\_:x}\}
+% \]
+This node is again a direct formula, it is the child node of the node \texttt{s}. All existential variables are thus bound on $\texttt{f}^2$, the attribute rule does not pass
+existential variables upwards. %We get:
+%Similarly to the production rule for a formula expression, the attribute rule for the production rule (\texttt{s ::= f}) 
+%does not pass any value since the existential variables are bound on this direct formula, we get:
+% \[
+%  \texttt{s}\leftarrow \emptyset
+% \]
+%Having for every attribute the set of existentials occurring as free variables under the node enables 
+
+The attribute value of $\eq$ is always the set of free existential variables occurring under a node. For the formulas $\texttt{f}^1$ 
+and $\texttt{f}^2$ these are the sets $\texttt{\{\_:x\}}$ and $\texttt{\{\_:y\}}$, respectively. These are exactly the variables existentially quantified on these formulas as can be seen in 
+Formula~\ref{eq99'}.
+%Of course it is not enough to simply keep track of the existential variables which are free under a node in the syntax tree. 
+%We also need to know which variables are universally quantified under each direct formula. This is the topic of the next sections.
+
+% For the existential nodes we get via $\texttt{ex}.\eq$:
+% 
+% These nodes carry existential variables whose direct formula is not found yet. 
+% The rules for the term nodes \texttt{t} are all used to pass information upwards
+% 
+% 
+
+% \begin{figure}
+% \begin{tabular}{rcl}
+%   \hline
+% %Syntax: &&\\
+% %&&\\
+% $\texttt{s}.\eq$ & $\leftarrow$ & $\texttt{f}.\eq$\\
+%        &&\\
+% $ \texttt{f}.\eq$&$ \leftarrow$ & $\texttt{t}_1.\eq\cup \texttt{t}_2.\eq\cup \texttt{t}_3.\eq$ \\
+%  $\texttt{f}.\eq$ &  $\leftarrow$ & $\texttt{e}_1.\eq\cup \texttt{e}_2.\eq$ \\
+% %    &  \texttt{@forAll :u}     & universal quantification\\
+% %    &  \texttt{@forSome :u}     & existential quantification\\
+%               $\texttt{f}.\eq$ & $\leftarrow$ & $\texttt{f}_1.\eq\cup \texttt{f}_2.\eq$ \\
+% &&\\
+%                 $\texttt{t}.\eq$ & $\leftarrow$ &$\emptyset$\\
+%            $\texttt{t}.\eq$& $\leftarrow$ & $ \{\texttt{ex}\}$\\
+%              $\texttt{t}.\eq$ &$\leftarrow$ & $ \emptyset$\\
+%  %     & \texttt{l} &                literals\\
+%               $\texttt{t}.\eq$ & $  \leftarrow$ & $ \texttt{e}.\eq $\\
+%   $\texttt{t}.\eq$ & $  \leftarrow$ & $ \texttt{k}.\eq$\\
+% $\texttt{t}.\eq$ & $  \leftarrow$ & $ \emptyset$\\
+%       &&\\
+% $\texttt{k}.\eq $ & $ \leftarrow$ & $ \texttt{t}.\eq$\\
+%  $\texttt{k}.\eq $ & $ \leftarrow$ & $ \texttt{t}.\eq\cup\texttt{k}.\eq$\\
+% &&\\
+%               $\texttt{e}.\eq $ & $  \leftarrow$ & $ \emptyset$\\
+%    $\texttt{e}.\eq $ & $ \leftarrow$ & $ \emptyset$\\
+%                 $\texttt{e}.\eq $ & $ \leftarrow$ & $ \emptyset$\\
+%   \hline
+% \end{tabular}
+% \caption{Attribute rules for the synthesized attribute $\eq$ defined on  the \nthree grammar in Figure~\ref{N3S}.\label{EQsimple}}
+% \end{figure}
+
+% 
+% The attribute rules which correspond to production rules only resulting in symbols of the 
+% alphabet---these are the rules (\texttt{t ::= uv}), (\texttt{t ::= ex}), (\texttt{t ::= c}), (\texttt{t ::= ()}), (\texttt{e ::= \{\}}) and (\texttt{e ::= false})---%
+% all produce the empty set as attribute value with one exception:
+% For \[\texttt{t ::= ex}
+% \text{\quad we define \quad }
+%  \texttt{t}.\eq\leftarrow\{\texttt{ex}\}
+% \]
+% This rule passes every existential variable upwards in the syntax tree. Most of the remaining rules now pass the information they receive from their descendent nodes upwards in the syntax tree. The only rule which does 
+% not follow this schema is the rule 
+% \[
+%  \texttt{e ::= \{f\}}
+% \]
+% since this rule has a special role:  by passing this rule in the syntax tree we go from the direct formula to the parent formula (see also Section~\ref{n3synsec}). In the translation to Core Logic the formula \texttt{f}
+% in this rule carries an existential quantifier which bounds all existential variables freely occurring under it. The corresponding attribute rule
+% \[
+%  \texttt{e}.\eq \leftarrow \emptyset
+% \]
+% thus does not pass any existential variable upwards in the syntax tree. We illustrated this situation in Figure~\ref{extree} where we display the syntax tree for Formula~\ref{eq99} together with its attribute values.
+% For the nodes which do not have values displayed, the value is always $\emptyset$.
+% 
+% 
+% % From a more declarational point of view, for each node this attribute carries the information which variables occurring  under that node are existentially quantified within the same direct formula the node occurs in. 
+% % If we already look from the translation, these are the existential variables which are free in the core logic point of view (see Definition~\ref{free})
+% \begin{figure}
+% \begin{center}
+% \begin{tikzpicture}
+% \tikzset{every tree node/.style={align=center,anchor=base}}[sibling distance=140pt]
+% \Tree [.s [.\node[label={left: \footnotesize{ $\eq=\{\texttt{\textit{x}}\}$}}]{f}; %$\ldots$
+% 	[.\node[label={right: \footnotesize{ $\eq=\{\texttt{\textit{x}}\}$}}]{t}; [.\node[label={right: \footnotesize{$\eq=\{\texttt{\textit{x}}\}$}}]{ex\\\textit{\texttt{\_:x}}}; ] ]          
+% 	    % [.t [.\node(x)[label={right: \footnotesize{$v_1=\{\texttt{\textit{?x}}\}$}}]{\texttt{uv}\\{\textit{\texttt{?x}}}}; ] ]  [.t [.\texttt{c}\\{\textit{\texttt{:q}}} ] ] [.t [.\texttt{c}\\{\textit{\texttt{:b}}}   ]  ] ] ]
+% 	[.t [.c\\\textit{\texttt{:s}} ] ] 
+% 	[.t [.\node[label={left: \footnotesize{ $\eq=\emptyset$}}](e){e}; [.\node[label={left: \footnotesize{ $\eq=\{\texttt{\textit{y}}\}$}}](a){\{f\}}; [.\node[label={left: \footnotesize{ $\eq=\{\texttt{\textit{y}}\}$}}]{t}; [.\node[label={left: \footnotesize{ $\eq=\{\texttt{\textit{y}}\}$}}](z){\texttt{ex}\\{\textit{\texttt{\_:y}}}}; ] ] [.t [.\texttt{c}\\{\textit{\texttt{:k}}} ] ] [.t [.\texttt{c}\\{\textit{\texttt{:a}}}  ]  ] ] ]
+% ] ] ]
+% \node (xy) at (0.6,-6) {} ;
+% \node (x) at (0.85,-5.15) {} ;
+% \node (xx) at (1.5,-4.1) {} ;
+% \node (xxx) at (1.6,-3.1) {} ;
+% \node (y) at (-1.5,-2.9) {};
+% \node (a) at (-1.7,-2) {};
+% \node (b) at (-0.8, -1) {};
+%  \draw[thik, dashed, ->] (xy) to    (x);
+%  \draw[thik, dashed, ->] (x) to    (xx);
+%   \draw[thik, dashed, ->] (y) to    (a);
+%     \draw[thik, dashed, ->] (a) to    (b);
+%         \draw[thik, dashed, ->] (xx) to  node {\ding{55}}  (xxx);
+%  %\draw[semithick, ->] (z) to  [bend left=90] node [midway,fill=white] {direct} (a);
+%  %\draw[semithik, ->] (z) to [bend left=80]  node [midway,fill=white] {$\operatorname{uv}_2=\{\texttt{?x}\}$} (a);
+%  %\draw[semithik, ->] (a) to [bend left=80]  node [midway,fill=white] {$\operatorname{sc}=\{\texttt{?x}\}$} (b);
+% \end{tikzpicture}\normalsize
+% \end{center}
+% \caption{Syntax tree for Formula~\ref{eq99} with attribute $\eq$. Attribute $\eq$ is used to pass existentially quantified variables up to their direct formula.
+% \todo{new?}
+% \label{extree} }
+% \end{figure}
+
+% translate implicit existential quantification of \nthree into the explicit quantification of the core logic, 
+% we need one attribute which passes all existentially quantified variables occurring under such a direct formula to that formula. 
+% That is the purpose of the attribute $\eq$.
+
+
+% In this subsection we focus on existential quantification and show how the information 
+% which variables are quantified on which formula can be stored in attributes. In the following section we do the same for universal variables to 
+% then in the subsequent section
+% provide further insight how, put together, this leads to concrete core logic translations of \nthree formulas.
+% 
+% As discussed before, existential variables are quantified on their direct formula. To pass the information which variables are existentially quantified
+% on it to such a direct formula we define the synthesized attribute $\eq$ for all symbols $X\in N\cup T$ of our \nthree grammar displayed in Figure~\ref{N3S}. 
+% For each production rule
+% we now define attribute rules:
+% \begin{itemize}
+%  \item
+% For terminal rules $X ::= Y$, $Y \in T$:
+% \[
+% X.\eq \leftarrow \begin{cases}
+%                   Y,& \text{if}\ X=\texttt{ex}\\
+%                   \emptyset, & \text{else}
+%                  \end{cases}
+% \]
+% %with $\operatorname{id}: T\rightarrow T$ being the identity function. 
+% \item For the rule $\texttt{e} ::= \texttt{\{f\}}$ we define:
+% \[
+%  \texttt{e}.\eq \leftarrow \emptyset
+% \]
+% 
+% \item
+% For all other rules $X_0 ::= X_1 \ldots X_n$ with $X_i\neq \texttt{e}$ for all $i$ and $X_j\in N$ for at least one $j$, $1\leq i, j \leq n$:
+% \[
+% X_0.\eq\leftarrow \bigcup_{1\leq j\leq n} X_j.\eq
+% \]
+% \end{itemize}
+% The attribute $\eq$ passes all existentially quantified attributes up in the syntax tree till the direct formula is found, from the direct formula upwards, 
+% no variables are passed. We illustrate this in Figure~\ref{extree} where we display the syntax tree for  
+% Formula~\ref{eq99}.
+% From the rules only resulting in symbols of the alphabet, ie the first three production rules for terms \texttt{t}, only the secod
+% \footnote{Note that structure-wise this formula follows the same pattern as Formula~\ref{eq1}. The names of constants are only shortened to
+% make the presentation of the formula easier.}
+% \begin{equation}
+% \texttt{\_:x :s \{\_:y :k :a\}.} \label{eq998}
+% \end{equation}
+% Translated into core logic this formula means:
+
+
+
+%
+
+%
+% To produce translations, we need an inherited attribute on \texttt{f} which detects that a formula is a direct formula, ie it either directly follows the start symbol or 
+% is part of a formula expression. 
+% To understand this, consider the following formula:
+% \begin{equation}
+%  \texttt{\_:x :p :a. \_:x :q :b.}
+% \end{equation}
+% 
+%  To produce a translation, we additionally need to mark the formulas which can carry a quantifier, the direct formulas. 
+%  This is done by the translation attributes which will be introduced in Section~\ref{all}.%These are all formulas \texttt{f} 
+
+
+%\subsection{Universals}
+
+
+% \begin{figure*}
+% %\begin{minipage}{0.95\textwidth}
+% \begin{center}
+% \begin{tikzpicture}[%level distance=38pt, %sibling distance=3pt,
+% ]
+% \tikzset{every tree node/.style={align=center}}%,anchor=base}}
+% \Tree [.{\texttt{s}} % \node [ draw, label={[align=left]First\\Second}] {Node}; 
+% 	  [.\node%[label={ right: \footnotesize{$v_2=\{\texttt{\textit{x}}\}$, $s=\{\texttt{\textit{x}}\}$, $q=\{\texttt{\textit{x}}\}$}}]
+% 	  (a){$\texttt{f}^1$}; 
+% 	             [.\node%[label={right: \footnotesize{$v_2=\emptyset$, $s=\{\texttt{\textit{x}}\}$}}]
+%            (b){$\texttt{e}^1$}; 
+%              [.\{$\texttt{f}^2$\}
+%                 [.\node%[label={left: \footnotesize{$v_1=\emptyset$}}, label={right: \footnotesize{$v_2=\{\texttt{\textit{x},\texttt{\textit{y}}}\}$, $s=\{\texttt{\textit{x}},\texttt{\textit{y}}\}$,}}]
+%                  {$\texttt{e}^3$}; %$\ldots$
+% 	           [.\node%[label={right: \footnotesize{ $\quad v_2=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$,}}]% $s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}}]
+% 	            {\{$\texttt{f}^4$\}}; 
+% 	               [.\node%[label={right: \footnotesize{$\quad v_1=\{\texttt{\textit{x}},\texttt{\textit{y}}\}$,}}]% $s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}}]
+% 	                {$\texttt{t}^4$}; 
+% 	                  [.\node%[label={left: \footnotesize{$v_1=\{\texttt{\textit{x}}\},\quad$}}]{t}; [.\node[label={left: \footnotesize{$v_1=\{\texttt{\textit{x}}\},\quad$}}]% $s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}}]
+% 	                  {$\texttt{uv}^2$\\{\textit{\texttt{?x}}}}; ] ] 
+% 	                  [.$\texttt{t}^5$ [.$\texttt{c}^3$\\{\textit{\texttt{:q}}} ] ] 
+% 	                  [.\node%[label={right: \footnotesize{$ v_1=\{\texttt{\textit{y}}\}$,}}]
+% 	                  {$\texttt{t}^6$}; [.\node%[label={right: \footnotesize{$ v_1=\{\texttt{\textit{y}}\}$,}}]% $s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}}]
+% 	                  {$\texttt{uv}^3$\\{\textit{\texttt{?y}}}}; ] ] ] ]
+% 	           \edge[draw=none]; [.\texttt{=>} ] 
+% 	           [.\node%[label={left: \footnotesize{$v_2=\{\texttt{\textit{x}}\},\quad$}}]% $s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}}]
+% 	             {$\texttt{e}^4$}; 
+% 	              [.\node%[label={left: \footnotesize{$v_1=\{\texttt{\textit{x}}\},\quad$}}]% $s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}}]
+% 	                {\{$\texttt{f}^5$\}}; 
+% 	              [.\node%[label={left: \footnotesize{$v_1=\{\texttt{\textit{x}}\},\quad$}}]
+% 	              {$\texttt{t}^7$}; 
+% 	              [.\node%[label={left: \footnotesize{$v_1=\{\texttt{\textit{x}}\},\quad$}}]% $s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}}]
+% 	                {$\texttt{uv}^4$\\{\textit{\texttt{?x}}}}; ] ] 
+% 	              [.$\texttt{t}^8$ [.$\texttt{c}^4$\\{\textit{\texttt{:r}}} ] ] [.$\texttt{t}^9$ [.$\texttt{c}^5$\\{\textit{\texttt{:c}}} ]  ] ]
+%     ] 
+%  ] ] 
+%             \edge[draw=none]; \texttt{=>} 
+% 	       [.\node%[label={left: \footnotesize{$v_2=\{\texttt{\textit{x}}\},\quad$}}]%$s=\{\texttt{\textit{x}}\}$}}]
+% 	           (z){$\texttt{e}^2$}; 
+% 	          [.\node%[label={left: \footnotesize{$v_1=\{\texttt{\textit{x}}\},\quad$}}]% $s=\{\texttt{\textit{x}}\}$}}]
+% 	             (x){\{$\texttt{f}^3$\}};  
+% 	          [.\node%[label={left: \footnotesize{$v_1=\{\texttt{\textit{x}}\},\quad$}}]
+% 	          (11){$\texttt{t}^1$}; 
+% 	          [.\node%[label={left: \footnotesize{$v_1=\{\texttt{\textit{x}}\},\quad$}}]
+% 	          (y){$\texttt{uv}^1$\\{{\textit{\texttt{?x}}}}}; ] ] 
+% 	          [.$\texttt{t}^2$ [.$\texttt{c}^1$\\{\textit{\texttt{:p}}} ] ] [.$\texttt{t}^3$ [.$\texttt{c}^2$\\{\textit{\texttt{:a}}} ]  ] 
+% 	        ] 
+% 	   ]    
+%  ] ]
+% ]
+%  %  \draw[semithick, <-] (x) to  [bend right=80] node [midway,fill=white] {$\operatorname{uv}_1=\{\texttt{?x}\}$} (y);
+% %   \draw[semithick, <-] (z) to  [bend right=80]  (x);
+% %   \draw[semithik, ->] (z) to [bend left=80]  node [midway,fill=white] {$\operatorname{uv}_2=\{\texttt{?x}\}$} (a);
+% %   \draw[semithik, ->] (a) to [bend left=80]  node [midway,fill=white] {$\operatorname{sc}=\{\texttt{?x}\}$} (b);
+% \end{tikzpicture}%\normalsize
+% \end{center}
+% \caption{Syntax tree for Formula~\ref{ffff}. \label{treeunisimple}}
+% %\end{minipage}
+% \end{figure*}
+%
+%
+% 
+% \begin{figure}
+% %\begin{minipage}{0.95\textwidth}
+% \begin{center}
+% \begin{tikzpicture}[%level distance=38pt, %sibling distance=3pt,
+% ]
+% \tikzset{every tree node/.style={align=center}}%,anchor=base}}
+% \Tree [.{\texttt{s}} % \node [ draw, label={[align=left]First\\Second}] {Node}; 
+% 	  [.\node%[label={ right: \footnotesize{$v_2=\{\texttt{\textit{x}}\}$, $s=\{\texttt{\textit{x}}\}$, $q=\{\texttt{\textit{x}}\}$}}]
+% 	  (a){$\texttt{f}^1$}; 
+% 	       [.\node%[label={left: \footnotesize{$v_2=\{\texttt{\textit{x}}\},\quad$}}]%$s=\{\texttt{\textit{x}}\}$}}]
+% 	           (z){$\texttt{e}^1$}; 
+% 	          [.\node%[label={left: \footnotesize{$v_1=\{\texttt{\textit{x}}\},\quad$}}]% $s=\{\texttt{\textit{x}}\}$}}]
+% 	             (x){\{$\texttt{f}^2$\}};  
+% 		      [.\node%[label={left: \footnotesize{$v_1=\{\texttt{\textit{x}}\},\quad$}}]
+% 	                 (11){$\texttt{t}^1$}; 
+% 					[.\node%[label={left: \footnotesize{$v_1=\{\texttt{\textit{x}}\},\quad$}}]
+% 				(y){$\texttt{uv}^1$\\{{\textit{\texttt{?x}}}}}; ] ] 
+% 		      [.$\texttt{t}^2$ 	[.$\texttt{c}^1$\\{\textit{\texttt{:p}}} ] ] 
+% 		      [.$\texttt{t}^3$ 	[.$\texttt{c}^2$\\{\textit{\texttt{:a}}} ] ] 
+% 	          ] 
+% 	       ]  
+%           % \edge[draw=none]; \texttt{=>}   
+%            [.\node%[label={right: \footnotesize{$v_2=\emptyset$, $s=\{\texttt{\textit{x}}\}$}}]
+%            (b){$\texttt{e}^2$}; 
+%              [.\{$\texttt{f}^3$\}
+%                 [.\node%[label={left: \footnotesize{$v_1=\emptyset$}}, label={right: \footnotesize{$v_2=\{\texttt{\textit{x},\texttt{\textit{y}}}\}$, $s=\{\texttt{\textit{x}},\texttt{\textit{y}}\}$,}}]
+%                  {$\texttt{e}^3$}; %$\ldots$
+% 	           [.\node%[label={right: \footnotesize{ $\quad v_2=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$,}}]% $s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}}]
+% 	            {\{$\texttt{f}^4$\}}; 
+% 	               [.\node%[label={right: \footnotesize{$\quad v_1=\{\texttt{\textit{x}},\texttt{\textit{y}}\}$,}}]% $s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}}]
+% 	                {$\texttt{t}^4$}; 
+% 	                  [.\node%[label={left: \footnotesize{$v_1=\{\texttt{\textit{x}}\},\quad$}}]{t}; [.\node[label={left: \footnotesize{$v_1=\{\texttt{\textit{x}}\},\quad$}}]% $s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}}]
+% 	                  {$\texttt{uv}^2$\\{\textit{\texttt{?x}}}}; ] ] 
+% 	                  [.$\texttt{t}^5$ [.$\texttt{c}^3$\\{\textit{\texttt{:q}}} ] ] 
+% 	                  [.\node%[label={right: \footnotesize{$ v_1=\{\texttt{\textit{y}}\}$,}}]
+% 	                  {$\texttt{t}^6$}; [.\node%[label={right: \footnotesize{$ v_1=\{\texttt{\textit{y}}\}$,}}]% $s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}}]
+% 	                  {$\texttt{uv}^3$\\{\textit{\texttt{?y}}}}; ] ] ] ]
+% 	           \edge[draw=none]; [.\texttt{=>} ] 
+% 	           [.\node%[label={left: \footnotesize{$v_2=\{\texttt{\textit{x}}\},\quad$}}]% $s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}}]
+% 	             {$\texttt{e}^4$}; 
+% 	              [.\node%[label={left: \footnotesize{$v_1=\{\texttt{\textit{x}}\},\quad$}}]% $s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}}]
+% 	                {\{$\texttt{f}^5$\}}; 
+% 	              [.\node%[label={left: \footnotesize{$v_1=\{\texttt{\textit{x}}\},\quad$}}]
+% 	              {$\texttt{t}^7$}; 
+% 	              [.\node%[label={left: \footnotesize{$v_1=\{\texttt{\textit{x}}\},\quad$}}]% $s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}}]
+% 	                {$\texttt{uv}^4$\\{\textit{\texttt{?x}}}}; ] ] 
+% 	              [.$\texttt{t}^8$ [.$\texttt{c}^4$\\{\textit{\texttt{:r}}} ] ] [.$\texttt{t}^9$ [.$\texttt{c}^5$\\{\textit{\texttt{:c}}} ]  ] ]
+%     ] 
+%  ] ]
+%  ] ] ]
+% 
+%   \node(fv2) at (0,-2.1){\texttt{=>}};
+%  %  \draw[semithick, <-] (x) to  [bend right=80] node [midway,fill=white] {$\operatorname{uv}_1=\{\texttt{?x}\}$} (y);
+% %   \draw[semithick, <-] (z) to  [bend right=80]  (x);
+% %   \draw[semithik, ->] (z) to [bend left=80]  node [midway,fill=white] {$\operatorname{uv}_2=\{\texttt{?x}\}$} (a);
+% %   \draw[semithik, ->] (a) to [bend left=80]  node [midway,fill=white] {$\operatorname{sc}=\{\texttt{?x}\}$} (b);
+% \end{tikzpicture}%\normalsize
+% \end{center}
+% \caption{Syntax tree of Formula~\ref{fff}. \label{treeunisimple}}
+% %\end{minipage}
+% \end{figure}
+
+% % original figure
+% \begin{figure}
+% %\begin{minipage}{0.95\textwidth}
+% \begin{center}
+% \begin{tikzpicture}[%level distance=38pt, %sibling distance=3pt,
+% ]
+% \tikzset{every tree node/.style={align=center}}%,anchor=base}}
+% \Tree [.{\texttt{s}}
+% 	  [.\node
+% 	  (a){$\texttt{f}^1$};
+% %start antecedence 
+%            [.\node
+%            (b){$\texttt{e}^1$}; 
+%              [.\{$\texttt{f}^2$\}
+%                 [.\node
+%                  {$\texttt{e}^3$}; 
+% 	           [.\node
+%               {\{$\texttt{f}^4$\}}; 
+% 	               [.\node    {$\texttt{t}^1$}; 
+% 	                  [.\node[label={below:\textit{\texttt{?x}}}]
+% 	                  {$\texttt{uv}^1$}; ] ] 
+% 	                  [.$\texttt{t}^2$ [.\node[label={below:\textit{\texttt{:q}}}]{$\texttt{c}^1$}; ] ] 
+% 	                  [.\node
+% 	                  {$\texttt{t}^3$}; [.\node[label={below:\textit{\texttt{?y}}}]
+% 	                  {$\texttt{uv}^2$}; ] ] ] ]
+% 	           \edge[draw=none]; [.\texttt{=>} ] 
+% 	           [.\node
+% 	             {$\texttt{e}^4$}; 
+% 	              [.\node
+% 	                {\{$\texttt{f}^5$\}}; 
+% 	              [.\node
+% 	              {$\texttt{t}^4$}; 
+% 	              [.\node[label={below:\textit{\texttt{?x}}}]
+% 	                {$\texttt{uv}^3$}; ] ] 
+% 	              [.$\texttt{t}^5$ [.\node[label={below:\textit{\texttt{:r}}}]{$\texttt{c}^2$}; ] ] [.$\texttt{t}^6$ [.\node[label={below:\textit{\texttt{:c}}}]{$\texttt{c}^3$}; ]  ] ]
+%              ] 
+%     ] ]
+% % stop antecedence
+% %start ?x :p :a
+% 	       [.\node
+% 	           (z){$\texttt{e}^2$}; 
+% 	          [.\node
+% 	             (x){\{$\texttt{f}^3$\}};  
+% 		      [.\node
+% 	                 (11){$\texttt{t}^7$}; 
+% 					[.\node[label={below:{\textit{\texttt{?x}}}}]
+% 				(y){$\texttt{uv}^4$}; ] ] 
+% 		      [.$\texttt{t}^8$ 	[.\node[label={below:\textit{\texttt{:p}}}]{$\texttt{c}^4$}; ] ] 
+% 		      [.$\texttt{t}^9$ 	[.\node[label={below:\textit{\texttt{:a}}}]{$\texttt{c}^5$}; ] ] 
+% 	          ] 
+%          ]
+% %end ?x :p :a
+% 	       ]
+% ]
+%   \node(fv2) at (0,-2.1){\texttt{=>}};
+%  %  \draw[semithick, <-] (x) to  [bend right=80] node [midway,fill=white] {$\operatorname{uv}_1=\{\texttt{?x}\}$} (y);
+% %   \draw[semithick, <-] (z) to  [bend right=80]  (x);
+% %   \draw[semithik, ->] (z) to [bend left=80]  node [midway,fill=white] {$\operatorname{uv}_2=\{\texttt{?x}\}$} (a);
+% %   \draw[semithik, ->] (a) to [bend left=80]  node [midway,fill=white] {$\operatorname{sc}=\{\texttt{?x}\}$} (b);
+% \end{tikzpicture}%\normalsize
+% \end{center}
+% \caption{Syntax tree of Formula~\ref{fff}. \label{treeunisimple}}
+% %\end{minipage}
+% \end{figure}
+% 
+% \begin{figure}
+% %\begin{minipage}{0.95\textwidth}
+% \begin{center}
+% \begin{tikzpicture}[%level distance=38pt, %sibling distance=3pt,
+% level 1/.style={level distance=40pt},
+% level 2/.style={level distance=40pt},
+% level 3/.style={level distance=40pt},
+% level 4/.style={level distance=40pt},
+% level 5/.style={level distance=40pt},
+% level 6/.style={level distance=40pt},
+% ]
+% \tikzset{every tree node/.style={align=center}}%,anchor=base}}
+% \Tree [.{
+% %\trm{v_1:&\hspace{-0.3cm}\emptyset\\v_2:&\hspace{-0.3cm}\emptyset}
+% \scriptsize
+% \begin{tabular}{|l|l|}
+% \hline
+% &\texttt{s}\\
+% \hline
+% $v_1$\hspace{-0.3cm} & $\emptyset$\\
+% $v_2$\hspace{-0.3cm}  & $\emptyset$\\
+% \hline
+% \end{tabular}
+% \normalsize
+% }
+% \edge[draw=none];	  [.\node
+% 	  (a){\scriptsize
+% \begin{tabular}{|l|l|}
+% \hline
+% &$\hspace{-0.1cm}\texttt{f}^1$\\
+% \hline
+% $\hspace{-0.1cm}v_1$\hspace{-0.1cm} & \hspace{-0.1cm}$\emptyset$\\
+% $\hspace{-0.1cm}v_2$\hspace{-0.1cm}  &\hspace{-0.1cm}$\emptyset$\\
+% $\hspace{-0.1cm}s$\hspace{-0.1cm}  &$\hspace{-0.1cm}\{\texttt{x},\texttt{y}\}\hspace{-0.2cm}$\\
+% $\hspace{-0.1cm}q$\hspace{-0.1cm}  &$\hspace{-0.1cm}\{\texttt{x},\texttt{y}\}\hspace{-0.2cm}$\\
+% \hline
+% \end{tabular}
+% \normalsize};
+% \edge[draw=none];[.{\scriptsize
+% \begin{tabular}{|l|l|l|}
+% \hline
+% &$\hspace{-0.1cm}\texttt{e}^1$&$\hspace{-0.1cm}\texttt{e}^2$\\
+% \hline
+% $\hspace{-0.1cm}v_1$\hspace{-0.1cm} & \hspace{-0.1cm}$\emptyset$&$\hspace{-0.1cm}\{\texttt{x},\texttt{y}\}\hspace{-0.2cm}$\\
+% $\hspace{-0.1cm}v_2$\hspace{-0.1cm}  &\hspace{-0.1cm}$\emptyset$&$\hspace{-0.1cm}\{\texttt{x},\texttt{y}\}\hspace{-0.2cm}$\\
+% $\hspace{-0.1cm}s$\hspace{-0.1cm}  &$\hspace{-0.1cm}\{\texttt{x},\texttt{y}\}\hspace{-0.2cm}$&$\hspace{-0.1cm}\{\texttt{x},\texttt{y}\}\hspace{-0.2cm}$\\
+% \hline
+% \end{tabular}
+% \normalsize}
+% %start antecedence 
+%        \edge[draw=none];      [.{\scriptsize
+% \begin{tabular}{|l|l|}
+% \hline
+% &$\hspace{-0.1cm}\texttt{f}^2$\\
+% \hline
+% $\hspace{-0.1cm}v_1$\hspace{-0.1cm} & \hspace{-0.1cm}$\emptyset$\\
+% $\hspace{-0.1cm}v_2$\hspace{-0.1cm}  &\hspace{-0.1cm}$\emptyset$\\
+% $\hspace{-0.1cm}s$\hspace{-0.1cm}  &$\hspace{-0.1cm}\{\texttt{x},\texttt{y}\}\hspace{-0.2cm}$\\
+% $\hspace{-0.1cm}q$\hspace{-0.1cm}  &$\hspace{-0.1cm}\{\texttt{x},\texttt{y}\}\hspace{-0.2cm}$\\
+% \hline
+% \end{tabular}
+% \normalsize}
+%     \edge[draw=none]; [.\node{\scriptsize
+% \begin{tabular}{|l|l|l|}
+% \hline
+% &$\hspace{-0.1cm}\texttt{e}^3$&$\hspace{-0.1cm}\texttt{e}^3$\\
+% \hline
+% $\hspace{-0.1cm}v_1$\hspace{-0.1cm} & \hspace{-0.1cm}$\emptyset$&$\hspace{-0.1cm}\{\texttt{x},\texttt{y}\}\hspace{-0.2cm}$\\
+% $\hspace{-0.1cm}v_2$\hspace{-0.1cm}  &\hspace{-0.1cm}$\emptyset$&$\hspace{-0.1cm}\{\texttt{x},\texttt{y}\}\hspace{-0.2cm}$\\
+% $\hspace{-0.1cm}s$\hspace{-0.1cm}  &$\hspace{-0.1cm}\{\texttt{x},\texttt{y}\}\hspace{-0.2cm}$&$\hspace{-0.1cm}\{\texttt{x},\texttt{y}\}\hspace{-0.2cm}$\\
+% \hline
+% \end{tabular}
+% \normalsize};
+% 	       \edge[draw=none];    [.\node
+%               {\scriptsize
+% \begin{tabular}{|l|l|}
+% \hline
+% &$\hspace{-0.1cm}\texttt{f}^4$\\
+% \hline
+% $\hspace{-0.1cm}v_1$\hspace{-0.1cm} & \hspace{-0.1cm}$\emptyset$\\
+% $\hspace{-0.1cm}v_2$\hspace{-0.1cm}  &\hspace{-0.1cm}$\emptyset$\\
+% $\hspace{-0.1cm}s$\hspace{-0.1cm}  &$\hspace{-0.1cm}\{\texttt{x},\texttt{y}\}\hspace{-0.2cm}$\\
+% $\hspace{-0.1cm}q$\hspace{-0.1cm}  &$\hspace{-0.1cm}\{\texttt{x},\texttt{y}\}\hspace{-0.2cm}$\\
+% \hline
+% \end{tabular}
+% \normalsize}; 
+% 	            \edge[draw=none];   [.\node    {
+% 	               \scriptsize
+% \begin{tabular}{|l|l|l|l|}
+% \hline
+% &$\hspace{-0.1cm}\texttt{t}^4$&$\hspace{-0.1cm}\texttt{t}^4$&$\texttt{t}^4$\\
+% \hline
+% $\hspace{-0.1cm}v_1$\hspace{-0.1cm} & \hspace{-0.1cm}$\emptyset$&\hspace{-0.1cm}$\emptyset$&\hspace{-0.1cm}$\emptyset$\\
+% $\hspace{-0.1cm}v_2$\hspace{-0.1cm}  &\hspace{-0.1cm}$\emptyset$&\hspace{-0.1cm}$\emptyset$&\hspace{-0.1cm}$\emptyset$\\
+% $\hspace{-0.1cm}s$\hspace{-0.1cm}  &$\hspace{-0.1cm}\{\texttt{x},\texttt{y}\}\hspace{-0.2cm}$&\hspace{-0.1cm}$\{\texttt{x}, \texttt{y}\}\hspace{-0.2cm}$&\hspace{-0.1cm}$\{\texttt{x}, \texttt{y}\}\hspace{-0.2cm}$\\
+% \hline
+% \end{tabular}
+% \normalsize 
+% 	               };  ]  
+% 	                ]  
+% 	            \edge[draw=none];  [.\node
+% 	                {\scriptsize
+% \begin{tabular}{|l|l|}
+% \hline
+% &$\hspace{-0.1cm}\texttt{f}^5$\\
+% \hline
+% $\hspace{-0.1cm}v_1$\hspace{-0.1cm} & \hspace{-0.1cm}$\emptyset$\\
+% $\hspace{-0.1cm}v_2$\hspace{-0.1cm}  &\hspace{-0.1cm}$\emptyset$\\
+% $\hspace{-0.1cm}s$\hspace{-0.1cm}  &$\hspace{-0.1cm}\{\texttt{x},\texttt{y}\}\hspace{-0.2cm}$\\
+% $\hspace{-0.1cm}q$\hspace{-0.1cm}  &$\hspace{-0.1cm}\{\texttt{x},\texttt{y}\}\hspace{-0.2cm}$\\
+% \hline
+% \end{tabular}
+% \normalsize}; 
+% 	    \edge[draw=none];  [.{\scriptsize
+% \begin{tabular}{|l|l|l|l|}
+% \hline
+% &$\hspace{-0.1cm}\texttt{t}^4$&$\hspace{-0.1cm}\texttt{t}^4$&$\texttt{t}^4$\\
+% \hline
+% $\hspace{-0.1cm}v_1$\hspace{-0.1cm} & \hspace{-0.1cm}$\emptyset$&\hspace{-0.1cm}$\emptyset$&\hspace{-0.1cm}$\emptyset$\\
+% $\hspace{-0.1cm}v_2$\hspace{-0.1cm}  &\hspace{-0.1cm}$\emptyset$&\hspace{-0.1cm}$\emptyset$&\hspace{-0.1cm}$\emptyset$\\
+% $\hspace{-0.1cm}s$\hspace{-0.1cm}  &$\hspace{-0.1cm}\{\texttt{x},\texttt{y}\}\hspace{-0.2cm}$&\hspace{-0.1cm}$\{\texttt{x}, \texttt{y}\}\hspace{-0.2cm}$&\hspace{-0.1cm}$\{\texttt{x}, \texttt{y}\}\hspace{-0.2cm}$\\
+% \hline
+% \end{tabular}
+% \normalsize}  ] ]
+%     ] ] 
+% % stop antecedence
+% %start ?x :p :a 
+% 	\edge[draw=none];          [.\node
+% 	             (x){\scriptsize
+% \begin{tabular}{|l|l|}
+% \hline
+% &$\hspace{-0.1cm}\texttt{f}^4$\\
+% \hline
+% $\hspace{-0.1cm}v_1$\hspace{-0.1cm} & \hspace{-0.1cm}$\emptyset$\\
+% $\hspace{-0.1cm}v_2$\hspace{-0.1cm}  &\hspace{-0.1cm}$\emptyset$\\
+% $\hspace{-0.1cm}s$\hspace{-0.1cm}  &$\hspace{-0.1cm}\{\texttt{x},\texttt{y}\}\hspace{-0.2cm}$\\
+% $\hspace{-0.1cm}q$\hspace{-0.1cm}  &$\hspace{-0.1cm}\{\texttt{x},\texttt{y}\}\hspace{-0.2cm}$\\
+% \hline
+% \end{tabular}
+% \normalsize};  
+% 		      [.\node
+% 	                 (11){\scriptsize
+% \begin{tabular}{|l|l|l|l|}
+% \hline
+% &$\hspace{-0.1cm}\texttt{t}^4$&$\hspace{-0.1cm}\texttt{t}^4$&$\texttt{t}^4$\\
+% \hline
+% $\hspace{-0.1cm}v_1$\hspace{-0.1cm} & \hspace{-0.1cm}$\emptyset$&\hspace{-0.1cm}$\emptyset$&\hspace{-0.1cm}$\emptyset$\\
+% $\hspace{-0.1cm}v_2$\hspace{-0.1cm}  &\hspace{-0.1cm}$\emptyset$&\hspace{-0.1cm}$\emptyset$&\hspace{-0.1cm}$\emptyset$\\
+% $\hspace{-0.1cm}s$\hspace{-0.1cm}  &$\hspace{-0.1cm}\{\texttt{x},\texttt{y}\}\hspace{-0.2cm}$&\hspace{-0.1cm}$\{\texttt{x}, \texttt{y}\}\hspace{-0.2cm}$&\hspace{-0.1cm}$\{\texttt{x}, \texttt{y}\}\hspace{-0.2cm}$\\
+% \hline
+% \end{tabular}
+% \normalsize}; 
+% 					 ] 
+% 	          ] 
+% %end ?x :p :a
+% 	       ]
+% ]]
+% %  \node(fv2) at (0,-2.1){\texttt{=>}};
+%  %  \draw[semithick, <-] (x) to  [bend right=80] node [midway,fill=white] {$\operatorname{uv}_1=\{\texttt{?x}\}$} (y);
+% %   \draw[semithick, <-] (z) to  [bend right=80]  (x);
+% %   \draw[semithik, ->] (z) to [bend left=80]  node [midway,fill=white] {$\operatorname{uv}_2=\{\texttt{?x}\}$} (a);
+% %   \draw[semithik, ->] (a) to [bend left=80]  node [midway,fill=white] {$\operatorname{sc}=\{\texttt{?x}\}$} (b);
+% \end{tikzpicture}%\normalsize
+% \end{center}
+% \caption{Syntax tree of Formula~\ref{fff}. \label{treeunisimple}}
+% %\end{minipage}
+% \end{figure}
+
+\subsection{Universals in Cwm}\label{unicwm}
+% \begin{figure}
+% \begin{minipage}{\linewidth}
+% \begin{center}
+% \scriptsize
+% \begin{tikzpicture}[scale=.68,
+% level distance=70pt, sibling distance=-5pt,
+% level 1/.style={level distance=26pt},
+% level 2/.style={level distance=50pt},
+% level 3/.style={level distance=30pt},
+% level 4/.style={level distance=55pt},
+% level 5/.style={level distance=30pt},
+% level 6/.style={level distance=55pt},
+% level 7/.style={level distance=30pt},
+% ]
+% \tikzset{every tree node/.style={align=base}}%,anchor=base}}
+% \Tree [.\node[label={right:\trm{v_1:&\hspace{-0.3cm}\emptyset\\v_2:&\hspace{-0.3cm}\emptyset}}]{\texttt{s}};
+% 	  [.\node
+% 	  (a)[label={right:{\hspace{0.5cm}\trmv{\emptyset}{\{\texttt{x}\}}{\{\texttt{x}\}}{\{\texttt{x}\}}}
+% 		}]{$\texttt{f}^1$};
+% %start antecedence 
+%            [.\node
+%            (b)[label={right:\hspace{0.2cm}\trmd{\emptyset}{\emptyset}{\{\texttt{x}\}}
+% 		     }]{$\texttt{e}^1$}; 
+%              [.\node[label={right:\hspace{0.1cm}\trmv{\emptyset}{\{\texttt{x}, \texttt{y}\}}{\{\texttt{x}, \texttt{y}\}}{\{\texttt{y}\}}}]{\{$\texttt{f}^2$\}};
+%                 [.\node[label={right:\trmd{\emptyset}{\{\texttt{x},\texttt{y}\}}{\{\texttt{x},\texttt{y}\}}
+% 		     }]
+%                  {$\texttt{e}^3$}; 
+% 	           [.\node[label={right:\trmv{\{\texttt{x}, \texttt{y}\}}{\emptyset}{\{\texttt{x}, \texttt{y}\}}{\emptyset}}]
+%               {\{$\texttt{f}^4$\}}; 
+% 	               [.\node [label={right:\trmd{\{\texttt{x}\}}{\emptyset}{\{\texttt{x}, \texttt{y}\}}
+% 		     }]   {$\texttt{t}^1$}; 
+% 	                  [.\node[label={below: \textit{\texttt{?x}}}]
+% 	                  {$\texttt{uv}^1$}; ] ] 
+% 	                  [.\node[label={right:\trmd{\emptyset}{\emptyset}{\{\texttt{x}, \texttt{y}\}}
+% 		     }]{$\texttt{t}^2$}; [.\node[label={below:\textit{\texttt{:q}}}]{$\texttt{c}^1$}; ] ] 
+% 	                  [.\node[label={right:\trmd{\{\texttt{y}\}}{\emptyset}{\{\texttt{x}, \texttt{y}\}}
+% 		     }]
+% 	                  {$\texttt{t}^3$}; [.\node[label={below:\textit{\texttt{?y}}}]
+% 	                  {$\texttt{uv}^2$}; ] ] ] ]
+% 	           \edge[draw=none]; [.\texttt{ } ] 
+% 	           [.\node[label={right:\trmd{\emptyset}{\{\texttt{x}\}}{\{\texttt{x}, \texttt{y}\}}
+% 		     }]
+% 	             {$\texttt{e}^4$}; 
+% 	              [.\node[label={right:\trmv{\{\texttt{x}\}}{\emptyset}{\{\texttt{x}, \texttt{y}\}}{\emptyset}}]
+% 	                {\{$\texttt{f}^5$\}}; 
+% 	              [.\node[label={right:\trmd{\{\texttt{x}\}}{\emptyset}{\{\texttt{x},\texttt{y}\}}
+% 		     }]
+% 	              {$\texttt{t}^4$}; 
+% 	              [.\node[label={below:\textit{\texttt{?x}}}]
+% 	                {$\texttt{uv}^3$}; ] ] 
+% 	              [.\node[label={right:\trmd{\emptyset}{\emptyset}{\{\texttt{x},\texttt{y}\}}
+% 		     }]{$\texttt{t}^5$}; [.\node[label={below:\textit{\texttt{:r}}}]{$\texttt{c}^2$}; ] ] 
+% 		     [.\node[label={right:\trmd{\emptyset}{\emptyset}{\{\texttt{x},\texttt{y}\}\hspace{-6cm}}
+% 		     }]{$\texttt{t}^6$}; [.\node[label={below:\textit{\texttt{:c}}}]{$\texttt{c}^3$}; ]  ] ]
+%              ] 
+%     ] ]
+% % stop antecedence
+% %start x :p :a
+% 	       [.\node[label={right:\trmd{\emptyset}{\{\texttt{x}\}}{\{\texttt{x}\}}
+% 		     }]
+% 	           (z){$\texttt{e}^2$}; 
+% 	          [.\node
+% 	             (x)[label={right:\trmv{\{\texttt{x}\}}{\emptyset}{\{\texttt{x}\}}{\emptyset}}]{\{$\texttt{f}^3$\}};  
+% 		      [.\node
+% 	                 (11)[label={right:\trmd{\{\texttt{x}\}}{\emptyset}{\{\texttt{x}\}}
+% 		     }]{$\texttt{t}^7$}; 
+% 					[.\node
+% 				(y)[label={below: {\textit{\texttt{?x}}}}]{$\texttt{uv}^4$}; ] ] 
+% 		      [.\node[label={right:\trmd{\emptyset}{\emptyset}{\{\texttt{x}\}}
+% 		     }]{$\texttt{t}^8$}; 	[.\node[label={below: \textit{\texttt{:p}}}]{$\texttt{c}^4$}; ] ] 
+% 		      [.\node[label={right:\trmd{\emptyset}{\emptyset}{\{\texttt{x}\}}
+% 		     }]{$\texttt{t}^9$}; 	[.\node[label={below: \textit{\texttt{:a}}}]{$\texttt{c}^5$}; ] ] 
+% 	          ] 
+%          ]
+% %end ?x :p :a
+% 	       ]
+% ]
+%   \node(fv2) at (0,-2.1){\texttt{=>}};
+%   \node(fv3) at (-3.8,-5.3){\texttt{=>}};
+% %  \node() at (-4,-9.8){\color{grey}{\texttt{\{ \{ ?x\hspace{1.4cm}:q\hspace{1.4cm}?y \} => \{ ?x\hspace{1.4cm}:r\hspace{1.4cm}:c \} \} => \{ ?x\hspace{1.4cm}:p\hspace{1.4cm}:a \}}}};
+%  %  \draw[semithick, <-] (x) to  [bend right=80] node [midway,fill=white] {$\operatorname{uv}_1=\{\texttt{?x}\}$} (y);
+% %   \draw[semithick, <-] (z) to  [bend right=80]  (x);
+% %   \draw[semithik, ->] (z) to [bend left=80]  node [midway,fill=white] {$\operatorname{uv}_2=\{\texttt{?x}\}$} (a);
+% %   \draw[semithik, ->] (a) to [bend left=80]  node [midway,fill=white] {$\operatorname{sc}=\{\texttt{?x}\}$} (b);
+% \end{tikzpicture}\normalsize
+% \end{center}
+% \caption{Syntax tree of Formula~\ref{fff} with attribute values for the attributes $v_1$, $v_2$, $s$ and $q$ (in \tr{blue}). \label{treeunisimple}}
+% \end{minipage}
+% \end{figure}
+%\begin{landscape}
+\begin{sidewaysfigure}
+\begin{minipage}{\linewidth}
+\begin{center}
+\scriptsize
+\begin{tikzpicture}[
+level distance=70pt, sibling distance=-5pt,
+level 1/.style={level distance=26pt},
+level 2/.style={level distance=50pt},
+level 3/.style={level distance=30pt},
+level 4/.style={level distance=55pt},
+level 5/.style={level distance=30pt},
+level 6/.style={level distance=55pt},
+level 7/.style={level distance=30pt},
+]
+\tikzset{every tree node/.style={align=base}}%,anchor=base}}
+\Tree [.\node[label={right:\trm{v_1:&\hspace{-0.3cm}\emptyset\\v_2:&\hspace{-0.3cm}\emptyset}}]{\texttt{s}};
+	  [.\node
+	  (a)[label={right:{\hspace{0.5cm}\trmv{\emptyset}{\{\texttt{x}\}}{\{\texttt{x}\}}{\{\texttt{x}\}}}
+		}]{$\texttt{f}^1$};
+%start antecedence 
+           [.\node
+           (b)[label={right:\hspace{0.2cm}\trmd{\emptyset}{\emptyset}{\{\texttt{x}\}}
+		     }]{$\texttt{e}^1$}; 
+             [.\node[label={right:\hspace{0.1cm}\trmv{\emptyset}{\{\texttt{x}, \texttt{y}\}}{\{\texttt{x}, \texttt{y}\}}{\{\texttt{y}\}}}]{\{$\texttt{f}^2$\}};
+                [.\node[label={right:\trmd{\emptyset}{\{\texttt{x},\texttt{y}\}}{\{\texttt{x},\texttt{y}\}}
+		     }]
+                 {$\texttt{e}^3$}; 
+	           [.\node[label={right:\trmv{\{\texttt{x}, \texttt{y}\}}{\emptyset}{\{\texttt{x}, \texttt{y}\}}{\emptyset}}]
+              {\{$\texttt{f}^4$\}}; 
+	               [.\node [label={right:\trmd{\{\texttt{x}\}}{\emptyset}{\{\texttt{x}, \texttt{y}\}}
+		     }]   {$\texttt{t}^1$}; 
+	                  [.\node[label={below: \textit{\texttt{?x}}}]
+	                  {$\texttt{uv}^1$}; ] ] 
+	                  [.\node[label={right:\trmd{\emptyset}{\emptyset}{\{\texttt{x}, \texttt{y}\}}
+		     }]{$\texttt{t}^2$}; [.\node[label={below:\textit{\texttt{:q}}}]{$\texttt{c}^1$}; ] ] 
+	                  [.\node[label={right:\trmd{\{\texttt{y}\}}{\emptyset}{\{\texttt{x}, \texttt{y}\}}
+		     }]
+	                  {$\texttt{t}^3$}; [.\node[label={below:\textit{\texttt{?y}}}]
+	                  {$\texttt{uv}^2$}; ] ] ] ]
+	           \edge[draw=none]; [.\texttt{ } ] 
+	           [.\node[label={right:\trmd{\emptyset}{\{\texttt{x}\}}{\{\texttt{x}, \texttt{y}\}}
+		     }]
+	             {$\texttt{e}^4$}; 
+	              [.\node[label={right:\trmv{\{\texttt{x}\}}{\emptyset}{\{\texttt{x}, \texttt{y}\}}{\emptyset}}]
+	                {\{$\texttt{f}^5$\}}; 
+	              [.\node[label={right:\trmd{\{\texttt{x}\}}{\emptyset}{\{\texttt{x},\texttt{y}\}}
+		     }]
+	              {$\texttt{t}^4$}; 
+	              [.\node[label={below:\textit{\texttt{?x}}}]
+	                {$\texttt{uv}^3$}; ] ] 
+	              [.\node[label={right:\trmd{\emptyset}{\emptyset}{\{\texttt{x},\texttt{y}\}}
+		     }]{$\texttt{t}^5$}; [.\node[label={below:\textit{\texttt{:r}}}]{$\texttt{c}^2$}; ] ] 
+		     [.\node[label={right:\trmd{\emptyset}{\emptyset}{\{\texttt{x},\texttt{y}\}\hspace{-6cm}}
+		     }]{$\texttt{t}^6$}; [.\node[label={below:\textit{\texttt{:c}}}]{$\texttt{c}^3$}; ]  ] ]
+             ] 
+    ] ]
+% stop antecedence
+%start x :p :a
+	       [.\node[label={right:\trmd{\emptyset}{\{\texttt{x}\}}{\{\texttt{x}\}}
+		     }]
+	           (z){$\texttt{e}^2$}; 
+	          [.\node
+	             (x)[label={right:\trmv{\{\texttt{x}\}}{\emptyset}{\{\texttt{x}\}}{\emptyset}}]{\{$\texttt{f}^3$\}};  
+		      [.\node
+	                 (11)[label={right:\trmd{\{\texttt{x}\}}{\emptyset}{\{\texttt{x}\}}
+		     }]{$\texttt{t}^7$}; 
+					[.\node
+				(y)[label={below: {\textit{\texttt{?x}}}}]{$\texttt{uv}^4$}; ] ] 
+		      [.\node[label={right:\trmd{\emptyset}{\emptyset}{\{\texttt{x}\}}
+		     }]{$\texttt{t}^8$}; 	[.\node[label={below: \textit{\texttt{:p}}}]{$\texttt{c}^4$}; ] ] 
+		      [.\node[label={right:\trmd{\emptyset}{\emptyset}{\{\texttt{x}\}}
+		     }]{$\texttt{t}^9$}; 	[.\node[label={below: \textit{\texttt{:a}}}]{$\texttt{c}^5$}; ] ] 
+	          ] 
+         ]
+%end ?x :p :a
+	       ]
+]
+  \node(fv2) at (0,-2.1){\texttt{=>}};
+  \node(fv3) at (-3.8,-5.3){\texttt{=>}};
+%  \node() at (-4,-9.8){\color{grey}{\texttt{\{ \{ ?x\hspace{1.4cm}:q\hspace{1.4cm}?y \} => \{ ?x\hspace{1.4cm}:r\hspace{1.4cm}:c \} \} => \{ ?x\hspace{1.4cm}:p\hspace{1.4cm}:a \}}}};
+ %  \draw[semithick, <-] (x) to  [bend right=80] node [midway,fill=white] {$\operatorname{uv}_1=\{\texttt{?x}\}$} (y);
+%   \draw[semithick, <-] (z) to  [bend right=80]  (x);
+%   \draw[semithik, ->] (z) to [bend left=80]  node [midway,fill=white] {$\operatorname{uv}_2=\{\texttt{?x}\}$} (a);
+%   \draw[semithik, ->] (a) to [bend left=80]  node [midway,fill=white] {$\operatorname{sc}=\{\texttt{?x}\}$} (b);
+\end{tikzpicture}\normalsize
+\end{center}
+\caption{Syntax tree of Formula~\ref{fff} with attribute values for the attributes $v_1$, $v_2$, $s$ and $q$ (in \tr{blue}). \label{treeunisimple}}
+\end{minipage}
+\end{sidewaysfigure}
+%\end{landscape}
+
+%\begin{landscape}
+\begin{sidewaysfigure}
+\begin{minipage}{\linewidth}
+\begin{center}\small
+ \begin{tabular}{llllll}
+\hline
+
+\multicolumn{2}{c}{CFG}& \multicolumn{2}{c}{Synthesized attributes} &\multicolumn{2}{c}{Inherited attributes}\\
+\multicolumn{2}{l}{production rules}& \multicolumn{1}{l}{rules for $v_1$}&  \multicolumn{1}{l}{rules for $v_2$}& \multicolumn{1}{l}{rules for $s$}& \multicolumn{1}{l}{rules for $q$} \\
+  \hline
+%Syntax: &&\\
+%&&\\
+\texttt{s ::=}&\texttt{f}& $\texttt{s}.v_1 \leftarrow \emptyset$& $\texttt{s}.v_2 \leftarrow \texttt{f}.v_1$& $\texttt{f}.s \leftarrow \texttt{f}.v_1\cup \texttt{f}.v_2$& $\texttt{f}.q\leftarrow \texttt{f}.v_1 \cup \texttt{f}.v_2$\\
+       &&&&\\
+\texttt{f ::= } &  $ \texttt{t}_1 \texttt{t}_2 \texttt{t}_3.$&   $ \texttt{f}.v_1 \leftarrow \texttt{t}_1.v_1\cup \texttt{t}_2.v_1\cup \texttt{t}_3.v_1$ & $ \texttt{f}.v_2 \leftarrow \texttt{t}_1.v_2\cup \texttt{t}_2.v_2\cup \texttt{t}_3.v_2$& $\texttt{t}_i.s \leftarrow \texttt{f}.s$ \\
+    &  $\texttt{e}_1 \texttt{=>}  \texttt{e}_2.$& $\texttt{f}.v_1 \leftarrow \texttt{e}_1.v_1\cup \texttt{e}_2.v_1$ & $\texttt{f}.v_2 \leftarrow \texttt{e}_1.v_2\cup \texttt{e}_2.v_2$& $\texttt{e}_i.s\leftarrow \texttt{f}.s$ \\
+%    &  \texttt{@forAll :u}     & universal quantification\\
+%    &  \texttt{@forSome :u}     & existential quantification\\
+    & $ \texttt{f}_1 \texttt{f}_2$ &                $\texttt{f}.v_1 \leftarrow \texttt{f}_1.v_1\cup \texttt{f}_2.v_1$ &   $\texttt{f}.v_2 \leftarrow \texttt{f}_1.v_2\cup \texttt{f}_2.v_2$&  $\texttt{f}_i.s\leftarrow \texttt{f}.s$ &$\texttt{f}_i.q \leftarrow \emptyset$  \\
+&&&\\
+\texttt{t ::=}& \texttt{uv}%\hspace{0.07\textwidth} 
+&                $\texttt{t}.v_1 \leftarrow\{ \texttt{uv}\}$ &  $\texttt{t}.v_2 \leftarrow\emptyset$&&\\% $\texttt{uv}.s\leftarrow \texttt{t}.s$\\
+            & \texttt{ex} &               $\texttt{t}.v_1 \leftarrow \emptyset$&  $\texttt{t}.v_2 \leftarrow\emptyset$& &\\%$\texttt{ex}.s\leftarrow \texttt{t}.s$\\
+      & \texttt{c} &               $\texttt{t}.v_1 \leftarrow\emptyset$&  $\texttt{t}.v_2 \leftarrow\emptyset$& &\\ % $\texttt{c}.s\leftarrow \texttt{t}.s$\\
+ %     & \texttt{l} &                literals\\
+      & \texttt{e} &                $\texttt{t}.v_1 \leftarrow\texttt{e}.v_1 $ &  $\texttt{t}.v_2 \leftarrow\texttt{e}.v_2 $& $\texttt{e}.s\leftarrow \texttt{t}.s$\\
+      & \texttt{(k)}& $\texttt{t}.v_1 \leftarrow\texttt{k}.v_1$ &$\texttt{t}.v_2 \leftarrow\texttt{k}.v_2$& $\texttt{k}.s\leftarrow \texttt{t}.s$\\
+      & \texttt{()}& $\texttt{t}.v_1 \leftarrow\emptyset$&  $\texttt{t}.v_2 \leftarrow\emptyset$\\
+      &&&\\
+\texttt{k ::=}& \texttt{t}& $\texttt{k}.v_1 \leftarrow\texttt{t}.v_1$ & $\texttt{k}.v_2 \leftarrow\texttt{t}.v_2$& $\texttt{t}.s\leftarrow \texttt{k}.s$\\
+&$\texttt{t k}_1$ & $\texttt{k}.v_1 \leftarrow\texttt{t}.v_1\cup\texttt{k}_1.v_1$ & $\texttt{k}.v_2 \leftarrow\texttt{t}.v_2\cup\texttt{k}_1.v_2$& $\texttt{t}.s\leftarrow \texttt{k}.s$\\
+&&&& $\texttt{k}_1.s\leftarrow \texttt{k}.s$\\
+&&&\\
+\texttt{e ::=}&\texttt{\{f\}} &                $\texttt{e}.v_1 \leftarrow\emptyset$ &  $\texttt{e}.v_2 \leftarrow\texttt{f}.v_1$& $\texttt{f}.s\leftarrow \texttt{e}.s \cup \texttt{f}.v_2$& $\texttt{f}.q \leftarrow \texttt{f}.v_2 \setminus \texttt{e}.s$\\
+       &\texttt{\{\}} &  $\texttt{e}.v_1 \leftarrow\emptyset$ &  $\texttt{e}.v_2 \leftarrow\emptyset$\\
+       &\texttt{false}       &                $\texttt{e}.v_1 \leftarrow\emptyset$&                $\texttt{e}.v_2 \leftarrow\emptyset$\\
+  \hline
+
+\end{tabular}
+\end{center}   \normalsize
+\caption{Attribute rules for universal quantification in Cwm defined on the context-free grammar of \nthree (Figure~\ref{N3S}).\label{uniatt}}
+\end{minipage}
+\end{sidewaysfigure}
+%\end{landscape}
+
+
+% \begin{figure*}
+% \begin{minipage}{\textwidth}
+% \begin{center}
+% \small
+% \begin{tikzpicture}[
+% level distance=70pt, sibling distance=-5pt,
+% level 1/.style={level distance=28pt},
+% level 2/.style={level distance=40pt},
+% level 3/.style={level distance=35pt},
+% level 4/.style={level distance=50pt},
+% level 5/.style={level distance=30pt},
+% level 6/.style={level distance=50pt},
+% level 7/.style={level distance=25pt},
+% ]
+% \tikzset{every tree node/.style={align=center}}%,anchor=base}}
+% \Tree [.\node[label={right:\trm{v_1:&\hspace{-0.3cm}\emptyset\\v_2:&\hspace{-0.3cm}\emptyset}}]{\texttt{s}};
+% 	  [.\node
+% 	  (a)[label={right:{\trmv{\emptyset}{\{\texttt{x}\}}{\{\texttt{x}\}}{\{\texttt{x}\}}}
+% 		}]{$\texttt{f}^1$};
+% %start antecedence 
+%            [.\node
+%            (b)[label={right:\trmd{\emptyset}{\emptyset}{\{\texttt{x}\}}
+% 		     }]{$\texttt{e}^1$}; 
+%              [.\node[label={right:\trmv{\emptyset}{\{\texttt{x}, \texttt{y}\}}{\{\texttt{x}, \texttt{y}\}}{\{\texttt{y}\}}}]{\{$\texttt{f}^2$\}};
+%                 [.\node[label={right:\trmd{\emptyset}{\{\texttt{x},\texttt{y}\}}{\{\texttt{x},\texttt{y}\}}
+% 		     }]
+%                  {$\texttt{e}^3$}; 
+% 	           [.\node[label={right:\trmv{\{\texttt{x}, \texttt{y}\}}{\emptyset}{\{\texttt{x}, \texttt{y}\}}{\emptyset}}]
+%               {\{$\texttt{f}^4$\}}; 
+% 	               [.\node [label={right:\trmd{\{\texttt{x}\}}{\emptyset}{\{\texttt{x}, \texttt{y}\}}
+% 		     }]   {$\texttt{t}^1$}; 
+% 	                  [.\node[label={below: \textit{\texttt{?x}}}]
+% 	                  {$\texttt{uv}^1$}; ] ] 
+% 	                  [.\node[label={right:\trmd{\emptyset}{\emptyset}{\{\texttt{x}, \texttt{y}\}}
+% 		     }]{$\texttt{t}^2$}; [.\node[label={below:\textit{\texttt{:q}}}]{$\texttt{c}^1$}; ] ] 
+% 	                  [.\node[label={right:\trmd{\{\texttt{y}\}}{\emptyset}{\{\texttt{x}, \texttt{y}\}}
+% 		     }]
+% 	                  {$\texttt{t}^3$}; [.\node[label={below:\textit{\texttt{?y}}}]
+% 	                  {$\texttt{uv}^2$}; ] ] ] ]
+% 	           \edge[draw=none]; [.\texttt{=>} ] 
+% 	           [.\node[label={right:\trmd{\emptyset}{\{\texttt{x}\}}{\{\texttt{x}, \texttt{y}\}}
+% 		     }]
+% 	             {$\texttt{e}^4$}; 
+% 	              [.\node[label={right:\trmv{\{\texttt{x}\}}{\emptyset}{\{\texttt{x}, \texttt{y}\}}{\emptyset}}]
+% 	                {\{$\texttt{f}^5$\}}; 
+% 	              [.\node[label={right:\trmd{\{\texttt{x}\}}{\emptyset}{\{\texttt{x},\texttt{y}\}}
+% 		     }]
+% 	              {$\texttt{t}^4$}; 
+% 	              [.\node[label={below:\textit{\texttt{?x}}}]
+% 	                {$\texttt{uv}^3$}; ] ] 
+% 	              [.\node[label={right:\trmd{\emptyset}{\emptyset}{\{\texttt{x},\texttt{y}\}}
+% 		     }]{$\texttt{t}^5$}; [.\node[label={below:\textit{\texttt{:r}}}]{$\texttt{c}^2$}; ] ] 
+% 		     [.\node[label={right:\trmd{\emptyset}{\emptyset}{\{\texttt{x},\texttt{y}\}\hspace{-6cm}}
+% 		     }]{$\texttt{t}^6$}; [.\node[label={below:\textit{\texttt{:c}}}]{$\texttt{c}^3$}; ]  ] ]
+%              ] 
+%     ] ]
+% % stop antecedence
+% %start x :p :a
+% 	       [.\node[label={right:\trmd{\emptyset}{\{\texttt{x}\}}{\{\texttt{x}\}}
+% 		     }]
+% 	           (z){$\texttt{e}^2$}; 
+% 	          [.\node
+% 	             (x)[label={right:\trmv{\emptyset}{\{\texttt{x}\}}{\emptyset}{\emptyset}}]{\{$\texttt{f}^3$\}};  
+% 		      [.\node
+% 	                 (11)[label={right:\trmd{\{\texttt{x}\}}{\emptyset}{\{\texttt{x}\}}
+% 		     }]{$\texttt{t}^7$}; 
+% 					[.\node
+% 				(y)[label={below: {\textit{\texttt{?x}}}}]{$\texttt{uv}^4$}; ] ] 
+% 		      [.\node[label={right:\trmd{\emptyset}{\emptyset}{\{\texttt{x}\}}
+% 		     }]{$\texttt{t}^8$}; 	[.\node[label={below: \textit{\texttt{:p}}}]{$\texttt{c}^4$}; ] ] 
+% 		      [.\node[label={right:\trmd{\emptyset}{\{\emptyset}{\{\texttt{x}\}}
+% 		     }]{$\texttt{t}^9$}; 	[.\node[label={below: \textit{\texttt{:a}}}]{$\texttt{c}^5$}; ] ] 
+% 	          ] 
+%          ]
+% %end ?x :p :a
+% 	       ]
+% ]
+%   \node(fv2) at (0,-2.1){\texttt{=>}};
+%  %  \draw[semithick, <-] (x) to  [bend right=80] node [midway,fill=white] {$\operatorname{uv}_1=\{\texttt{?x}\}$} (y);
+% %   \draw[semithick, <-] (z) to  [bend right=80]  (x);
+% %   \draw[semithik, ->] (z) to [bend left=80]  node [midway,fill=white] {$\operatorname{uv}_2=\{\texttt{?x}\}$} (a);
+% %   \draw[semithik, ->] (a) to [bend left=80]  node [midway,fill=white] {$\operatorname{sc}=\{\texttt{?x}\}$} (b);
+% \draw[help lines] (-9,-9) grid (7,0);
+% \end{tikzpicture}\normalsize
+% \end{center}
+% \caption{Syntax tree of Formula~\ref{fff} with attribute values for the attributes $v_1$, $v_2$, $s$ and $q$ (in \tr{blue}). \label{treeunisimple}}
+% \end{minipage}
+%\end{figure*}
+
+
+The interpretations of \nthree's implicit universal quantification differs between reasoners. 
+With a few exceptions\footnote{The developer of Cwm, Tim Berners-Lee, confirmed that these exceptions were not intended
+and rather need to be seen as mistakes in the implementation.}, which we also discuss in Appendix~\ref{bugsincwm}, 
+Cwm implements interpretation $\emph{parent}_c$ %(from Sections~\ref{universals} and \ref{parentformula}) 
+of the 
+concept \emph{parent formula} from the \wwwc team submission while 
+for EYE the \emph{parent formula} is the top formula ($\emph{parent}_e$). In this section we explain the concept of $\emph{parent}_c$ in more detail
+%how implicit universal quantification is interpreted by the former 
+and define attributes to place universal quantifiers according to this concept. 
+The details on the interpretation following to EYE are discussed in the next section.
+%
+% the \wwwc team submission and the reasoners cwm and EYE. 
+% We therefore treat them separately and present in this section all 
+% attributes we use to handle universal quantification as stated in the \wwwc team submission. With a few exceptions cwm follows the 
+% 
+% 
+% As the interpretations of universally quantified variables differ between %the \wwwc team submission and 
+% the reasoners cwm and EYE, we will discuss
+% them separately.
+% We start with universal quantification according to cwm which directly follows \wwwc team submission.
+% \todo{there are exceptions to this ``following the team submission'' should I mention them or consider them as bugs?}
+
+%
+%
+%
+%In Section~\ref{universals} we have already seen an example how implicit universal quantification is handled 
+
+
+In the previous sections we have seen that in contrast to implicitly existentially quantified variables, 
+universals are -- according to the \wwwc team submission -- not quantified on the \emph{direct formula}
+but on the \emph{parent}.
+%As explained above, according to the \wwwc team submission universal 
+%variables are not quantified on their direct formula but on their parent formula. 
+%The concept of parent formula has been further explained in
+This concept has (at least) two conflicting interpretations which have been further explained in 
+Section~\ref{parentformula}. One of them is $\text{parent}_c$:  %A $\text{parent}_e$ formula is the top formula. 
+The $\text{parent}_c$ is the direct formula of the direct formula or -- in terms of the syntax tree -- the second descendant \texttt{f} of a node \texttt{s} or 
+\texttt{e} we find when going up the syntax tree from the bottom to the top.
+In the following formula, for example,
+\begin{multline}\label{fff}
+\texttt{\{\{?x :q ?y.\} => \{?x :r :c.\}.\} =>}
+\texttt{\{?x :p :a.\}.}
+\end{multline}
+the $\text{parent}_c$ of the last occurrence of \texttt{?x} is the formula as a whole,
+the $\text{parent}_c$ of \texttt{?y} is the subformula
+\[
+ \texttt{ \{?x :q ?y.\} => \{?x :r :c.\}.}
+\]
+or, if we take a look into the formula's syntax tree displayed in Figure~\ref{treeunisimple}, 
+the $\text{parent}_c$ of the last \texttt{?x} ($\texttt{uv}^4$) is $\texttt{f}^1$ and 
+the $\text{parent}_c$ of \texttt{?y} ($\texttt{uv}^2$) is
+$\texttt{f}^2$. Therefore formula $\texttt{f}^1$ carries a universal quantifier for \texttt{?x} and $\texttt{f}^2$ carries a universal quantifier for \texttt{?y}.
+The first universal quantifier also covers the other occurrences of \texttt{?x} since the $\text{parent}_c$ formula of these
+other occurrences, namely $\texttt{f}^2$, is already 
+in scope of this quantifier. %\todo{explain earlier}
+Formula~\ref{fff} means:
+\begin{equation}\tag{\ref{fff}'}\label{iall}
+ \forall \texttt{x. } \texttt{<} \forall \texttt{y. <x q y>} \rightarrow \texttt{<x r c> >} \rightarrow \texttt{<x p a>}
+\end{equation}
+Similarly to the example of existential quantification, 
+we define attributes which pass universal variables occurring under a $\text{parent}_c$ formula up to that $\text{parent}_c$ formula. 
+For this purpose, we use two attributes whose values are as follows:
+\begin{description}
+ \item[$v_1$]  the set of universal variables occurring as direct components under a node.
+ \item[$v_2$]  the set of universal variables occurring as direct components of direct components (parent level).
+\end{description}
+The first attribute $v_1$ is used to pass universal attributes up to their direct formulas, the second attribute $v_2$ is used to further pass these variables from the direct formulas
+to the $\text{parent}_c$ formulas. The attributes are again synthesized and we have one attribute rule for each production rule. These attribute rules are displayed in the second and third 
+column of the table in Figure~\ref{uniatt}. The first column of the table shows the corresponding production rules. To better explain the attributes, 
+we apply them to the syntax tree
+of Formula~\ref{fff}. The tree and the corresponding attribute values are displayed in Figure~\ref{treeunisimple}.
+
+
+% \begin{tabular}{lcccc}
+% \hline
+% node & \multicolumn{4}{c}{attribute values}\\
+%  &$v_1$&$v_2$&$s$&$q$\\
+%  \hline
+%  $\texttt{t}^1$& $\{\texttt{?x}\}$&$\emptyset$&&\\
+%  $\texttt{t}^2$& $\emptyset$&$\emptyset$&&\\
+%  $\texttt{t}^3$& $\{\texttt{?y}\}$&$\emptyset$&&\\
+%  $\texttt{t}^4$& $\{\texttt{?x}\}$&$\emptyset$&&\\
+%  $\texttt{t}^5$& $\emptyset$&$\emptyset$&&\\
+%  $\texttt{t}^6$& $\emptyset$&$\emptyset$&&\\
+%  $\texttt{t}^7$& $\{\texttt{?x}\}$&$\emptyset$&&\\
+%  $\texttt{t}^8$& $\emptyset$&$\emptyset$&&\\
+%  $\texttt{t}^9$& $\emptyset$&$\emptyset$&&\\
+%  $\texttt{f}^1$& $\emptyset$&$\{\texttt{?x}\}$&&\\
+%  $\texttt{f}^2$& $\emptyset$&$\{\texttt{?x}, \texttt{?y}\}$&&\\
+%  $\texttt{f}^3$& $\{\texttt{?x}\}$&$\emptyset$&&\\
+%  $\texttt{f}^4$& $\{\texttt{?x}, \texttt{?y}\}$&$\emptyset$&&\\
+%  $\texttt{f}^5$& $\{\texttt{?x}\}$&$\emptyset$&&\\
+%  $\texttt{e}^1$& $\emptyset$&$\emptyset$&&\\
+%  $\texttt{e}^2$& $\emptyset$&$\{\texttt{?x}\}$&&\\
+%  $\texttt{e}^3$& $\emptyset$&$\{\texttt{?x}, \texttt{?y}\}$&&\\
+%  $\texttt{e}^4$& $\emptyset$&$\{\texttt{?x}\}$&&\\
+%  $\texttt{s}$& $\emptyset$&$\emptyset$&&\\
+% \end{tabular}
+
+
+\subsubsection{Passing Variables to their Direct Formula}
+Attribute $v_1$ works the exact same way as attribute $eq$ with the only difference that at term level the universals
+get captured in a singleton set ($\texttt{t}.v_1\leftarrow\{\texttt{uv}\}$)  instead of the existentials. These universals are then passed upwards to their $\text{parent}_c$ formulas.
+% In our example, formula $\texttt{f}^4$ is the parent formula of the first occurrence of \texttt{?x} and of \texttt{?y}, $\texttt{f}^5$ and $\texttt{f}^3$ are the parents of the other 
+% occurrences of \texttt{?x}. 
+In our example, the formulas $\texttt{f}^1$ and $\texttt{f}^2$ do not have universal variables as direct components, $\texttt{f}^3$ has \texttt{?x}, $\texttt{f}^4$ has \texttt{?x} and \texttt{?y},
+and 
+formula $\texttt{f}^5$ has \texttt{?x}.
+% We start with attribute $v_1$. Similarly to attribute $\eq$ from the previous section, the attribute is used to pass direct components 
+% up to their direct formula, the only difference
+% between the two attributes is that $v_1$ collects universals instead of existentials. Via the attribute rule $\texttt{t}.v_1\leftarrow \{\texttt{uv}\}$ on the production rule
+% (\texttt{t ::= uv}) we get:
+% \begin{align}\notag
+%  \texttt{t}^1.v_1\leftarrow \{\texttt{uv}^1\}=\{\texttt{?x}\}; \qquad \texttt{t}^3.v_1\leftarrow \{\texttt{uv}^2\}=\{\texttt{?y}\}; \\ 
+%  \texttt{t}^4.v_1\leftarrow \{\texttt{uv}^3\}=\{\texttt{?x}\}; \qquad \texttt{t}^7.v_1\leftarrow \{\texttt{uv}^4\}=\{\texttt{?x}\}. \notag
+% \end{align}
+% The universal variable occur directly under the nodes \texttt{t}, there is no node \texttt{e} or \texttt{s} in between. As for $\eq$ all nodes directly resulting in 
+% only other symbols of the alphabet get assigned the empty set as value. Via the rule $\texttt{t}.v_1\leftarrow~\emptyset$ on the rule (\texttt{t ::= c}) we get:
+% \begin{align*}\notag
+%  \texttt{t}^2.v_1\leftarrow \emptyset; \qquad \texttt{t}^5.v_1\leftarrow \emptyset; \qquad \texttt{t}^6.v_1\leftarrow \emptyset; \\ 
+%  \texttt{t}^8.v_1\leftarrow \emptyset; \qquad \texttt{t}^9.v_1\leftarrow \emptyset. \notag
+% \end{align*}
+% These values are passed upwards via the attribute rule $\texttt{f}.v_1\leftarrow \texttt{t}_1.v_1\cup\texttt{t}_2.v_1\cup \texttt{t}_3.v_1$ on the production rule
+% $\texttt{f ::= t}_1 \texttt{t}_2 \texttt{t}_3$:
+% \small
+% \begin{align}\notag
+% \texttt{f}^4.v_1 & \leftarrow \texttt{t}^1.v_1 \cup \texttt{t}^2.v_1\cup \texttt{t}^3.v_1=\{\texttt{?x}\}\cup \emptyset \cup \{\texttt{?y}\} = \{\texttt{?x,?y}\};\\
+% \notag \texttt{f}^5.v_1& \leftarrow \texttt{t}^4.v_1 \cup \texttt{t}^5.v_1\cup \texttt{t}^6.v_1=\{\texttt{?x}\}\cup \emptyset \cup \emptyset = \{\texttt{?x}\};\\
+% \notag \texttt{f}^3.v_1& \leftarrow \texttt{t}^7.v_1 \cup \texttt{t}^8.v_1\cup \texttt{t}^9.v_1=\{\texttt{?x}\}\cup \emptyset \cup \emptyset = \{\texttt{?x}\};
+% \end{align}
+% \normalsize
+% As in the previous example, most rules behave like that with two exceptions: the attribute rules for the production rules having \texttt{e} or \texttt{s} in their 
+% head do not pass the variables upwards since
+% on these nodes the variables are no longer direct components, their direct formula is the descendant node \texttt{f}. We get via $\texttt{e}\leftarrow \emptyset$ for
+% (\texttt{e~::=~\{f\}}):
+% \[
+%  \texttt{e}^3.v_1\leftarrow \emptyset; \qquad  \texttt{e}^4.v_1\leftarrow \emptyset; \qquad  \texttt{e}^2.v_1\leftarrow \emptyset;
+% \]
+% The attribute value on each higher node is now the empty set:
+% \begin{align}\nonumber
+%  &\texttt{f}^2.v_1 \leftarrow \texttt{e}^3.v_1 \cup \texttt{e}^4.v_1 = \emptyset \cup \emptyset =\emptyset; \quad
+%  \texttt{e}^1.v_1 \leftarrow \emptyset;\notag \\
+%   &\texttt{f}^1.v_1 \leftarrow \texttt{e}^1.v_1 \cup \texttt{e}^2.v_1 = \emptyset \cup \emptyset =\emptyset; \quad
+%    \texttt{s}.v_1 \leftarrow \emptyset\notag 
+% \end{align}
+% The formulas $\texttt{f}^1$ and $\texttt{f}^2$ do not have universal variables as direct components, $\texttt{f}^3$ has \texttt{?x}, $\texttt{f}^4$ has \texttt{?x} and \texttt{?y},
+% and 
+% formula $\texttt{f}^5$ has \texttt{?x}.
+
+\subsubsection{Passing Variables to their Parent Formula}
+Attribute $v_2$ now passes  the universal variables which are collected under their direct formula using  $v_1$ to their $\text{parent}_c$ formula.
+%, we need another attribute, $v_2$. 
+This attribute works in a similar way as the previous one:
+at the level where the universal variables of a direct formula \texttt{f} under a node \texttt{e} are found the rule for the synthesized attribute 
+takes these values gathered by the attribute $v_1$ and 
+passes them upwards till the next formula being 
+direct descendant of a node \texttt{s} or \texttt{e} is encountered. This formula is then the $\text{parent}_c$.
+%
+% While 
+% attribute $v_1$ keeps track of the universal variables occurring as direct components in a formula, attribute $v_2$ performs the next step: 
+% all variables which occur in a formula expressions 
+%In terms of the explanation given at the end of Section~\ref{n3synsec}, 
+%
+%This attribute is again defined for all nodes.
+% 
+% To make sure that we know for each parent formula the set of universal variables it is parent of, we need to have an attribute which passes the universal variable directly occurring 
+% in a formula's direct formula expression to that formula.
+% In terms of the explanation at the end of Section~\ref{n3synsec}, %and the illustration in Figure~\ref{par},
+% attribute $v_1$ captures the set of variables which---going from the bottom of the syntax tree to the top---have arrived at the first formula \texttt{f} being direct descendant
+%  of a node \texttt{e} or \texttt{s}, attribute
+%  $v_2$ is used to capture the second time a value reaches such a node \texttt{f}.
+
+We display the rules for attribute $v_2$ in the third column of Figure~\ref{uniatt}. 
+We explain the rules by going through the syntax tree in Figure~\ref{treeunisimple} from the bottom to the top. %The tree contains all attribute values for our example.
+The rules only resulting in symbols of the alphabet cannot have direct components. %the attribute values for the nodes  are the empty set.
+The attribute rule $\texttt{t}.v_2\leftarrow \emptyset$ for the production rules \texttt{t~::=~uv} and \texttt{t~::=~c} assign the empty set to the term nodes
+$\texttt{t}^1$ to $\texttt{t}^9$.
+% \begin{align}
+%  &\notag \texttt{t}^1.v_2 \leftarrow \emptyset; \quad \texttt{t}^2.v_2 \leftarrow \emptyset; \quad \texttt{t}^3.v_2  \leftarrow \emptyset; 
+%  \\
+%  &\notag \texttt{t}^4.v_2  \leftarrow \emptyset;\quad \texttt{t}^5.v_2  \leftarrow \emptyset;\quad  \texttt{t}^6.v_2 \leftarrow \emptyset;
+%  \\
+%  &\notag \texttt{t}^7.v_2 \leftarrow \emptyset; \quad \texttt{t}^8.v_2 \leftarrow \emptyset; \quad \texttt{t}^9.v_2 \leftarrow \emptyset
+% \end{align}
+These values are passed upwards via the attribute rule $\texttt{f}\leftarrow \texttt{t}_1.v_2\cup \texttt{t}_2.v_2 \cup \texttt{t}_3.v_2$ 
+on production rule $\texttt{f ::= t}_t \texttt{t}_2 \texttt{t}_3$, 
+the attribute values for $\texttt{f}^3$, $\texttt{f}^4$ and $\texttt{f}^5$ are again the empty set.
+% \[
+%  \texttt{f}^3.v_2\leftarrow \emptyset; \quad \texttt{f}^4.v_2\leftarrow \emptyset; \quad \texttt{f}^5.v_2\leftarrow \emptyset
+% \]
+The attribute rule for the next higher level, the production \texttt{e ::= \{f\}} is more interesting. 
+The variables which occur as direct components on the formula node \texttt{f} and are captured by the attribute $v_1$
+are passed as children of the next $\text{parent}_c$ formula to the node \texttt{e} via the attribute rule $\texttt{e}.v_2\leftarrow \texttt{f}.v_1$. We get: 
+$\texttt{e}^2.v_2 =\{\texttt{?x}\}$,
+$\texttt{e}^3.v_2 =\{\texttt{?x}, \texttt{?y}\}$ and
+$\texttt{e}^4.v_2 =\{\texttt{?x}\}
+$.
+For $\texttt{f}^2$ these values are passed upwards via the attribute rule $\texttt{f}\leftarrow \texttt{e}_1 \cup \texttt{e}_2$.
+% (
+%  $\texttt{f}^2.v_2\leftarrow\{\texttt{?x}, \texttt{?y}\}$
+% )
+As $\texttt{f}^2$ is a direct descendant  of the node $\texttt{e}^1$, it is the $\text{parent}_c$ formula of the variables mentioned above. 
+These variables are not passed further through. Instead, the attribute value for $\texttt{e}^1$ is again taken from the attribute $v_1$
+(via $\texttt{e}.v_2\leftarrow \texttt{f}.v_1$) which in this case is the empty set.
+% \[
+%  \texttt{e}^1.v_2\leftarrow \texttt{f}^2.v_1= \emptyset
+% \]
+With these values we can determine the attribute value for $\texttt{f}^1$ (via $\texttt{f}\leftarrow \texttt{e}_1 \cup \texttt{e}_2$) which in this case is 
+the singleton set only containing the variable \texttt{?x}.
+% \[
+%  \texttt{f}^1.v_2\leftarrow \texttt{e}^1.v_2\cup\texttt{e}^2.v_2=\emptyset \cup \{\texttt{?x}\} = \{\texttt{?x}\}
+% \]
+The attribute value for \texttt{s} is the empty set. 
+
+For formulas which are direct descendants of a node \texttt{s} or \texttt{e} the value is now the set of universal variables for which the formula is a $\text{parent}_c$:
+for $\texttt{f}^1$ that is $\{\texttt{?x}\}$, for $\texttt{f}^2$ it is $\{\texttt{?x}, \texttt{?y}\}$, and for $\texttt{f}^3$, $\texttt{f}^4$ and $\texttt{f}^5$ 
+the value is the empty set since these formulas are not 
+$\text{parent}_c$ formulas. 
+
+% Considering the fact that universal variables are quantified on their parent formula, we would expect the meaning of Formula~\ref{fff} to be:
+% \begin{multline}\notag
+%   \forall \texttt{x. < x p a>}\rightarrow\\
+%  \texttt{<} \forall \texttt{x.}\forall \texttt{y. < x q y>} \rightarrow \texttt{< x r c> >}^*
+% \end{multline}
+% But if we look again to the interpretation given earlier in Formula~\ref{iall} this is not the case.
+% Formula $\texttt{f}^3$ does not carry a quantifier for \texttt{x} in the interpretation. 
+% The reason for that is that variable \texttt{x} is already quantified: $\{\texttt{f}^3\}$ is a direct component of the formula $\texttt{f}^1$ which already carries a quantifier for \texttt{?x}. 
+% In the interpretation according to the \wwwc team submission, this quantifier also covers 
+% all nested occurrences of of the variable under that same formula thus also for \texttt{?x} under $\texttt{f}^3$.%
+
+%With this result and the knowledge that universal variables are quantified on their parent formula we go back to the interpretation of Formula~\ref{fff}. 
+
+\subsubsection{Passing Scoped Variables to the Descendants}
+When we introduced the concept of a parent formula according to Cwm in Section~\ref{quantsec} we already discussed an important exception from the rule that the quantifier 
+for every universal variable is always the $\text{parent}_c$ formula: If the $\text{parent}_c$ formula of a universal variable is already in scope of a quantifier for a 
+variable with the same name, then this quantifier also counts for the variable of the child formula (this was explained on Formula~\ref{mixedlevels}). 
+Such a behaviour can also be observed on our example formula: Even though
+%With the result from above that formula 
+%$\texttt{f}^1$ is the $\text{parent}_c$ of \texttt{?x} and 
+formula $\texttt{f}^2$ is the $\text{parent}_c$ of the first and second occurrence of \texttt{?x}, % and \texttt{?y},
+% there is only one universal quantifier 
+% we take again a look to 
+% interpretation 
+Interpretation~\ref{iall} 
+ only contains one universal quantifier for all occurrences of \texttt{?x} in Formula~\ref{fff} and that is on formula $\texttt{f}^1$ which is the $\text{parent}_c$ formula 
+ of the last occurrence of \texttt{?x}.
+%  To be able to compute Interpretation~\ref{iall} we therefore also need an attribute which passes the 
+%  information that a variable is already in scope of a quantifier on a higher level downwards in the syntax tree. This is the purpose of attribute \texttt{s}.
+%  
+ 
+% knowing that universal variables are quantified on their $\text{parent}_c$ formula we could expect one universal quantifier for \texttt{x} on formula $\texttt{f}^1$ 
+% another universal quantifier for \texttt{x} on formula
+% $\texttt{f}^2$ and a third universal quantifier for \texttt{y} on the same formula. If we go back to the interpretation given in Formula~\ref{iall} we 
+% only count two universal quantifiers: one for \texttt{x} on $\texttt{f}^1$ and one for \texttt{y} on $\texttt{f}^2$. The reason for that is that, 
+% according to Cwm's interpretation,
+% the first universal quantifier for \texttt{x} already covers all other occurrences of the universal variable \texttt{?x} in the formula regardless of their level of nesting. 
+Before we define attribute $s$ below which takes care of this behaviour, we consider one additional example to fully understand the consequences of the exception.
+%As a consequence of that behaviour, adding another 
+If we add a conjunct 
+\[
+ \texttt{:s :p \{:a :b ?y.\}.}
+\]
+to our Formula~\ref{fff} this addition changes the scoping. The formula
+\begin{multline}\label{ffff}
+\texttt{ \{\{?x :q ?y.\} => \{?x :r :c.\}.\}=>}
+\texttt{\{?x :p :a.\}.}\\
+ \texttt{:s :p \{:a :b ?y.\}.}
+\end{multline}
+means
+ \begin{multline}\tag{\ref{ffff}'} \label{ffff'}
+   \forall \texttt{x.}\forall \texttt{y.}\lhexbrace
+  \texttt{< <x q y>} \rightarrow \texttt{<x r c> >}\rightarrow  \texttt{<x p a>.}\\
+  \texttt{s p <a b y>.\rhexbrace
+  }
+ \end{multline}
+Note that the quantifier for \texttt{y} which is nested in the interpretation of Formula~\ref{fff} is on top level in the interpretation of Formula~\ref{ffff}. 
+This is the case because the conjunction, ie the formula as a whole, is the $\text{parent}_c$ formula of the second occurrence of \texttt{?y} and thus carries a quantifier which 
+also covers the nested occurrence of~\texttt{?y}.
+
+%To be able to cope with that behaviour we need another attribute which keeps track of all the variables which are already quantified on a higher formula of the syntax tree.
+%
+% 
+% formula $\texttt{f}^1$ caries a quantifier for the variable \texttt{x} and formula $\texttt{f}^3$ a quantifier for \texttt{y}. But $\texttt{f}^3$ is also a parent of \texttt{?x} and does
+% not carry a quantifier for
+% \texttt{x}.
+% %
+% The reason for that is that the variable is already quantified: $\{\texttt{f}^3\}$ is a direct component of the formula $\texttt{f}^1$ which already carries a quantifier for \texttt{?x}. 
+% In the interpretation according to the \wwwc team submission, this quantifier also counts for all nested occurrences of of the variable under that same formula thus also for \texttt{?x} under $\texttt{f}^3$.%
+% % \footnote{ The \wwwc team submission does not explicitly state that behaviour. Nevertheless, the intended meaning can be found 
+% % by testing the example on the reasoner cwm (see also~\cite{arndt_ruleml_2015} and \url{https://lists.w3.org/Archives/Public/public-cwm-talk/2015JanMar/0003.html}). We furthermore verified 
+% % the correctness of this interpretation
+% % in a private conversation
+% % with the inventors of \nthree. 
+% % %In the \wwwc team submission it is only stated that every variable is quantified
+% % %  on the parent formula. The behaviour of the logic in the special case presented here can be deducted by running cwm on that formula (see also~\cite{arndt_ruleml_2015}). We also verified the correctness of our formalisation 
+% % %  in this case in a private conversation with the inventors of \nthree.
+% % }
+%
+% To compute for each formula the set of variables which are universally quantified on it, we need to keep track of this behaviour. 
+% This is done with 
+%To take the behaviour we define a
+Attribute $s$ keeps track of this behaviour. 
+%To be able to handle this exception from the quantification on the $\text{parent}_c$ formula, we define attribute $s$.
+%
+The value of $s$ is for each node  the set of variables which are universally quantified on the node, 
+either by a quantifier on the node itself, or by a quantifier on a higher level.
+%Since this attribute needs to pass information downwards in the syntax tree we define it as an inherited attribute. 
+%To take care of that specific behaviour we need another attribute. 
+%
+%in scope  of a quantifier
+%which is present due to the occurrence of the same variable in a sibling formula. %
+% \footnote{In the \wwwc team submission it is only stated that every variable is quantified
+% on the parent formula. The behaviour of the logic in the special case presented here can be deducted by running cwm on that formula (see also~\cite{arndt_ruleml_2015}). We also verified the correctness of our formalisation 
+% in this case in a private conversation with the inventors of \nthree.
+% }
+%Formula $\texttt{f}^3$ is a subformula of formula $\texttt{f}^1$ and that formula already carries a quantifier for the same \texttt{x}.
+%To cover this and similar situations, we need an extra attribute which keeps track of all variables which are already quantified on a higher level of the formula.
+%
+%
+%We define attribute $s$ which we construct in such a way that its value on each node is the set 
+%of variables which are scoped on that node. This scoping can either be by a quantifier on the formula itself---in case of an node \texttt{f}---or by a quantifier on a higher level. 
+%
+%Since this attribute is used to pass information downwards in the syntax tree---from the node where the quantifier for a variable occurs to the nodes in its scope---
+%The information which variables are already scoped can only be obtained by passing it downwards 
+%in the syntax tree---from the node where the quantifier for a variable occurs to the nodes in its scope---%
+%we thus define the attribute as inherited.
+This kind of information needs to be passed downwards in the syntax tree therefore attribute $s$ is inherited. 
+As the value of $s$ is only relevant for potential $\text{parent}_c$ formulas,
+% Since we need the knowledge of which variables are already covered only for 
+% potential parent formulas, 
+we only define the attribute for the node \texttt{f} and all nodes which can occur above \texttt{f} in the syntax tree,
+%As in our case the knowledge which variables are already quantified is only important for formula nodes \texttt{f}, we 
+%define $s$ only for node \texttt{f} and all nodes which can occur above such a node \texttt{f}, 
+These are the nodes $\texttt{f}, \texttt{t}, \texttt{e}$ and $\texttt{k}$. 
+%
+As $s$ is inherited, this time we need to define an attribute rule for each \emph{right-side} occurrence of $s$ on a production rule.
+These rules are displayed in the fourth column of Figure~\ref{uniatt}. We explain them by going through the syntax tree in Figure~\ref{treeunisimple}.
+
+For the occurrence of \texttt{f} in the rule \texttt{s ::= f} we take all the variables of which \texttt{f} is the $\text{parent}_c$ formula since these are
+quantified on that highest level.
+%Note that this rule is special in the sense that it does not make use 
+%of any attribute defined on the node \texttt{s}, it only takes information from another attribute of \texttt{f}.
+Via the attribute rule $\texttt{f}.c\leftarrow \texttt{f}.v_1 \cup \texttt{f}.v_2$%
+\footnote{Note that here attribute $s$ does not only collect all universal variables 
+\texttt{f} is $\text{parent}_c$ of but also 
+the universals occurring as direct components. The reason for that is that these variables cannot be passed further upwards. In the original \nthree specification, 
+implicitly universally quantified variables on top level are allowed according to the grammar,
+but their meaning is not covered in the semantics Cwm applies. We handle this problem by adding quantifiers for them to the top level.
+} 
+we get:
+$ \texttt{f}^1.s=\{\texttt{?x}\}
+$.
+For the nodes $\texttt{e}^1$ and $\texttt{e}^2$ this information is passed downwards, 
+via $\texttt{e}_1.s\leftarrow \texttt{f}.s$ and $\texttt{e}_2.s\leftarrow \texttt{f}.s$ we get the value $\{\texttt{?x}\}$ for both nodes.
+% \[
+%  \texttt{e}^1.s \leftarrow \{\texttt{?x}\} \text{\quad and \quad } \texttt{e}^2.s \leftarrow \{\texttt{?x}\}
+% \]
+On the production rule \texttt{e ::= \{f\}}
+the nodes \texttt{e} can now again be the direct ancestor of a $\text{parent}_c$ formula \texttt{f}. The set of variables $\texttt{f}.v_2$ the formula \texttt{f} is $\text{parent}_c$ of are 
+either quantified on that same formula
+%---%
+%in that case they are element of the attribute value of $v_2$ on \texttt{f}---%
+or they are already quantified beforehand in which case they are already present in $\texttt{e}.s$.
+In both cases the union of these values covers all variables quantified at that point, we have as attribute
+rule $\texttt{f}.s\leftarrow \texttt{e}.s\cup \texttt{f}.v_2$.
+%
+%on a higher level---in that case they are contained both values the $s$ value of \texttt{e} and .
+%Since the direct descendants  of $\texttt{e}^1$ and $\texttt{e}^2$ can be parent formulas and thus add more quantifiers,  the attribute rule for (\texttt{e ::= \{f\}}) uses 
+%the value $\texttt{f}.v_2$, the set of all 
+%universal variables \texttt{f} is the parent of. Via $\texttt{f}.s\leftarrow \texttt{e}.s$
+We get
+$\texttt{f}^2.s =\{\texttt{?x}, \texttt{?y}\}$ and
+$\texttt{f}^3.s =  \{\texttt{?x}\}$.
+This information is passed further downwards via the attribute rules $\texttt{t}_{1,2,3}.s\leftarrow \texttt{e}.s$.
+%$\texttt{t}_2.s\leftarrow \texttt{e}.s$, and $\texttt{t}_3.s\leftarrow \texttt{e}.s$, 
+for the production rule
+$\texttt{f ::= t}_1\texttt{t}_2\texttt{t}_3$
+% \[
+%  \texttt{t}^7.s=\texttt{t}^8.s=\texttt{t}^9.s \leftarrow \texttt{f}^3.s= \{\texttt{?x}\}
+% \]
+and via the rules $\texttt{e}_{1,2}.s\leftarrow \texttt{f}.s$ for $\texttt{f ::= e}_1\texttt{e}_2$, we get $\texttt{t}^{7,8}.s= \{\texttt{?x}\}$ and
+ $\texttt{e}^{3,4}.s=\{\texttt{?x},\texttt{?y}\}$. %\text{\quad and\quad}\texttt{e}^4.s\leftarrow \texttt{f}^2.s=\{\texttt{?x},\texttt{?y}\}.
+The descendants of these last two expressions are not $\text{parent}_c$ formulas, the attribute thus simply passes their values down to $\texttt{f}^4$ and $\texttt{f}^5$ which then get passed further to
+the nodes
+% \begin{align}
+%   \notag &\texttt{f}^4.s\leftarrow \texttt{e}^3.s\cup \texttt{f}^4.v_2=\{\texttt{?x},\texttt{?y}\}\cup \emptyset=\{\texttt{?x},\texttt{?y}\} \\
+%     \notag &\texttt{f}^5.s\leftarrow \texttt{e}^4.s\cup \texttt{f}^5.v_2=\{\texttt{?x},\texttt{?y}\}\cup \emptyset =\{\texttt{?x},\texttt{?y}\}
+% \end{align}
+ %These values are then further passed down to the descendants of these nodes , 
+ $\texttt{t}^1$ to $\texttt{t}^6$. % the values are again passed down
+% \begin{align}
+%  \notag & \texttt{t}^1.s\leftarrow  \{\texttt{?x},\texttt{?y}\}; \quad \texttt{t}^2.s\leftarrow  \{\texttt{?x},\texttt{?y}\}; \quad \texttt{t}^3.s\leftarrow  \{\texttt{?x},\texttt{?y}\};\\
+%  \notag & \texttt{t}^4.s\leftarrow  \{\texttt{?x},\texttt{?y}\}; \quad \texttt{t}^5.s\leftarrow  \{\texttt{?x},\texttt{?y}\}; \quad \texttt{t}^6.s\leftarrow  \{\texttt{?x},\texttt{?y}\}
+% \end{align}
+For all nodes in our syntax tree for which the attribute $s$ is defined we now capture the set of variables which are scoped under that node.
+
+
+% \begin{multline}\label{ffff}
+% \texttt{ \{\{?x :q ?y.\} => \{?x :r :c.\}\}}\\
+% \texttt{=>\{?x :p :a.\}}
+% \end{multline}
+
+\subsubsection{Determining the Universally Quantified Variables for a Formula }
+In order to use the information captured by the previous attributes one step is missing: we still need to determine the exact set of universal variables quantified
+on a specific formula. For this we define attribute $q$:  %  whose attribute value captures exactly this information: 
+for each formula node \texttt{f} the value of $q$ is  
+the set of universal variables 
+for which \texttt{f} carries a quantifier in the translation. We define $q$ as an inherited attribute on \texttt{f}. The rules for $q$ are listed
+in the last column of Figure~\ref{uniatt}. 
+
+If \texttt{f} occurs under the starting node, all variables it is $\text{parent}_c$ of are quantified on that formula. For the rule \texttt{s ::= f} the value of the attribute is the same 
+as the value of $v_2$: $\texttt{f}.q= \texttt{f}.v_1\cup\texttt{f}.v_2$.\footnote{As above, this attribute does not only carry the universal variables \texttt{f} is $\text{parent}_c$ 
+of but also those which occur directly in the formula.}   In our syntax tree in Figure~\ref{treeunisimple} we get %for $\texttt{f}^1$:
+$\texttt{f}^1.q=\{\texttt{?x}\}$.
+If a formula is only a conjunct of a conjunction, it does not carry any universal quantifier (remember for example Formula~\ref{ffff}). Therefore the attribute value 
+assigned to $\texttt{f}_1$ and $\texttt{f}_2$ on the production rule $\texttt{f ::= f}_1\texttt{f}_2$ is the empty set: $\texttt{f}_{1,2}\leftarrow \emptyset$.
+%
+For the third rule with a right-side occurrence of \texttt{f}, \texttt{e~::=~\{f\}}, we take the values of the attributes $v_2$ and $q$ into account: the value of $s$ on the
+node \texttt{e} contains all the universal variables which are already quantified on that or a higher node. The value of $v_2$ on \texttt{f} contains
+all variables which need to be quantified above or at \texttt{f} since \texttt{f} is their parent node. 
+The set of universal variables for which \texttt{f} needs to carry a quantifier is
+the difference of these two sets: $\texttt{f}.q\leftarrow\texttt{f}.v_2\setminus \texttt{e}.s$.
+For the node $\texttt{f}^2$ in our syntax tree we get
+%For the remaining nodes \texttt{f} in our example syntax tree in Figure~\ref{treeunisimple} we get:
+%\begin{align}
+$\texttt{f}^2.q=\{\texttt{?x},\texttt{?y}\}\setminus \{\texttt{?x}\}=\{\texttt{?y}\}$. For the remaining nodes $\texttt{f}^3$, $\texttt{f}^4$ and $\texttt{f}^5$
+the attribute value is the empty set.
+%  &\notag \texttt{f}^3.q\leftarrow \texttt{f}^3.v_2\setminus \texttt{e}^2.s=\emptyset\setminus \{\texttt{?x}\}=\emptyset\\
+%  &\notag \texttt{f}^4.q\leftarrow \texttt{f}^4.v_2\setminus \texttt{e}^3.s=\emptyset\setminus \{\texttt{?x}, \texttt{?y}\}=\emptyset\\
+%  &\notag \texttt{f}^5.q\leftarrow \texttt{f}^5.v_2\setminus \texttt{e}^4.s=\emptyset\setminus \{\texttt{?x}, \texttt{?y}\}=\emptyset
+%\end{align}
+And it is indeed the case that the formula $\texttt{f}^1$ carries a universal quantifier for \texttt{?x} and formula $\texttt{f}^3$ for \texttt{?y}. 
+The only thing which still needs to be done to obtain Cwm's interpretation of the formula is to construct the concrete translation. 
+The attribute to perform this task is defined below in Section~\ref{all}.
+% \begin{description}
+%  \item[$q$] For every formula node \texttt{f} the value of attribute $q$ contains the exact set of universal variables for which the translation formula carries a universal quantifier.  
+% \end{description}
+
+% %we have seen that this concept of a parent formula is closely related to the syntax tree and that the latter can be used to find the parent.
+% We now formalise that idea.
+% %To explain our 
+% %From the example there, we can already see that we need attributes to pass the 
+% %Considering the examples shown in the previous sections 
+% To handle universal quantification according to the \wwwc team submission we introduce the following attributes: %  according to this interpretation:
+% \begin{description}
+%  \item[$v_1$] Synthesized attribute defined for all $X\in T\cup N$ to pass the universal variables occurring in a direct formula up to that formula.
+%  \item[$v_2$] Synthesized attribute for all $X\in T\cup N$ to pass the universal variables from a direct formula to the parent.
+%  \item[$s$] Inherited attribute for all $X\in (T\cup N)\setminus\{\texttt{s}\}$ to pass the information which variables are already scoped, ie quantified in ancestor nodes, 
+%  downwards in the syntax tree.
+%  \item[$q$] Inherited attribute defined for \texttt{f} which contains all universal variables which are quantified on \texttt{f}.
+% \end{description}
+% The need for the first two attributes $v_1$ and $v_2$ is immediately clear from the explanation of the concept \emph{parent formula}.
+% Attribute $v_1$ collects the universal variables occurring in the terminal nodes and passes them upwards till the first node \texttt{e} is reached. 
+% In such a node \texttt{e} the 
+% value of attribute $v_1$ gets passed to attribute $v_2$ whis is then used to pass the variables further upwards to the parent. 
+% Attribute $q$ is needed for two things: for every formula it keeps track of whether it is a potential parent formula, 
+% ie whether it is the child of either the start node \texttt{s} or a node \texttt{e}. Secondly, 
+% we need this attribute to associate the concrete variables quantified under this potential parent formula.
+%
+% 
+% , our attribute grammar needs synthesized attributes to pass variables occurring in a terms up to their direct
+% formula's parent.
+%the variables directly occurring under a formula 
+%node \texttt{f} to that node and synthesized attributes to pass theses variables from the direct formula to its parent. 
+%We furthermore need attributes to keep track of the
+%variables which are already quantified on a sibling formula.  
+% To understand the need for attribute $s$, consider the following implication: 
+% 
+% % \begin{multline}
+% % \texttt{\{\{?x :p :a.\} => \{?x :q :b.\}.\} =>}\\
+% % \texttt{\{\{?x :r :c.\} => \{?x :s :d.\}.\}.} \tag{\ref{eq22}} \end{multline}
+% %
+% The formula as a whole is the parent of two subformulas 
+% \begin{equation}\texttt{?x :p :a.}\tag{\ref{fff}.1}\label{p1}\end{equation}
+% \begin{center}
+%  and
+% \end{center}
+% \begin{equation}\texttt{\{?x :q ?y.\} => \{?x :r :c.\}}.\tag{\ref{fff}.2}\label{dif} \end{equation}
+% Since variable \texttt{?x} directly occurs (ie it is not nested in curly brackets) in Formula~\ref{p1}
+% the parent formula~(\ref{fff}) carries a universal quantifier for \texttt{?x}. 
+% This quantifier also covers subformula~\ref{dif}, the sibling formula of Formula~\ref{p1}
+% in the consequent of the implication.
+% This formula is again parent of two formulas 
+% \begin{equation}\tag{\ref{dif}.1,2}
+%  \texttt{ ?x :q ?y.}\text{\qquad and \qquad }\texttt{?x :r :c.} 
+% \end{equation}
+% which contain the variable \texttt{?x}. Thus, this second and third occurrence of \texttt{?x} is not quantified on its parent formula but on the direct formula of that parent. Formula~\ref{fff} 
+% contains another variable, variable \texttt{?y}. This variable does not occur in Subformula~\ref{p1}. 
+% The parent formula of variable \texttt{?y} is Formula~\ref{dif} and this is the formula which carries the universal quantifier for that variable.
+% %which contain universal variables.
+% %As for the \texttt{?x} in t
+% %\texttt{?x} and \texttt{?y}.
+% %
+% %which are here not quantified at the parent level, but one lever higher. If we slightly modify Formula~\ref{fff} by replacing the first universal variable by a constant 
+% %this changes. 
+% %
+% %
+% Translated into core logic the formula means:
+
+%In formula
+% 
+% 
+% 
+% 
+% 
+% 
+% As a consequence, Formula~\ref{fff} carries a universal quantifier ($\forall x$). This quantifier also covers the sibling formula of Formula~\ref{fff}
+% in the consequence of the implication
+% %The whole formula
+% %is thus 
+% %the implication formula nested in the consequent of that rule
+% \begin{equation}\texttt{\{?x :q :b.\} =>\{?x :r :c.\}}.\tag{\ref{fff}.2}\label{dif} \end{equation}
+% Thus, the \wwwc team submission interprets the formula as: 
+% \begin{multline}\tag{\ref{fff}'}
+%  \forall \texttt{x. < x p a>}\rightarrow\\
+%  \texttt{< < x q b>} \rightarrow \texttt{< x r c> >}
+% \end{multline}
+%On the other hand, there is the formula 
+% \begin{multline}\label{ffff}
+% \texttt{\{:s :p :a.\}=>}\\
+% \texttt{ \{\{?x :q :b.\} =>\{?x :r :c.\}\}} \end{multline}
+% Formulas~\ref{dif}.1 and \ref{dif}.2 are quantified on Formula~\ref{dif}. Expressed in core logic this formula means:
+% \begin{multline}\tag{\ref{ffff}'}
+% \texttt{< s p a>}\rightarrow\\
+%  \texttt{< } \forall \texttt{x. < x q b>} \rightarrow \texttt{< x r c> >}
+% \end{multline}
+% 
+% 
+% The consequent of this implication is exactly the same as in the last example (namely Formula~\ref{dif}), but the antecedent does not contain variables and
+% does therefore also not cause the formula as a whole to be universally quantified. The parent formula of the two subformulas containing the variable \texttt{?x}, namely
+% \[
+%  \texttt{ ?x :q :b.}\text{\qquad and \qquad }\texttt{?x :r :c.} 
+% \]
+% is Formula~\ref{dif}.
+% In this context, this formula thus carries a universal quantifier, the translation of Formula~\ref{ffff} is
+%
+% The example shows that the scope of universal variables occurring at the same level of a syntax tree can differ and depends on the \emph{context}.
+% Attribute $s$ is used to keep track of this context.
+
+
+%\end{itemize}
+% 
+% Attribute $q$ thus takes the set of variables which should be quantified on a node \texttt{f} and subtracts the set of attributes already quantified on a higher level. 
+% We illustrate the behaviour of all 
+% attributes described in Figure~\ref{treeuni} where we display the attributes for the syntax tree of Formula~\ref{fff}.
+% To improve readability, we omit most of the attributes whose value is $\emptyset$. 
+% 
+% As an example, we take a closer look to the attributes of the second occurrence of \texttt{f} on the second level of the syntax tree (marked in red). 
+% To calculate the values of the inherited 
+% attributes $v_1$ and $v_2$ we apply the attribute rules defined on the production rule \emph{implication} $\texttt{f ::= e}_1 \texttt{=> e}_2$. \\
+% For $v_1$ we have:
+% \[
+%  \texttt{f}.v_1 \leftarrow \texttt{e}_1.v_1\cup \texttt{e}_2.v_1= \emptyset \cup \emptyset = \emptyset
+% \]
+% There are now variables for which \texttt{f} is the direct formula.\\
+% %
+% For $v_2$ we have:
+% \[
+%  \texttt{f}.v_2 \leftarrow \texttt{e}_1.v_2\cup \texttt{e}_2.v_2 = \{ x,y\}\cup\{x\}=\{x,y\}
+% \]
+% \texttt{f} is the parent formula for the variables $x$ and $y$.
+% 
+% To determine the value of the two inherited attributes $s$ and $q$ we apply the attribute rules for the production rule \emph{formula expression} $\texttt{e ::= \{f\}}$.\\
+% For $s$:
+% \[
+%  \texttt{f}.s \leftarrow e.s \cup \texttt{f}.v_2 = \{x\}\cup \{x, y\} = \{x, y\}
+% \]
+% The variables which are scoped on this level are $x$ and $y$.\\
+% %
+% For $q$:
+% \[
+%  \texttt{f}.q \leftarrow \texttt{f}.v_2 \setminus \texttt{e}.s = \{x, y\}\setminus \{x\} = \{y\}
+% \]
+% As to expect considering the interpretation of Formula~\ref{fff} displayed in Formula~\ref{iall}, the considered subformula carries a universal quantifier for $y$. 
+
+
+% \begin{figure*}
+% \begin{minipage}{0.95\textwidth}
+% \begin{center}
+% \begin{tikzpicture}[level distance=38pt, %sibling distance=3pt,
+% ]
+% \tikzset{every tree node/.style={align=center,anchor=base}}
+% \Tree [.{s} % \node [ draw, label={[align=left]First\\Second}] {Node}; 
+% 	  [.\node[label={ right: \footnotesize{$v_2=\{\texttt{\textit{x}}\}$, $s=\{\texttt{\textit{x}}\}$, $q=\{\texttt{\textit{x}}\}$}}]
+% 	  (a){f}; 
+% 	       [.\node[label={left: \footnotesize{$v_2=\{\texttt{\textit{x}}\},\quad$}}]%$s=\{\texttt{\textit{x}}\}$}}]
+% 	           (z){e}; 
+% 	          [.\node[label={left: \footnotesize{$v_1=\{\texttt{\textit{x}}\},\quad$}}]% $s=\{\texttt{\textit{x}}\}$}}]
+% 	             (x){\{f\}};  
+% 	          [.\node[label={left: \footnotesize{$v_1=\{\texttt{\textit{x}}\},\quad$}}](11){t}; [.\node[label={left: \footnotesize{$v_1=\{\texttt{\textit{x}}\},\quad$}}](y){uv\\{{\textit{\texttt{?x}}}}}; ] ] 
+% 	          [.t [.c\\{\textit{\texttt{:p}}} ] ] [.t [.c\\{\textit{\texttt{:a}}} ]  ] 
+% 	        ] 
+% 	   ]  
+%            \edge[draw=none]; \texttt{=>}   
+%            [.\node[label={right: \footnotesize{$v_2=\emptyset$, $s=\{\texttt{\textit{x}}\}$}}](b){e}; 
+%                 [.\node[label={left: \footnotesize{$v_1=\emptyset$}}, label={right: \footnotesize{$v_2=\{\texttt{\textit{x},\texttt{\textit{y}}}\}$, $s=\{\texttt{\textit{x}},\texttt{\textit{y}}\}$,}}]
+%                  {\{\textcolor{red}{f}\}}; %$\ldots$
+% 	           [.\node[label={right: \footnotesize{ $\quad v_2=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$,}}]% $s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}}]
+% 	            {e}; 
+% 	               [.\node[label={right: \footnotesize{$\quad v_1=\{\texttt{\textit{x}},\texttt{\textit{y}}\}$,}}]% $s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}}]
+% 	                {\{f\}}; 
+% 	                  [.\node[label={left: \footnotesize{$v_1=\{\texttt{\textit{x}}\},\quad$}}]{t}; [.\node[label={left: \footnotesize{$v_1=\{\texttt{\textit{x}}\},\quad$}}]% $s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}}]
+% 	                  {uv\\{\textit{\texttt{?x}}}}; ] ] 
+% 	                  [.t [.c\\{\textit{\texttt{:q}}} ] ] 
+% 	                  [.\node[label={right: \footnotesize{$ v_1=\{\texttt{\textit{y}}\}$,}}]{t}; [.\node[label={right: \footnotesize{$ v_1=\{\texttt{\textit{y}}\}$,}}]% $s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}}]
+% 	                  {uv\\{\textit{\texttt{?y}}}}; ] ] ] ]
+% 	           \edge[draw=none]; [.\texttt{=>} ] 
+% 	           [.\node[label={left: \footnotesize{$v_2=\{\texttt{\textit{x}}\},\quad$}}]% $s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}}]
+% 	             {e}; 
+% 	              [.\node[label={left: \footnotesize{$v_1=\{\texttt{\textit{x}}\},\quad$}}]% $s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}}]
+% 	                {\{f\}}; 
+% 	              [.\node[label={left: \footnotesize{$v_1=\{\texttt{\textit{x}}\},\quad$}}]{t}; [.\node[label={left: \footnotesize{$v_1=\{\texttt{\textit{x}}\},\quad$}}]% $s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}}]
+% 	                {uv\\{\textit{\texttt{?x}}}}; ] ] 
+% 	              [.t [.c\\{\textit{\texttt{:r}}} ] ] [.t [.c\\{\textit{\texttt{:c}}} ]  ] ]
+%     ] 
+%  ] ]
+%  ] ]
+% \node[align=left] (f1) at (-4.7,-4.15) {%\footnotesize{$v_1=\{\texttt{\textit{x}}\}$},\\
+% \footnotesize{$\quad s=\{\texttt{\textit{x}}\}$}}; 
+% \node[align=left] (x) at (-5.5,-6.6) {%\footnotesize{$v_1=\{\texttt{\textit{x}}\}$},\\
+% \footnotesize{$\quad s=\{\texttt{\textit{x}}\}$}}; 
+% \node[align=left] (e1) at (-4.5,-2.85) {%\footnotesize{$v_2=\{\texttt{\textit{x}}\}$},\\
+% \footnotesize{$\quad s=\{\texttt{\textit{x}}\}$}};
+% \node[align=left] (t1) at (-5.3,-5.5){%\footnotesize{$v_1=\{\texttt{\textit{x}}\}$,}\\ 
+%     \footnotesize{\quad$s=\{\texttt{\textit{x}}\}$}};
+% \node[align=left] (x2) at (-1.2,-9.3){%\footnotesize{$v_1=\{\texttt{\textit{x}}\}$,}\\ 
+%     \footnotesize{\quad$s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}};
+% \node[align=left] (t2) at (-1,-8.15){%\footnotesize{$v_1=\{\texttt{\textit{x}}\}$,}\\ 
+%     \footnotesize{\quad$s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}};
+% \node[align=left] (y) at (2.5,-9.36){%\footnotesize{$v_1=\{\texttt{\textit{y}}\}$,}\\ 
+%     \footnotesize{\quad$s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}};
+% \node[align=left] (t3) at (2.4,-8.15){%\footnotesize{$v_1=\{\texttt{\textit{y}}\}$,}\\ 
+%     \footnotesize{\quad$s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}};
+% \node[align=left] (x3) at (4.6, -9.3){%\footnotesize{$v_1=\{\texttt{\textit{x}}\}$,}\\ 
+%   \footnotesize{\quad$s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}};
+% \node[align=left] (t4) at (4.7,-8.15){%\footnotesize{$v_1=\{\texttt{\textit{y}}\}$,}\\ 
+%     \footnotesize{\quad$s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}};  
+% \node[align=left] (f2) at (2.6, -6.85){\footnotesize{$s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}};
+% \node[align=left] (e2) at (2.5, -5.5){\footnotesize{$s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}};
+% \node[align=left] (f3) at (5.5, -6.85) {\footnotesize{$s=\{\texttt{\textit{x}},\texttt{\textit{y}}\}$}};
+% \node[align=left] (e3) at (5.7, -5.5){\footnotesize{$s=\{\texttt{\textit{x}}, \texttt{\textit{y}}\}$}};
+% \node[align=left] (f4) at (6.7, -4.15){\footnotesize{$q=\{\texttt{\textit{y}}\}$}};
+% 
+%  \node(fv2) at (0.8,-1.2){};
+%  \node(fs) at (1.7,-1.2){};
+%  \node(fq) at (2.7,-1.2){};
+%   \node(ev2) at (-4.9,-2.6){};
+%   \node(es) at (-4.2,-2.85){};
+%   \node(f2v1) at (-5,-3.9){};
+%   \node(f2s) at (-4.3,-4.2){};
+%   \node(tv1) at (-5.6,-5.2){};
+%   \node(ts) at (-5,-5.5){};
+%   \node(uvv1) at (-5.8,-6.5){};
+%   \node(uvs) at (-5.1,-6.6){};
+%    \node(e2v2) at (4.4,-2.6){};
+%     \node(e2s) at (5.1,-2.6){};
+%      \node(f3s) at (5.9,-3.9){};
+%    \node(f3v2) at (4.6,-3.9){};
+%     \node(e3v2) at (1.8,-5.2){};
+%     \node(f3v1) at (2.7,-3.9){};
+%     \node(f4q) at (7, -4.2){};
+%      \node(e3s) at (2.8,-5.5){};
+%       \node(f4v1) at (1.6, -6.6){};
+%       \node(f4s) at (3,-6.9){};
+%       \node(t3v1) at (1.8,-7.9){};
+%       \node(t2v1) at (-1.5,-7.9){};
+%      \node(uv2v1) at (-1.7,-9){};
+%      \node(uv3v1) at (2,-9){};
+%       \node(t2s) at (-0.5,-8.2){};
+%        \node(uv3s) at (3.1,-9.3){};
+%         \node(uv2s) at (-0.7,-9.3){};
+%          \node(t3s) at (3,-8.2){};
+%            \node(e4v2) at (4.9,-5.3){};
+%              \node(f5v1) at (4.8,-6.6){};
+%               \node(t4v1) at (4.2,-7.9){};
+%                \node(uv4v1) at (4.1,-9.1){};
+%              \node(e4s) at (6,-5.5){};
+%               \node(f5s) at (5.8,-6.8){};
+%                \node(t4s) at (5.2,-8.2){};
+%                \node(uv4s) at (5.1,-9.3){};
+%  \draw[semithik,dashed,  ->] (fv2) to [bend left=60] (fq);
+%   %\draw[semithik,dashed,  ->] (ev2) to [bend left=70] (es);
+%  \draw[semithik,dashed,  ->] (fv2) to [bend left=40] (fs);
+%   \draw[semithik,dashed,  ->] (ev2) to [bend left=40] (fv2);
+%    \draw[semithik,dashed,  ->] (fs) to [bend left=70] (es);
+%    \draw[semithik,dashed,  ->] (fs) to [bend right=70] (e2s);
+%    \draw[semithik,dashed,  <-] (ev2) to [bend left=0] (f2v1);
+%    \draw[semithik,dashed,  ->] (es) to [bend left=0] (f2s);
+%    \draw[semithik,dashed,  <-] (f2v1) to [bend left=0] (tv1);
+%    \draw[semithik,dashed,  ->] (f2s) to [bend left=0] (ts);
+%    \draw[semithik,dashed,  <-] (tv1) to [bend left=0] (uvv1);
+%    \draw[semithik,dashed,  ->] (ts) to [bend left=0] (uvs);
+%    \draw[semithik,dashed,  ->] (e2v2) to [bend right=85] (fv2);
+%     \draw[semithik,dashed,  ->] (f3v2) to [bend right=70] (f3s);
+%     \draw[semithik,dashed,  ->] (e2s) to [bend left=0] (f3s);
+%      \draw[semithik,dashed,  ->] (e3v2) to [bend right=10] (f3v2);
+%       \draw[semithik,dashed,  <-] (e2v2) to [bend left=10] (f3v1);
+%        \draw[semithik,dashed,  ->] (e2s) to [bend left=15] (f4q);
+%      \draw[semithik,dashed,  ->] (f3v2) to [bend right=60] (f4q);
+%       \draw[semithik,dashed,  ->] (f3s) to [bend right=10] (e3s);
+%        \draw[semithik,dashed,  ->] (f4v1) to [bend right=0] (e3v2);
+%         \draw[semithik,dashed,  <-] (f4s) to [bend right=0] (e3s);
+%         \draw[semithik,dashed,  ->] (t3v1) to [bend right=0] (f4v1);
+%              \draw[semithik,dashed,  ->] (t2v1.north) to [in=270, out=70] (f4v1.south);
+%                \draw[semithik,dashed,  ->] (uv2v1) to [bend right=0] (t2v1);
+%         \draw[semithik,dashed,  ->] (uv3v1) to [bend right=0] (t3v1);
+%         \draw[semithik,dashed,  <-] (t2s.north) to [in=230, out=60] (f4s.south);
+%           \draw[semithik,dashed,  ->] (t2s) to [bend right=0] (uv2s);
+%             \draw[semithik,dashed,  ->] (t3s) to [bend right=0] (uv3s);
+%               \draw[semithik,dashed,  <-] (t3s) to [bend right=0] (f4s);
+%                \draw[semithik,dashed,  ->] (e4v2) to [bend right=0] (f3v2);
+%                \draw[semithik,dashed,  <-] (e4v2) to [bend right=0] (f5v1);
+%                \draw[semithik,dashed,  ->] (t4v1) to [bend right=0] (f5v1);
+%                 \draw[semithik,dashed,  <-] (t4v1) to [bend right=0] (uv4v1);
+%                  \draw[semithik,dashed,  <-] (e4s) to [bend right=0] (f3s);
+%                   \draw[semithik,dashed,  ->] (e4s) to [bend right=0] (f5s);
+%                    \draw[semithik,dashed,  <-] (t4s) to [bend right=0] (f5s);
+%                     \draw[semithik,dashed,  ->] (t4s) to [bend right=0] (uv4s);
+%  %  \draw[semithick, <-] (x) to  [bend right=80] node [midway,fill=white] {$\operatorname{uv}_1=\{\texttt{?x}\}$} (y);
+% %   \draw[semithick, <-] (z) to  [bend right=80]  (x);
+% %   \draw[semithik, ->] (z) to [bend left=80]  node [midway,fill=white] {$\operatorname{uv}_2=\{\texttt{?x}\}$} (a);
+% %   \draw[semithik, ->] (a) to [bend left=80]  node [midway,fill=white] {$\operatorname{sc}=\{\texttt{?x}\}$} (b);
+% \end{tikzpicture}%\normalsize
+% \end{center}
+% \caption{Syntax tree and attributes handling universal quantification for Formula~\ref{fff} according to the \wwwc team submission. \label{treeuni} \todo{new?}}
+% \end{minipage}
+% \end{figure*}
+
+
+
+\subsection{Universals in EYE}
+After having defined several attributes to handle implicit universal quantification according to Cwm in the previous section, 
+we do the same for the reasoner
+EYE in this section. EYE understands the term \emph{parent formula} from the \wwwc team submission 
+as the top formula.
+Universal variables are thus for EYE always quantified on the top level. Formula~\ref{fff} means according to EYE:
+\begin{multline}\tag{\ref{fff}''}\label{fff'}
+  \forall \texttt{x.}\forall\texttt{y.}
+ \texttt{ <{}<x q y>}\rightarrow\texttt{<x r c>{}>}\rightarrow\texttt{<x p a>}
+\end{multline}
+To deal with universal quantification we therefore only need one attribute that passes all universal variables occurring in a formula to the top level.
+%The handling of universal variables is thus easier than the method presented 
+%in the previous section: we define one single attribute 
+We define the synthesized attribute $u$ for all nodes of the grammar. % which passes the universal variables from the level where they occur, ie the bottom of the syntax tree, to the top.
+The value of $u$ for a node is always the set of universal variables occurring anywhere under that node. %The attribute is synthesized and defined on all symbols of the grammar.
+The attribute rules for $u$ are displayed in Figure~\ref{EYEAT}. As the calculation of $u$'s attribute values is rather simple, 
+we do not discuss these rules in detail and only capture for further considerations the value of the top formula  $\texttt{f}^1.u=\{\texttt{?x}, \texttt{?y}\}$.
+\begin{figure}
+\centering
+\small
+\begin{tabular}{lll}
+\hline
+\multicolumn{2}{l}{production rule}\hspace{0.2\textwidth} & attribute rule\\
+  \hline
+%Syntax: &&\\
+%&&\\
+\texttt{s ::=}&\texttt{f}& $\texttt{s}.u \leftarrow \texttt{f}.u$\\
+%       &&\\
+\texttt{f ::= } &  $ \texttt{t}_1 \texttt{t}_2 \texttt{t}_3.$&   $ \texttt{f}.u \leftarrow \texttt{t}_1.u \cup \texttt{t}_2.u \cup \texttt{t}_3.u$ \\
+    &  $\texttt{e}_1 \texttt{=>}  \texttt{e}_2.$& $\texttt{f}.u \leftarrow \texttt{e}_1.u \cup \texttt{e}_2.u$ \\
+%    &  \texttt{@forAll :u}     & universal quantification\\
+%    &  \texttt{@forSome :u}     & existential quantification\\
+    & $ \texttt{f}_1 \texttt{f}_2$ &                $\texttt{f}.u \leftarrow \texttt{f}_1.u\cup \texttt{f}_2.u$ \\
+%&&\\
+\texttt{t ::=}& \texttt{uv}\hspace{0.07\textwidth} &                $\texttt{t}.u \leftarrow\{\texttt{uv}\}$\\
+            & \texttt{ex} &               $\texttt{t}.u \leftarrow \emptyset$\\
+      & \texttt{c} &               $\texttt{t}.u \leftarrow\emptyset$\\
+ %     & \texttt{l} &                literals\\
+      & \texttt{e} &                $\texttt{t}.u \leftarrow\texttt{e}.u $\\
+      & \texttt{(k)}& $\texttt{t}.u \leftarrow\texttt{k}.u$\\
+      & \texttt{()}& $\texttt{t}.u \leftarrow\emptyset$\\
+ %     &&\\
+\texttt{k ::=}& \texttt{t}& $\texttt{k}.u \leftarrow\texttt{t}.u$\\
+&$\texttt{t k}_1$ & $\texttt{k}.u \leftarrow\texttt{t}.u\cup\texttt{k}_1.u$\\
+%&&\\
+\texttt{e ::=}&\texttt{\{f\}} &                $\texttt{e}.u \leftarrow\texttt{f}.u$\\
+       &\texttt{\{\}} &  $\texttt{e}.u \leftarrow\emptyset$\\
+       &\texttt{false}       &                $\texttt{e}.u \leftarrow\emptyset$\\
+  \hline
+\end{tabular}
+\normalsize
+\caption{Attribute rules for the synthesized attribute $u$ (right) and their corresponding production rules (left) from the \nthree grammar (Figure~\ref{N3S}).\label{EYEAT}}
+\end{figure}
+%
+% \begin{figure}
+% %\begin{minipage}{0.95\textwidth}
+% \begin{center}
+% \begin{tikzpicture}[%level distance=38pt, %sibling distance=3pt,
+% ]
+% \tikzset{every tree node/.style={align=center}}%,anchor=base}}
+% \Tree [.{\texttt{s}}
+% 	  [.\node
+% 	  (a){$\texttt{f}^1$};
+% %start antecedence 
+%            [.\node
+%            (b){$\texttt{e}^1$}; 
+%              [.\{$\texttt{f}^2$\}
+%                 [.\node
+%                  {$\texttt{e}^3$}; 
+% 	           [.\node
+%               {\{$\texttt{f}^4$\}}; 
+% 	               [.\node    {$\texttt{t}^1$}; 
+% 	                  [.\node[label={below:\textit{\texttt{?x}}}]
+% 	                  {$\texttt{uv}^1$}; ] ] 
+% 	                  [.$\texttt{t}^2$ [.\node[label={below:\textit{\texttt{:q}}}]{$\texttt{c}^1$}; ] ] 
+% 	                  [.\node
+% 	                  {$\texttt{t}^3$}; [.\node[label={below:\textit{\texttt{?y}}}]
+% 	                  {$\texttt{uv}^2$}; ] ] ] ]
+% 	           \edge[draw=none]; [.\texttt{=>} ] 
+% 	           [.\node
+% 	             {$\texttt{e}^4$}; 
+% 	              [.\node
+% 	                {\{$\texttt{f}^5$\}}; 
+% 	              [.\node
+% 	              {$\texttt{t}^4$}; 
+% 	              [.\node[label={below:\textit{\texttt{?x}}}]
+% 	                {$\texttt{uv}^3$}; ] ] 
+% 	              [.$\texttt{t}^5$ [.\node[label={below:\textit{\texttt{:r}}}]{$\texttt{c}^2$}; ] ] [.$\texttt{t}^6$ [.\node[label={below:\textit{\texttt{:c}}}]{$\texttt{c}^3$}; ]  ] ]
+%              ] 
+%     ] ]
+% % stop antecedence
+% %start ?x :p :a
+% 	       [.\node
+% 	           (z){$\texttt{e}^2$}; 
+% 	          [.\node
+% 	             (x){\{$\texttt{f}^3$\}};  
+% 		      [.\node
+% 	                 (11){$\texttt{t}^7$}; 
+% 					[.\node[label={below:{\textit{\texttt{?x}}}}]
+% 				(y){$\texttt{uv}^4$}; ] ] 
+% 		      [.$\texttt{t}^8$ 	[.\node[label={below:\textit{\texttt{:p}}}]{$\texttt{c}^4$}; ] ] 
+% 		      [.$\texttt{t}^9$ 	[.\node[label={below:\textit{\texttt{:a}}}]{$\texttt{c}^5$}; ] ] 
+% 	          ] 
+%          ]
+% %end ?x :p :a
+% 	       ]
+% ]
+%   \node(fv2) at (0,-2.1){\texttt{=>}};
+%  %  \draw[semithick, <-] (x) to  [bend right=80] node [midway,fill=white] {$\operatorname{uv}_1=\{\texttt{?x}\}$} (y);
+% %   \draw[semithick, <-] (z) to  [bend right=80]  (x);
+% %   \draw[semithik, ->] (z) to [bend left=80]  node [midway,fill=white] {$\operatorname{uv}_2=\{\texttt{?x}\}$} (a);
+% %   \draw[semithik, ->] (a) to [bend left=80]  node [midway,fill=white] {$\operatorname{sc}=\{\texttt{?x}\}$} (b);
+% \end{tikzpicture}%\normalsize
+% \end{center}
+% \caption{Syntax tree of Formula~\ref{fff} with values attribute $u$ (in \color{ugentblue}{blue}). \label{treeeye}}
+% %\end{minipage}
+% \end{figure}
+
+% The attribute rules capture the universal variable where it occurs. 
+% For (\texttt{t ::= uv}) we have the attribute rule $\texttt{t}.u\leftarrow \{\texttt{uv}\}$. Applied on the syntax tree
+% in Figure~\ref{treeunisimple} that means:
+% \begin{align}
+%  &\notag \texttt{t}^1.u\leftarrow \{\texttt{uv}^1\}=\{\texttt{?x}\};\quad
+%  \texttt{t}^3.u\leftarrow \{\texttt{uv}^3\}=\{\texttt{?y}\};\\
+% &\notag \texttt{t}^4.u\leftarrow \{\texttt{uv}^4\}=\{\texttt{?x}\};\quad
+%  \texttt{t}^7.u\leftarrow \{\texttt{uv}^7\}=\{\texttt{?x}\}
+% \end{align}
+% For all other rules resulting in symbols of the alphabet we again have the empty set as assigned value:
+% \begin{align}
+%  &\notag \texttt{t}^2.u\leftarrow \emptyset; \quad \texttt{t}^5.u\leftarrow \emptyset;\quad \texttt{t}^6.u\leftarrow \emptyset;\\
+%  &\notag \texttt{t}^8.u\leftarrow \emptyset;\quad \texttt{t}^9.u\leftarrow \emptyset
+% \end{align}
+% All the other rules pass the values upwards.  Via $\texttt{f}.u\leftarrow \texttt{t}_1,u\cup\texttt{t}_2.u\cup\texttt{t}_3.u$ on ($\texttt{f ::= t}_1\texttt{t}_2\texttt{t}_3$) we get:
+% \[
+%  \texttt{f}^4.u\leftarrow\{\texttt{?x}, \texttt{?y}\};\quad  \texttt{f}^5.u\leftarrow\{\texttt{?x}\};\quad \texttt{f}^3.u\leftarrow\{\texttt{?x}\}
+% \]
+% And then via $\texttt{e}.u\leftarrow \texttt{f}.u$ for (\texttt{e ::= \{f\}}):
+% \[
+%  \texttt{e}^3.u\leftarrow \{\texttt{?x}, \texttt{?y}\} \text{\quad and \quad}  \texttt{e}^4.u\leftarrow \{\texttt{?x}\}
+% \]
+% This is passed upwards via $\texttt{f}.u\leftarrow \texttt{e}_1.u\cup\texttt{e}_2.u$ on ($\texttt{f ::= e}_1\texttt{=> e}_2$):
+% \[
+%   \texttt{f}^2.u\leftarrow \texttt{e}^3.u\cup\texttt{e}^4.u=\{\texttt{?x}, \texttt{?y}\} \cup \{\texttt{?x}\}=\{\texttt{?x}, \texttt{?y}\}
+% \]
+% Then, on the next higher level we get: 
+% \[
+%  \texttt{e}^1.u\leftarrow \{\texttt{?x}, \texttt{?y}\} \text{\quad and \quad}  \texttt{e}^2.u\leftarrow  \{\texttt{?x}\}
+% \]
+% To then come to:
+% \[
+%  \texttt{f}^1.u\leftarrow \{\texttt{?x}, \texttt{?y}\}\text{\quad and \quad}  \texttt{s}.u\leftarrow \{\texttt{?x}, \texttt{?y}\}
+% \]
+% If we construct the translation of Formula~\ref{fff} according to EYE, we now need to add universal quantifiers for all variable captured in the value $\texttt{f}^1.u$ 
+% in front of the whole translation. This is done in the following section.
+% 
+% For EYE all  universal variables occurring in a formula are quantified on top level, regardless of their level of nesting. 
+% Thus, Formula~\ref{fff} from the previous section means according to EYE:
+% \begin{equation}\tag{\ref{fff}''}
+%  \forall \texttt{x.}\forall\texttt{y.<x p a>}\rightarrow\texttt{<}\texttt{<x q y>}\rightarrow\texttt{<x r c>}\texttt{>}
+% \end{equation}
+% %
+% In order to retrieve this interpretation, one single attribute passing all universal variables which occur in a formula to its top level %, one single synthesized attribute $u$ 
+% is sufficient to handle universals. 
+% For the synthesized attribute $u$ we define
+% the following attribute rules on top of the production rules of the \nthree grammar displayed in Figure~\ref{N3S}: 
+% \begin{itemize}
+% \item
+% For terminal rules $X ::= Y$, $Y\in T$:
+% \[
+% X.u \leftarrow \begin{cases}
+%                  Y, % \{\operatorname{id}(Y)\},
+%                  & \text{if}\ X=\texttt{uv}\\
+%                   \emptyset, & \text{else}
+%                  \end{cases}
+% \]
+% %with $\operatorname{id}: T\rightarrow T$ being the identity function.
+% \item For rules $X_0 ::= X_1 \ldots X_n$ with $X_i\in N$ for at least one $i$, $1\leq i \leq n$:
+% \[
+% X_0.u\leftarrow %\begin{cases}
+%                  % \emptyset, & \text{if}\ X_0 \in\{ \texttt{s},  \texttt{e}\}\\
+%                   \bigcup_{1\leq i\leq n} X_i.u %,& \text{else}
+% 		  %\end{cases}
+% \]
+% \end{itemize}
+% Just like attribute $v_1$ in the case of cwm's universal quantification, on terminal rules attribute $u$ collects every universal variable in a singleton set. 
+% On every non-terminal production rule the sets containing the universal variables occurring under a node get joint. In contrast to $v_1$ there are no exceptions 
+% for that behaviour.
+% The attribute value for the start node is 
+% the set of all universal attributes occurring in the formula.
+
+\subsection{Generation of the translation}\label{all}
+\begin{figure*}
+\begin{minipage}{\textwidth}
+\begin{center}\scriptsize
+ \begin{tabular}{llll}
+\hline
+\multicolumn{2}{c}{CFG}& \multicolumn{1}{c}{Cwm} &\multicolumn{1}{c}{EYE}\\
+\multicolumn{2}{l}{production rules}& \multicolumn{1}{l}{rules for $m_c$}&  \multicolumn{1}{l}{rules for $m_e$} \\
+  \hline
+%Syntax: &&\\
+%&&\\
+\texttt{s ::=}&\texttt{f}& $ \texttt{s}.m_c \leftarrow   \dot{\operatorname{\textit{uv}}}(\texttt{f}.q)\  \dot{\operatorname{\textit{ex}}}(\texttt{f}.\eq)\ \texttt{f}.m_c $& $ \texttt{s}.m_e \leftarrow   \dot{\operatorname{\textit{uv}}}(\texttt{f}.u)\  \dot{\operatorname{\textit{ex}}}(\texttt{f}.\eq)\ \texttt{f}.m_e $\\
+       &&&\\
+\texttt{f ::= } &  $ \texttt{t}_1 \texttt{t}_2 \texttt{t}_3.$&   $ \texttt{f}.m_c \leftarrow \texttt{t}_1.m_c\ \texttt{t}_2.m_c\ \texttt{t}_3.m_c$ &  $ \texttt{f}.m_e \leftarrow \texttt{t}_1.m_e\ \texttt{t}_2.m_e\ \texttt{t}_3.m_e$ \\
+    &  $\texttt{e}_1 \texttt{=>}  \texttt{e}_2.$& $\texttt{f}.m_c \leftarrow \texttt{e}_1.m_c\ \underline{\rightarrow}\ \texttt{e}_2.m_c$ & $\texttt{f}.m_e \leftarrow \texttt{e}_1.m_e\ \underline{\rightarrow}\ \texttt{e}_2.m_e$\\
+%    &  \texttt{@forAll :u}     & universal quantification\\
+%    &  \texttt{@forSome :u}     & existential quantification\\
+    & $ \texttt{f}_1 \texttt{f}_2$ &                $\texttt{f}.m_c \leftarrow \texttt{f}_1.m_c\ \texttt{f}_2.m_c$ &  $\texttt{f}.m_e \leftarrow \texttt{f}_1.m_e\ \texttt{f}_2.m_e$ \\
+&&&\\
+\texttt{t ::=}& \texttt{uv}\hspace{0.07\textwidth} &                $\texttt{t}.m_c \leftarrow\underline{\texttt{uv}}$ &   $\texttt{t}.m_e \leftarrow\underline{\texttt{uv}}$ \\
+            & \texttt{ex} &               $\texttt{t}.m_c \leftarrow \underline{\texttt{ex}}$&   $\texttt{t}.m_e \leftarrow \underline{\texttt{ex}}$\\
+      & \texttt{c} &               $\texttt{t}.m_c \leftarrow\underline{\texttt{c}}$& $\texttt{t}.m_e \leftarrow\underline{\texttt{c}}$\\ % $\texttt{c}.s\leftarrow \texttt{t}.s$\\
+ %     & \texttt{l} &                literals\\
+      & \texttt{e} &                $\texttt{t}.m_c \leftarrow\texttt{e}.m_c $ &  $\texttt{t}.m_e \leftarrow\texttt{e}.m_e $\\
+      & \texttt{(k)}& $\texttt{t}.m_c \leftarrow\texttt{\underline{(}k}.m_c\texttt{\underline{)}}$ &$\texttt{t}.m_e \leftarrow\texttt{\underline{(}k}.m_e\texttt{\underline{)}}$\\
+      & \texttt{()}& $\texttt{t}.m_c \leftarrow\underline{\texttt{<>}}$&  $\texttt{t}.m_e \leftarrow\underline{\texttt{<>}}$\\
+      &&&\\
+\texttt{k ::=}& \texttt{t}& $\texttt{k}.m_c \leftarrow\texttt{t}.m_c$ & $\texttt{k}.m_e \leftarrow\texttt{t}.m_e$\\
+&$\texttt{t k}_1$ & $\texttt{k}.m_c \leftarrow\texttt{t}.m_c\ \texttt{k}_1.m_c$ & $\texttt{k}.m_e \leftarrow\texttt{t}.m_e\ \texttt{k}_1.m_e$\\
+&&&\\
+\texttt{e ::=}&\texttt{\{f\}} &  $\texttt{e}.m_c \leftarrow   \underline{\texttt{<}} \dot{\operatorname{\textit{uv}}}(\texttt{f}.q)\  \dot{\operatorname{\textit{ex}}}(\texttt{f}.\eq)\ \texttt{f}.m_c 
+ \underline{\texttt{>}}$ &  $\texttt{e}.m_e \leftarrow   \underline{\texttt{<}}\dot{\operatorname{\textit{ex}}}(\texttt{f}.\eq)\ \texttt{f}.m_e 
+ \underline{\texttt{>}}$\\
+       &\texttt{\{\}} &  $\texttt{e}.m_c \leftarrow\underline{\texttt{<>}}$ &   $\texttt{e}.m_e \leftarrow\underline{\texttt{<>}}$\\
+       &\texttt{false}       &                $\texttt{e}.m_c \leftarrow\underline{\texttt{false}}$&               $\texttt{e}.m_e \leftarrow\underline{\texttt{false}}$\\
+  \hline
+
+\end{tabular}
+\end{center}   \normalsize
+\caption{Attribute rules for constructing the translation of a formula into core logic according to Cwm ($m_c$) and according to EYE ($m_e$).\label{trans}}
+\end{minipage}
+\end{figure*}
+
+In order to obtain the different translations from \nthree to core logic, 
+one last step is needed: the core logic formulas need to be generated. %Before defining attributes to perform this task, we first define  auxiliary functions. 
+%The attributes performing this task make use of auxiliary functions.
+We use synthesized attributes to perform this task. To clarify the difference between the signs used in the core formula produced and the
+logical symbols we use to describe this production, we underline all terminal symbols belonging to the core logic. 
+
+We start by defining the following auxiliary functions 
+which add quantifiers to any set of symbols of the alphabet: %to add the quantifiers missing in \nthreelogic to the newly generated formulas of the Core Logi
+
+Let $\operatorname{\textit{ex}}: 2^\mathcal{A}\rightarrow 2^{\mathcal{A}^*}$ be defined as:
+\begin{multline}\notag \operatorname{\textit{ex}}(V):= \{\underline{\exists v_1.}\ldots \underline{\exists v_n.}| v_i \in V; 1\leq i \leq n=|V|; i\neq j \Rightarrow v_1 \neq v_j\}.\end{multline}
+%
+Let $\operatorname{\textit{uv}}: 2^\mathcal{A}\rightarrow 2^{\mathcal{A}^*}$ be defined as:
+\begin{multline}\notag \operatorname{\textit{uv}}(V):= \{\underline{\forall v_1.}\ldots \underline{\forall v_n.}| v_i \in V; 1\leq i \leq n=|V|; i\neq j \Rightarrow v_1 \neq v_j\}.
+\end{multline}
+%
+The range of these two functions are sets, for $\{\texttt{x}, \texttt{y}\}$ we get for example:
+\[\textit{ex}(\{\texttt{x}, \texttt{y}\})=\{ \underline{\exists \texttt{x}.\exists \texttt{y}.}, \underline{\exists \texttt{y}.\exists \texttt{x}.}\}.\]
+To be able to use the functions to construct from a set of variables a sequence of quantified variables we thus need a selection function.
+Let $\operatorname{\textit{select}}: 2^{T*}\rightarrow T^*$ be such a function which, given a set, chooses one element of that set.
+We use the notation $\dot{\operatorname{\textit{ex}}}$ and $\dot{\operatorname{\textit{uv}}}$ to denote 
+$\operatorname{\textit{select}}\circ \operatorname{\textit{ex}}$ and $\operatorname{\textit{select}}\circ \operatorname{\textit{uv}}$,
+respectively. For the empty set the selection function returns the empty string.
+
+With the help of these functions we can define attributes which take the signs of the \nthree formula, 
+replace them by the respective sign of the core logic,
+and add, where necessary, explicit quantifiers.  We use two different attributes:
+\begin{description}
+ \item[$m_c$] The value of $m_c$ is the translation of the symbols of the alphabet occurring under a node according to Cwm. 
+  \item[$m_e$] The value of $m_e$ is the translation of the symbols of the alphabet occurring under a node according to EYE.
+\end{description}
+%For both of these attributes, this translation is taking into account whether a formula is the full expression to be interpreted or only a part of it. Only in the former case
+%quantifiers are added.
+Both attributes are synthesized and defined for all symbols of the grammar. In Figure~\ref{trans} we display the corresponding attribute rules. In most cases these 
+rules look very similar: constants, existentials and universals are concatenated, the symbols \texttt{\{} and \texttt{\}} are replaced by \texttt{<} and \texttt{>}, and \texttt{=>}
+by $\rightarrow$. 
+A different behaviour of the attributes can only be observed at the two places where quantifiers are added, the rules \texttt{e~::=~\{f\}} and \texttt{s~::=~f}.
+
+For the first of these production rules, the rule for the attribute $m_c$ adds quantifiers to the translated sub-formula. 
+To get all universally quantified variables at that level, the value of the attribute $q$ (universal variables for a formula according to 
+Cwm) is used. 
+For existentially quantified variables  we use the value of $\eq$ (existential variables for a formula).
+%\rv{previous sentence is complex to follow}
+As explained in Section~\ref{vars} the translation puts first the universal and then the existential quantification.
+In contrast to that, the rule for the attribute $m_e$ only adds the existential quantifier since according to its understanding, 
+universal quantifiers are only set in front of the top formula. 
+
+For the second of these production rules, the starting rule, attribute $m_c$ behaves as before: universal and existential quantifiers are set using the values of $q$ and $eq$. 
+The rules for attribute $m_e$ also add universal quantifiers at that highest level: the quantifiers for the universal variables collected using $u$, the attribute gathering 
+all universal variables occurring under a formula. 
+
+With these rules the quantifiers for a formula are only added when it is sure that the formula stands on its own and is not part of a conjunction. To understand the reason for
+that behaviour, recall the example in Formula~\ref{ffff}: there, the universal quantifier for \texttt{y} caused by the second conjunct also counted for the first and needed thus to stand in
+front of both formulas. In case \texttt{f} is produced using the last rule \texttt{s~::=~f} we know that there are no more conjuncts for the formula and the quantifiers can be added.
+For each formula, the translation to core logic generated using the attributes $m_c$ and $m_e$ is the attribute value of $\texttt{s}.m_c$, respectively $\texttt{s}.m_e$.
+
+We finish this section by an example: we again consider the syntax tree of Formula~\ref{fff} displayed in Figure~\ref{treeunisimple}, this time to construct the translations
+using the attributes $m_c$ and $m_e$. 
+%We list the values for all attributes below. 
+To improve readability, we omit  the prefixes for the constants (``\texttt{:}'') and the introducing question-marks (``\texttt{?}'') for universal variables.
+Going from the bottom to the top of the tree, the first steps are the same for $m_c$ and $m_e$ and very easy to understand: the symbols are just captured, translated where needed and then concatenated.
+For $\texttt{f}^4$ we get for example:
+\[
+ \texttt{f}^4.m_{c,e}\leftarrow \underline{\texttt{x q y}}
+\]
+On the next higher level, both attributes do not add quantifiers:
+\begin{align*}
+\notag& \texttt{e}^3.m_{c}\leftarrow& &\underline{\texttt{<}}\dot{\textit{uv}}(\texttt{f}^4.q)\dot{\textit{ex}}(\texttt{f}^4.\eq) \underline{\texttt{x q y>}}\\
+\notag&                             & =& \underline{\texttt{<}}\dot{\textit{uv}}(\emptyset)\dot{\textit{ex}}(\emptyset) \underline{\texttt{x q y>}}=\underline{\texttt{<x q y>}}
+\end{align*}
+\begin{center} and \end{center}
+\begin{align*}
+\notag& \texttt{e}^3.m_{e}\leftarrow& &\underline{\texttt{<}}\dot{\textit{ex}}(\texttt{f}^4.\eq) \underline{\texttt{x q y>}}=\underline{\texttt{<x q y>}}
+\end{align*}
+This is also the case for $\texttt{e}^2$ and $\texttt{e}^4$. As the attributes work analogously for $\texttt{e}^1$ 
+with the only difference that at that level the attribute rule for $m_c$
+adds a universal quantifier as the value $\texttt{f}^2.q$ is not empty, we also omit these values and take a closer look to the attribute values at \texttt{s}.
+For $\texttt{f}^1$ we have \[\texttt{f}^1.m_c\leftarrow \underline{\texttt{<}\forall \texttt{y.<x q y>}\rightarrow\texttt{<x r c>{}>}\rightarrow \texttt{<x p a>}}\]
+And get
+\begin{align*}
+\notag \texttt{s}.m_c&\leftarrow \dot{\textit{uv}}(\texttt{f}^1.q) \dot{\textit{ex}}(\texttt{f}^1.\eq) \texttt{f}^1.m_c\\
+\notag &=\dot{\textit{uv}}(\{\texttt{x}\}) \dot{\textit{ex}}(\emptyset) \texttt{f}^1.m_c\\
+\notag &= \underline{\forall \texttt{x.}\texttt{<}\forall \texttt{y.<x q y>}\rightarrow\texttt{<x r c>{}>}\rightarrow\texttt{<x p a>}}\\
+\notag &= \text{Formula~\ref{iall}}
+\end{align*}
+And with \[\texttt{f}^1.m_e\leftarrow \underline{\texttt{<{}<x q y>}\rightarrow\texttt{<x r c>{}>}\rightarrow\texttt{<x p a>}}\]
+we get:
+\begin{align*}
+\notag \texttt{s}.m_e&\leftarrow \dot{\textit{uv}}(\texttt{f}^1.u) \dot{\textit{ex}}(\texttt{f}^1.\eq) \texttt{f}^1.m_e\\
+\notag &=\dot{\textit{uv}}(\{\texttt{x}, \texttt{y}\}) \dot{\textit{ex}}(\emptyset) \texttt{f}^1.m_e\\
+\notag &= \underline{\forall \texttt{x.}\forall\texttt{y.}\texttt{<{}<x q y>}\rightarrow\texttt{<x r c>{}>}\rightarrow \texttt{<x p a>}}\\
+\notag &= \text{Formula~\ref{fff'}}
+\end{align*}
+The attributes deliver the expected result.
+% For the terms:
+% \begin{align*}
+% &\notag\texttt{t}^1.m_{c,e}\leftarrow \underline{\texttt{x}};\
+% \texttt{t}^2.m_{c,e}\leftarrow \underline{\texttt{p}};\
+% \texttt{t}^3.m_{c,e}\leftarrow \underline{\texttt{a}};\\
+% &\notag\texttt{t}^4.m_{c,e}\leftarrow \underline{\texttt{x}};\
+% \texttt{t}^5.m_{c,e}\leftarrow \underline{\texttt{q}};\
+% \texttt{t}^6.m_{c,e}\leftarrow \underline{\texttt{y}};\\
+% &\notag\texttt{t}^7.m_{c,e}\leftarrow \underline{\texttt{x}};\
+% \texttt{t}^8.m_{c,e}\leftarrow \underline{\texttt{r}};\
+% \texttt{t}^9.m_{c,e}\leftarrow \underline{\texttt{c}};\\
+% \end{align*}
+
+
+% 
+% % 
+% % Having these functions at our disposal, we start with the definition of the synthesized attribute $m_{c}$ to generate a formula's meaning according to cwm: 
+% % \begin{itemize}
+% % \item
+% % For terminal rules $X ::= Y$, $Y \in T$:
+% % \[
+% % X.m_{c} \leftarrow \begin{cases}
+% %                   \underline{\rightarrow} ,& \text{if } Y=\texttt{=>}\\
+% %                   \underline{\texttt{<>}}, &\text{if } Y=\texttt{\{\}}\\
+% %                   \underline{Y},& \text{else}
+% % \end{cases}
+% %                   \]
+% % %
+% % \item
+% % For \emph{formula expression} \texttt{e ::= {f}}:
+% % \[
+% %  \texttt{e}.m_c \leftarrow   \underline{\texttt{<}} \dot{\operatorname{\textit{uv}}}(\texttt{f}.q)  \dot{\operatorname{\textit{ex}}}(\texttt{f}.\eq) \texttt{f}.m_c 
+% %  \underline{\texttt{>}}
+% % \]
+% % \item For \emph{formula} \texttt{s ::= f}:
+% % \[
+% %  \texttt{s}.m_c \leftarrow   \dot{\operatorname{\textit{uv}}}(\texttt{f}.q)  \dot{\operatorname{\textit{ex}}}(\texttt{f}.\eq) \texttt{f}.m_c 
+% % \]
+% % \item For the remaining rules $X_0 ::= X_1 \ldots X_n$:
+% % \[
+% % X_0.m_{c}\leftarrow 
+% %                   X_1.m_{c} \ldots  X_n.m_{c}
+% % \]
+% % \end{itemize}
+% 
+% The attribute value $\texttt{s}.m_c$ is the translation of the syntax tree's \nthree formula in Core Logic. To understand the production, we take a closer look at
+% the attribute rules. All attributes pass the direct translation of the symbols
+% occurring under the node they relate to.
+% Only the attribute rules for \emph{formula expression} and \emph{formula} are producing quantifiers for the sets of variables collected by the attributes $q$ and $\eq$. 
+% %produce quantifiers and take the requirement that in the same formula the scope of universals is outside the scope of existentials, see 
+% Note that the requirement described in Section~\ref{impquant}, that the scope of universals is outside the scope of existentials is  take into account in these rules, 
+% universal quantifiers stand before 
+% existential ones. %The attribute value $\texttt{s}.m_c$ is the exact translation of the syntax tree's \nthree formula in core logic.
+% %As described before, the generation of the quantors 
+% To better understand that, we take again a closer look at the start node \texttt{s} of the syntax tree of Formula~\ref{fff} displayed in Figure~\ref{treeuni}.
+% %, the start node \texttt{s}.
+% For the child node \texttt{f} of \texttt{s} the value of the attribute is 
+% \begin{multline}\notag
+% \texttt{f}.m_c\leftarrow \underline{\texttt{<x p a>}\rightarrow\texttt{<}\forall \texttt{y.<x q y>}\rightarrow\texttt{<x r c>}\texttt{>.} }\end{multline}	
+% The value of $\texttt{f}.q$ is $\{\texttt{x}\}$ and the value for $\texttt{f}.\eq$ is $\emptyset$. We thus get:
+% \begin{align}\notag
+%  \texttt{s}.m_c & \leftarrow   \dot{\operatorname{\textit{uv}}}(\texttt{f}.q)  \dot{\operatorname{\textit{ex}}}(\texttt{f}.\eq) \texttt{f}.m_c
+%  \\ \notag &=\dot{\operatorname{\textit{uv}}}(\{\texttt{x}\})  \dot{\operatorname{\textit{ex}}}(\emptyset)  \texttt{f}.m_c\\ \notag
+%  &=\underline{\forall \texttt{x.} \texttt{<x p a>}\rightarrow\texttt{<}\forall \texttt{y.<x q y>}\rightarrow\texttt{<x r c>}\texttt{>.} }
+% \end{align}
+% 
+% % Similarly, we define the synthesized attribute $m_e$ to generate the translation of EYE:
+% % \begin{itemize}
+% % \item
+% % For terminal rules $X ::= Y$, $Y \in T$:
+% % \[
+% % X.m_{e} \leftarrow \begin{cases}
+% %                   \underline{\rightarrow} ,& \text{if } Y=\texttt{=>}\\
+% %                   \underline{\texttt{<>}}, &\text{if } Y=\texttt{\{\}}\\
+% %                   \underline{Y},& \text{else}
+% % \end{cases}
+% %                   \]
+% % \item
+% % For \emph{formula expression} \texttt{e ::= {f}}:
+% % \[
+% %  \texttt{e}.m_e \leftarrow   \underline{\texttt{<}} \dot{\operatorname{\textit{ex}}}(\texttt{f}.\eq) \texttt{f}.m_c \underline{\texttt{>}}
+% % \]
+% % \item For \emph{formula} \texttt{s ::= f}:
+% % \[
+% %  \texttt{s}.m_e \leftarrow   \dot{\operatorname{\textit{uv}}}(\texttt{f}.u)  \dot{\operatorname{\textit{ex}}}(\texttt{f}.\eq) \texttt{f}.m_e 
+% % \]
+% % \item For the remaining rules $X_0 ::= X_1 \ldots X_n$:
+% % \[
+% % X_0.m_{e}\leftarrow 
+% %                   X_1.m_{e}\ldots X_n.m_{e}
+% % \]
+% % \end{itemize}
+% 
+% Note, that in most of the cases $m_e$ acts like $m_c$: terminal symbols are translated of needed, existential quantification takes place
+% at the level the existential variable occurs in. The difference between the attributes is lies in their handling of universals, $m_e$ only produces
+% universal quantifiers on the very top level (on the rule \texttt{s ::= f}). The attribute collecting all universal variables is, as described before, $\texttt{f}.u$.
+% 
+% The values for the attributes $m_c$ and $m_e$ are now the translations from \nthree into the Core Logic according to two interpretations.  
+% 
+
+
+
+
+% \section{Implementation}\label{impl}
+% \todo{@Tom: I am not very sure about this section, do I really need it? I could also not give code examples and merge this section with the evaluation.
+% }
+% In the previous section we defined an attribute grammar in order to obtain the different interpretations of \notationthree formulas. 
+% To use this grammar in practical applications it has to be transferred into programme code.
+% With the goal of providing a tool to compare the differences between the interpretations, we implemented this grammar
+% using the Utrecht University Attribute Grammar Compiler (UUAGC)~\cite{uuag}. 
+% This compiler takes an attribute grammar written in a special format, the Utrecht University Grammar (UUAG) as input and translates it to Haskell code which then can be used for
+% further programming. In this chapter we give a brief introduction into the formalism in general, our use of it and our implementation of a comparison tool for different interpretations
+% of \nthree
+% in Haskell. 
+% The entire code can be accessed at \todo{add link}.
+% 
+% In attribute grammars we define attributes and attribute rules which act on the production rules and its components. To make it easier to refer these rules and components, in UUAG each 
+% production rule of the context free grammar underlying the attribute grammar gets assigned a unique name. Also the components are denoted by different signs.
+% % This grammar has been implemented in 
+% % Haskell~\cite{Haskell} \todo{@Tom: what do you normally cite if you refer to haskell?} using the Utrecht University Attribute Grammar Compiler (UUAGC)~\cite{uuag}. 
+% % This compiler supports a special notation to easily write attribute grammars, the Utrecht University Attribute Grammar (UUAG) format. 
+% %The formalism used above can be translated directly to UUAG.
+% %The notation used in that compiler allows the user to directly state the attribution rules for the different production rules very similar to the formalism introduced above.
+% The production rule 
+% \[\texttt{f ::= t t t}\]
+% from the \nthree grammar in Figure~\ref{N3S}, for example, is represented in our program code as
+% \begin{verbatim}
+%  data Formula
+%    | AtomFormula s, p, o :: Term
+% \end{verbatim}
+% where the name of the production rule is \texttt{AtomFormula}. The rule states that a \texttt{Formula} can consist of the components \texttt{s}, \texttt{p} and \texttt{o} which are all of the class \texttt{Term}.
+% To refer to the \texttt{Formula} (\texttt{f} in our example above)
+% the symbol \texttt{lhs} for left hand side can be used.
+% The full grammar in UUAG notation is displayed in Listing~\ref{N3SHaskell}. 
+% 
+% \begin{lstlisting}[
+%   float=t,
+%   caption={UUAG version of the \nthree syntax defined in Figure~\ref{N3S}. },
+%   label=N3SHaskell]
+% data S
+%    | Start f :: Formula
+%  
+% data Formula
+%    | AtomFormula s, p, o :: Term
+%    | Implication e1, e2 :: Expr
+%    | Conjunction c1, c2 :: Formula
+% 
+% data Term
+%    | Universal u :: String
+%    | Existential ex :: String
+%    | Constant c :: String
+%    | Expression  e :: Expr
+%    | Emptylist el :: String
+%    | List l :: Listcontent
+% 
+% data Listcontent
+%    | Single t :: Term
+%    | Pair  t :: Term
+%            l :: List
+% 
+% data Expr
+%    | BE   b  :: Bool
+%    | FE   f  :: Formula
+% \end{lstlisting}
+% For each kind of node of the production rule system, we can now define attributes. Together with that we also need to define the type of attribute, 
+% ie whether it is synthesized (\texttt{syn}) or inherited (\texttt{inh}).
+% For the synthesized predicate $\eq$ from above in Section~\ref{exsec}, which is used to collect the existentially quantified variables we declare 
+% %for the nodes of the class
+% %\texttt{Formula}:
+% \begin{verbatim}
+% attr Formula
+%   syn eq :: {[String]}
+% \end{verbatim}
+% to indicate that this attribute is synthesized, defined for each node of the class \texttt{Formula}, and that the values of the attribute are lists of strings. 
+% Of course $\eq$ is not only defined for \texttt{Formula} and also all the attributes explained above are defined for \texttt{Formula}. For the detailled declaration of attributes we 
+% refer to our source code.
+% %All the other attributes defined on \texttt{Formula} also need to be listed. The attribute $\eq$ is not only defined for \texttt{Formula}.
+% 
+% Since $\eq$ is a syntezised attribute, its attribute rules need to be declared for every rule with a \texttt{Formula} in its head, in particular for the rule above. For this rule
+% we define
+% \begin{verbatim}
+% sem Formula
+%   | AtomFormula lhs.eq = 
+%      (@s.eq `union` @p.eq) `union` @o.eq
+% \end{verbatim}
+% Meaning that, to obtain the attribute value of the formula produced by the production rule \texttt{AtomFormula} the system must take the union of the attribute values of $\eq$ for
+% the nodes \texttt{s}, \texttt{p} and \texttt{q}, just as it is also stated in Section~\ref{existentials}.
+% 
+% Using this formalism, we implemented the grammar explained in the previous section. The values of the attributes $m_c$ and $m_e$ provide 
+% translations of the formula in core logic. As pointed out previously, 
+% on string level this translation is not unique, the formulas  $\forall x. \forall y. p(x,y).$ and $\forall y. \forall x. p(x,y).$ have the same meaning. 
+% In these kinds of cases, the order chosen by our implementiation corresponds for both translations to the order the variables occur in the input string. This makes the translations comparable. 
+% Note that in order to compare the translations, we always need to compare the formula as a whole.  In cwm, the meaning of a conjunction depends on all its conjuncts.
+% In the formula
+% \[
+%  \texttt{\{:a :b \{ ?x :p :o\}\}=>\{:c :d :e\}.?x :q :o.}
+% \]
+% the first \texttt{?x} is quantified on top level, cwm interprets this formula as:
+% \[
+%  \forall x. (<b(a, <p(x,o)>)>\rightarrow <d(c,e)>  q(x,o))
+% \]
+% 
+% 
+% On the other hand, for the formula
+% %Our translation ensures that the order of multiple quantifiers of the same kind and on the same level are always the same.
+% %Describe the implementation. Give examples off different interpretations. Link to code.
+% \[
+%  \texttt{\{:a :b \{ ?x :p :o\}\}=>\{:c :d :e\}.}
+% \]
+% the quantifier for the \texttt{?x} is within the premise of the rule.
+
+%link to the code, some hints to implementation
+
+

@@ -1,0 +1,7 @@
+@prefix : <http://example.org/ex#>.
+
+
+:s :q :b.
+{?x :q :b.} =>{ :a :b {:a :a {?x :s :d.}}.}.
+
+

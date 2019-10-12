@@ -1,0 +1,12 @@
+prefix,url,LODLaundromat_ID,size (B),#triples
+foaf,http://xmlns.com/foaf/0.1/,b146f25348b90d3405d93c2555dfc85e,44209,631
+geo,http://www.opengis.net/ont/geosparql#,7fc4cf0a8293d47476c37e3f4f2523a2,46372,518
+owl,http://www.w3.org/2002/07/owl#,d74a99d30b8bc4a67e66a4e1fe0f6870,24545,450
+dcterms,http://purl.org/dc/terms/,ecaf8ecdd8a00b137b10f2655e2f8255,60276,866
+dbo,http://dbpedia.org/ontology/,,,27851
+skos,http://www.w3.org/2004/02/skos/core#,d8234c3b1439a879aea940e9009663be,28966,254
+prov,http://www.w3.org/ns/prov#,c5e3430ac2377629a52bcc188281d03c,112777,1664
+lgdo,http://linkedgeodata.org/ontology/,fd57640b04c66da501a773b719c90881,1451256,21289
+gsp,http://www.opengis.net/ont/geosparql#,7fc4cf0a8293d47476c37e3f4f2523a2,46372,518
+ngeo,http://geovocab.org/geometry#,798659e801660b8f233ca70a336d5f79,9482,124
+isbd,http://iflastandards.info/ns/isbd/elements/,,,1948

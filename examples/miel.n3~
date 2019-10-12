@@ -1,0 +1,41 @@
+@prefix dashb: <http://example.org/ex#>.
+@prefix rdfs: <http://example.org/ex#>.
+@prefix sosa: <http://example.org/ex#>.
+@prefix om: <http://example.org/ex#>.
+@prefix dcterms: <http://example.org/ex#>.
+@prefix m: <http://example.org/ex#>.
+@prefix : <http://example.org/ex#>.
+
+{
+
+    ?visualization a dashb:Visualization.
+    ?observableProperty a sosa:ObservableProperty.
+
+    ?visualization dashb:accepts [
+        dashb:unit ?unit
+    ].
+    
+#    ?observableProperty dashb:produces [
+#        dashb:unit ?unit
+#    ].
+}
+=>
+{
+    ?visualization dashb:canVisualize ?observableProperty .
+:LL :l :LLLLLLLLLLLLLL
+}.
+
+<gauge> a dashb:Visualization;
+    rdfs:label "Gauge" ;
+    dashb:accepts [
+        dashb:unit om:CelsiusTemperatureUnit
+    ].
+
+<1/properties/1> a sosa:ObservableProperty;
+    rdfs:label "Temperature in classroom B201 (Â°C)"@en ;
+    dcterms:identifier 1 ;
+    # how do the produced values look like
+    dashb:produces m:celciusTemperature .
+
+<celciusTemperature> a dashb:Metric;
+    dashb:unit om:CelsiusTemperatureUnit.

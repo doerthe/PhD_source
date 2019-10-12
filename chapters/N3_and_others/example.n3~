@@ -1,0 +1,29 @@
+
+@prefix rdfcv: <http://www.dr-thomashartmann.de/phd-thesis/rdf-validation/vocabularies/rdf-constraints-vocabulary#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms: <http://purl.org/dc/terms#> .
+@prefix : <http://example.com/constraints#> .
+@base <http://example.com/constraints#> .
+
+
+:Reseacher rdfs:subClassOf :Person.
+
+{
+?x rdfs:subClassOf ?y
+}
+=>
+{
+_:constraint a rdfcv:SimpleConstraint ;
+  :constraintType :Subsumption ;
+  rdfcv:constrainingElement :sub-class ;
+  rdfcv:contextClass  ?x;
+  rdfcv:classes ?y .
+}.
+
+
+
+:example_constraint_2 a rdfcv:SimpleConstraint ;
+  :constraintType :Subsumption ;
+  rdfcv:constrainingElement :sub-class ;
+  rdfcv:contextClass  :Researcher;
+  rdfcv:classes :Person .

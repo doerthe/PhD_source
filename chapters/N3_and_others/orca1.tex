@@ -16,104 +16,104 @@
 
 
 %\section{Background}\label{relwork}
+% 
+% 
+% 
+% 
+% 
+% \subsection{Business Case}\label{usecase}
+% Our business case is a nurse call system in a hospital.
+% The system is aware of certain details about personnel and patients.
+% Such information can include: personal skills of a staff member, staff competences, patient information, special patient needs, and/or the 
+% personal relationship between staff members and patients. %All this information is available in an OWL ontology. 
+% Furthermore, there is dynamic information available, as for example the current location of staff members and their status (busy or free). 
+% When a call is made, the nurse
+% call system should be able to assign the best staff member to answer that call. The definition of this ``best'' person
+% varies between hospitals and can be quite complex. 
+% Our system should thus be easily adjustable, but also very fast in taking a decision.
+% %\\
+% The system additionally controls different devices. If for example staff members enter a room with a patient, 
+% a decent light should be switched on; if they log into the room's terminal, they should have access to the medical lockers in the room. 
+% %
+% %By implementing such a system, 
+% Especially hospitals are interested in that kind of system as it enables them to organize their work 
+% %the work in a hospital can be organized 
+% in a more efficient way: 
+% \begin{itemize}
+%  \item Busy nurses get distracted less. They only receive a call if everyone else is also occupied or if the new task is more important than the task 
+%  they are currently performing.
+%  \item The system allows giving preference to staff members who are close to the caller. This prevents nurses from covering unnecessary big distances 
+%  in their anyhow stressful and physically exhausting 
+%  daily work.
+%  \item If the system is aware of the reason for a call, it can immediately assign nurses with the required skills. 
+%  Thus, no time is lost by first calling other staff members who then would have to ask for additional help.
+%  \item The system can prefer staff members who already know the patient and have a trust relationship with him. This increases the satisfaction of 
+%  the patient. At the same time, it also saves time for the caregiver, who is in such cases already familiar with the patient's needs and condition.
+% % \item The system keeps information about patients which can be assessed by the staff member called.
+%  \item The system is universal, i.e., electronic devices in the hospital can be controlled as well.
+%  \item The system is adaptable, i.e., hospitals can add their own requirements and priorities.
+% \end{itemize}
+% 
+% %Traditional nurse call systems don't take any patient-information into account. traditionally a patient makes a call and a random nurse responsible for the room gets the call.
+% %Our use case is different. We use all information available about a patient and the available nurses to always assign the best nurse (based on the current position of the nurse, the nurse's relation to the patient,
+% %competences, etc.) to the patient. Taking lots of information into account, such a system needs to be fast: especially in cases of emergencys the patient should not wait longer than number for the nurse.
+% 
+% 
+% 
+% 
+% \subsection{Technological Challenges}
+% \label{chal}
+% %Technological challenges - explaining why the business case is difficult to be solved by using traditional technologies
+% 
+% %Semantics: the system should be able to ``understand'' data and draw conclusions. \\
+% %Scalability: Huge datasets.\\
+% %Real-time: 5 seconds\\
+% 
+% 
+% 
+% An event-driven system as described above has to fulfill certain requirements. The system should:
+% %For the event driven system as described above we identified the following requirements:
+% %Below, we list the requirements (functional and non-functional) of the event-driven system of which we will devise a rule-based reasoning platform for. This system must
+% \begin{description}
+% %\item \emph{State} keep (consistent) state, which means it must be able to update data when an event is triggered,
+% \item[Scalability] cope with data sets ranging from 1000 to 100~000 relevant triple (i.e., triples necessary to be included for the reasoning to be correct);
+% \item[Semantics] be able to draw conclusions based on the information it is aware of;
+% \item[Functional complexity] implement deterministic decision trees with varying complexities; % from 1 to at least 6;
+% \item[Configuration] have the ability to change these decision trees at configuration time; and
+% \item[Real-time] return a response within 5 seconds to any given event.
+% \end{description}
+% 
+% %To meet these requirements different approaches can be taken.
+% 
+% %In a traditional hard coded system a fixed customized solution can be implemented. The main advantages of this approach are that they c 
 
-
-
-
-
-\subsection{Business Case}\label{usecase}
-Our business case is a nurse call system in a hospital.
-The system is aware of certain details about personnel and patients.
-Such information can include: personal skills of a staff member, staff competences, patient information, special patient needs, and/or the 
-personal relationship between staff members and patients. %All this information is available in an OWL ontology. 
-Furthermore, there is dynamic information available, as for example the current location of staff members and their status (busy or free). 
-When a call is made, the nurse
-call system should be able to assign the best staff member to answer that call. The definition of this ``best'' person
-varies between hospitals and can be quite complex. 
-Our system should thus be easily adjustable, but also very fast in taking a decision.
-%\\
-The system additionally controls different devices. If for example staff members enter a room with a patient, 
-a decent light should be switched on; if they log into the room's terminal, they should have access to the medical lockers in the room. 
-%
-%By implementing such a system, 
-Especially hospitals are interested in that kind of system as it enables them to organize their work 
-%the work in a hospital can be organized 
-in a more efficient way: 
-\begin{itemize}
- \item Busy nurses get distracted less. They only receive a call if everyone else is also occupied or if the new task is more important than the task 
- they are currently performing.
- \item The system allows giving preference to staff members who are close to the caller. This prevents nurses from covering unnecessary big distances 
- in their anyhow stressful and physically exhausting 
- daily work.
- \item If the system is aware of the reason for a call, it can immediately assign nurses with the required skills. 
- Thus, no time is lost by first calling other staff members who then would have to ask for additional help.
- \item The system can prefer staff members who already know the patient and have a trust relationship with him. This increases the satisfaction of 
- the patient. At the same time, it also saves time for the caregiver, who is in such cases already familiar with the patient's needs and condition.
-% \item The system keeps information about patients which can be assessed by the staff member called.
- \item The system is universal, i.e., electronic devices in the hospital can be controlled as well.
- \item The system is adaptable, i.e., hospitals can add their own requirements and priorities.
-\end{itemize}
-
-%Traditional nurse call systems don't take any patient-information into account. traditionally a patient makes a call and a random nurse responsible for the room gets the call.
-%Our use case is different. We use all information available about a patient and the available nurses to always assign the best nurse (based on the current position of the nurse, the nurse's relation to the patient,
-%competences, etc.) to the patient. Taking lots of information into account, such a system needs to be fast: especially in cases of emergencys the patient should not wait longer than number for the nurse.
-
-
-
-
-\subsection{Technological Challenges}
-\label{chal}
-%Technological challenges - explaining why the business case is difficult to be solved by using traditional technologies
-
-%Semantics: the system should be able to ``understand'' data and draw conclusions. \\
-%Scalability: Huge datasets.\\
-%Real-time: 5 seconds\\
-
-
-
-An event-driven system as described above has to fulfill certain requirements. The system should:
-%For the event driven system as described above we identified the following requirements:
-%Below, we list the requirements (functional and non-functional) of the event-driven system of which we will devise a rule-based reasoning platform for. This system must
-\begin{description}
-%\item \emph{State} keep (consistent) state, which means it must be able to update data when an event is triggered,
-\item[Scalability] cope with data sets ranging from 1000 to 100~000 relevant triple (i.e., triples necessary to be included for the reasoning to be correct);
-\item[Semantics] be able to draw conclusions based on the information it is aware of;
-\item[Functional complexity] implement deterministic decision trees with varying complexities; % from 1 to at least 6;
-\item[Configuration] have the ability to change these decision trees at configuration time; and
-\item[Real-time] return a response within 5 seconds to any given event.
-\end{description}
-
-%To meet these requirements different approaches can be taken.
-
-%In a traditional hard coded system a fixed customized solution can be implemented. The main advantages of this approach are that they c 
-
-There are several options to implement a nurse call system as described above. Following a more classical approach, the system could be written in 
-an object-oriented programming language 
-such as Java or C++. An implementation like this can easily fulfill the real-time and scalability constraints.
-But such systems are traditionally hard-coded: they are implemented for a specific use case, and even though 
-they might be able to support the required functional complexity, this implementation would be static. The possibility to configure complex decision trees
-as postulated by the complexity requirement is rather hard to fulfill using traditional programming. Even more difficult to satisfy is the semantic requirement:
-most object oriented languages do not support enough logic to ``understand'' the available information. Knowledge must be stated explicitly, 
-as even simple connections between statements such as ``\textit{nurse x has location y}'' and ``\textit{y is location of nurse x}'' cannot be found easily.
-
-Especially the last argument motivates us to solve the described problem using semantic web technologies as they natively fulfill the semantics requirement.
-Knowledge can be represented in an OWL ontology which is understood by OWL-DL reasoners such as for example Pellet \cite{Pellet}. % or HermiT \cite{hermit}.
-Complex decision trees can be handled by subsequent SPARQL queries. It is easy to add new queries or to change the order of existing queries 
-and to thereby accommodate for the configuration constraint.
-But our tests have shown that such systems inherently are not fast and reliable enough to fulfill the scalability and real-time requirements.
-For bigger amounts of data or too complex decision trees, the reasoning times of traditional OWL-DL reasoners grow exponentially, which is not scalable.
-
-To keep the benefits of an OWL-DL based implementation in a scalable and real-time way, we propose a rule-based solution.
-By using OWL 2 RL rules and resolution instead of classical tableaux reasoning, we can significantly decrease reasoning times and still cover a major subset
-of OWL 2. This approach benefits from the high performance of rule based reasoners. 
-Even for bigger datasets the reasoning times are still faster than with the OWL-DL based approach. %very fast, as we will see later in this paper.  %and is able to reason very fast even over large datasets. 
-%Because of its high performance (see benchmarks mentioned in \cite{eyepaper}), we chose the EYE reasoner for our purposes. As the reasoner is 
-%able to cope with large datasets, our approach meets 
-Also, complex decision trees can directly be implemented in rules. %, as those form the most natural 
-As rules are the most natural representations of such trees, 
-it is easy for a user to understand and change certain priorities 
-or to configure new rules. A further advantage of our approach is that all logic is represented in one single way. Instead of
-OWL plus SPARQL, we can implement the business case by only employing Notation3 Logic (N3). With the aforementioned system, we can meet all necessary requirements.
+% There are several options to implement a nurse call system as described above. Following a more classical approach, the system could be written in 
+% an object-oriented programming language 
+% such as Java or C++. An implementation like this can easily fulfill the real-time and scalability constraints.
+% But such systems are traditionally hard-coded: they are implemented for a specific use case, and even though 
+% they might be able to support the required functional complexity, this implementation would be static. The possibility to configure complex decision trees
+% as postulated by the complexity requirement is rather hard to fulfill using traditional programming. Even more difficult to satisfy is the semantic requirement:
+% most object oriented languages do not support enough logic to ``understand'' the available information. Knowledge must be stated explicitly, 
+% as even simple connections between statements such as ``\textit{nurse x has location y}'' and ``\textit{y is location of nurse x}'' cannot be found easily.
+% 
+% Especially the last argument motivates us to solve the described problem using semantic web technologies as they natively fulfill the semantics requirement.
+% Knowledge can be represented in an OWL ontology which is understood by OWL-DL reasoners such as for example Pellet \cite{Pellet}. % or HermiT \cite{hermit}.
+% Complex decision trees can be handled by subsequent SPARQL queries. It is easy to add new queries or to change the order of existing queries 
+% and to thereby accommodate for the configuration constraint.
+% But our tests have shown that such systems inherently are not fast and reliable enough to fulfill the scalability and real-time requirements.
+% For bigger amounts of data or too complex decision trees, the reasoning times of traditional OWL-DL reasoners grow exponentially, which is not scalable.
+% 
+% To keep the benefits of an OWL-DL based implementation in a scalable and real-time way, we propose a rule-based solution.
+% By using OWL 2 RL rules and resolution instead of classical tableaux reasoning, we can significantly decrease reasoning times and still cover a major subset
+% of OWL 2. This approach benefits from the high performance of rule based reasoners. 
+% Even for bigger datasets the reasoning times are still faster than with the OWL-DL based approach. %very fast, as we will see later in this paper.  %and is able to reason very fast even over large datasets. 
+% %Because of its high performance (see benchmarks mentioned in \cite{eyepaper}), we chose the EYE reasoner for our purposes. As the reasoner is 
+% %able to cope with large datasets, our approach meets 
+% Also, complex decision trees can directly be implemented in rules. %, as those form the most natural 
+% As rules are the most natural representations of such trees, 
+% it is easy for a user to understand and change certain priorities 
+% or to configure new rules. A further advantage of our approach is that all logic is represented in one single way. Instead of
+% OWL plus SPARQL, we can implement the business case by only employing Notation3 Logic (N3). With the aforementioned system, we can meet all necessary requirements.
 %, which makes our solution the 
 %only one being able to fulfill all requirements.
 %
@@ -269,145 +269,145 @@ The main reason for our choice is the high performance of the reasoner. Existing
 
 %\subsection{Representing the knowledge}
 
-
-\subsubsection{OWL 2 RL in N3}
-%We started from an OWL-DL ontology which was used to 
-%Possible data which can be processed by our system  
-%The ACCIO Ontology
-To be able to support OWL 2 RL reasoning in N3 we used the OWL 2 RL/\rdf rules as listed on the corresponding website~\cite{OWLRL}. 
-Where possible, we made use of existing N3-translations of these rules as provided by EYE~\cite{EYEowl}. 
-Missing concepts were added. Although the ACCIO ontology is designed for OWL-DL reasoning, the limitation to OWL RL had no impact for 
-our specific use case. %, all derivations needed to cope with the desired decision trees were supported by OWL RL. 
-
-
-\begin{lstlisting}[
-  float=t,
-  caption={OWL-RL rule for \texttt{rdfs:subClassOf} class axiom in N3.},
-  label=lst:subclass]
-§\textcolor{gray}{@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema\#>.}§
-§\textcolor{gray}{@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns\#>.}§
-
-{?C rdfs:subClassOf ?D. ?X a ?C} => {?X a ?D}.
-\end{lstlisting}
-To illustrate the idea of using rules for OWL reasoning, we give a small example: Listing~\ref{lst:subclass} shows 
-the class axiom rule\footnote{The rule is the N3 version of the cax-sco rule in Table 7 on the OWL 2 Profiles website~\cite{OWLRL}.} which is needed 
-to deal with the rdfs concept
- \verb!subclassOf!. For convenience we omit the prefixes in the formulas below. The empty prefix refers to the ACCIO ontology, 
- \verb!rdf! and \verb!rdfs! have the same meaning as in Listing~\ref{lst:subclass}. Consider that we have the following T-Box triple stating that the class \verb!:Call!
- is 
- a subclass of the class \verb!:Task!:
- %If the ontology contains the triples
-\[
- \verb!:Call rdfs:subClassOf :Task.! \tag{1}\label{1}
-\]
-If the A-Box contains an individual which is member of the class \verb!:Call!
-\[\verb! :call1 a :Call.! \tag{2}\label{2}\]
-%a rule based reasoner can use the rule given in listing \ref{lst:subclass} to conclude 
-an OWL DL reasoner would make the conclusion that the individual also belongs to the class \verb!Task! 
-\[
- \verb!:call1 a :Task.! \tag{3}\label{3}
-\]
-Our rule in Listing \ref{lst:subclass} does exactly the same: as Formula~\ref{1} and Formula~\ref{2} can be unified with the antecedence of the rule, a reasoner derives
-the triple in Formula~\ref{3}. Other concepts can be handled similarly.
-
-
-
-
-
-
-
-\subsubsection{Decision Trees }
-
-
-
-
- 
-
-
-%REMARK: Still not sure whether we need this section?
-%The decision trees which have to be implement
-%As mentioned above, decision trees as needed in for real life use cases can be quite complex. 
-
-%Depending on the amount of available information, decision trees for nurse call systems can be quite complex. The ACCIO ontology 
-%supports a huge variety of different concepts. %It is possible to model the profile of a patient (among others the 
- 
-The ACCIO ontology~\cite{accioont} provides the user with a huge variety of concepts which can, e.g., be used to describe patients (social background, needs, disease), 
-staff members (skills, relationships to patients), and situations (locations of persons, states of devices). If all this information is actually available, decision trees
-can use all of it and be therefore quite complex. In this section we provide two simple rules which could be part of such a tree and we explain how these rules can
-be modified depending on the needs of an individual hospital.
- 
- \begin{lstlisting}[
-  float=t,
-  caption={Rule assigning a preference value to a staff member with status "free" who is close to the call-location. },
-  label=lst:ex]
-§\textcolor{gray}{@prefix : <http://ontology/Accio.owl\#>.}§
-§\textcolor{gray}{@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns\#>.}§
-
-{
-  ?c rdf:type :Call.
-  ?c :hasStatus :Active. 
-  ?c :madeAtLocation ?loc. 
-  ?p :hasRole [rdf:type :StaffMember].
-  ?p :hasStatus :Free.
-  ?p :closeTo ?loc.
-}
-=>
-{
-  (?p ?c) :assigned 200.
-}.
-\end{lstlisting}
- 
-Listing~\ref{lst:ex} shows a rule which, given an active call, assigns a staff member with a certain preference to that call. The EYE reasoner works 
-with filter rules (queries), it is easy to search for the assignment of a staff member with the lowest or highest number. 
-In our example, lower numbers mean higher preferences. The antecedence of the given rule contains certain constraints: the active call is made on a certain location and
-there is a staff member, who is currently free and close to that location. In such a case, our rule assigns the number 200 to the combination of call and staff member.
-
-\begin{lstlisting}[
-  float=t,
-  caption={Rule assigning a preference value to a busy staff member who has the needed skills to answer the call. },
-  label=lst:ex2]
-§\textcolor{gray}{@prefix : <http://ontology/Accio.owl\#>.}§
-§\textcolor{gray}{@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns\#>.}§
-
-{
-  ?c rdf:type :Call.
-  ?c :hasStatus :Active.
-  ?c :hasReason [rdf:type :CareReason].
-  ?p rdf:type :Person.
-  ?p :hasStatus :Busy.
-  ?p :hasRole [rdf:type :StaffMember].
-  ?p :hasCompetence [rdf:type :AnswerCareCallCompetence].
-}
-=>
-{
-  (?p ?c) :assigned 100.
-}.
-\end{lstlisting}
-
-
-
-
-
-
-
-
-Listing~\ref{lst:ex2} displays another rule: here, the reason of the active call is known. We have a staff member who has the required 
-skills to answer that kind of calls, but this staff member is currently busy. Our rule assigns the number 100 to this
-combination of call and staff member. This means, in our current decision tree, we prefer this assignment to the one described by Listing~\ref{lst:ex}.
-
-Now, it could be, that another hospital has different priorities. Imagine for example that in this new hospital, no busy staff should be called 
-if there is still a free staff member available, regardless of the reason of the call. We could easily adapt our decision tree by simply changing the assignment number 
-of one of the rules. If we replace the triple \[\verb! (?p ?c) :assigned 100.!\] in line 16 of Listing \ref{lst:ex2} by the triple \[\verb! (?p ?c) :assigned 300.!\]
-the reasoner would prefer the assignment expressed by Listings \ref{lst:ex} to~\ref{lst:ex2}.
-
- 
-Similarly, we can add extra conditions to the rules. Currently, the rule in listing \ref{lst:ex2} does not take the location of the staff member into account. We can
-change that by only adding the triples 
-\[ \verb!?c :madeAtLocation ?loc. ?p :closeTo ?loc.!\]
-to the antecedence of the rule. To give this new rule a higher priority than the existing one, we would again only have to change the assigned number in the consequence.
-Rules with the same number are treated equally.
-
-
+% 
+% \subsubsection{OWL 2 RL in N3}
+% %We started from an OWL-DL ontology which was used to 
+% %Possible data which can be processed by our system  
+% %The ACCIO Ontology
+% To be able to support OWL 2 RL reasoning in N3 we used the OWL 2 RL/\rdf rules as listed on the corresponding website~\cite{OWLRL}. 
+% Where possible, we made use of existing N3-translations of these rules as provided by EYE~\cite{EYEowl}. 
+% Missing concepts were added. Although the ACCIO ontology is designed for OWL-DL reasoning, the limitation to OWL RL had no impact for 
+% our specific use case. %, all derivations needed to cope with the desired decision trees were supported by OWL RL. 
+% 
+% 
+% \begin{lstlisting}[
+%   float=t,
+%   caption={OWL-RL rule for \texttt{rdfs:subClassOf} class axiom in N3.},
+%   label=lst:subclass]
+% §\textcolor{gray}{@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema\#>.}§
+% §\textcolor{gray}{@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns\#>.}§
+% 
+% {?C rdfs:subClassOf ?D. ?X a ?C} => {?X a ?D}.
+% \end{lstlisting}
+% To illustrate the idea of using rules for OWL reasoning, we give a small example: Listing~\ref{lst:subclass} shows 
+% the class axiom rule\footnote{The rule is the N3 version of the cax-sco rule in Table 7 on the OWL 2 Profiles website~\cite{OWLRL}.} which is needed 
+% to deal with the rdfs concept
+%  \verb!subclassOf!. For convenience we omit the prefixes in the formulas below. The empty prefix refers to the ACCIO ontology, 
+%  \verb!rdf! and \verb!rdfs! have the same meaning as in Listing~\ref{lst:subclass}. Consider that we have the following T-Box triple stating that the class \verb!:Call!
+%  is 
+%  a subclass of the class \verb!:Task!:
+%  %If the ontology contains the triples
+% \[
+%  \verb!:Call rdfs:subClassOf :Task.! \tag{1}\label{1}
+% \]
+% If the A-Box contains an individual which is member of the class \verb!:Call!
+% \[\verb! :call1 a :Call.! \tag{2}\label{2}\]
+% %a rule based reasoner can use the rule given in listing \ref{lst:subclass} to conclude 
+% an OWL DL reasoner would make the conclusion that the individual also belongs to the class \verb!Task! 
+% \[
+%  \verb!:call1 a :Task.! \tag{3}\label{3}
+% \]
+% Our rule in Listing \ref{lst:subclass} does exactly the same: as Formula~\ref{1} and Formula~\ref{2} can be unified with the antecedence of the rule, a reasoner derives
+% the triple in Formula~\ref{3}. Other concepts can be handled similarly.
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% \subsubsection{Decision Trees }
+% 
+% 
+% 
+% 
+%  
+% 
+% 
+% %REMARK: Still not sure whether we need this section?
+% %The decision trees which have to be implement
+% %As mentioned above, decision trees as needed in for real life use cases can be quite complex. 
+% 
+% %Depending on the amount of available information, decision trees for nurse call systems can be quite complex. The ACCIO ontology 
+% %supports a huge variety of different concepts. %It is possible to model the profile of a patient (among others the 
+%  
+% The ACCIO ontology~\cite{accioont} provides the user with a huge variety of concepts which can, e.g., be used to describe patients (social background, needs, disease), 
+% staff members (skills, relationships to patients), and situations (locations of persons, states of devices). If all this information is actually available, decision trees
+% can use all of it and be therefore quite complex. In this section we provide two simple rules which could be part of such a tree and we explain how these rules can
+% be modified depending on the needs of an individual hospital.
+%  
+%  \begin{lstlisting}[
+%   float=t,
+%   caption={Rule assigning a preference value to a staff member with status "free" who is close to the call-location. },
+%   label=lst:ex]
+% §\textcolor{gray}{@prefix : <http://ontology/Accio.owl\#>.}§
+% §\textcolor{gray}{@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns\#>.}§
+% 
+% {
+%   ?c rdf:type :Call.
+%   ?c :hasStatus :Active. 
+%   ?c :madeAtLocation ?loc. 
+%   ?p :hasRole [rdf:type :StaffMember].
+%   ?p :hasStatus :Free.
+%   ?p :closeTo ?loc.
+% }
+% =>
+% {
+%   (?p ?c) :assigned 200.
+% }.
+% \end{lstlisting}
+%  
+% Listing~\ref{lst:ex} shows a rule which, given an active call, assigns a staff member with a certain preference to that call. The EYE reasoner works 
+% with filter rules (queries), it is easy to search for the assignment of a staff member with the lowest or highest number. 
+% In our example, lower numbers mean higher preferences. The antecedence of the given rule contains certain constraints: the active call is made on a certain location and
+% there is a staff member, who is currently free and close to that location. In such a case, our rule assigns the number 200 to the combination of call and staff member.
+% 
+% \begin{lstlisting}[
+%   float=t,
+%   caption={Rule assigning a preference value to a busy staff member who has the needed skills to answer the call. },
+%   label=lst:ex2]
+% §\textcolor{gray}{@prefix : <http://ontology/Accio.owl\#>.}§
+% §\textcolor{gray}{@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns\#>.}§
+% 
+% {
+%   ?c rdf:type :Call.
+%   ?c :hasStatus :Active.
+%   ?c :hasReason [rdf:type :CareReason].
+%   ?p rdf:type :Person.
+%   ?p :hasStatus :Busy.
+%   ?p :hasRole [rdf:type :StaffMember].
+%   ?p :hasCompetence [rdf:type :AnswerCareCallCompetence].
+% }
+% =>
+% {
+%   (?p ?c) :assigned 100.
+% }.
+% \end{lstlisting}
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% Listing~\ref{lst:ex2} displays another rule: here, the reason of the active call is known. We have a staff member who has the required 
+% skills to answer that kind of calls, but this staff member is currently busy. Our rule assigns the number 100 to this
+% combination of call and staff member. This means, in our current decision tree, we prefer this assignment to the one described by Listing~\ref{lst:ex}.
+% 
+% Now, it could be, that another hospital has different priorities. Imagine for example that in this new hospital, no busy staff should be called 
+% if there is still a free staff member available, regardless of the reason of the call. We could easily adapt our decision tree by simply changing the assignment number 
+% of one of the rules. If we replace the triple \[\verb! (?p ?c) :assigned 100.!\] in line 16 of Listing \ref{lst:ex2} by the triple \[\verb! (?p ?c) :assigned 300.!\]
+% the reasoner would prefer the assignment expressed by Listings \ref{lst:ex} to~\ref{lst:ex2}.
+% 
+%  
+% Similarly, we can add extra conditions to the rules. Currently, the rule in listing \ref{lst:ex2} does not take the location of the staff member into account. We can
+% change that by only adding the triples 
+% \[ \verb!?c :madeAtLocation ?loc. ?p :closeTo ?loc.!\]
+% to the antecedence of the rule. To give this new rule a higher priority than the existing one, we would again only have to change the assigned number in the consequence.
+% Rules with the same number are treated equally.
+% 
+% 
 
 
 

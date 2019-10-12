@@ -1,0 +1,10 @@
+#Processed by EYE v18.0312.0936 josd
+#eye existentials.n3 --pass --nope
+
+PREFIX : <http://example.org/ex#>
+
+_:t_0 :p {_:t_1 :b :c}.
+
+#2019-01-24T13:12:11.634Z in=6 out=1 ent=0 step=0 brake=2 inf=14030 sec=0.055 inf/sec=255091
+#ENDS
+

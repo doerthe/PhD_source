@@ -1,0 +1,5 @@
+@prefix : <http://example.org/ex#>.
+
+#_:x :says {_:x :knows :Albert}. 
+
+{_:x :likes }=>{_:x :knows :Albert}.

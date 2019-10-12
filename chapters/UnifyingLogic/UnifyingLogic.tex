@@ -4,8 +4,8 @@
 % %\epigraph{\textit{Er ist ein Mathematiker und also hartnäckig.}}{Johann Wolfgang von Goethe}
 % \epigraph{\textit{[Socrates] ita disputat, ut [...] nihil se scire dicat nisi id ipsum, eoque praestare ceteris, quod illi quae nesciant scire se putent, ipse se nihil scire id unum sciat.}}{Cicero, Academica 1,16}
 
-In this chapter we discuss the idea of a unifying logic for the Semantic Web. The term itself stems form the so-called \emph{Semantic Web Stack}.
-This schema represents the envisioned architecture for the Semantic Web and the unifying logic is one of its pieces.
+In this chapter we discuss the idea of the \ul for the Semantic Web. The term itself stems form the so-called \emph{Semantic Web Stack}.
+This schema represents the envisioned architecture for the Semantic Web and the \ul is one of its pieces.
 Therefore we start with a discussion of that stack in general to then focus on the parts relevant for this thesis. These considerations then lead to the research questions.
 
 
@@ -90,11 +90,11 @@ are either not realised yet or the community has not yet agreed on a solution (o
 % the introduction done by Hogan \cite{hogan}.
  \begin{description}
  \item[Unifying Logic]
- Above these concepts of querying, ontologies and rule based reasoning, there is the layer of a unifying logic: 
+ Above these concepts of querying, ontologies and rule based reasoning, there is the layer of the \ul: 
  a logical framework which connects the other concepts and makes it possible interoperate between them. 
 The logic should thus support the inference mechanisms of these three underlying concepts and the formats below, in particular \rdf.
  \item[Proof]
- Once this unifying logic is found, it should be possible to provide formal proofs for the derivations done using this logic (and thereby also for all derivations of the underlying standards). 
+ Once this \ul is found, it should be possible to provide formal proofs for the derivations done using this logic (and thereby also for all derivations of the underlying standards). 
  These proofs should be exchangeable by different parties and it should be possible to automatically check their correctness. Additional information like for example the source of knowledge 
  used could also form part
  of these proofs.
@@ -164,10 +164,10 @@ are another.
 %As the decision for a logic to interchange data is not only made by the \wwwc consortium, but even commonly accepted in practice
 Given this strong position of \rdf as the proposed standard for data interchange 
 the logical building blocks \emph{Querying}, \emph{Ontologies/Taxonomies} and \emph{Rules} and -- as a consequence -- also the
-\emph{Unifying Logic} need to connect to \rdf. 
+\ul need to connect to \rdf. 
 This connection can be on syntactic level -- other standards can use \rdf's syntax of triples -- but to really realise a \emph{Semantic} Web 
 such a connection needs to be stronger:
-\rdf is a logic and has its own formally defined semantics~\cite{RDFSemantics} and other logical concepts relying on it need to take that fact into account. 
+\rdf has its own formally defined semantics~\cite{RDFSemantics} and other logical concepts relying on it need to take that fact into account. 
 We now discuss the relation of \rdf and the different standards listed in the Semantic Web Stack in detail.
 
 \subsection{RDF and SPARQL}
@@ -297,7 +297,7 @@ claim to support \rdf, but for the latter it is clearly stated that the RIF synt
 
 \section{Connecting the Logical Building Blocks}
 On top of the logical building blocks \emph{Querying}, \emph{Ontology/Taxonomy} and \emph{Rules} the Semantic Web Stack foresees a connecting layer: 
-the \emph{Unifying Logic}. 
+the \ul. 
 % How this connection should be has been subject to discussion.
 % Several approaches focussed on the connection of Description Logics, the base of OWL DL, and rule-based reasoning (eg \cite{DLP,knorr,unilogic,DLASP}). 
 % This connection normally deals with 
@@ -310,7 +310,7 @@ the support of a \emph{closed vs open world assumption} and \emph{decidability}.
 \subsection{Open vs. closed world}\label{closedworld}
  Classical database languages (\eg SQL)  but also many rule languages (\eg Prolog) support the \emph{closed world} assumption which basically says that if a statement cannot 
 be derived, 
-it is considered to be false (negation as failure, NAS). While such an assumption comes in handy when we have one single database which can be completely searched by applying a query, 
+it is considered to be false (negation as failure, NAF). While such an assumption comes in handy when we have one single database which can be completely searched by applying a query, 
 it is problematic 
 in the environment of the Web: the Web is decentralised and it is impossible to know whether or not something is stated to be true \emph{somewhere} in the Web.
 For that reason \rdf, \rdf{}S and \owl are defined with the \emph{open world assumption}. No conclusions can be taken by the fact that something cannot be derived. 
@@ -322,7 +322,7 @@ specified in the \wwwc recommendation, only RIF-PRD~\cite{rifprd} supports the c
 
 But even these cases of negation can be covered by open world concepts: As a SPARQL query is always executed on one or more specific databases and 
 rule languages rely on facts and formulas which are explicitly stated somewhere, we  
-can use the concept of \emph{scoped negation as failure} (SNAF)~\cite{kifer2005,snaf1,snaf2}. SNAF makes use of the sources (the scope) 
+can use the concept of \emph{scoped negation as failure} (SNAF)~\cite{kifer2005,polleres2006rules,damasio2006supporting}. SNAF makes use of the sources (the scope) 
 which where taken into account when executing a 
 query or performing rule-based reasoning. Instead of simply stating that something cannot be proven such as it is done when applying NAF, in SNAF  we
 draw conclusions from the fact that something cannot be derived from a \emph{fixed dataset} which we explicitly name. 
@@ -335,9 +335,9 @@ keeps being valid.
  Description Logics~\cite{dl} in general and with them OWL DL \cite{owldsem} in particular are decidable; for every statement expressed in the language of these logics there
 exists an effective method to decide whether or not this statement is consequence of a set of valid formulas. This is not the case for classical 
 First Order Logic~(FOL) and one of the main goals driving the development of Description Logics was to cover as much of the features of FOL as possible while still guaranteeing 
-decidability. Therefore it is not surprising that many approaches of finding a Unifying Logic mainly focus on decidability (\eg~\cite{unilogic,dllog}). 
+decidability. Therefore it is not surprising that many approaches of finding a \ul mainly focus on decidability (\eg~\cite{unilogic,dllog}). 
 While this focus forms a very interesting research problem -- especially when considering the fact that simply combining decidable rule-based reasoning with description logics 
-does not lead to decidability \cite{orl} -- it is of rather theoretical nature when searching for a Unifying Logic: OWL Full, 
+does not lead to decidability \cite{orl} -- it is of rather theoretical nature when searching for a \ul: OWL Full, 
 the semantic combination of \rdf and OWL DL is already undecidable which is the reason why no decidable combination of rule-based reasoning and description logics can cover these 
 two important building blocks of the Semantic Web.
 %If we really want to connect all logical building blocks we cannot keep decidability since only OWL Full fully covers \rdf and that is already known to not be decidable.
@@ -347,7 +347,7 @@ two important building blocks of the Semantic Web.
 % logic semantically connecting different standards listed in the stack which are not always fully compatible or 
 % show severe practical problems in terms of reasoning time when  applying them
 % 
-The quest for a Unifying Logic should therefore rather focus on ways how information specified in OWL, \rdf and rules can be used to draw conclusions
+The quest for a \ul should therefore rather focus on ways how information specified in OWL, \rdf and rules can be used to draw conclusions
 and accept that we cannot know everything (which is not only a problem  for Semantic Web technologies but also something we all deal with in our daily life). 
 
 
@@ -471,21 +471,21 @@ and accept that we cannot know everything (which is not only a problem  for Sema
 
 \section{Requirements on a Unifying Logic}\label{req}
 Before we continue and discuss the research questions this thesis aims to answer, 
-we briefly discuss the aspects on a \emph{Unifying Logic} we want to focus on. The \emph{Unifying Logic} for the Semantic Web should fulfil the following requirements:
+we briefly discuss the aspects on a \ul we want to focus on. The \ul for the Semantic Web should fulfil the following requirements:
 \begin{enumerate}
 \item \textbf{Clear semantics} %Be clearly defined:} 
-The semantics of the \emph{Unifying Logic} should be formally defined to avoid ambiguities.
+The semantics of the \ul should be formally defined to avoid ambiguities.
 % For the \emph{Unifying Logic} it is even more crucial than for any other logic to have a formally defined semantics because one key concept of 
 % the Semantic Web is interoperability. This means that different systems exchanging information and applying the logic need to have a common agreement about 
 % its meaning of formulas. % which can only be given if this is clearly defined.
 \item \textbf{Compatibility with \rdf} %Build on \rdf:} 
-The \emph{Unifying Logic} should be \emph{syntactically} and \emph{semantically} compatible with \rdf.
+The \ul should be \emph{syntactically} and \emph{semantically} compatible with \rdf.
 \item \textbf{Connection of the logical building blocks:} %Connect the logical layers:} 
-The \emph{Unifying Logic}  should facilitate the practical tasks the 
+The \ul  should facilitate the practical tasks the 
  building blocks \emph{Querying}, \emph{Taxonomies/Ontologies}
 and \emph{Rules} aim to solve and 
 it should support reasoning on the \rdf representation of the standards listed in the current stack (\ie RIF, OWL and SPARQL).
-\item \textbf{Support of proofs:} It should be possible to formally express proofs for derivations done in the \emph{Unifying Logic}. The proof format should be based on \rdf, it should be 
+\item \textbf{Support of proofs:} It should be possible to formally express proofs for derivations done in the \ul. The proof format should be based on \rdf, it should be 
 exchangeable and it should be usable in practical applications which go  beyond their primary purpose of establishing trust.
 %the possibility to express proofs and use them in applications (4).
 \end{enumerate}
@@ -494,7 +494,7 @@ We further explain these points below starting with the two aspects discussed in
 % The discussion so far has shown, that it is impossible to find one single logic which connects the logical layers on a semantic level while still providing a 
 % practical framework supporting reasoning with them.
 %In the last two sections we already discussed two properties which qualify a logic to become the unifying logic for the Semantic Web:
-A \emph{Unifying Logic} must be compatible with \rdf and it should 
+A \ul must be compatible with \rdf and it should 
  connect the layers it directly relies on. We have already seen that the concept of \emph{connection} can be understood in different ways. One of these is the creation of a 
  decidable logic which supports DL reasoning and rule-based inferencing at the same time. Since this solution excludes OWL Full and with it also \rdf we do not follow this approach here 
  and focus on practical aspects instead: we search for a logic which supports the different practical applications the layers \emph{Querying}, \emph{Ontologies/Taxonomies} and 
@@ -509,7 +509,7 @@ the meaning of formulas.
 %  it should 
 %  have a clearly defined semantics which enables us to unambiguously determine the meaning of a statement. 
  
- Another important aspect of a \emph{Unifying Logic} %we have not discussed earlier
+ Another important aspect of a \ul %we have not discussed earlier
  is its connection to the layers on top of it:
 %  , \ie the building blocks \emph{Proof}, \emph{Trust} and \emph{User 
 %  interface and applications} (Figure \ref{fig:stack}):   
@@ -559,13 +559,13 @@ the meaning of formulas.
 % it also needs to be compatible to the base of these layers, the \emph{Data Interchange} layer and its representing standard \rdf. Likewise, it should support
 % the next-higher layer, the layer of 
 % \emph{Proof}. 
-It needs to be possible to formally express how conclusions are drawn applying the \emph{Unifying Logic}.
+It needs to be possible to formally express how conclusions are drawn applying the \ul.
 For this, a calculus must be defined and its correctness needs to be proven. The proofs composed of the different inference steps of the calculus need to be exchangeable between 
 different parties and these need to be able to verify them. With \rdf being the most established standard of the Semantic Web, the proof layer should be compatible with it. 
 Since the implementation of the
 Semantic Web stack with its different building blocks is not a scientific goal in itself but aims to realise the vision of a Semantic Web, the connection of all the building blocks 
 occurring in the stack with the upper layer, the layer of applications, is crucial: only if the different standards support real life applications they push the realisation of the
-Semantic Web forward. We therefore also expect from the proof format based on the unifying logic that it can be used in different scenarios which preferably go beyond the establishment of trust. 
+Semantic Web forward. We therefore also expect from the proof format based on the \ul that it can be used in different scenarios which preferably go beyond the establishment of trust. 
 % One obvious application is the establishment 
 % of the trust layer, but if there can be applications beside this one,  
 % 
@@ -580,7 +580,7 @@ Semantic Web forward. We therefore also expect from the proof format based on th
 
 
 \section{Notation3 Logic}\label{n3examples}
-Having discussed the architecture of the Semantic Web and the role the \emph{Unifying Logic} plays in it we now introduce a possible candidate to fulfil this role, 
+Having discussed the architecture of the Semantic Web and the role the \ul plays in it we now introduce a possible candidate to fulfil this role, 
 Notation3 Logic (\nthreelogic)~\cite{N3Logic}. 
 The aim of this section is to make the reader familiar with
 %This section provides an informal overview of
@@ -856,7 +856,7 @@ which can be concluded from the given knowledge. In our example these are the Fo
 
 
 \subsection{Open challenges}
-Many of the different properties we discussed so far make \nthree a promising candidate to become the \emph{Unifying Logic} of the Semantic Web: \nthree truly extends \rdf on both the semantic and the syntactic 
+Many of the different properties we discussed so far make \nthree a promising candidate to become the \ul of the Semantic Web: \nthree truly extends \rdf on both the semantic and the syntactic 
 level and it contains a construct to cite formulas. This makes it possible to easily express  proofs in \nthree and there is already a specific vocabulary defined to do so.
 The fact that there are several reasoners implemented for \nthree and that these reasoners are already used in practical implementations furthermore shows that \nthreelogic is more then just a theoretical construct: 
 \nthree actually connects to the highest level of the Semantic Web stack, 
@@ -876,7 +876,7 @@ it is in particular a problem for a logic in the Semantic Web, where interoperab
 Related to the problem we just described, there is another one: it is not clear yet, how \nthree logic behaves in comparison to other logics. 
 We already mentioned the expressivity which is related to the semantics. 
 Apart from this we want to know for which kinds of tasks \nthreelogic is well suited 
-and when it is better to use another formalism. Having the idea of a \emph{Unifying Logic} in mind it would be in particular be interesting to 
+and when it is better to use another formalism. Having the idea of a \ul in mind it would be in particular be interesting to 
 know whether common SPARQL querying tasks 
 and the reasoning tasks which are classically solved using OWL DL can also be addressed applying \nthree reasoning.
 
@@ -902,8 +902,8 @@ and the reasoning tasks which are classically solved using OWL DL can also be ad
 %  
 
 \section{Research questions}\label{researchquestions}
-In this thesis we want to investigate to what extend \nthreelogic can fulfil the role of the \emph{Unifying Logic} for the Semantic Web.
-In Section~\ref{req} we identified the four requirements on the \emph{Unifying Logic} we want to focus on: (1) clear semantics, %the semantics of \nthree can be clearly defined by providing a model theory for the logic, 
+In this thesis we want to investigate to what extend \nthreelogic can fulfil the role of the \ul for the Semantic Web.
+In Section~\ref{req} we identified the four requirements on the \ul we want to focus on: (1) clear semantics, %the semantics of \nthree can be clearly defined by providing a model theory for the logic, 
 (2) compatibility with \rdf, 
 (3) connection of the logical layers 
 and (4) support of proofs. For each of these requirements we pose research questions.
@@ -986,7 +986,7 @@ research projects and of example formulas from the EYE website which were create
 \hyp{Hypothesis 2:}{For at least one quarter of all \nthree formulas contained in our dataset of practical examples the interpretations by the reasoners EYE and Cwm differ.}
 
 Once the differences in the interpretations can be clearly identified, the community needs to agree on \emph{one} interpretation for \nthreelogic which then needs 
-to be formalised. In this context we need to remember that we postulated that the \emph{Unifying Logic} needs to be compatible with \rdf (Requirement 2).
+to be formalised. In this context we need to remember that we postulated that the \ul needs to be compatible with \rdf (Requirement 2).
 % 
 % The awareness of the differences will help the community to agree on one single interpretation of \nthreelogic which then needs to be formalised in a model theory. 
 %This formalisation needs to respect Requirement~2, the compatibility to \rdf. 
@@ -1005,9 +1005,9 @@ In order  to stay consistent which these definitions, we need to follow the same
 according to the interpretations of Cwm and EYE. %choose one of the possible interpretations of \nthreelogic 
 Here, we test the following hypothesis:
 
-\hyp{Hypothesis 3:}{The model theory for \nthreelogic can be specified in such a way that it is compatible with the model theory of \rdf.}
+\hyp{Hypothesis 3:}{The model theory for \nthreelogic can be specified in such a way that it is mostly compatible with the model theory of \rdf.}
 
-Next to a clear semantics and compatibility with \rdf the \emph{Unifying Logic} needs to connect the logical layers of the Semantics Web stack (Requirement~3).
+Next to a clear semantics and compatibility with \rdf the \ul needs to connect the logical layers of the Semantics Web stack (Requirement~3).
 % Next to the clear definition of \nthree's semantics which needs to be in line with \rdf, the logic needs to fulfil two other requirements to become the unifying logic 
 % the Semantic Web.
 %The third requirement we identified for a logic to become the unifying logic for the Semantic Web is that it should connect the logical layers. 
@@ -1036,7 +1036,7 @@ we can tackle the same use cases as with \owl DL reasoning and/or SPARQL queryin
 }
 
 
-The last important property we identified for the \emph{Unifying Logic} was that it should support the layer of \emph{Proof} (Requirement 4).
+The last important property we identified for the \ul was that it should support the layer of \emph{Proof} (Requirement 4).
 %Regarding Requirement~4, the support of proofs, 
 %we already know that 
 There exists a vocabulary in \nthree which was created to express proofs, the SWAP-proof vocabulary~\cite{Proof}. % makes it possible to express proofs in \nthree and the reasoners Cwm and EYE produce such proofs.
@@ -1061,7 +1061,7 @@ That formalisation allows us to prove that the calculus is correct.}
 
 With such a correct proof calculus which can be used within the language -- proofs written with SWAP are themselves again \nthree formulas -- we can not only 
 support the layer of \emph{Trust} but also the layer of \emph{Applications}. %Among the many ways of applying proofs we consider one example in more detail:
-We illustrated that on the idea of using \nthree proofs for adaptive planning.
+We illustrate that on the idea of using \nthree proofs for adaptive planning.
 %In this thesis we are not only interested in the layer of proof to establish \emph{Trust} but also in the relation of that layer to \emph{Applications}. % we ask our last research question:
 % 
 % \hyp{Research Question 7:}{Are there applications for \nthree proofs which go beyond the establishment of \emph{Trust}?} 

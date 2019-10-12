@@ -1,0 +1,2733 @@
+@article{bernerslee_1992,
+  title = {The world-wide web},
+  author = {Berners-Lee, Tim and Cailliau, Robert and Groff, Jean-François},
+  journal = {Computer Networks and ISDN Systems},
+  volume = 25,
+  number = {4--5},
+  pages = {454--459},
+  year = 1992,
+  url = {http://www.sciencedirect.com/science/article/pii/016975529290039S},
+}
+
+
+@article{SemanticWeb,
+ ISSN = {00368733, 19467087},
+ URL = {http://www.jstor.org/stable/26059207},
+  author = {Tim Berners-Lee and James Hendler and Ora Lassila},
+ journal = {Scientific American},
+ number = {5},
+ pages = {34--43},
+ publisher = {Scientific American, a division of Nature America, Inc.},
+  title = {The {Semantic Web}},
+ volume = {284},
+ year = {2001}
+}
+
+
+
+@electronic{ProgrammableWeb,
+  author = {Berlind, David},
+  title = {{ProgrammableWeb's} Directory Hits 10,000 \apis{.} {And} Counting.},
+  year = 2013,
+  month = sep,
+  day = 23,
+  howpublished = {ProgrammableWeb blog},
+  note = {\url{http://blog.programmableweb.com/2013/09/23/programmablewebs-directory-hits-10000-apis-and-counting/}},
+}
+
+@electronic{APIhub,
+  author = {MuleSoft},
+  title = {Mu{leSoft} Launches \api{hub}, World’s Largest \api Repository for the Discovery and Management of \apis},
+  note = {\url{http://goo.gl/HAKqy}},
+  year = 2012,
+  month = dec,
+}
+
+@inproceedings{verborgh_afms_2011,
+  title = {{Description and Interaction of {\sc rest}ful Services for Automatic Discovery and Execution}},
+  author = {Verborgh, Ruben and Steiner, Thomas and Van Deursen, Davy and De Roo, Jos and Van de Walle, Rik and Gabarr\'o Vall\'es, Joaquim},
+  year = 2011,
+  month = dec,
+  booktitle = {Proceedings of the {\sc ftra} 2011 International Workshop on Advanced Future Multimedia Services},
+}
+
+
+
+@inproceedings{verborgh_wsrest_2012,
+  title = {Functional Descriptions as the Bridge between Hypermedia {\sc api}s and the {Semantic Web}},
+  author = {Verborgh, Ruben and Steiner, Thomas and Van Deursen, Davy and Coppens, Sam and Gabarr\'o Vall\'es, Joaquim and Van de Walle, Rik},
+  booktitle = {Proceedings of the Third International Workshop on {\sc rest}ful Design},
+  year = 2012,
+  month = apr,
+  publisher = {{\sc acm}},
+  isbn = {978-1-4503-1190-8},
+  pages = {33--40},
+  doi = {10.1145/2307819.2307828},
+  urlnote = {\url{http://www.ws-rest.org/2012/proc/a5-9-verborgh.pdf}},
+}
+
+
+
+@online{Notation3,
+  author = {Berners-Lee, Tim and Connolly, Dan},
+  title = {Notation3 ({\sc n\oldstylenums 3}): A~readable {\sc rdf} syntax},
+  note = {\url{http://www.w3.org/TeamSubmission/n3/}},
+  howpublished = {{\sc w\oldstylenums3c} Team Submission},
+  day = 28,
+  month = mar,
+  year = 2011,
+}
+
+
+@article{N3Logic,
+ author = {Berners-Lee, Tim and Connolly, Dan and Kagal, Lalana and Scharf, Yosi and Hendler, Jim},
+ title = {{\nthreelogic}: A logical framework for the {World Wide Web}},
+ journal = {Theory and Practice of Logic Programming},
+ volume = {8},
+ number = {3},
+ year = {2008},
+ issn = {1471-0684},
+ pages = {249--269},
+ doi = {http://dx.doi.org/10.1017/S1471068407003213},
+ publisher = {Cambridge University Press},
+ urlnote = {\url{http://arxiv.org/abs/0711.1533}},
+}
+
+
+@online{Notation32,
+  author = {Berners-Lee, Tim},
+  title = { Notation 3 Logic },
+  note = {\url{http://www.w3.org/DesignIssues/N3Logic}},
+  year = 2005,
+}
+
+@online{httprdf,
+  author = {Koch, Johannes and Valesco, Carlos A and Ackermann, Philip},
+  title = {HTTP Vocabulary in RDF 1.0},
+  note = {\url{http://www.w3.org/TR/HTTP-in-RDF10/}},
+  howpublished = {{\sc w\oldstylenums3c} Working Draft},
+  day = 10,
+  month = may,
+  year = 2011,
+}
+
+@online{tbl,
+  author = {Berners Lee, Tim},
+  title = {Re: Implicit quantification in N3},
+  note = {\url{http://lists.w3.org/Archives/Public/public-cwm-talk/2015JanMar/0001.html}},
+  howpublished = {Public-cwm-talk},
+  day = 19,
+  month = january,
+  year = 2015,
+}
+
+
+
+@online{iri,
+author= { M. Duerst and M. Suignard},
+note= {\url{http://www.ietf.org/rfc/rfc3987.txt}},
+title= {{Internationalized Resource Identifiers (IRIs)}},
+month = jan,
+year = 2005,
+}
+
+
+@online{turtle,
+author= {David Beckett and Tim Berners-Lee and Eric Prud'hommeaux and Gavin Carothers},
+note= {\url{http://www.w3.org/TR/turtle/}},
+title= {{Turtle - Terse RDF Triple Language}},
+howpublished = {{\sc w\oldstylenums3c} Recommendation},
+month = feb,
+year = 2014,
+}
+
+@online{rdfxml,
+author= {Fabien Gandon and Guus Schreiber},
+note= {\url{https://www.w3.org/TR/rdf-syntax-grammar/}},
+title= {{RDF 1.1 XML Syntax}},
+howpublished = {{\sc w\oldstylenums3c} Recommendation},
+month = feb,
+year = 2014,
+}
+
+@article{REST,
+    author = {Fielding, Roy T. and Taylor, Richard N.},
+    doi = {10.1145/514183.514185},
+    issn = {1533-5399},
+    journal = {Transactions on Internet Technology},
+    month = May,
+    number = {2},
+    pages = {115--150},
+    publisher = {{\acm}},
+    title = {{Principled design of the modern Web architecture}},
+    volume = {2},
+    year = {2002},
+    urlnote = {\url{http://dl.acm.org/citation.cfm?id=514185}},
+}
+
+@inproceedings{verborgh_ssn_2012,
+  author = {Verborgh, Ruben and Haerinck, Vincent and Steiner, Thomas and Van Deursen, Davy and Van Hoecke, Sofie and De Roo, Jos and Van de Walle, Rik and Gabarr\'o Vall\'es, Joaquim},
+  title = {Functional Composition of Sensor {Web APIs}},
+  booktitle = {Proceedings of the 5th International Workshop on Semantic Sensor Networks},
+  year = 2012,
+  month = nov,
+  urlnote = {\url{http://ceur-ws.org/Vol-904/paper6.pdf}},
+}
+
+
+@article{AgentsSemanticWeb,
+  author={Hendler, J.},
+  journal={Intelligent Systems, {\sc ieee}},
+  title={{Agents and the Semantic Web}},
+  year={2001},
+  month={Mar--Apr},
+  volume={16},
+  number={2},
+  pages={30--37},
+  doi={10.1109/5254.920597},
+  ISSN={1541-1672}
+}
+
+@inproceedings{HendlerESWC2011,
+  author = {Jim Hendler},
+  title = {{``Why the Semantic Web will Never Work''}},
+  publisher = {Presented at the Extended Semantic Web Conference ({\sc eswc}\oldstylenums{2011}), Crete, Greece},
+  month = May,
+  year = 2011,
+  urlnote = {\url{http://www.slideshare.net/jahendler/why-the-semantic-web-will-never-work}}
+}
+
+@article{LinkedData,
+  author = {Christian Bizer and Tom Heath and Tim Berners-Lee},
+  title = {{Linked Data -- The Story So Far}},
+  journal = {International Journal On Semantic Web and Information Systems},
+  year = {2009},
+  volume = {5},
+  pages = {1--22},
+  number = {3},
+  urlnote = {\url{http://tomheath.com/papers/bizer-heath-berners-lee-ijswis-linked-data.pdf}},
+}
+
+@online{RDF,
+  author = {Cyganiak, Richard and David Wood and Lanthaler, Markus},
+  title = {{{\sc rdf} 1.1: Concepts and Abstract Syntax}},
+  note =  {\url{http://www.w3.org/TR/2014/REC-rdf11-concepts-20140225/}},
+  howpublished = {{\sc w\oldstylenums3c} Recommendation},
+  day = 25,
+  month = feb,
+  year = 2014
+}
+
+@online{XML,
+  author = {    Tim Bray and
+    Jean Paoli and
+    C. M. Sperberg-McQueen and
+    Eve Maler and
+    François Yergeau and
+    John Cowan },
+  title = {{Extensible Markup Language (XML) 1.1 (Second Edition)}},
+  note =  {\url{https://www.w3.org/TR/xml11/}},
+  howpublished = {{\sc w\oldstylenums3c} Recommendation},
+  day = 16,
+  month = aug,
+  year = 2006
+}
+@online{rifbld,
+  author = {
+    Harold Boley and
+    Michael Kifer
+  },
+  editor={  },   
+  title = {RIF Basic Logic Dialect (Second Edition)},
+  note = {\url{https://www.w3.org/TR/rif-bld/}},
+  howpublished = {{\sc w\oldstylenums3c} Recommendation},
+  day = 5,
+  month = feb,
+  year = 2013,
+}
+@online{rifcore,
+  author = {
+    Harold Boley and
+    Gary Hallmark and
+    Michael Kifer and
+    Adrian Paschke and
+    Axel Polleres and
+    Dave Reynolds
+  },
+  editor={  },   
+  title = {RIF Core Dialect (Second Edition)},
+  note = {\url{https://www.w3.org/TR/rif-core/}},
+  howpublished = {{\sc w\oldstylenums3c} Recommendation},
+  day = 5,
+  month = feb,
+  year = 2013,
+}
+
+
+@online{RDFSemantics,
+  author = {Patrik J. Hayes and Peter F Patel-Schneider},
+  title = {{{\sc rdf} 1.1 Semantics}},
+  note =  {\url{http://www.w3.org/TR/2014/REC-rdf11-mt-20140225/}},
+  howpublished = {{\sc w\oldstylenums3c} Recommendation},
+  day = 25,
+  month = feb,
+  year = 2014
+}
+
+@book{ebbinghaus,
+  author    = {Heinz-Dieter Ebbinghaus and
+               J{\"o}rg Flum and
+               Wolfgang Thomas},
+  title     = {Einf{\"u}hrung in die mathematische Logik (5. Aufl.)},
+  publisher = {Spektrum Akademischer Verlag},
+  year      = {2007},
+  pages     = {I-IX, 1-339},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@book{enderton,
+title = "A Mathematical Introduction to Logic (Second Edition)",
+publisher = "Academic Press",
+edition = "Second ",
+address = "Boston",
+pages = "xi - xii",
+year = "2001",
+isbn = "978-0-12-238452-3",
+doi = "https://doi.org/10.1016/B978-0-08-049646-7.50005-9",
+url = "http://www.sciencedirect.com/science/article/pii/B9780080496467500059",
+author = "Herbert B. Enderton"
+}
+
+@book{mendelson,
+ author = {Mendelson, Elliott},
+ title = {Introduction to Mathematical Logic},
+ year = {2009},
+ isbn = {1584888768, 9781584888765},
+ edition = {5th},
+ publisher = {Chapman \& Hall/CRC},
+} 
+
+
+@online{RDFS,
+  author = {Brickley, Dan and Guha, R.\ V.},
+  title = {{{\sc rdf} Schema 1.1}},
+  note =  {\url{http://www.w3.org/TR/rdf-schema/}},
+  howpublished = {{\sc w\oldstylenums3c} Recommendation},
+  day = 25,
+  month = feb,
+  year = 2014
+}
+
+@online{IKL,
+  author = {Hayes, Pat and Menzel, Chris},
+  title = {{IKL Specification Document}},
+  note =  {\url{http://www.ihmc.us/users/phayes/IKL/SPEC/SPEC.html}},
+  howpublished = {Unpublished {IKRIS} memorandum},
+  year = 2006
+}
+
+
+
+@online{SPARQLold,
+  author = {Prud'hommeaux, Eric and Seaborne, Andy},
+  title = {{{\sc sparql} Query Language for {\sc rdf}}},
+  note =  {\url{http://www.w3.org/TR/rdf-sparql-query/}},
+  howpublished = {{\sc w\oldstylenums3c} Recommendation},
+  day = 16,
+  month = jan,
+  year = 2008
+}
+@online{sparql,
+  author = {Harris, Steve and Seaborne, Andy},
+  title = {{SPARQL 1.1 Query Language}},
+  note =  {\url{http://www.w3.org/TR/sparql11-query/}},
+  howpublished = {{\sc w\oldstylenums3c} Recommendation},
+  day = 21,
+  month = mar,
+  year = 2013
+}
+
+
+@online{owl,
+  author = {{W3C OWL Working Group}},
+  title = {{\sc owl} 2 {Web Ontology Language}},
+  note = {\url{https://www.w3.org/TR/owl2-overview/}},
+  howpublished = {{\sc w\oldstylenums3c} Recommendation},
+  month = dec,
+  year = 2012,
+}
+
+@online{owlold,
+  author = {
+       Mike Dean and
+    Guus Schreiber and
+    Sean Bechhofer and
+    Frank van Harmelen and
+    Jim Hendler and
+    Ian Horrocks and
+    Deborah L. McGuinness and
+    Peter F. Patel-Schneider and
+    Lynn Andrea Stein
+    },
+  title = {{\sc owl} {Web Ontology Language}},
+  note = {\url{https://www.w3.org/TR/owl-ref/}},
+  howpublished = {{\sc w\oldstylenums3c} Recommendation},
+  month = feb,
+  year = 2004,
+}
+
+
+@online{OWLRL,
+  author = {Calvanese, Diego and Carroll, Jeremy and Di Giacomo, Giuseppe and Hendler, Jim and Herman, Ivan and Parsia, Bijan and Patel-Schneider, Perter F. and Ruttenberg, Alan  and Sattler, Uli and Schneider, Michael},
+  title = {{\sc owl} 2 {Web Ontology Language
+Profiles} (Second Edition)},
+  note = {\url{www.w3.org/TR/owl2-profiles/}},
+  howpublished = {{\sc w\oldstylenums3c} Recommendation},
+  month = dec,
+  year = 2012,
+}
+
+
+@online{HTTP,
+  author = {R. T. Fielding and J. Gettys and J. Mogul and H. Frystyk and L. Masinter and P. Leach and T. Berners-Lee},
+  title = {{Hypertext Transfer Protocol -- {\sc http}/1.1}},
+  note = {\url{http://www.ietf.org/rfc/rfc2616.txt}},
+  month = jun,
+  year = 1999
+}
+
+@electronic{WSDL1,
+  author = {Christensen, Erik and Curbera, Francisco and Meredith, Greg and Weerawarana, Sanjiva},
+  title = {{Web Services Description Language (WSDL) 1.0}},
+  note = {\url{http://xml.coverpages.org/wsdl20000929.html}},
+  day = 25,
+  month = sep,
+  year = 2000
+}
+
+@article{SAWSDL,
+  author = {Jacek Kopeck\'y and Tomas Vitvar and Carine Bournez and Joel Farrell},
+  title = {{Semantic Annotations for {\sc wsdl} and {\sc xml} Schema}},
+  journal = {{\sc ieee} Internet Computing},
+  volume = {11},
+  year = {2007},
+  pages = {60--67},
+  doi = {10.1109/MIC.2007.134},
+  urlnote = {\url{http://cms-wg.sti2.org/doc/IEEEIC2007-KopeckyVBF.pdf}},
+}
+
+@online{OwlS,
+  author = {Martin, David and Burstein, Mark and Hobbs, Jerry and Lassila, Ora},
+  title = {{\owls: Semantic Markup for Web Services}},
+  howpublished = {{\sc w\oldstylenums3c} Member Submission},
+  note = {\url{http://www.w3.org/Submission/OWL-S/}},
+  day = 22,
+  month = nov,
+  year = 2004
+}
+
+@online{WSMO,
+  author = {Holger Lausen and Axel Polleres and Dumitru Roman},
+  title = {{Web Service Modeling Ontology ({\sc wsmo})}},
+  howpublished = {{\sc w\oldstylenums3c} Member Submission},
+  note = {\url{http://www.w3.org/Submission/WSMO/}},
+  day = 3,
+  month = jun,
+  year = 2005
+}
+
+@online{cwm,
+  author = {Berners-Lee, Tim},
+  title = {{\cwm}},
+  note = {\url{http://www.w3.org/2000/10/swap/doc/cwm.html}},
+  year = {2000--2009}
+}
+
+@online{eye,
+  author = {De Roo, Jos},
+  title = {Euler Yet another proof Engine},
+  note = {\url{http://eulersharp.sourceforge.net/}},
+  year = {1999--2019}
+}
+
+http://eulersharp.sourceforge.net/README
+
+@online{fuxi,
+title = {
+{FuXi} 1.4: A {Python}-based, bi-directional logical reasoning system for the semantic web },
+note = {\url{http://code.google.com/p/fuxi/}},
+year = {}
+}
+
+@online{swish,
+author = {Graham Klyne},
+title = {
+swish: {A} semantic web toolkit. },
+note = {\url{http://hackage.haskell.org/package/swish}},
+year = {2003--2018}
+}
+@article{bau,
+title = "A semantic rule checking environment for building performance checking",
+journal = "Automation in Construction",
+volume = "20",
+number = "5",
+pages = "506 - 518",
+year = "2011",
+issn = "0926-5805",
+doi = "https://doi.org/10.1016/j.autcon.2010.11.017",
+url = "http://www.sciencedirect.com/science/article/pii/S0926580510001962",
+author = "P. Pauwels and D. Van Deursen and R. Verstraeten and J. De Roo and R. De Meyer and R. Van de Walle and J. Van Campenhout",
+keywords = "Semantic web, Construction industry, Rule checking, Reasoning",
+abstract = "Today's construction industry relies heavily on high-performing building information modelling (BIM) systems. By deploying the Industry Foundation Classes (IFC) as a description language, these systems offer building information in a widely interoperable format, so that several applications are able to infer extra information. For a certain functionality, IFC shows limitations however. Existing semantic web technology may be able to overcome these limitations, thereby enabling a range of significant improvements and possibilities for automation in building design and construction. This paper gives a short overview of the functionality of IFC as a language, compared to the functionality of languages deployed in the semantic web domain. The improvements generated by deploying semantic web languages are briefly discussed, after which a concrete implementation approach is presented for a semantic rule checking environment for building design and construction. An implemented test case for acoustic performance checking illustrates the improvements of such an environment compared to traditionally deployed approaches in rule checking."
+}
+@ARTICLE{iot,
+author={S. Mayer and R. Verborgh and M. Kovatsch and F. Mattern},
+journal={IEEE Transactions on Automation Science and Engineering},
+title={Smart Configuration of Smart Environments},
+year={2016},
+volume={13},
+number={3},
+pages={1247-1255},
+keywords={inference mechanisms;Internet of Things;meta data;ubiquitous computing;visual programming;Internet of Things;ubiquitous computing;smart environment;service composition system;goal-driven configuration;semantic metadata;reasoning;visual modeling tool;process-driven approach;service mashups;embedded semantic API descriptions;application program interfaces;smart homes;Semantics;Mashups;Visualization;Manufacturing;Internet of things;Protocols;Context;Internet of Things;semantic technologies;service composition;smart factory;smart home;web of things},
+doi={10.1109/TASE.2016.2533321},
+ISSN={1545-5955},
+month={July},}
+
+@article{sun,
+title = "Semantic processing of EHR data for clinical research",
+journal = "Journal of Biomedical Informatics",
+volume = "58",
+pages = "247 - 259",
+year = "2015",
+issn = "1532-0464",
+doi = "https://doi.org/10.1016/j.jbi.2015.10.009",
+url = "http://www.sciencedirect.com/science/article/pii/S1532046415002312",
+author = "Hong Sun and Kristof Depraetere and Jos De Roo and Giovanni Mels and Boris De Vloed and Marc Twagirumukiza and Dirk Colaert",
+keywords = "Semantic interoperability, N3 rules, EHR, RESTful, Clinical research, Semantic web stack",
+abstract = "There is a growing need to semantically process and integrate clinical data from different sources for clinical research. This paper presents an approach to integrate EHRs from heterogeneous resources and generate integrated data in different data formats or semantics to support various clinical research applications. The proposed approach builds semantic data virtualization layers on top of data sources, which generate data in the requested semantics or formats on demand. This approach avoids upfront dumping to and synchronizing of the data with various representations. Data from different EHR systems are first mapped to RDF data with source semantics, and then converted to representations with harmonized domain semantics where domain ontologies and terminologies are used to improve reusability. It is also possible to further convert data to application semantics and store the converted results in clinical research databases, e.g. i2b2, OMOP, to support different clinical research settings. Semantic conversions between different representations are explicitly expressed using N3 rules and executed by an N3 Reasoner (EYE), which can also generate proofs of the conversion processes. The solution presented in this paper has been applied to real-world applications that process large scale EHR data."
+}
+
+@INPROCEEDINGS{dou,
+author={N. Douali and E. I. Papageorgiou and J. De Roo and M. Jaulent},
+booktitle={2011 IEEE International Conference on Fuzzy Systems (FUZZ-IEEE 2011)},
+title={Case Based Fuzzy Cognitive Maps (CBFCM): New method for medical reasoning: Comparison study between CBFCM/FCM},
+year={2011},
+volume={},
+number={},
+pages={844-850},
+keywords={case-based reasoning;decision support systems;fuzzy logic;medical computing;case based fuzzy cognitive maps;medical reasoning;clinical practice;FCM decision support system;Cognition;Resource description framework;Medical diagnostic imaging;Fuzzy cognitive maps;Medical services;OWL;Fuzzy Cognitive Maps;Rules;Decision Support Systems;Knowledge Representation;Clinical Guidelines;Semantic Web;case based reasoning},
+doi={10.1109/FUZZY.2011.6007710},
+ISSN={1098-7584},
+month={June},}
+
+@electronic{SemanticWebStack,
+  author = {Steve Bratt},
+  title = {{Semantic Web}, and Other Technologies to Watch},
+  year = 2007,
+  month = Jan,
+  howpublished = {{\sc incose} International Workshop},
+  note = {\url{http://www.w3.org/2007/Talks/0130-sb-W3CTechSemWeb/\#(24)}}
+}
+
+
+@article{verborgh_mtap_2013,
+  title = {{Capturing the functionality of Web services with functional descriptions}},
+  author = {Verborgh, Ruben and Steiner, Thomas and Van Deursen, Davy and De Roo, Jos and Van de Walle, Rik and Gabarr\'o Vall\'es, Joaquim},
+  journal = {Multimedia Tools and Applications},
+  year = 2013,
+  publisher = {Springer},
+  doi = {10.1007/s11042-012-1004-5},
+  urlnote = {\url{http://www.springerlink.com/index/d041t268487gx850.pdf}},
+}
+
+
+@online{WADL,
+  author = {Hadley, Marc},
+  title = {{Web Application Description Language}},
+  howpublished = {{\sc w\oldstylenums3c} Member Submission},
+  note = {\url{http://www.w3.org/Submission/wadl/}},
+  day = 31,
+  month = aug,
+  year = 2009
+}
+
+@online{WSDL,
+  author = {Erik Christensen and Francisco Curbera and Greg Meredith and Sanjiva Weerawarana},
+  title = {{Web Services Description Language ({\sc wsdl})}},
+  howpublished = {{\sc w\oldstylenums3c} Note},
+  note = {\url{http://www.w3.org/TR/wsdl}},
+  day = 15,
+  month = mar,
+  year = 2001
+}
+
+@inproceedings{LOS,
+  title={{Consuming dynamic Linked Data}},
+  author={Norton, B. and Krummenacher, R.},
+  booktitle={Proceedings of the 1\textsuperscript{st} International Workshop on Consuming Linked Data},
+  year={2010},
+  month=nov,
+  urlnote = {\url{http://ceur-ws.org/Vol-665/NortonEtAl_COLD2010.pdf}},
+}
+
+@incollection {LIDS,
+   author = {Speiser, Sebastian and Harth, Andreas},
+   affiliation = {Institute AIFB, Karlsruhe Institute of Technology (KIT), Germany},
+   title = {{Integrating Linked Data and Services with Linked Data Services}},
+   booktitle = {The Semantic Web: Research and Applications},
+   series = {Lecture Notes in Computer Science},
+   publisher = {Springer},
+   isbn = {978-3-642-21033-4},
+   keyword = {Computer Science},
+   pages = {170--184},
+   volume = {6643},
+   year = {2011},
+   urlnote = {\url{http://people.aifb.kit.edu/aha/2012/sms/lids-eswc2011.pdf}},
+}
+
+@inproceedings{GraphBasedComposition,
+  title={A graph-based approach to {Web} services composition},
+  author={Hashemian, S.V. and Mavaddat, F.},
+  booktitle={Proceedings of the 2005 Symposium on Applications and the Internet},
+  pages={183--189},
+  year={2005},
+  urlnote = {\url{http://www.cin.ufpe.br/~redis/intranet/bibliography/middleware/hashemian-composition05.pdf}},
+}
+
+@article{CurrentComposition,
+  title={Current solutions for {Web} service composition},
+  author={Milanovic, N. and Malek, M.},
+  journal={Internet Computing, {\sc ieee}},
+  volume={8},
+  number={6},
+  pages={51--59},
+  year={2004},
+  publisher={{\sc ieee}},
+  urlnote = {\url{http://ieeexplore.ieee.org/iel5/4236/29773/01355922.pdf}},
+}
+
+@inproceedings{Hristoskova,
+  title={Dynamic composition of semantically annotated {Web} services through {\sc q}o{\sc s}-aware {\sc htn} planning algorithms},
+  author={Hristoskova, A. and Volckaert, B. and De Turck, F.},
+  booktitle={Fourth International Conference on Internet and Web Applications and Services },
+  pages={377--382},
+  year={2009},
+  publisher={{\sc ieee}},
+  urlnote = {\url{http://dl.acm.org/citation.cfm?id=1586263}},
+}
+
+@article{Pellet,
+ author = {Sirin, Evren and Parsia, Bijan and Grau, Bernardo Cuenca and Kalyanpur, Aditya and Katz, Yarden},
+ title = {Pellet: A Practical OWL-DL Reasoner},
+ journal = {Journal of Web Semantics},
+ issue_date = {June, 2007},
+ volume = {5},
+ number = {2},
+ month = jun,
+ year = {2007},
+ issn = {1570-8268},
+ pages = {51--53},
+ numpages = {3},
+ url = {http://dx.doi.org/10.1016/j.websem.2007.03.004},
+ doi = {10.1016/j.websem.2007.03.004},
+ acmid = {1265744},
+ publisher = {Elsevier Science Publishers B. V.},
+ address = {Amsterdam, The Netherlands, The Netherlands},
+ keywords = {Description logics, Tableau Theorem Proving, Web Ontology Language},
+} 
+
+@inproceedings{Jena,
+  title={Jena: implementing the {Semantic Web} recommendations},
+  author={Carroll, J.J. and Dickinson, I. and Dollin, C. and Reynolds, D. and Seaborne, A. and Wilkinson, K.},
+  booktitle={Proceedings of the 13\textsuperscript{th} international World Wide Web conference},
+  pages={74--83},
+  year={2004},
+  organization={{\sc acm}},
+  note={\url{www.hpl.hp.com/techreports/2003/HPL-2003-146.pdf}},
+}
+
+@inproceedings{verborgh_lapis_2012,
+  title = {The Missing Links--{How} the Description Format \restdesc Applies the {Linked Data} Vision to Connect Hypermedia \apis},
+  author = {Verborgh, Ruben and Steiner, Thomas and Van de Walle, Rik and Gabarr\'o Vall\'es, Joaquim},
+  booktitle = {Proc. of the Linked \apis workshop at the 9\textsuperscript{th} Extended Semantic Web Conference},
+  year = 2012,
+  month = may,
+  urlnote = {\url{http://lapis2012.linkedservices.org/papers/3.pdf}},
+}
+
+@inproceedings{Kjetil,
+  title = {The necessity of hypermedia \rdf and an approach to achieve it},
+  author = {Kjetil Kjernsmo},
+  booktitle = {Proceedings of the Linked \apis workshop at the 9\textsuperscript{th} Extended Semantic Web Conference},
+  year = 2012,
+  month = may,
+  urlnote = {\url{http://lapis2012.linkedservices.org/papers/1.pdf}},
+}
+
+@online{HTTPinRDF,
+	author = {Johannes Koch and Carlos A Velasco},
+	title = {{\scshape http} Vocabulary in \rdf 1.0},
+	howpublished = {{\sc w\oldstylenums3c} Working Draft},
+	month = oct,
+	year = 2009,
+	note={\url{http://www.w3.org/TR/HTTP-in-RDF10/}}
+}
+
+@article{Manna,
+  title={A deductive approach to program synthesis},
+  author={Manna, Z. and Waldinger, R.},
+  journal={Transactions on Programming Languages and Systems ({\scshape toplas})},
+  volume={2},
+  number={1},
+  pages={90--121},
+  year={1980},
+  publisher={{\scshape acm}},
+  urlnote = {\url{http://dl.acm.org/citation.cfm?id=357084.357090}},
+}
+
+@incollection{Waldinger,
+   author = {Waldinger, Richard},
+   title = {Web Agents Cooperating Deductively},
+   booktitle = {Formal Approaches to Agent-Based Systems},
+   series = {Lecture Notes in Computer Science},
+   publisher = {Springer},
+   isbn = {978-3-540-42716-2},
+   keyword = {Computer Science},
+   pages = {250--262},
+   volume = {1871},
+   urlnote = {\url{http://dx.doi.org/10.1007/3-540-45484-5_20}},
+   year = {2001}
+}
+
+
+@inproceedings{verborgh_iwebss_2012,
+  title = {A Social Description Revolution---Describing {Web} {\sc api}s' Social Parameters with \restdesc},
+  author = {Verborgh, Ruben and Steiner, Thomas and Gabarr\'o Vall\'es, Joaquim and Mannens, Erik and Van de Walle, Rik},
+  month = mar,
+  year = 2012,
+  booktitle = {Proceedings of the {\sc aaai} 2012 Spring Symposia},
+  urlnote = {\url{http://www.aaai.org/ocs/index.php/SSS/SSS12/paper/download/4283/4665}},
+}
+
+@inproceedings{ReLL,
+ author = {Alarc\'{o}n, Rosa and Wilde, Erik},
+ title = {{\sc rest}ler: crawling {\sc rest}ful services},
+ booktitle = {Proceedings of the 19\textsuperscript{th} international conference on World Wide Web},
+ year = {2010},
+ isbn = {978-1-60558-799-8},
+ pages = {1051--1052},
+ numpages = {2},
+ urlnote = {\url{http://doi.acm.org/10.1145/1772690.1772799}},
+ doi = {10.1145/1772690.1772799},
+ acmid = {1772799},
+ publisher = {{\sc acm}},
+}
+
+@incollection {ReLLComposition,
+   author = {Alarc\'{o}n, Rosa and Wilde, Erik and Bellido, Jesus},
+   affiliation = {Computer Science Department, Pontificia Universidad Catolica de Chile, Chile},
+   title = {Hypermedia-Driven {\sc rest}ful Service Composition},
+   booktitle = {Service-Oriented Computing},
+   series = {Lecture Notes in Computer Science},
+   publisher = {Springer},
+   isbn = {978-3-642-19393-4},
+   keyword = {Computer Science},
+   pages = {111--120},
+   volume = {6568},
+   urlnote = {\url{http://dx.doi.org/10.1007/978-3-642-19394-1_12}},
+   year = 2011,
+}
+
+@electronic{SAREST,
+  author = {Gomadam, Karthik and Ranabahu, Ajith and Sheth, Amit},
+  title = {{{\sc sa-rest}: Semantic Annotation of Web Resources}},
+  note = {\url{http://www.w3.org/Submission/SA-REST/}},
+  howpublished = {{\sc w\oldstylenums3c} Member Submission},
+  month = apr,
+  year = 2010,
+}
+
+@inproceedings{Maleshkova2011,
+  author={Maleshkova, M. and Pedrinaci, C. and Ning Li and Kopeck\'y, J. and Domingue, J.},
+  booktitle={Proceedings of the 2011 {\sc ieee} International Conference on Service-Oriented Computing and Applications},
+  title={Lightweight semantics for automating the invocation of {Web} \apis},
+  year=2011,
+  month=Dec,
+  doi={10.1109/SOCA.2011.6166260},
+  urlnote = {\url{http://sweet.kmi.open.ac.uk/pub/SOCA.pdf}},
+}
+
+@inproceedings{Maleshkova2010,
+  title={{Investigating Web \apis on the World Wide Web}},
+  author={Maleshkova, M. and Pedrinaci, C. and Domingue, J.},
+  booktitle={Proceedings of the 8\textsuperscript{th} European Conference on Web Services},
+  pages={107--114},
+  year={2010},
+  organization={{\sc ieee}},
+  note={\url{http://sweet-dev.open.ac.uk/war/Papers/mmaWebAPISurvey.pdf}},
+}
+
+@incollection {Maleshkova2009,
+   author = {Maleshkova, Maria and Kopeck\'{y}, Jacek and Pedrinaci, Carlos},
+   title = {Adapting {\sc SAWSDL} for Semantic Annotations of {\sc rest}ful Services},
+   booktitle = {Proceedings of the On the Move to Meaningful Internet Systems Workshops},
+   series = {Lecture Notes in Computer Science},
+   publisher = {Springer},
+   isbn = {978-3-642-05289-7},
+   keyword = {Computer Science},
+   pages = {917--926},
+   volume = {5872},
+   urlnote = {\url{http://dx.doi.org/10.1007/978-3-642-05290-3_110}},
+   year = 2009
+}
+
+@inproceedings{hRESTS,
+ author = {Kopeck\'{y}, Jacek and Gomadam, Karthik and Vitvar, Tomas},
+ title = {h{\sc rests}: An {\sc html} Microformat for Describing {\sc rest}ful {Web} Services},
+ booktitle = {Proceedings of the International Conference on Web Intelligence and Intelligent Agent Technology},
+ year = {2008},
+ isbn = {978-0-7695-3496-1},
+ pages = {619--625},
+ numpages = {7},
+ urlnote = {\url{http://dx.doi.org/10.1109/WIIAT.2008.379}},
+ doi = {10.1109/WIIAT.2008.379},
+ acmid = {1486962},
+ publisher = {{\sc ieee} Computer Society},
+}
+
+@electronic{MicroWSMO,
+ author = {Kopeck\'{y}, Jacek and Vitvar, Tomas},
+ title = {Micro{\sc wsmo}},
+ year = 2008,
+ month = feb,
+ day = 19,
+ note = {\url{http://www.wsmo.org/TR/d38/v0.1/}},
+ howpublished = {{\sc wsmo} Working Draft},
+}
+
+@article{SWEET,
+  title={Semantic annotation of {Web} \apis with {\sc sweet}},
+  author={Maleshkova, M. and Pedrinaci, C. and Domingue, J.},
+  year={2010},
+  month=May,
+  booktitle={Proceedings of the 6\textsuperscript{th} Workshop on Scripting and Development for the Semantic Web},
+  note={\url{http://oro.open.ac.uk/23095/}},
+}
+
+@inproceedings{Pedrinaci2010,
+  title={Services and the {Web of Data}: An Unexploited Symbiosis},
+  author={Pedrinaci, C. and Domingue, J. and Krummenacher, R.},
+  booktitle={Proceedings of the {\sc aaai} Spring Symposium on Linked Data Meets Artificial Intelligence},
+  year={2010},
+  urlnote = {\url{http://people.kmi.open.ac.uk/carlos/wp-content/uploads/downloads/2010/09/linkedServices-AAAI.pdf}},
+}
+
+@inproceedings{Guinard2009,
+  title = {{Towards the Web of Things: Web mashups for embedded devices}},
+  author = {Guinard, D. and Trifa, V.},
+  booktitle = {Workshop on Mashups, Enterprise Mashups and Lightweight Composition on the Web},
+  year = 2009,
+}
+
+@inproceedings{Stirbu2008,
+  title = {Towards a {\sc rest}ful plug and play experience in the {Web of Things}},
+  author = {Stirbu, V.},
+  booktitle = {IEEE international Conference on Semantic Computing},
+  pages = {512--517},
+  year = {2008},
+  organization = {{\sc ieee}},
+  urlnote = {\url{http://ieeexplore.ieee.org/xpl/freeabs_all.jsp?arnumber=4597240}},
+}
+
+@inproceedings{Page2009,
+  title = {Linked sensor data: {\sc rest}fully serving \rdf and {\sc gml}},
+  author = {Page, K.R. and De Roure, D.C. and Martinez, K. and Sadler, J.D. and Kit, O.Y.},
+  year = {2009},
+  month = Oct,
+  booktitle = {Semantic Sensor Networks},
+  urlnote = {\url{http://eprints.soton.ac.uk/271743/}},
+}
+
+@inproceedings{Page2011,
+  booktitle = {5\textsuperscript{th} IEEE International Conference on Semantic Computing},
+  month = {September},
+  title = {Semantic Access to Sensor Observations through {Web} \apis},
+  author = {Kevin Page and Alex Frazer and Bart Nagel and David De Roure and Kirk Martinez},
+  publisher = {IEEE},
+  year = {2011},
+  urlnote = {\url{http://eprints.soton.ac.uk/272695/}},
+}
+
+@inproceedings{Guinard2010,
+  author = {Guinard, D. and Trifa, V. and Wilde, E.},
+  booktitle = {Internet of Things},
+  title = {A resource-oriented architecture for the {Web of Things}},
+  year = {2010},
+  month = dec,
+  doi = {10.1109/IOT.2010.5678452},
+  urlnote = {\url{http://ieeexplore.ieee.org/xpl/freeabs_all.jsp?arnumber=5678452}},
+}
+
+@electronic{SWAP,
+  author = {Berners-Lee, Tim},
+  title = {{Semantic Web Application Platform}},
+  note = {\url{http://www.w3.org/2000/10/swap/}},
+  year = {2000},
+}
+
+@inproceedings{verborgh_web_2013,
+  author = {Verborgh, Ruben and Mannens, Erik and Van de Walle, Rik},
+  title = {The Rise of the {Web for Agents}},
+  booktitle = {Proceedings of the The First International Conference on Building and Exploring Web Based Environments},
+  year = 2013,
+  month = jan,
+  pages = {69--74},
+  isbn = {978-1-61208-248-6},
+  urlnote = {\url{http://thinkmind.org/download.php?articleid=web_2013_3_30_40070}},
+}
+
+@article{vanlancker_mtap_2013,
+  title = {Semantic Media Decision Taking using {N3Logic}},
+  author = {Van Lancker, Wim and Van Deursen, Davy and Verborgh, Ruben and Van de Walle, Rik},
+  journal = {Multimedia Tools and Applications},
+  year = 2013,
+  month = mar,
+  volume = 63,
+  number = 1,
+  pages = {7--26},
+  publisher = {Springer},
+  issn = {1380-7501},
+  doi = {10.1007/s11042-012-1032-1},
+  urlnote = {\url{http://www.springerlink.com/index/4u03371555838414.pdf}},
+}
+
+@incollection{DBpedia,
+  title = {\dbpedia: A nucleus for a {Web} of open data},
+  author = {Auer, Sören and Bizer, Christian and Kobilarov, Georgi and Lehmann, Jens and Cyganiak, Richard and Ives, Zachary},
+  year = 2007,
+  isbn = {978-3-540-76297-3},
+  booktitle = {The Semantic Web},
+  volume = {4825},
+  series = {Lecture Notes in Computer Science},
+  publisher = {Springer Berlin Heidelberg},
+  pages = {722--735},
+  doi = {10.1007/978-3-540-76298-0_52},
+  note = {\url{http://dx.doi.org/10.1007/978-3-540-76298-0_52}},
+}
+
+@incollection{verborgh_rest_2014,
+  title = {Survey of Semantic Description of {REST APIs}},
+  author = {Verborgh, Ruben and Harth, Andreas and Maleshkova, Maria and Stadtm\"uller, Steffen and Steiner, Thomas and Taheriyan, Mohsen and Van de Walle, Rik},
+  year = 2014,
+  booktitle = {REST: Advanced Research Topics and Practical Applications},
+  editor = {Pautasso, Cesare and Wilde, Erik and Alarc\'on, Rosa},
+  pages = {69--89},
+  publisher = {Springer},
+  isbn = {978-1-4614-9298-6},
+  urlnote = {http://link.springer.com/chapter/10.1007/978-1-4614-9299-3_5},
+}
+
+@inproceedings{DataFu,
+  author    = {Steffen Stadtm{\"u}ller and Sebastian Speiser and Andreas Harth and Rudi Studer},
+  title     = {{Data-Fu}: a language and an interpreter for interaction with read/write {Linked Data}},
+  booktitle = {Proceedings of the World Wide Web Conference},
+  year      = 2013,
+  pages     = {1225--1236},
+}
+
+@book{datalog,
+ editor = {Abiteboul, Serge and Hull, Richard and Vianu, Victor},
+ title = {Foundations of Databases: The Logical Level},
+ year = {1995},
+ isbn = {0201537710},
+ edition = {1st},
+ publisher = {Addison-Wesley Longman Publishing Co., Inc.},
+ address = {Boston, MA, USA},
+}
+
+
+@book{Prolog,
+  title = {Programming in {PROLOG}},
+  author = {Clocksin, William F and Mellish, Christopher S},
+  year = {1994},
+  publisher = {Springer},
+  isbn = {978-3-540-58350-9},
+}
+
+@book{Lloyd,
+ author = {Lloyd, John Wylie},
+ title = {Foundations of Logic Programming},
+ year = {1987},
+ isbn = {0387181997},
+ edition = {2nd},
+ publisher = {Springer-Verlag New York, Inc.},
+ address = {Secaucus, NJ, USA},
+} 
+
+@article{SparqlSem,
+ author = {P{\'e}rez, Jorge and Arenas, Marcelo and Gutierrez, Claudio},
+ title = {Semantics and Complexity of {SPARQL}},
+ journal = {ACM Trans. Database Syst.},
+ issue_date = {August 2009},
+ volume = {34},
+ number = {3},
+ month = sep,
+ year = {2009},
+ issn = {0362-5915},
+ pages = {16:1--16:45},
+ articleno = {16},
+ numpages = {45},
+ url = {http://doi.acm.org/10.1145/1567274.1567278},
+ doi = {10.1145/1567274.1567278},
+ acmid = {1567278},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {Complexity, RDF, SPARQL, query language, semantic Web},
+} 
+@article{cyganiak2005relational,
+  title={A relational algebra for SPARQL},
+  author={Cyganiak, Richard},
+  journal={Digital Media Systems Laboratory HP Laboratories Bristol. HPL-2005-170},
+  volume={35},
+  year={2005}
+}
+
+@online{TriG,
+author= {Chris Bizer and Richard Cygniak},
+note= {\url{http://www.w3.org/TR/trig/}},
+title= {{RDF 1.1 TriG}},
+howpublished = {{\sc w\oldstylenums3c} Recommendation},
+month = feb,
+year = 2014,
+}
+
+@online{TriGsemantics,
+author= {Antoine Zimmermann},
+note= {\url{http://www.w3.org/TR/2014/NOTE-rdf11-datasets-20140225/}},
+title= {{RDF 1.1: On Semantics of RDF Datasets}},
+howpublished = {{\sc w\oldstylenums3c} Working Group Note},
+month = feb,
+year = 2014,
+}
+
+@online{LODCloud,
+  title={State of the {\sc lod} Cloud},
+  author={
+    Andrejs Abele and
+    Paul Buitelaar and
+    Richard Cyganiak and
+    Anja Jentzsch and
+    Vladimir Andryushechkin
+},
+  note={\url{https://lod-cloud.net/}},
+  year={2018},
+}
+
+@article{PP,
+  title = {The Pragmatic Proof: {Hypermedia API} Composition and Execution},
+  author = {Verborgh, Ruben and Arndt, D\"orthe and Van Hoecke, Sofie and De Roo, Jos and Mels, Giovanni and Steiner, Thomas and Gabarr\'o Vall\'es, Joaquim},
+  journal = {Theory and Practice of Logic Programming},
+  year = 2016,
+  publisher = {Cambridge University Press},
+  url = {http://arxiv.org/pdf/1512.07780v1.pdf},
+}
+
+@inproceedings{ctl,
+  title={Concurrency and Communication in Transaction Logic.},
+  author={Bonner, Anthony J and Kifer, Michael},
+  booktitle={JICSLP},
+  pages={142--156},
+  year={1996}
+}
+@InProceedings{roman,
+author="Roman, Dumitru
+and Kifer, Michael",
+editor="Sheth, Amit
+and Staab, Steffen
+and Dean, Mike
+and Paolucci, Massimo
+and Maynard, Diana
+and Finin, Timothy
+and Thirunarayan, Krishnaprasad",
+title="Semantic Web Service Choreography: Contracting and Enactment",
+booktitle="The Semantic Web - ISWC 2008",
+year="2008",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="550--566",
+abstract="The emerging paradigm of service-oriented computing requires novel techniques for various service-related tasks. Along with automated support for service discovery, selection, negotiation, and composition, support for automated service contracting and enactment is crucial for any large scale service environment, where large numbers of clients and service providers interact. Many problems in this area involve reasoning, and a number of logic-based methods to handle these problems have emerged in the field of Semantic Web Services. In this paper, we build upon our previous work where we used Concurrent Transaction Logic (CTR) to model and reason about service contracts. We significantly extend the modeling power of the previous work by allowing iterative processes in the specification of service contracts, and we extend the proof theory of CTR to enable reasoning about such contracts. With this extension, our logic-based approach is capable of modeling general services represented using languages such as WS-BPEL.",
+isbn="978-3-540-88564-1"
+}
+
+@article{servlog,
+  title={ServLog: A unifying logical framework for service modeling and contracting},
+  author={Roman, Dumitru and Kifer, Michael},
+  journal={Semantic Web},
+  volume={9},
+  number={2},
+  pages={257--290},
+  year={2018},
+  publisher={IOS Press}
+}
+
+@article{workflows,
+  title={Workflows and e-Science: An overview of workflow system features and capabilities},
+  author={Deelman, Ewa and Gannon, Dennis and Shields, Matthew and Taylor, Ian},
+  journal={Future Generation Computer Systems},
+  volume={25},
+  number={5},
+  pages={528--540},
+  year={2009},
+  publisher={Elsevier}
+}
+
+
+@article{descworkflow,
+  title={Comparing workflow specification languages: a matter of views},
+  author={Abiteboul, Serge and Bourhis, Pierre and Vianu, Victor},
+  journal={ACM Transactions on Database Systems (TODS)},
+  volume={37},
+  number={2},
+  pages={10},
+  year={2012},
+  publisher={ACM}
+}
+
+@article{wsmoNew,
+  title={WSMO-Lite and hRESTS: Lightweight semantic annotations for Web services and RESTful APIs},
+  author={Roman, Dumitru and Kopeck{\`y}, Jacek and Vitvar, Tomas and Domingue, John and Fensel, Dieter},
+  journal={Web Semantics: Science, Services and Agents on the World Wide Web},
+  volume={31},
+  pages={39--58},
+  year={2015},
+  publisher={Elsevier}
+}
+
+@incollection{workflowDoc,
+  title={A framework for document-driven workflow systems},
+  author={Wang, Jianrui and Kumar, Akhil},
+  booktitle={Business Process Management},
+  pages={285--301},
+  year={2005},
+  publisher={Springer}
+}
+
+
+@article{Declare,
+  title={Declarative workflows: Balancing between flexibility and support},
+  author={van Der Aalst, Wil MP and Pesic, Maja and Schonenberg, Helen},
+  journal={Computer Science-Research and Development},
+  volume={23},
+  number={2},
+  pages={99--113},
+  year={2009},
+  publisher={Springer}
+}
+
+@article{eyepaper,
+  author = {Verborgh, Ruben and De Roo, Jos},
+  title = {Drawing Conclusions from {Linked Data on the Web}},
+  journal = {IEEE Software},
+  month = may,
+  year = 2015,
+  volume = 32,
+  number = 5,
+  pages = {23--27},
+  url = {http://online.qmags.com/ISW0515?cid=3244717&eid=19361&pg=25},
+}
+
+
+
+@inproceedings{HydraVocabulary,
+  title = {Hydra: A Vocabulary for Hypermedia-Driven {Web} \apis},
+  author = {Markus Lanthaler and Christian G\"utl},
+  booktitle = {Proceedings of the 6\textsuperscript{th}~Workshop on Linked Data on the Web},
+  month = may,
+  year = 2013,
+  url = {http://ceur-ws.org/Vol-996/papers/ldow2013-paper-03.pdf},
+}
+
+
+@TECHREPORT{D1,
+       author = {Denner, Jonathan and Heinrich, Peter and Helman, Constantin and Richter, Alexander},
+        month = nov,
+        title = {First version of requirements of workers and organisations},
+         type = {Project Report - FACTS4WORKERS: Worker-Centric Workplaces in Smart Factories},
+         year = {2015},
+
+}
+
+
+
+@inproceedings{arndt_ruleml_2015,
+  author = {Arndt, D\"orthe and Verborgh, Ruben and De Roo, Jos and Sun, Hong and Mannens, Erik and Van de Walle, Rik},
+  title = {Semantics of {Notation3} Logic: A solution for implicit quantification},
+  booktitle = {Rule Technologies: Foundations, Tools, and Applications},
+  series = {Lecture Notes in Computer Science},
+  editor = {Bassiliades, Nick and Gottlob, Georg and Sadri, Fariba and Paschke, Adrian and Roman, Dumitru},
+  volume = 9202,
+  pages = {127--143},
+  publisher = {Springer},
+  year = 2015,
+  month = jul,
+  url = {http://link.springer.com/chapter/10.1007/978-3-319-21542-6_9},
+}
+
+@inproceedings{ORCA,
+  author = {Arndt, D\"orthe and De Meester, Ben and Bonte, Pieter and Schaballie, Jeroen and Bhatti, Jabran and Dereuddre, Wim and Verborgh, Ruben and Ongenae, Femke and De Turck, Filip and Van de Walle, Rik and Mannens, Erik},
+  title = {Ontology Reasoning using Rules in an {eHealth} Context},
+  booktitle = {Rule Technologies: Foundations, Tools, and Applications},
+  series = {Lecture Notes in Computer Science},
+  editor = {Bassiliades, Nick and Gottlob, Georg and Sadri, Fariba and Paschke, Adrian and Roman, Dumitru},
+  volume = 9202,
+  pages = {465--472},
+  publisher = {Springer},
+  year = 2015,
+  month = jul,
+  url = {http://link.springer.com/chapter/10.1007/978-3-319-21542-6_31},
+}
+
+
+@inproceedings{F4W,
+  author = {Arndt, D\"orthe and Van Herwegen, Joachim and Verborgh, Ruben and Mannens, Erik and Van de Walle, Rik},
+  booktitle = {Proceedings of the 12th Extended Semantic Web Conference: Project Networking},
+  title = {{Facts4Workers:} Worker-Centric Workplaces in Smart Factories},
+  year = 2015,
+  month = jun,
+}
+
+@inproceedings{arndt_ruleml_industry_2016,
+  author = {Arndt, D\"orthe and Van Herwegen, Joachim and Verborgh, Ruben and Mannens, Erik and Van de Walle, Rik},
+  title = {Using Rules to Generate and Execute Workflows in Smart Factories},
+  booktitle = {Proceedings of the RuleML 2016 Challenge, Doctoral Consortium and Industry Track hosted by the 10th International Web Rule Symposium},
+  year = 2016,
+  month = jul,
+  series = {CEUR Workshop Proceedings},
+  volume = 1620,
+  issn = {1613-0073},
+  url = {http://ceur-ws.org/Vol-1620/paper12.pdf},
+}
+
+@article{blanks,
+  title={Everything you always wanted to know about blank nodes},
+  author={Hogan, Aidan and Arenas, Marcelo and Mallea, Alejandro and Polleres, Axel},
+  journal={Web Semantics: Science, Services and Agents on the World Wide Web},
+  volume={27},
+  pages={42--69},
+  year={2014},
+  publisher={Elsevier}
+}
+
+@article{dynamiclogic,
+  title={Dynamic predicate logic},
+  author={Groenendijk, Jeroen and Stokhof, Martin},
+  journal={Linguistics and philosophy},
+  volume={14},
+  number={1},
+  pages={39--100},
+  year={1991},
+  publisher={Springer}
+}
+
+@article{kif,
+  title={Knowledge interchange format-version 3.0: reference manual},
+  author={Genesereth, Michael R and Fikes, Richard E and others},
+    journal={},
+  volume={},
+  number={},
+  pages={1--68},
+  year={1992},
+  publisher={Computer Science Department, Stanford University San Francisco, CA}
+}
+
+@inproceedings{skif,
+  title={A semantics for the knowledge interchange format},
+  author={Hayes, Patrick and Menzel, Christopher},
+  booktitle={IJCAI 2001 Workshop on the IEEE Standard Upper Ontology},
+  volume={1},
+  number={45},
+  pages={145},
+  year={2001}
+}
+
+@Article{attributegrammar,
+author="Knuth, Donald E.",
+title="Semantics of context-free languages",
+journal="Mathematical systems theory",
+year="1968",
+volume="2",
+number="2",
+pages="127--145",
+abstract="``Meaning'' may be assigned to a string in a context-free language by defining ``attributes'' of the symbols in a derivation tree for that string. The attributes can be defined by functions associated with each production in the grammar. This paper examines the implications of this process when some of the attributes are ``synthesized'', i.e., defined solely in terms of attributes of thedescendants of the corresponding nonterminal symbol, while other attributes are ``inherited'', i.e., defined in terms of attributes of theancestors of the nonterminal symbol. An algorithm is given which detects when such semantic rules could possibly lead to circular definition of some attributes. An example is given of a simple programming language defined with both inherited and synthesized attributes, and the method of definition is compared to other techniques for formal specification of semantics which have appeared in the literature.",
+issn="1433-0490",
+doi="10.1007/BF01692511",
+url="http://dx.doi.org/10.1007/BF01692511"
+}
+@inproceedings{uuag,
+  title={Designing and implementing combinator languages},
+  author={Swierstra, S Doaitse and Alcocer, Pablo R Azero and Saraiva, Joao},
+  booktitle={International School on Advanced Functional Programming},
+  pages={150--206},
+  year={1998},
+  organization={Springer}
+}
+@Article{ag2,
+author="Knuth, Donald E.",
+title="Semantics of context-free languages: Correction",
+journal="Mathematical systems theory",
+year="1971",
+volume="5",
+number="2",
+pages="95--96",
+issn="1433-0490",
+doi="10.1007/BF01702865",
+url="http://dx.doi.org/10.1007/BF01702865"
+}
+@phdthesis{vogt,
+  title={Higher order Attribute Grammars},
+  author={Vogt, Harald Heinz},
+  year={1993},
+  school={Rijksuniversiteit te Utrecht}
+}
+
+@book{com,
+ author = {Waite, William M. and Goos, Gerhard},
+ title = {Compiler Construction},
+ year = {1984},
+ isbn = {978-0-387-90821-2},
+ edition = {1},
+ publisher = {Springer-Verlag New York, Inc.},
+ doi={10.1007/978-1-4612-5192-7}
+} 
+@article{Paakki,
+ author = {Paakki, Jukka},
+ title = {Attribute Grammar Paradigms---a High-level Methodology in Language Implementation},
+ journal = {ACM Comput. Surv.},
+ issue_date = {June 1995},
+ volume = {27},
+ number = {2},
+ month = jun,
+ year = {1995},
+ issn = {0360-0300},
+ pages = {196--255},
+ numpages = {60},
+ url = {http://doi.acm.org/10.1145/210376.197409},
+ doi = {10.1145/210376.197409},
+ acmid = {197409},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {attribute grammars, blocks, classes, compiler writing systems, functional dependencies, incomplete data, incrementality, inheritance, language processing, language processor generators, lazy evaluation, logical variables, objects, parallelism, processes, programming paradigms, semantic functions, symbol tables, unification},
+} 
+
+@book{Haskell,
+  added-at = {2008-01-15T20:00:13.000+0100},
+  biburl = {https://www.bibsonomy.org/bibtex/274578ea79af534c544b545401a50d6e5/thau},
+  description = {This report defines the syntax for Haskell programs and an informal abstract semantics for the meaning of such programs.},
+  editor = {Jones, Simon Peyton},
+  howpublished = {PDF},
+  interhash = {bdf24915989dc1673ad9244c4d593b37},
+  intrahash = {74578ea79af534c544b545401a50d6e5},
+  keywords = {functional-programming haskell},
+  month = {September},
+  pages = 277,
+  publisher = {http://haskell.org/},
+  timestamp = {2008-01-15T20:00:13.000+0100},
+  title = {Haskell 98 Language and Libraries: The Revised Report},
+  type = {Language Definition},
+  url = {http://haskell.org/definition/haskell98-report.pdf},
+  year = 2002
+}
+@inproceedings{ruleml2017,
+  author = {Arndt, D\"orthe and De Meester, Ben and Dimou, Anastasia and Verborgh, Ruben and Mannens, Erik},
+  title = {Using Rule-Based Reasoning for {RDF} Validation},
+  booktitle = {Proceedings of the International Joint Conference on Rules and Reasoning},
+  editor = {Costantini, Stefania and Franconi, Enrico and Van Woensel, William and Kontchakov, Roman and Sadri, Fariba and Roman, Dumitru},
+  year = 2017,
+  month = jul,
+  series = {Lecture Notes in Computer Science},
+  publisher = {Springer},
+  volume = 10364,
+  pages = {22--36},
+  isbn = {978-3-319-61252-2},
+  doi = {10.1007/978-3-319-61252-2\_3},
+}
+
+
+@inproceedings{ORCA2,
+  author = {Arndt, D\"orthe and De Meester, Ben and Bonte, Pieter and Schaballie, Jeroen and Bhatti, Jabran and Dereuddre, Wim and Verborgh, Ruben and Ongenae, Femke and De Turck, Filip and Van de Walle, Rik and Mannens, Erik},
+  title = {Improving {OWL RL} reasoning in {N3} by using specialized rules},
+  booktitle = {Ontology Engineering: 12th International Experiences and Directions Workshop on OWL},
+  editor = {Tamma, Valentina and Dragoni, Mauro and Gon\c{c}alves, Rafael and {\L}awrynowicz, Agnieszka},
+  publisher = {Springer},
+  series = {Lecture Notes in Computer Science},
+  volume = 9557,
+  pages = {93--104},
+  year = 2016,
+  month = apr,
+  isbn = {978-3-319-33245-1},
+  doi = {10.1007/978-3-319-33245-1\_10},
+  url = {http://dx.doi.org/10.1007/978-3-319-33245-1_10},
+}
+
+
+
+@inproceedings{erdf,
+author="de Bruijn, Jos
+and Heymans, Stijn",
+editor="Aberer, Karl
+and Choi, Key-Sun
+and Noy, Natasha
+and Allemang, Dean
+and Lee, Kyung-Il
+and Nixon, Lyndon
+and Golbeck, Jennifer
+and Mika, Peter
+and Maynard, Diana
+and Mizoguchi, Riichiro
+and Schreiber, Guus
+and Cudr{\'e}-Mauroux, Philippe",
+title="Logical Foundations of (e)RDF(S): Complexity and Reasoning",
+bookTitle="The Semantic Web: 6th International Semantic Web Conference, 2nd Asian Semantic Web Conference, ISWC 2007 + ASWC 2007, Busan, Korea, November 11-15, 2007. Proceedings",
+year="2007",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="86--99",
+abstract="An important open question in the semantic Web is the precise relationship between the RDF(S) semantics and the semantics of standard knowledge representation formalisms such as logic programming and description logics. In this paper we address this issue by considering embeddings of RDF and RDFS in logic. Using these embeddings, combined with existing results about various fragments of logic, we establish several novel complexity results. The embeddings we consider show how techniques from deductive databases and description logics can be used for reasoning with RDF(S). Finally, we consider querying RDF graphs and establish the data complexity of conjunctive querying for the various RDF entailment regimes.",
+isbn="978-3-540-76298-0",
+doi="10.1007/978-3-540-76298-0\_7",
+url="https://doi.org/10.1007/978-3-540-76298-0_7"
+}
+
+
+@inproceedings{Sulzmann,
+ author = {Sulzmann, Martin and Chakravarty, Manuel M. T. and Jones, Simon Peyton and Donnelly, Kevin},
+ title = {System F with Type Equality Coercions},
+ booktitle = {Proceedings of the 2007 ACM SIGPLAN International Workshop on Types in Languages Design and Implementation},
+ series = {TLDI '07},
+ year = {2007},
+ isbn = {1-59593-393-X},
+ location = {Nice, Nice, France},
+ pages = {53--66},
+ numpages = {14},
+ url = {http://doi.acm.org/10.1145/1190315.1190324},
+ doi = {10.1145/1190315.1190324},
+ acmid = {1190324},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {advanced type features, typed intermediate language},
+} 
+
+%Another famous example is Featherweight Java as a core calculus for Java:
+
+@article{Igarashi,
+ author = {Igarashi, Atsushi and Pierce, Benjamin C. and Wadler, Philip},
+ title = {Featherweight Java: A Minimal Core Calculus for Java and GJ},
+ journal = {ACM Trans. Program. Lang. Syst.},
+ issue_date = {May 2001},
+ volume = {23},
+ number = {3},
+ month = may,
+ year = {2001},
+ issn = {0164-0925},
+ pages = {396--450},
+ numpages = {55},
+ url = {http://doi.acm.org/10.1145/503502.503505},
+ doi = {10.1145/503502.503505},
+ acmid = {503505},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {Compilation, Java, generic classes, language design, language semantics},
+} 
+
+@book{Pierce,
+ author = {Pierce, Benjamin C.},
+ title = {Types and Programming Languages},
+ year = {2002},
+ isbn = {0262162091, 9780262162098},
+ edition = {1st},
+ publisher = {The MIT Press},
+} 
+@article{commonlogic,
+  title={Information technology--common logic (cl): A framework for a family of logic based languages (first edition--reference number: Iso/iec  24707: 2007 (e))},
+  author={{ISO}},
+  journal={Geneva: ISO Copyright Office},
+  year={2007}
+}
+@online{Proof,
+  author = {Brickley, Dan and Guha, R.\ V.},
+  title = {{{\sc rdf} Vocabulary Description Language 1.0: {\sc rdf} Schema}},
+  note =  {\url{http://www.w3.org/2000/10/swap/reason\#}},
+  howpublished = {{\sc w\oldstylenums3c} Recommendation},
+  day = 10,
+  month = feb,
+  year = 2004
+}
+
+@standard{ICL,
+  added-at = {2012-01-10T09:08:12.000+0100},
+  biburl = {http://www.bibsonomy.org/bibtex/2cd566451a1825be967a11972b24d2786/voj},
+  autor = {Harry DELUGACH},
+  interhash = {34bb02cdd0512ebe828b3075b8a7b712},
+  intrahash = {cd566451a1825be967a11972b24d2786},
+  keywords = {iso logic},
+  timestamp = {2013-01-06T09:56:23.000+0100},
+  note =  {\url{standards.iso.org/ittf/PubliclyAvailableStandards/c039175_ISO_IEC_24707_2007\%28E\%29.zip}},
+  title = {{ISO/IEC 24707:2007 Information technology -- Common Logic (CL)}},
+  year = 2007
+}
+
+
+%layer cake
+
+
+
+@inproceedings{Gerber,
+ author = {Gerber, A. and Barnard, A. and van der Merwe, A. },
+ title = {Towards a Semantic Web Layered Architecture},
+ booktitle = {Proceedings of the 25th Conference on IASTED International Multi-Conference: Software Engineering},
+ series = {SE'07},
+ year = {2007},
+ location = {Innsbruck, Austria},
+ pages = {353--362},
+ numpages = {10},
+ url = {http://dl.acm.org/citation.cfm?id=1332044.1332101},
+ acmid = {1332101},
+ publisher = {ACTA Press},
+ address = {Anaheim, CA, USA},
+ keywords = {semantic web, software architecture, software evaluation, web design},
+} 
+
+@InProceedings{Gerber2,
+author="Gerber, Aurona
+and van der Merwe, Alta
+and Barnard, Andries",
+editor="Bechhofer, Sean
+and Hauswirth, Manfred
+and Hoffmann, J{\"o}rg
+and Koubarakis, Manolis",
+title="A Functional Semantic Web Architecture",
+booktitle="The Semantic Web: Research and Applications",
+year="2008",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="273--287",
+abstract="A layered architecture for the Semantic Web that adheres to software engineering principles and the fundamental aspects of layered architectures will assist in the development of Semantic Web specifications and applications. The most well-known versions of the layered architecture that exist within literature have been proposed by Berners-Lee. It is possible to indicate inconsistencies and discrepancies in the different versions of the architecture, leading to confusion, as well as conflicting proposals and adoptions by the Semantic Web community. A more recent version of a Semantic Web layered architecture, namely the CFL architecture, was proposed in 2007 by Gerber, van der Merwe and Barnard [23], which adheres to software engineering principles and addresses several of the concerns evident from previous versions of the architecture. In this paper we evaluate this recent architecture, both by scrutinising the shortcomings of previous architectures and evaluating the approach used for the development of the latest architecture. Furthermore, the architecture is applied to usage scenarios to evaluate the usefulness thereof.",
+isbn="978-3-540-68234-9"
+}
+
+
+
+@InProceedings{twotowers,
+author="Horrocks, Ian
+and Parsia, Bijan
+and Patel-Schneider, Peter
+and Hendler, James",
+editor="Fages, Fran{\c{c}}ois
+and Soliman, Sylvain",
+title="Semantic Web Architecture: Stack or Two Towers?",
+booktitle="Principles and Practice of Semantic Web Reasoning",
+year="2005",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="37--41",
+abstract="We discuss language architecture for the Semantic Web, and in particular different proposals for extending this architecture with a rules component. We argue that an architecture that maximises compatibility with existing languages, in particular RDF and OWL, will benefit the development of the Semantic Web, and still allow for forms of closed world assumption and negation as failure.",
+isbn="978-3-540-32028-9"
+}
+
+@inproceedings{DLP,
+ author = {Grosof, Benjamin N. and Horrocks, Ian and Volz, Raphael and Decker, Stefan},
+ title = {Description Logic Programs: Combining Logic Programs with Description Logic},
+ booktitle = {Proceedings of the 12th International Conference on World Wide Web},
+ series = {WWW '03},
+ year = {2003},
+ isbn = {1-58113-680-3},
+ location = {Budapest, Hungary},
+ pages = {48--57},
+ numpages = {10},
+ url = {http://doi.acm.org/10.1145/775152.775160},
+ doi = {10.1145/775152.775160},
+ acmid = {775160},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {RDF, XML, description logic, inferencing, information integration, interoperability, knowledge representation, logic programs, model-theoretic semantics, ontologies, rules, semantic web, translation},
+} 
+
+
+@conference {knorr,
+	title = {Reconciling OWL and Non-monotonic Rules for the Semantic Web},
+	booktitle = {ECAI 2012 - 20th European Conference on Artificial Intelligence.},
+	volume = {242},
+	year = {2012},
+	pages = {474--479},
+	publisher = {IOS Press},
+	organization = {IOS Press},
+	address = {Montpellier, France},
+	doi = {10.3233/978-1-61499-098-7-474},
+	url = {http://dx.doi.org/10.3233/978-1-61499-098-7-474},
+	author = {Matthias Knorr and Pascal Hitzler and Frederick Maier},
+	editor = {Luc De Raedt and Christian Bessi{\`e}re and Didier Dubois and Patrick Doherty and Paolo Frasconi and Fredrik Heintz and Peter J. F. Lucas}
+}
+
+@inproceedings{unilogic,
+ author = {Kr\"{o}tzsch, Markus and Maier, Frederick and Krisnadhi, Adila and Hitzler, Pascal},
+ title = {A Better Uncle for OWL: Nominal Schemas for Integrating Rules and Ontologies},
+ booktitle = {Proceedings of the 20th International Conference on World Wide Web},
+ series = {WWW '11},
+ year = {2011},
+ isbn = {978-1-4503-0632-4},
+ location = {Hyderabad, India},
+ pages = {645--654},
+ numpages = {10},
+ url = {http://doi.acm.org/10.1145/1963405.1963496},
+ doi = {10.1145/1963405.1963496},
+ acmid = {1963496},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {datalog, description logic, semantic web rule language, sroiq, tractability, web ontology language},
+} 
+@article{DLASP,
+ author = {Motik, Boris and Rosati, Riccardo},
+ title = {Reconciling Description Logics and Rules},
+ journal = {J. ACM},
+ issue_date = {June 2010},
+ volume = {57},
+ number = {5},
+ month = jun,
+ year = {2008},
+ issn = {0004-5411},
+ pages = {30:1--30:62},
+ articleno = {30},
+ numpages = {62},
+ url = {http://doi.acm.org/10.1145/1754399.1754403},
+ doi = {10.1145/1754399.1754403},
+ acmid = {1754403},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {Description logics, answer set programming, combined complexity, data complexity},
+} 
+
+@incollection{hogan,
+  title={Linked Data and the Semantic Web Standards},
+  author={Hogan, Aidan},
+  booktitle={Linked Data and the Semantic Web Standards},
+  year={2013},
+  publisher={Chapman and Hall/CRC Press}
+}
+
+@online{stack1,
+  author = {Berners-Lee, Tim},
+  title = {Semantic Web on XML},
+  note = {\url{https://www.w3.org/2000/Talks/1206-xml2k-tbl/slide10-0.html}},
+  howpublished = {{\sc w\oldstylenums3c} Web Site},
+  day = 6,
+  month = december,
+  year = 2000,
+}
+@online{stack2,
+  author = {Berners-Lee, Tim},
+  title = {The Semantic Web and Challenges},
+  note = {\url{https://www.w3.org/2003/Talks/01-sweb-tbl/slide15-0.html}},
+  howpublished = {{\sc w\oldstylenums3c} Web Site},
+  year = 2003,
+}
+@online{stack3,
+  author = {Berners-Lee, Tim},
+  title = {Web for real people},
+  note = {\url{https://www.w3.org/2005/Talks/0511-keynote-tbl/#[17]}},
+  howpublished = {{\sc w\oldstylenums3c} Web Site},
+  year = 2005,
+}
+@online{stack4,
+  author = {Berners-Lee, Tim},
+  title = {Artificial Intelligence and the Semantic Web},
+  note = {\url{https://www.w3.org/2006/Talks/0718-aaai-tbl/Overview.html#(14)}},
+  howpublished = {{\sc w\oldstylenums3c} Web Site},
+  year = 2006,
+}
+@online{stack5,
+  title = {Semantic Web stack},
+  note = {\url{https://www.w3.org/2007/03/layerCake.svg}},
+  howpublished = {{\sc w\oldstylenums3c} Web Site},
+  year = 2007,
+}
+@online{jsonld,
+  author = {Sporny, Manu and
+    Longley, Dave and  
+    Kellogg, Gregg and 
+    Lanthaler, Markus and 
+    Lindstr\"om, Niklas  },
+  title = {A JSON-based Serialization for Linked Data},
+  note = {\url{https://www.w3.org/TR/json-ld/}},
+  howpublished = {{\sc w\oldstylenums3c} Recommendation},
+  day = 16,
+  month = jan,
+  year = 2014,
+}
+@online{owlrdfsem,
+  author = {     Carroll, Jeremy and
+     Herman, Ivan and
+     Patel-Schneider, Peter F. and Schneider, Michael },
+  editor={},   
+  title = {OWL 2 Web Ontology Language
+RDF-Based Semantics (Second Edition)},
+  note = {\url{https://www.w3.org/TR/owl2-rdf-based-semantics/}},
+  howpublished = {{\sc w\oldstylenums3c} Recommendation},
+  day = 11,
+  month = dec,
+  year = 2012,
+}
+@online{owldsem,
+  author = {Horrocks, Ian and
+    Parsia, Bijan and 
+    Sattler, Uli
+    and 
+    Motik, Boris and
+     Patel-Schneider, Peter F. and
+    Cuenca Grau, Bernardo},
+  editor={  },   
+  title = {OWL 2 Web Ontology Language
+Direct Semantics (Second Edition)},
+  note = {\url{https://www.w3.org/TR/owl2-direct-semantics/}},
+  howpublished = {{\sc w\oldstylenums3c} Recommendation},
+  day = 11,
+  month = dec,
+  year = 2012,
+}
+
+@online{owltordf,
+  author = {        Peter F. Patel-Schneider and
+    Boris Motik and
+    Bernardo Cuenca Grau and
+    Ian Horrocks and
+    Bijan Parsia and
+    Alan Ruttenberg and
+    Michael Schneider },
+  editor={},   
+  title = {OWL 2 Web Ontology Language
+Mapping to RDF Graphs (Second Edition)},
+  note = {\url{https://www.w3.org/TR/owl-mapping-to-rdf/}},
+  howpublished = {{\sc w\oldstylenums3c} Recommendation},
+  day = 11,
+  month = dec,
+  year = 2012,
+}
+@online{owlsyn1,
+  author = {       
+        Boris Motik and
+    Peter F. Patel-Schneider and
+    Bijan Parsia and
+    Conrad Bock and
+    Achille Fokoue and
+    Peter Haase and
+    Rinke Hoekstra and
+    Ian Horrocks and
+    Alan Ruttenberg and
+    Uli Sattler and
+    Michael Smith
+    },
+  editor={},   
+  title = {OWL 2 Web Ontology Language
+Structural Specification and Functional-Style Syntax (Second Edition)},
+  note = {\url{https://www.w3.org/TR/owl-syntax/}},
+  howpublished = {{\sc w\oldstylenums3c} Recommendation},
+  day = 11,
+  month = dec,
+  year = 2012,
+}
+@InProceedings{rif,
+  author    = {Michael Kifer},
+  title     = {Rule Interchange Format: The Framework},
+  booktitle = {RR 2008: Web Reasoning and Rule Systems},
+  year      = {2008},
+  editor    = {Calvanese, Diego and Lausen, Georg},
+  volume    = {5341},
+  series    = {Lecture Notes in Computer Science},
+  pages     = {1--11},
+  publisher = {Springer Berlin Heidelberg},
+  _doi       = {10.1007/978-3-540-88737-9_1},
+  groups    = {ReasoningValidation},
+  owner     = {},
+  timestamp = {2018.07.24},
+}
+@online{rifprd,
+  author = {
+      de Sainte Marie, Christian and
+     Hallmark, Gary and
+    Paschke, Adrian 
+  },
+  editor={  },   
+  title = {RIF Production Rule Dialect (Second Edition)},
+  note = {\url{https://www.w3.org/TR/rif-prd/}},
+  howpublished = {{\sc w\oldstylenums3c} Recommendation},
+  day = 5,
+  month = feb,
+  year = 2013,
+}
+@online{rifrdf,
+  author = {
+         Jos de Bruijn and
+    Chris Welty
+  },
+  editor={  },   
+  title = {RIF RDF and OWL Compatibility (Second Edition)},
+  note = {\url{https://www.w3.org/TR/rif-rdf-owl/}},
+  howpublished = {{\sc w\oldstylenums3c} Recommendation},
+  day = 5,
+  month = feb,
+  year = 2013,
+}
+@online{rifinrdf,
+  author = {
+    Sandro Hawke and
+    Axel Polleres
+  },
+  editor={  },   
+  title = {RIF In RDF (Second Edition)},
+  note = {\url{https://www.w3.org/TR/rif-in-rdf/}},
+  howpublished = {{\sc w\oldstylenums3c} Recommendation},
+  day = 5,
+  month = feb,
+  year = 2013,
+}
+
+
+
+@book{dl,
+ editor = {Baader, Franz and Calvanese, Diego and McGuinness, Deborah L. and Nardi, Daniele and Patel-Schneider, Peter F.},
+ title = {The Description Logic Handbook: Theory, Implementation, and Applications},
+ year = {2003},
+ isbn = {0-521-78176-0},
+ publisher = {Cambridge University Press},
+ address = {New York, NY, USA},
+} 
+
+
+@book{iswc,
+  title = {Proceedings of the 17th International Semantic Web Conference},
+  year = 2018,
+  month = oct,
+  series = {Lecture Notes in Computer Science},
+  volume = 11137,
+  editor = {Vrande\v{c}i\'{c}, Denny and Bontcheva, Kalina and Su\'arez-Figueroa, Mari Carmen and Presutti, Valentina and Celino, Irene and Sabou, Marta and Kaffee, Lucie-Aim\'ee and Simperl, Elena},
+  publisher = {Springer},
+  isbn = {978-3-030-00668-6},
+}
+
+@book{eswc,
+editor="Gangemi, Aldo
+and Navigli, Roberto
+and Vidal, Maria-Esther
+and Hitzler, Pascal
+and Troncy, Rapha{\"e}l
+and Hollink, Laura
+and Tordai, Anna
+and Alam, Mehwish",
+title="Proceedings of the 15th ESWC",
+year="2018",
+publisher="Springer",
+  series = {Lecture Notes in Computer Science},
+    volume = 10843,
+}
+
+@online{spin,
+author= {Holger Knublauch and James Hendler and Kingsley Idehen},
+note= {\url{https://www.w3.org/Submission/spin-overview/}},
+title= {{SPIN - Overview and Motivation}},
+howpublished = {{\sc w\oldstylenums3c} Member Submission},
+month = feb,
+year = 2011,
+}
+
+
+@Article{hermit,
+    author = "Boris Motik and Rob Shearer and Ian Horrocks",
+    title = "{Hypertableau Reasoning for Description Logics}",
+    journal = "Journal of Artificial Intelligence Research",
+    year = "2009",
+    volume = "36",
+    pages = "165--228",
+}
+
+@Inbook{obda,
+author="Kontchakov, Roman
+and Rodr{\'i}guez-Muro, Mariano
+and Zakharyaschev, Michael",
+editor="Rudolph, Sebastian
+and Gottlob, Georg
+and Horrocks, Ian
+and van Harmelen, Frank",
+title="Ontology-Based Data Access with Databases: A Short Course",
+bookTitle="Reasoning Web. Semantic Technologies for Intelligent Data Access: 9th International Summer School 2013, Mannheim, Germany, July 30 -- August 2, 2013. Proceedings",
+year="2013",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="194--229",
+abstract="Ontology-based data access (OBDA) is regarded as a key ingredient of the new generation of information systems. In the OBDA paradigm, an ontology defines a high-level global schema of (already existing) data sources and provides a vocabulary for user queries. An OBDA system rewrites such queries and ontologies into the vocabulary of the data sources and then delegates the actual query evaluation to a suitable query answering system such as a relational database management system or a datalog engine. In this chapter, we mainly focus on OBDA with the ontology language OWL 2QL, one of the three profiles of the W3C standard Web Ontology Language OWL 2, and relational databases, although other possible languages will also be discussed. We consider different types of conjunctive query rewriting and their succinctness, different architectures of OBDA systems, and give an overview of the OBDA system Ontop.",
+isbn="978-3-642-39784-4",
+doi="10.1007/978-3-642-39784-4_5",
+url="https://doi.org/10.1007/978-3-642-39784-4_5"
+}
+
+
+@InProceedings{rdfox,
+author="Nenov, Yavor
+and Piro, Robert
+and Motik, Boris
+and Horrocks, Ian
+and Wu, Zhe
+and Banerjee, Jay",
+editor="Arenas, Marcelo
+and Corcho, Oscar
+and Simperl, Elena
+and Strohmaier, Markus
+and d'Aquin, Mathieu
+and Srinivas, Kavitha
+and Groth, Paul
+and Dumontier, Michel
+and Heflin, Jeff
+and Thirunarayan, Krishnaprasad
+and Staab, Steffen",
+title="RDFox: A Highly-Scalable RDF Store",
+booktitle="The Semantic Web - ISWC 2015",
+year="2015",
+publisher="Springer International Publishing",
+address="Cham",
+pages="3--20",
+isbn="978-3-319-25010-6"
+}
+@online{swrl,
+author= {Ian Horrocks and
+Peter F. Patel-Schneider and
+Harold Boley and
+Said Tabet and
+Benjamin Grosof and
+Mike Dean },
+note= {\url{https://www.w3.org/Submission/SWRL/}},
+title= {{SWRL: A Semantic Web Rule Language
+Combining OWL and RuleML}},
+howpublished = {{\sc w\oldstylenums3c} Member Submission},
+month = may,
+year = 2004,
+}
+
+
+
+
+
+@Inbook{owlandrules,
+author="Krisnadhi, Adila
+and Maier, Frederick
+and Hitzler, Pascal",
+editor="Polleres, Axel
+and d'Amato, Claudia
+and Arenas, Marcelo
+and Handschuh, Siegfried
+and Kroner, Paula
+and Ossowski, Sascha
+and Patel-Schneider, Peter",
+title="OWL and Rules",
+bookTitle="Reasoning Web. Semantic Technologies for the Web of Data: 7th International Summer School 2011, Galway, Ireland, August 23-27, 2011, Tutorial Lectures",
+year="2011",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="382--415",
+abstract="The relationship between the Web Ontology Language OWL and rule-based formalisms has been the subject of many discussions and research investigations, some of them controversial. From the many attempts to reconcile the two paradigms, we present some of the newest developments. More precisely, we show which kind of rules can be modeled in the current version of OWL, and we show how OWL can be extended to incorporate rules. We finally give references to a large body of work on rules and OWL.",
+isbn="978-3-642-23032-5",
+doi="10.1007/978-3-642-23032-5_7",
+url="https://doi.org/10.1007/978-3-642-23032-5_7"
+}
+@inproceedings{dllog,
+ author = {Rosati, Riccardo},
+ title = {DL+Log: Tight Integration of Description Logics and Disjunctive Datalog},
+ booktitle = {Proceedings of the Tenth International Conference on Principles of Knowledge Representation and Reasoning},
+ series = {KR'06},
+ year = {2006},
+ isbn = {978-1-57735-271-6},
+ location = {Lake District, UK},
+ pages = {68--78},
+ numpages = {11},
+ url = {http://dl.acm.org/citation.cfm?id=3029947.3029960},
+ acmid = {3029960},
+ publisher = {AAAI Press},
+} 
+@inproceedings{orl,
+ author = {Horrocks, Ian and Patel-Schneider, Peter F.},
+ title = {A Proposal for an Owl Rules Language},
+ booktitle = {Proceedings of the 13th International Conference on World Wide Web},
+ series = {WWW '04},
+ year = {2004},
+ isbn = {1-58113-844-X},
+ location = {New York, NY, USA},
+ pages = {723--731},
+ numpages = {9},
+ url = {http://doi.acm.org/10.1145/988672.988771},
+ doi = {10.1145/988672.988771},
+ acmid = {988771},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {model-theoretic semantics, representation, semantic web},
+} 
+
+@article{henkin_1950, 
+title={Completeness in the theory of types}, 
+volume={15}, 
+DOI={10.2307/2266967}, 
+number={2}, 
+journal={Journal of Symbolic Logic}, 
+publisher={Cambridge University Press}, 
+author={Henkin, Leon}, 
+year={1950}, 
+pages={81–91}}
+
+@InProceedings{herbrandLogic,
+author="Genesereth, Michael
+and Kao, Eric",
+editor="Bassiliades, Nick
+and Gottlob, Georg
+and Sadri, Fariba
+and Paschke, Adrian
+and Roman, Dumitru",
+title="The Herbrand Manifesto",
+booktitle="Rule Technologies: Foundations, Tools, and Applications",
+year="2015",
+publisher="Springer International Publishing",
+address="Cham",
+pages="3--12",
+abstract="The traditional semantics for relational logic (sometimes called Tarskian semantics) is based on the notion of interpretations of constants
+in terms of objects external to the logic. Herbrand semantics is an alternative that is based on truth assignments for ground sentences without reference 
+to external objects. Herbrand semantics is simpler and more intuitive than Tarskian semantics; and, consequently, it is easier to teach and learn.
+Moreover, it is stronger than Tarskian semantics. For example, while it is not possible to finitely axiomatize integer arithmetic with Tarskian semantics, 
+this can be done easily with Herbrand semantics. The downside is a loss of some common logical properties, such as compactness and inferential completeness. 
+However, there is no loss of inferential power---anything that can be deduced according to Tarskian semantics can also be deduced according to Herbrand semantics. 
+Based on these results, we argue that there is value in using Herbrand semantics for relational logic in place of Tarskian semantics. 
+It alleviates many of the current problems with relational logic and ultimately may foster a wider use of relational logic in human reasoning and computer applications.",
+isbn="978-3-319-21542-6"
+}
+
+@online{herbrand,
+author= {Michael Genesereth
+and Eric Kao },
+note= {\url{http://logic.stanford.edu/herbrand/herbrand.html}},
+title= {{Herbrand Semantics}},
+year = 2015,
+}
+
+@online{riffld,
+  author = {
+    Harold Boley and
+    Michael Kifer
+  },
+  editor={  },   
+  title = {RIF Framework for Logic Dialects (Second Edition))},
+  note = {\url{https://www.w3.org/TR/rif-fld/}},
+  howpublished = {{\sc w\oldstylenums3c} Recommendation},
+  day = 5,
+  month = feb,
+  year = 2013,
+}
+@article{rdfstar,
+  author    = {Olaf Hartig and
+               Bryan Thompson},
+  title     = {Foundations of an Alternative Approach to Reification in {RDF}},
+  journal   = {CoRR},
+  volume    = {abs/1406.3399},
+  year      = {2014},
+  url       = {http://arxiv.org/abs/1406.3399},
+  archivePrefix = {arXiv},
+  eprint    = {1406.3399},
+  timestamp = {Mon, 13 Aug 2018 16:46:58 +0200},
+  biburl    = {https://dblp.org/rec/bib/journals/corr/HartigT14},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+@inproceedings{rdfstarposter,
+  author    = {Olaf Hartig},
+  title     = {RDF* and SPARQL*: An Alternative Approach to Annotate Statements in
+               {RDF}},
+  booktitle = {Proceedings of the {ISWC} 2017 Posters {\&} Demonstrations and
+               Industry Tracks co-located with 16th International Semantic Web Conference
+               {(ISWC} 2017), Vienna, Austria, October 23rd - to - 25th, 2017.},
+  year      = {2017},
+  url       = {http://ceur-ws.org/Vol-1963/paper593.pdf},
+  timestamp = {Mon, 23 Oct 2017 18:09:10 +0200},
+  biburl    = {https://dblp.org/rec/bib/conf/semweb/Hartig17},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+@inproceedings{mccarthy,
+ author = {McCarthy, John},
+ title = {Notes on Formalizing Context},
+ booktitle = {Proceedings of the 13th International Joint Conference on Artifical Intelligence - Volume 1},
+ series = {IJCAI'93},
+ year = {1993},
+ location = {Chambery, France},
+ pages = {555--560},
+ numpages = {6},
+ url = {http://dl.acm.org/citation.cfm?id=1624025.1624103},
+ acmid = {1624103},
+ publisher = {Morgan Kaufmann Publishers Inc.},
+ address = {San Francisco, CA, USA},
+} 
+@book{logicpro,
+  title={From logic programming to Prolog},
+  author={Apt, Krzysztof R and others},
+  volume={362},
+  year={1997},
+  publisher={Prentice Hall London}
+}
+@book{nilsson,
+  title={Logic, programming and Prolog},
+  author={Nilsson, Ulf and Ma{\l}uszy{\'n}ski, Jan},
+  year={1990},
+  publisher={Wiley Chichester}
+}
+@inproceedings{rietveld2015lod,
+  title={{LOD} lab: Experiments at {LOD} scale},
+  author={Rietveld, Laurens and Beek, Wouter and Schlobach, Stefan},
+  booktitle={International Semantic Web Conference},
+  pages={339--355},
+  year={2015},
+  organization={Springer}
+}
+@article{zaveri2015quality,
+  author =    {Zaveri, Amrapali and Rula, Anisa and Maurino, Andrea and Pietrobon, Ricardo and Lehmann, Jens and Auer, S{\"o}ren},
+  title =     {Quality assessment for linked data: A survey},
+  journal =   {Semantic Web},
+  year =      {2015},
+  volume =    {7},
+  number =    {1},
+  pages =     {63--93},
+  month =     mar,
+  abstract =  {The development and standardization of Semantic Web technologies has resulted in an unprecedented volume of data being published on the Web as Linked Data (LD). However, we observe widely varying data quality ranging from extensively curated datasets to crowdsourced and extracted data of relatively low quality. In this article, we present the results of a systematic review of approaches for assessing the quality of LD. We gather existing approaches and analyze them qualitatively. In particular, we unify and formalize commonly used terminologies across papers related to data quality and provide a comprehensive list of 18 quality dimensions and 69 metrics. Additionally, we qualitatively analyze the 30 core approaches and 12 tools using a set of attributes. The aim of this article is to provide researchers and data curators a comprehensive understanding of existing work, thereby encouraging further experimentation and development of new approaches focused towards data quality, specifically for LD.},
+  doi =       {10.3233/SW-150175},
+  owner =     {bjdmeest},
+  publisher = {IOS Press},
+  timestamp = {2016.04.13},
+  url =       {http://www.semantic-web-journal.net/system/files/swj556.pdf}
+}
+@article{ketterl2011whoknows,
+  title={Whoknows? evaluating linked data heuristics with a quiz that cleans up dbpedia},
+  author={Ketterl, Markus and Knipping, Lars and Ludwig, Nadine and Mertens, Robert and Waitelonis, J{\"o}rg and Ludwig, Nadine and Knuth, Magnus and Sack, Harald},
+  journal={Interactive Technology and Smart Education},
+  volume={8},
+  number={4},
+  pages={236--248},
+  year={2011},
+  publisher={Emerald Group Publishing Limited}
+}
+@article{shex,
+  title={Shape expressions 1.0 definition. W3C Member Submission},
+  author={Solbrig, H and Prud'hommeaux, E},
+  journal={World Wide Web Consortium, June},
+  year={2014}
+}
+@article{resh,
+  title={Resource shape 2.0. W3C Member Submission},
+  author={Ryman, A},
+  journal={World Wide Web Consortium, Feb},
+  year={2014}
+}
+@phdthesis{hartmann2016,
+  title={Validation Framework for RDF-based Constraint Languages},
+  author={Hartmann, Thomas},
+  year={2016},
+  school={Dissertation, Karlsruhe, Karlsruher Institut f{\"u}r Technologie (KIT), 2016}
+}
+
+@inproceedings{kontokostas2014test,
+  title={Test-driven evaluation of linked data quality},
+  author={Kontokostas, Dimitris and Westphal, Patrick and Auer, S{\"o}ren and Hellmann, Sebastian and Lehmann, Jens and Cornelissen, Roland and Zaveri, Amrapali},
+  booktitle={Proceedings of the 23rd international conference on World Wide Web},
+  pages={747--758},
+  year={2014},
+  organization={ACM}
+}
+@article{dsp,
+  title={Description set profiles: A constraint language for dublin core application profiles},
+  author={Nilsson, Mikael},
+  journal={DCMI Working Draft},
+  year={2008}
+}
+@TechReport{shacl,
+  author =      {Knublauch, Holger and Kontokostas, Dimitris},
+  title =       {Shapes Constraint Language (SHACL)},
+  institution = {W3C},
+  year =        {2017},
+  note =        {Accessed March 3rd, 2017},
+  owner =       {bjdmeest},
+  timestamp =   {2017.03.03},
+  url =         {https://www.w3.org/TR/shacl/}
+}
+@phdthesis{owlValidation,
+  title={Integrity constraints for the semantic web: an owl 2 dl extension},
+  author={Tao, Jiao},
+  year={2012},
+  school={Rensselaer Polytechnic Institute}
+}
+@TechReport{Knublauch2011,
+  author =      {Knublauch, Holger and Hendler, James A. and Idehen, Kingsley},
+  title =       {{SPIN} -- Overview and Motivation},
+  institution = {W3C},
+  year =        {2011},
+  month =       feb,
+  note =        {Accessed April 18th, 2016},
+  abstract =    {his document provides an overview of the SPARQL Inferencing Notation (SPIN). SPIN is a SPARQL-based rule and constraint language for the Semantic Web. SPIN is also a mechanism to represent reusable SPARQL queries as templates and to define new SPARQL functions with a web-friendly syntax.},
+  owner =       {bjdmeest},
+  timestamp =   {2016.04.18},
+  url =         {https://www.w3.org/Submission/2011/SUBM-spin-overview-20110222/}
+}
+@inproceedings{motik2007adding,
+  title={Adding Integrity Constraints to OWL.},
+  author={Motik, Boris and Horrocks, Ian and Sattler, Ulrike},
+  booktitle={OWLED},
+  volume={258},
+  year={2007}
+}
+
+@inproceedings{sirin2009towards,
+ author = {Sirin, Evren and Tao, Jiao},
+ title = {Towards Integrity Constraints in OWL},
+ booktitle = {Proceedings of the 6th International Conference on OWL: Experiences and Directions - Volume 529},
+ series = {OWLED'09},
+ year = {2009},
+ location = {Chantilly, VA},
+ pages = {79--88},
+ numpages = {10},
+ url = {http://dl.acm.org/citation.cfm?id=2890046.2890055},
+ acmid = {2890055},
+ publisher = {CEUR-WS.org},
+ address = {Aachen, Germany, Germany},
+} 
+@article{bosch2015rdf,
+  title={RDF validation requirements-evaluation and logical underpinning},
+  author={Bosch, Thomas and Nolle, Andreas and Acar, Erman and Eckert, Kai},
+  journal={arXiv preprint arXiv:1501.03933},
+  year={2015}
+}
+@inproceedings{jurion_rdfunit,
+  added-at = {2017-02-28T17:39:50.000+0100},
+  author = {Kontokostas, Dimitris and Mader, Christian and Dirschl, Christian and Eck, Katja and Leuthold, Michael and Lehmann, Jens and Hellmann, Sebastian},
+  biburl = {http://www.bibsonomy.org/bibtex/2e793beeb5e8be10cffc5bb3efc8d73e6/aksw},
+  booktitle = {13th International Conference, ESWC 2016, Heraklion, Crete, Greece, May 2016},
+  doi = {10.1007/978-3-319-34129-3_40},
+  interhash = {cc759d5ccc68d602d05dd26e00d8e0e3},
+  intrahash = {e793beeb5e8be10cffc5bb3efc8d73e6},
+  isbn = {978-3-319-34129-3},
+  keywords = {2016 Lidmole MOLE aligned-project group_aksw hellmann kilt_publications kontokostas mole rdfunit},
+  pages = {661--676},
+  timestamp = {2017-02-28T17:39:50.000+0100},
+  title = {Semantically Enhanced Quality Assurance in the JURION Business Use Case},
+  url = {http://svn.aksw.org/papers/2016/ESWC_Jurion/public.pdf},
+  year = 2016
+}
+@inproceedings{bosch2015,
+ author = {Bosch, Thomas and Acar, Erman and Nolle, Andreas and Eckert, Kai},
+ title = {The Role of Reasoning for RDF Validation},
+ booktitle = {Proceedings of the 11th International Conference on Semantic Systems},
+ series = {SEMANTICS '15},
+ year = {2015},
+ isbn = {978-1-4503-3462-4},
+ location = {Vienna, Austria},
+ pages = {33--40},
+ numpages = {8},
+ url = {http://doi.acm.org/10.1145/2814864.2814867},
+ doi = {10.1145/2814864.2814867},
+ acmid = {2814867},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {OWL, RDF constraint types, RDF validation, data quality, linked data, reasoning, semantic web},
+} 
+
+
+
+
+@Inbook{polleres2006rules,
+author="Polleres, Axel
+and Feier, Cristina
+and Harth, Andreas",
+editor="Sure, York
+and Domingue, John",
+title="Rules with Contextually Scoped Negation",
+bookTitle="The Semantic Web: Research and Applications: 3rd European Semantic Web Conference, ESWC 2006 Budva, Montenegro, June 11-14, 2006 Proceedings",
+year="2006",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="332--347",
+isbn="978-3-540-34545-9",
+doi="10.1007/11762256_26",
+url="http://dx.doi.org/10.1007/11762256_26"
+}
+
+
+
+@Inbook{damasio2006supporting,
+author="Dam{\'a}sio, Carlos Viegas
+and Analyti, Anastasia
+and Antoniou, Grigoris
+and Wagner, Gerd",
+editor="Alferes, J{\'o}se J{\'u}lio
+and Bailey, James
+and May, Wolfgang
+and Schwertel, Uta",
+title="Supporting Open and Closed World Reasoning on the Web",
+bookTitle="Principles and Practice of Semantic Web Reasoning: 4th International Workshop, PPSWR 2006, Budva, Montenegro, June 10-11, 2006, Revised Selected Papers",
+year="2006",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="149--163",
+isbn="978-3-540-39587-4",
+doi="10.1007/11853107_11",
+url="http://dx.doi.org/10.1007/11853107_11"
+}
+
+@InProceedings{kifer2005,
+author="Kifer, Michael
+and de Bruijn, Jos
+and Boley, Harold
+and Fensel, Dieter",
+editor="Adi, Asaf
+and Stoutenburg, Suzette
+and Tabet, Said",
+title="A Realistic Architecture for the Semantic Web",
+bookTitle="Rules and Rule Markup Languages for the Semantic Web: First International Conference, RuleML 2005, Galway, Ireland, November 10-12, 2005. Proceedings",
+year="2005",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="17--29",
+isbn="978-3-540-32270-2",
+doi="10.1007/11580072_3",
+url="http://dx.doi.org/10.1007/11580072_3"
+}
+
+
+
+@Inbook{negflora,
+author="Kifer, Michael",
+editor="Baral, Chitta
+and Greco, Gianluigi
+and Leone, Nicola
+and Terracina, Giorgio",
+title="Nonmonotonic Reasoning in FLORA-2",
+bookTitle="Logic Programming and Nonmonotonic Reasoning: 8th International Conference, LPNMR 2005, Diamante, Italy, September 5-8, 2005. Proceedings",
+year="2005",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="1--12",
+isbn="978-3-540-31827-9",
+doi="10.1007/11546207_1",
+url="http://dx.doi.org/10.1007/11546207_1"
+}
+
+
+
+@article{flogic,
+ author = {Kifer, Michael and Lausen, Georg and Wu, James},
+ title = {Logical Foundations of Object-oriented and Frame-based Languages},
+ journal = {J. ACM},
+ issue_date = {July 1995},
+ volume = {42},
+ number = {4},
+ month = jul,
+ year = {1995},
+ issn = {0004-5411},
+ pages = {741--843},
+ numpages = {103},
+ url = {http://doi.acm.org/10.1145/210332.210335},
+ doi = {10.1145/210332.210335},
+ acmid = {210335},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {deductive databases, frame-based languages, logic programming, nonmonotonic inheritance, object-oriented programming, proof theory, semantics, typing},
+} 
+@online{rifpredicates,
+  title={RIF datatypes and built-ins 1.0 (Second Edition)},
+  author={Polleres, Axel and Boley, Harold and Kifer, Michael},
+  howpublished = {{\sc w\oldstylenums3c} Recommendation},
+  note = {\url{https://www.w3.org/TR/rif-dtb/}},
+  day = 5,
+  month = feb,
+  year = 2013
+}
+@book{lisp,
+ author = {Steele,Jr., Guy L.},
+ title = {Common LISP: The Language (2Nd Ed.)},
+ year = {1990},
+ isbn = {1-55558-041-6},
+ publisher = {Digital Press},
+ address = {Newton, MA, USA},
+} 
+@article{accioontold,
+  title={PARTICIPATORY DESIGN OF A CONTINUOUS CARE ONTOLOGY},
+  author={Ongenae, Femke and Bleumers, Lizzy and Sulmon, Nicky and Verstraete, Mathijs and Van Gils, Mieke and Jacobs, An and De Zutter, Saar and Verhoeve, Piet and Ackaert, Ann and De Turck, Filip},
+  year={2011}
+}
+@article{accioont,
+  abstract     = {Ontology engineering methodologies tend to emphasize the role of the knowledge engineer or require a very active role of domain experts. In this paper, a participatory ontology engineering method is described that holds the middle ground between these two 'extremes'. After thorough ethnographic research, an interdisciplinary group of domain experts closely interacted with ontology engineers and social scientists in a series of workshops. Once a preliminary ontology was developed, a dynamic care request system was built using the ontology. Additional workshops were organized involving a broader group of domain experts to ensure the applicability of the ontology across continuous care settings. The proposed method successfully actively engaged domain experts in constructing the ontology, without overburdening them. Its applicability is illustrated by presenting the co-created continuous care ontology. The lessons learned during the design and execution of the approach are also presented.},
+  author       = {Ongenae, Femke and Duysburgh, Pieter and Sulmon, Nicky and Verstraete, Mathijs and Bleumers, Lizzy and De Zutter, Saar and Verstichel, Stijn and Ackaert, Ann and Jacobs, An and De Turck, Filip},
+  issn         = {1570-5838},
+  journal      = {Applied Ontology},
+  keyword      = {Ontology engineering,HEALTH-CARE,co-design,continuous care,eHealth,participatory,IBCN},
+  language     = {eng},
+  number       = {1},
+  pages        = {27--64},
+  title        = {An ontology co-design method for the co-creation of a continuous care ontology},
+  url          = {http://dx.doi.org/10.3233/AO-140131},
+  volume       = {9},
+  year         = {2014},
+}
+@online{EYEowl,
+  author = {De Roo, Jos},
+  title = {{EYE and OWL 2}},
+  note = {\url{http://eulersharp.sourceforge.net/2003/03swap/eye-owl2.html}},
+  year = {1999--2019}
+}
+
+@inproceedings{elowlim,
+  title={Implementing OWL 2 RL and OWL 2 QL Rule-Sets for OWLIM.},
+  author={Bishop, Barry and Bojanov, Spas},
+  booktitle={OWLED},
+  volume={796},
+  year={2011}
+}
+@book{snomed2,
+  title={Matching patient records to clinical trials using ontologies},
+  author={Patel, Chintan and Cimino, James and Dolby, Julian and Fokoue, Achille and Kalyanpur, Aditya and Kershenbaum, Aaron and Ma, Li and Schonberg, Edith and Srinivas, Kavitha},
+  year={2007},
+  publisher={Springer}
+}
+
+@inproceedings{finance,
+  title={Translating XBRL Into Description Logic. {An} Approach Using {Protege}, {Sesame} \& {OWL}},
+  author={Declerck, Thierry and Krieger, Hans-Ulrich},
+  booktitle={BIS},
+  pages={455--467},
+  year={2006}
+}
+@inproceedings{oracle,
+  title={Implementing an inference engine for {RDFS/OWL} constructs and user-defined rules in {Oracle}},
+  author={Wu, Zhe and Eadon, George and Das, Souripriya and Chong, Eugene Inseok and Kolovski, Vladimir and Annamalai, Melliyal and Srinivasan, Jagannathan},
+  booktitle={Data Engineering, 2008. ICDE 2008. IEEE 24th International Conference on},
+  pages={1239--1248},
+  year={2008},
+  organization={IEEE}
+}
+@inproceedings{owlex,
+  TITLE = {{Datalog+, RuleML and OWL 2: Formats and Translations for Existential Rules}},
+  AUTHOR = {Baget, Jean-Fran{\c c}ois and Gutierrez, Alain and Lecl{\`e}re, Michel and Mugnier, Marie-Laure and Rocher, Swan and Sipieter, Cl{\'e}ment},
+  URL = {https://hal.archives-ouvertes.fr/hal-01172069},
+  BOOKTITLE = {{RuleML: Web Rule Symposium}},
+  ADDRESS = {Berlin, Germany},
+  YEAR = {2015},
+  MONTH = Aug,
+  KEYWORDS = {Graal ; Datalog+ ; OWL2 ; RuleML},
+  HAL_ID = {hal-01172069},
+  HAL_VERSION = {v1},
+}
+@article{owlim,
+  title={OWLIM: A family of scalable semantic repositories.},
+  author={Bishop, Barry and Kiryakov, Atanas and Ognyanoff, Damyan and Peikov, Ivan and Tashev, Zdravko and Velkov, Ruslan},
+  journal={Semantic Web},
+  volume={2},
+  number={1},
+  pages={33--42},
+  year={2011}
+}
+@article{arndt_jws_2019,
+  title = {Implicit quantification made explicit: {How} to interpret blank nodes and universal variables in {Notation3 Logic}},
+  author = {Arndt, D\"orthe and Schrijvers, Tom and De Roo, Jos and Verborgh, Ruben},
+  journal = {Journal of Web Semantics},
+  year = 2019,
+  month = oct,
+  volume = 58,
+  pages = 100501,
+  issn = {1570-8268},
+  doi = {10.1016/j.websem.2019.04.001},
+  url = {https://authors.elsevier.com/c/1ZWg55bAYUaMkH},
+}
+
+
+@article{ben,
+  title = {{RDF} Graph Validation Using Rule-Based Reasoning},
+  author = {De Meester, Ben  and Heyvaert, Pieter and Arndt, D\"orthe and Dimou, Anastasia and Verborgh, Ruben},
+  journal = {submitted to: Semantic Web Journal},
+  year = 2019
+}
+@InProceedings{beek2014lod,
+  author       = {Beek, Wouter and Rietveld, Laurens and Bazoobandi, Hamid R and Wielemaker, Jan and Schlobach, Stefan},
+  title        = {{LOD L}aundromat: {A} {U}niform {W}ay of {P}ublishing {O}ther {P}eople's {D}irty {D}ata},
+  booktitle    = {Proceedings of the 13\textsuperscript{th} International Semantic Web Conference},
+  year         = {2014},
+  pages        = {213--228},
+  organization = {Springer},
+  publisher    = {Springer International Publishing},
+  _doi          = {10.1007/978-3-319-11964-9_14},
+  _file         = {:beek2014lod.pdf:PDF},
+  groups       = {ReasoningValidation},
+  owner        = {bjdmeest},
+  timestamp    = {2018.04.25},
+}
+@inproceedings{sensdesc,
+  author = {Arndt, D\"orthe and Bonte, Pieter and Dejonghe, Alexander and Verborgh, Ruben and De Turck, Filip and Ongenae, Femke},
+  title = {{SENSdesc:} Connect Sensor queries and Context},
+  booktitle = {Proceedings of the 11th International Joint Conference on Biomedical Engineering Systems and Technologies},
+  editor = {Zwiggelaar, Reyer and Gamboa, Hugo and Fred, Ana Berm\'udez i Badia, Sergi},
+  year = 2018,
+  month = jan,
+  pages = {671--679},
+  publisher = {SCITEPRESS},
+  isbn = {978-989-758-281-3},
+  doi = {10.5220/0006733106710679},
+  url = {http://www.scitepress.org/DigitalLibrary/Link.aspx?doi=10.5220/0006733106710679},
+}
+@InProceedings{just1,
+author="Kalyanpur, Aditya
+and Parsia, Bijan
+and Horridge, Matthew
+and Sirin, Evren",
+editor="Aberer, Karl
+and Choi, Key-Sun
+and Noy, Natasha
+and Allemang, Dean
+and Lee, Kyung-Il
+and Nixon, Lyndon
+and Golbeck, Jennifer
+and Mika, Peter
+and Maynard, Diana
+and Mizoguchi, Riichiro
+and Schreiber, Guus
+and Cudr{\'e}-Mauroux, Philippe",
+title="Finding All Justifications of OWL DL Entailments",
+booktitle="The Semantic Web",
+year="2007",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="267--280",
+abstract="Finding the justifications of an entailment (that is, all the minimal set of axioms sufficient to produce an entailment) has emerged as a key inference service for the Web Ontology Language (OWL). Justifications are essential for debugging unsatisfiable classes and contradictions. The availability of justifications as explanations of entailments improves the understandability of large and complex ontologies. In this paper, we present several algorithms for computing all the justifications of an entailment in an OWL-DL Ontology and show, by an empirical evaluation, that even a reasoner independent approach works well on real ontologies.",
+isbn="978-3-540-76298-0"
+}
+@InProceedings{just2,
+author="Suntisrivaraporn, Boontawee
+and Qi, Guilin
+and Ji, Qiu
+and Haase, Peter",
+editor="Domingue, John
+and Anutariya, Chutiporn",
+title="A Modularization-Based Approach to Finding All Justifications for OWL DL Entailments",
+booktitle="The Semantic Web",
+year="2008",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="1--15",
+abstract="Finding the justifications for an entailment (i.e., minimal sets of axioms responsible for it) is a prominent reasoning service in ontology engineering, as justifications facilitate important tasks like debugging inconsistencies or undesired subsumption. Though several algorithms for finding all justifications exist, issues concerning efficiency and scalability remain a challenge due to the sheer size of real-life ontologies. In this paper, we propose a novel method for finding all justifications in OWL DL ontologies by limiting the search space to smaller modules. To this end, we show that so-called locality-based modules cover all axioms in the justifications. We present empirical results that demonstrate an improvement of several orders of magnitude in efficiency and scalability of finding all justifications in OWL DL ontologies.",
+isbn="978-3-540-89704-0"
+}
+@inproceedings{owlproof2old,
+  title={Explanation in DL-Lite.},
+  author={Borgida, Alexander and Calvanese, Diego and Rodriguez-Muro, Mariano},
+  year={2008}
+}
+@InProceedings{owlproof2,
+author="Borgida, Alexander
+and Calvanese, Diego
+and Rodriguez-Muro, Mariano",
+editor="Meersman, Robert
+and Tari, Zahir",
+title="Explanation in the DL-Lite Family of Description Logics",
+booktitle="On the Move to Meaningful Internet Systems: OTM 2008",
+year="2008",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="1440--1457",
+abstract="In ontology-based data access (OBDA), access to (multiple) incomplete data sources is mediated by a conceptual layer constituted by an ontology. In such a setting, to correctly compute answers to queries, it is necessary to perform complex reasoning over the constraints expressed by the ontology. We consider the case of ontologies expressed in DL{\thinspace}−{\thinspace}Lite, a family of DLs that, in the context of OBDA, provide an optimal tradeoff between expressive power and computational complexity of reasoning; notably conjunctive query answering is LOGSPACE in the size of the data. However, query answering with reasoning comes at a price: the justification of the presence of tuples in answers is no longer trivial, and requires explanation. In this paper, we characterize reasoning in DL{\thinspace}−{\thinspace}Lite, through deduction rules for building proofs, and we provide several novel contributions: (i) For standard ontology level reasoning, explanation is relatively simple, and our contribution comes mainly from a novel focus on brevity of proofs. (ii) Motivated by the use of DL{\thinspace}−{\thinspace}Lite for OBDA, we analyze and provide explanation for reasoning in finite models. (iii) We provide a facility for the explanation of an answer to a conjunctive query over a DL{\thinspace}−{\thinspace}Lite ontology. This algorithm is able to exploit the relational query engine to extract from the data the information necessary for finding the explanation more efficiently, and thus scales to large data sets. The presented approach has been implemented in a prototype for constructing explanations.",
+isbn="978-3-540-88873-4"
+}
+
+
+@InProceedings{owlproof,
+author="Horridge, Matthew
+and Parsia, Bijan
+and Sattler, Ulrike",
+editor="Patel-Schneider, Peter F.
+and Pan, Yue
+and Hitzler, Pascal
+and Mika, Peter
+and Zhang, Lei
+and Pan, Jeff Z.
+and Horrocks, Ian
+and Glimm, Birte",
+title="Justification Oriented Proofs in OWL",
+booktitle="The Semantic Web -- ISWC 2010",
+year="2010",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="354--369",
+abstract="Justifications --- that is, minimal entailing subsets of an ontology --- are currently the dominant form of explanation provided by ontology engineering environments, especially those focused on the Web Ontology Language (OWL). Despite this, there are naturally occurring justifications that can be very difficult to understand. In essence, justifications are merely the premises of a proof and, as such, do not articulate the (often non-obvious) reasoning which connect those premises with the conclusion. This paper presents justification oriented proofs as a potential solution to this problem.",
+isbn="978-3-642-17746-0"
+}
+@article{Baget,
+  title = {On rules with existential variables: Walking the decidability line},
+  author = {Jean-François Baget and Michel Leclère and Marie-Laure Mugnier and Eric Salvat},
+  journal = {Artificial Intelligence},
+  volume = {175},
+  number = {9--10},
+  pages = {1620--1654},
+  year = {2011},
+  issn = {0004-3702},
+  doi = {http://dx.doi.org/10.1016/j.artint.2011.03.002},
+  url = {http://www.sciencedirect.com/science/article/pii/S0004370211000397},
+}
+@incollection{datalogpm,
+  title={Datalog+/-: A family of languages for ontology querying},
+  author={Cal{\`\i}, Andrea and Gottlob, Georg and Lukasiewicz, Thomas and Pieris, Andreas},
+  booktitle={Datalog Reloaded},
+  pages={351--368},
+  year={2011},
+  publisher={Springer}
+}
+@phdthesis{verborgh_phd_2014,
+  title = {Serendipitous Web Applications through~Semantic Hypermedia},
+  author = {Verborgh, Ruben},
+  year = 2014,
+  month = feb,
+  school = {Ghent University},
+  address = {Ghent, Belgium},
+  url = {https://ruben.verborgh.org/phd/},
+}
+@inproceedings{krotzsch2019power,
+  title={The Power of the Terminating Chase (Invited Talk)},
+  author={Kr{\"o}tzsch, Markus and Marx, Maximilian and Rudolph, Sebastian},
+  booktitle={22nd International Conference on Database Theory (ICDT 2019)},
+  year={2019},
+  organization={Schloss Dagstuhl-Leinbniz-Zentrum fuer Informatik}
+}
+@article{gottlob2013combining,
+  title={Combining decidability paradigms for existential rules},
+  author={Gottlob, Georg and Manna, Marco and Pieris, Andreas},
+  journal={Theory and Practice of Logic Programming},
+  volume={13},
+  number={4-5},
+  pages={877--892},
+  year={2013},
+  publisher={Cambridge University Press}
+}
+@inproceedings{krotzsch2011extending,
+  title={Extending decidable existential rules by joining acyclicity and guardedness},
+  author={Kr{\"o}tzsch, Markus and Rudolph, Sebastian},
+  booktitle={Twenty-Second International Joint Conference on Artificial Intelligence},
+  year={2011}
+}
+@article{ssn,
+title = "The {SSN} ontology of the {W3C} semantic sensor network incubator group ",
+journal = "Web Semantics: Science, Services and Agents on the World Wide Web ",
+volume = "17",
+number = "",
+pages.bak = "25 - 32",
+year = "2012",
+note = "",
+issn = "1570-8268",
+doi = "https://doi.org/10.1016/j.websem.2012.05.003",
+url = "https://www.sciencedirect.com/science/article/pii/S1570826812000571",
+author = "{Compton M. et al.}",
+author.bak = "Michael Compton and Payam Barnaghi and Luis Bermudez and Raúl Garc\'ia-Castro and Oscar Corcho and Simon Cox and John Graybeal and Manfred Hauswirth and Cory Henson and Arthur Herzog and Vincent Huang and Krzysztof Janowicz and W. David Kelsey and Danh Le Phuoc and Laurent Lefort and Myriam Leggieri and Holger Neuhaus and Andriy Nikolov and Kevin Page and Alexandre Passant and Amit Sheth and Kerry Taylor",
+keywords = "Semantic sensor web",
+keywords = "Linked sensor data",
+keywords = "Ontologies",
+keywords = "Semantic interoperability",
+keywords = "Sensor web enablement "
+}
+@inproceedings{Krötzsch2012,
+author="Kr{\"o}tzsch, Markus",
+editor.bak="Eiter, Thomas
+and Krennwallner, Thomas",
+title="{OWL 2} Profiles: An Introduction to Lightweight Ontology Languages",
+bookTitle="Proceedings of the 8th Reasoning Web International Summer School",
+year="2012",
+publisher.bak="Springer Berlin Heidelberg",
+address.bak="Berlin, Heidelberg",
+pages.bak="112--183",
+abstract="This chapter gives an extended introduction to the lightweight profiles OWL EL, OWL QL, and OWL RL of the Web Ontology Language OWL. The three ontology language standards are sublanguages of OWL DL that are restricted in ways that significantly simplify ontological reasoning. Compared to OWL DL as a whole, reasoning algorithms for the OWL profiles show higher performance, are easier to implement, and can scale to larger amounts of data. Since ontological reasoning is of great importance for designing and deploying OWL ontologies, the profiles are highly attractive for many applications. These advantages come at a price: various modelling features of OWL are not available in all or some of the OWL profiles. Moreover, the profiles are mutually incomparable in the sense that each of them offers a combination of features that is available in none of the others. This chapter provides an overview of these differences and explains why some of them are essential to retain the desired properties. To this end, we recall the relationship between OWL and description logics (DLs), and show how each of the profiles is typically treated in reasoning algorithms.",
+isbn="978-3-642-33158-9",
+doi="10.1007/978-3-642-33158-9_4",
+url="https://doi.org/10.1007/978-3-642-33158-9_4"
+}
+@Article{streamreasoning,
+  author = 	 {Daniele Dell'Aglio and Emanuele Della Valle
+                  and Frank van Harmelen and Abraham Bernstein},
+  title = 	 {Stream Reasoning: a Survey and Outlook:
+                  A summary of ten years of research and a vision for the
+		  next decade},
+  journal = 	 {Data Science Journal},
+  year = 	 2017,
+  volume = 	 1,
+  doi =          {http://www.doi.org/10.3233/DS-170006},
+  keywords = {Semantic Web},
+  urlPaper = "http://www.cs.vu.nl/~frankh/postscript/DataScence2017.pdf"
+}
+@Inbook{rspql-language,
+author="Dell'Aglio, Daniele
+and Calbimonte, Jean-Paul
+and Della Valle, Emanuele
+and Corcho, Oscar",
+editor="Gandon, Fabien
+and Gu{\'e}ret, Christophe
+and Villata, Serena
+and Breslin, John
+and Faron-Zucker, Catherine
+and Zimmermann, Antoine",
+title="Towards a Unified Language for RDF Stream Query Processing",
+bookTitle="The Semantic Web: ESWC 2015 Satellite Events: ESWC 2015 Satellite Events, Portoro{\v{z}}, Slovenia, May 31 -- June 4, 2015, Revised Selected Papers",
+year="2015",
+publisher.bak="Springer International Publishing",
+address.bak="Cham",
+pages.bak="353--363",
+abstract="In recent years, several RDF Stream Processing (RSP) systems have emerged, which allow querying RDF streams using extensions of SPARQL that include operators to take into account the velocity of this data. These systems are heterogeneous in terms of syntax, capabilities and evaluation semantics. Recently, the W3C RSP Group started to work on a common model for representing and querying RDF streams. The emergence of such a model and its accompanying query language is expected to take the most representative, significant and important features of previous efforts, but will also require a careful design and definition of its semantics. In this work, we present a proposal for the query semantics of the W3C RSP query language, and we discuss how it can capture the semantics of existing engines (CQELS, C-SPARQL, SPARQL                                                                                  {\$}{\$}{\_}{\{}stream{\}}{\$}{\$}                  ), explaining and motivating their differences. Then, we use RSP-QL to analyze the current version of the W3C RSP Query Language proposal.",
+isbn="978-3-319-25639-9",
+doi="10.1007/978-3-319-25639-9_48",
+url="https://doi.org/10.1007/978-3-319-25639-9_48"
+}
+@article{streams,
+title = "Streaming the {Web:} Reasoning over dynamic data",
+journal = "Journal of Web Semantics",
+volume.bak = "25",
+number.bak = "Supplement C",
+pages.bak = "24 - 44",
+year = "2014",
+issn = "1570-8268",
+doi = "https://doi.org/10.1016/j.websem.2014.02.001",
+url = "http://www.sciencedirect.com/science/article/pii/S1570826814000067",
+author = "Alessandro Margara and Jacopo Urbani and Frank van Harmelen and Henri Bal",
+keywords = "Semantic Web, Stream reasoning, Survey, Stream processing, Complex Event Processing"
+}
+@article{obdaStream,
+ author = {Bienvenu, Meghyn and Cate, Balder Ten and Lutz, Carsten and Wolter, Frank},
+ title = {Ontology-Based Data Access: A Study Through Disjunctive {Datalog, CSP, and MMSNP}},
+ journal = {ACM Trans. Database Syst.},
+ issue_date = {December 2014},
+ volume.bak = {39},
+ number.bak = {4},
+ month = dec,
+ year = {2014},
+ issn = {0362-5915},
+ pages.bak = {33:1--33:44},
+ articleno = {33},
+ numpages = {44},
+ url = {http://doi.acm.org/10.1145/2661643},
+ doi = {10.1145/2661643},
+ acmid = {2661643},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {Ontology-based data access, query answering, query rewriting},
+} 
+@patent{patent_15202196-0-1955,
+  author = {Dereuddre, Wim and Bhatti, Jabran and Crombez, Pieter and Verborgh, Ruben and Arndt, D\"orthe and De Meester, Ben},
+  title = {Task management system and method for assigning tasks in a task management system},
+  year = 2016,
+  number = {15202196.0-1955},
+  status = {patent pending},
+}
+@inproceedings{singleton,
+  title={Don't like RDF reification?: making statements about statements using singleton property},
+  author={Nguyen, Vinh and Bodenreider, Olivier and Sheth, Amit},
+  booktitle={Proceedings of the 23rd international conference on World wide web},
+  pages={759--770},
+  year={2014},
+  organization={ACM}
+}

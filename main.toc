@@ -1,34 +1,162 @@
 \select@language {english}
 \contentsline {chapter}{Preface}{v}{chapter*.6}
-\contentsline {chapter}{Samenvatting}{ix}{chapter*.8}
+\contentsline {chapter}{Summary}{xiii}{chapter*.8}
+\contentsline {chapter}{Samenvatting}{xvii}{chapter*.9}
 \select@language {dutch}
 \select@language {english}
-\contentsline {chapter}{Abstract}{xi}{chapter*.9}
-\contentsline {part}{I\hspace {1em}Introduction}{1}{part.10}
-\contentsline {chapter}{\numberline {1}Introduction}{3}{chapter.11}
-\contentsline {chapter}{\numberline {2}A unifying logic for the Semantic Web}{7}{chapter.12}
-\contentsline {section}{\numberline {2.1}The vision of the Semantic Web}{7}{section.13}
-\contentsline {section}{\numberline {2.2}Architecture}{7}{section.14}
-\contentsline {subsection}{\numberline {2.2.1}Data Interchange}{7}{subsection.16}
-\contentsline {subsection}{\numberline {2.2.2}Querying}{7}{subsection.17}
-\contentsline {subsection}{\numberline {2.2.3}Ontologies}{7}{subsection.18}
-\contentsline {subsection}{\numberline {2.2.4}Rule Based Logics}{8}{subsection.19}
-\contentsline {subsection}{\numberline {2.2.5}Unifying Logic}{8}{subsection.20}
-\contentsline {subsection}{\numberline {2.2.6}Proofs}{9}{subsection.21}
-\contentsline {section}{\numberline {2.3}Research questions}{9}{section.22}
-\contentsline {part}{II\hspace {1em}Semantics}{11}{part.23}
-\contentsline {chapter}{\numberline {3}Motivation and Problems}{13}{chapter.24}
-\contentsline {chapter}{\numberline {4}Elaboration Semantics for N3}{15}{chapter.25}
-\contentsline {chapter}{\numberline {5}Esplicit Semantics for N3}{17}{chapter.26}
-\contentsline {part}{III\hspace {1em}N3 in relation to other frameworks}{19}{part.27}
-\contentsline {chapter}{\numberline {6}General Discussion}{21}{chapter.28}
-\contentsline {chapter}{\numberline {7}Use case: Nurse Call System}{23}{chapter.29}
-\contentsline {chapter}{\numberline {8}Use case: Data Validation}{25}{chapter.30}
-\contentsline {part}{IV\hspace {1em}Proofs}{27}{part.31}
-\contentsline {chapter}{\numberline {9}A Proof Calculus for N3}{29}{chapter.32}
-\contentsline {chapter}{\numberline {10}Proofs in Use: RESTdesc}{31}{chapter.33}
-\contentsline {chapter}{\numberline {11}Proofs in Use: SENSdesc}{33}{chapter.34}
-\contentsline {part}{V\hspace {1em}Conclusive Discussion}{35}{part.35}
-\contentsline {chapter}{\numberline {12}Conclusion}{37}{chapter.36}
-\contentsline {chapter}{Appendices}{39}{section*.37}
-\contentsline {chapter}{Bibliography}{41}{chapter*.38}
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.10}
+\contentsline {chapter}{\numberline {2}Unifying Logic}{5}{chapter.11}
+\contentsline {section}{\numberline {2.1}The architecture of the Semantic Web}{5}{section.12}
+\contentsline {section}{\numberline {2.2}RDF\xspace as the Base of the Logical Building Blocks}{9}{section.14}
+\contentsline {subsection}{\numberline {2.2.1}RDF and SPARQL}{9}{subsection.15}
+\contentsline {subsection}{\numberline {2.2.2}RDF and RDFS}{10}{subsection.16}
+\contentsline {subsection}{\numberline {2.2.3}RDF and OWL}{10}{subsection.17}
+\contentsline {subsection}{\numberline {2.2.4}RDF and RIF}{10}{subsection.18}
+\contentsline {section}{\numberline {2.3}Connecting the Logical Building Blocks}{11}{section.19}
+\contentsline {subsection}{\numberline {2.3.1}Open vs. closed world}{11}{subsection.20}
+\contentsline {subsection}{\numberline {2.3.2}Decidability}{12}{subsection.21}
+\contentsline {section}{\numberline {2.4}Requirements on a Unifying Logic}{13}{section.22}
+\contentsline {section}{\numberline {2.5}Notation3 Logic}{14}{section.27}
+\contentsline {subsection}{\numberline {2.5.1}Simple triples and conjunctions}{14}{subsection.28}
+\contentsline {subsection}{\numberline {2.5.2}Citations and Implications}{15}{subsection.31}
+\contentsline {subsection}{\numberline {2.5.3}Variables}{16}{subsection.34}
+\contentsline {subsection}{\numberline {2.5.4}Proofs}{17}{subsection.41}
+\contentsline {subsection}{\numberline {2.5.5}Notation3 in practice}{18}{subsection.52}
+\contentsline {subsection}{\numberline {2.5.6}Open challenges}{19}{subsection.54}
+\contentsline {section}{\numberline {2.6}Research questions}{20}{section.55}
+\contentsline {chapter}{\numberline {3}Implicit Quantification}{23}{chapter.56}
+\contentsline {section}{\numberline {3.1}Quantification in N3 Logic}{23}{section.57}
+\contentsline {subsection}{\numberline {3.1.1}Existentials}{24}{subsection.58}
+\contentsline {subsection}{\numberline {3.1.2}Universals}{26}{subsection.70}
+\contentsline {subsection}{\numberline {3.1.3}Explicit Quantification}{29}{subsection.100}
+\contentsline {section}{\numberline {3.2}Blank nodes in RDF}{30}{section.102}
+\contentsline {subsection}{\numberline {3.2.1}RDF semantics}{30}{subsection.103}
+\contentsline {subsection}{\numberline {3.2.2}Structural blank nodes}{34}{subsection.120}
+\contentsline {subsection}{\numberline {3.2.3}Referencing formulas in RDF}{35}{subsection.124}
+\contentsline {subsubsection}{RDF reification}{36}{section*.126}
+\contentsline {subsubsection}{Named graphs}{37}{section*.130}
+\contentsline {subsubsection}{RDF*}{38}{section*.132}
+\contentsline {subsubsection}{Singelton Properties}{39}{section*.135}
+\contentsline {section}{\numberline {3.3}Logics with implicit quantification}{40}{section.139}
+\contentsline {section}{\numberline {3.4}Conclusion}{41}{section.140}
+\contentsline {chapter}{\numberline {4}Defining the semantics of N3Logic}{43}{chapter.141}
+\contentsline {section}{\numberline {4.1}N3 Core Logic}{43}{section.142}
+\contentsline {subsection}{\numberline {4.1.1}Syntax}{44}{subsection.144}
+\contentsline {subsection}{\numberline {4.1.2}Semantics}{46}{subsection.146}
+\contentsline {section}{\numberline {4.2}N3 Syntax}{50}{section.164}
+\contentsline {section}{\numberline {4.3}Attribute Grammars}{52}{section.170}
+\contentsline {subsection}{\numberline {4.3.1}Example}{53}{subsection.172}
+\contentsline {subsection}{\numberline {4.3.2}Terminology}{54}{subsection.174}
+\contentsline {section}{\numberline {4.4}From N3 syntax to N3 Core Logic}{56}{section.177}
+\contentsline {subsection}{\numberline {4.4.1}Existentials}{57}{subsection.179}
+\contentsline {subsection}{\numberline {4.4.2}Universals in Cwm}{59}{subsection.184}
+\contentsline {subsubsection}{Passing Variables to their Direct Formula}{63}{section*.189}
+\contentsline {subsubsection}{Passing Variables to their Parent Formula}{63}{section*.190}
+\contentsline {subsubsection}{Passing Scoped Variables to the Descendants}{64}{section*.191}
+\contentsline {subsubsection}{Determining the Universally Quantified Variables for a Formula }{65}{section*.193}
+\contentsline {subsection}{\numberline {4.4.3}Universals in EYE}{66}{subsection.194}
+\contentsline {subsection}{\numberline {4.4.4}Generation of the translation}{67}{subsection.196}
+\contentsline {section}{\numberline {4.5}N3, N3 Core Logic and other frameworks}{70}{section.198}
+\contentsline {subsection}{\numberline {4.5.1}{N\oldstylenums 3}\xspace Semantics}{70}{subsection.199}
+\contentsline {subsubsection}{Grounding function}{71}{section*.200}
+\contentsline {subsubsection}{Cited formulas}{71}{section*.201}
+\contentsline {subsection}{\numberline {4.5.2}Mappings from Representations to Core Logics}{72}{subsection.202}
+\contentsline {section}{\numberline {4.6}Conclusion}{72}{section.203}
+\contentsline {chapter}{\numberline {5}The impact of having different N3 interpretations}{75}{chapter.204}
+\contentsline {section}{\numberline {5.1}Implementing the attribute grammar}{75}{section.205}
+\contentsline {section}{\numberline {5.2}Representative datasets}{76}{section.206}
+\contentsline {section}{\numberline {5.3}Critical formulas}{77}{section.207}
+\contentsline {subsection}{\numberline {5.3.1}Proofs}{78}{subsection.209}
+\contentsline {subsection}{\numberline {5.3.2}Built-ins}{79}{subsection.219}
+\contentsline {subsection}{\numberline {5.3.3}Nesting}{80}{subsection.254}
+\contentsline {subsection}{\numberline {5.3.4}Distribution of Cases}{81}{subsection.255}
+\contentsline {subsubsection}{Disagreements per Formula Type}{82}{section*.257}
+\contentsline {subsubsection}{Categorisation of Errors}{84}{section*.259}
+\contentsline {section}{\numberline {5.4}Possible solutions}{86}{section.262}
+\contentsline {subsection}{\numberline {5.4.1}Avoiding Conflicts in Practical Cases}{87}{subsection.263}
+\contentsline {subsubsection}{EYE formulas interpreted by Cwm}{87}{section*.264}
+\contentsline {subsubsection}{Cwm formulas interpreted by EYE}{88}{section*.265}
+\contentsline {subsection}{\numberline {5.4.2}Definition of a Standard}{88}{subsection.266}
+\contentsline {subsubsection}{Semantics with Nested Universal Quantifiers}{89}{section*.267}
+\contentsline {subsubsection}{Semantics with Quantification on Top Level}{89}{section*.268}
+\contentsline {subsubsection}{Exclude Implicit Universal Quantification}{90}{section*.269}
+\contentsline {section}{\numberline {5.5}Conclusion}{90}{section.270}
+\contentsline {chapter}{\numberline {6}Querying and ontology reasoning with Notation3 Logic}{93}{chapter.271}
+\contentsline {section}{\numberline {6.1}Use case 1: Semantic nurse call system}{94}{section.274}
+\contentsline {subsection}{\numberline {6.1.1}Technical challenges}{94}{subsection.275}
+\contentsline {subsection}{\numberline {6.1.2}Benefits of a semantic approach}{95}{subsection.276}
+\contentsline {subsection}{\numberline {6.1.3}Performing OWL RL reasoning with {N\oldstylenums 3}\xspace }{96}{subsection.277}
+\contentsline {subsection}{\numberline {6.1.4}Decision trees}{97}{subsection.287}
+\contentsline {subsection}{\numberline {6.1.5}Improving performance by pre-producing TBox-rules}{100}{subsection.323}
+\contentsline {subsubsection}{Grounding the Ontology}{101}{section*.327}
+\contentsline {subsubsection}{Translation Step}{102}{section*.345}
+\contentsline {subsection}{\numberline {6.1.6}Evaluation}{104}{subsection.360}
+\contentsline {subsubsection}{Ontology and Data}{104}{section*.361}
+\contentsline {subsubsection}{Test scenario}{105}{section*.362}
+\contentsline {subsubsection}{Results}{105}{section*.371}
+\contentsline {subsection}{\numberline {6.1.7}Discussion}{106}{subsection.374}
+\contentsline {section}{\numberline {6.2}Use case 2: Data validation}{107}{section.375}
+\contentsline {subsection}{\numberline {6.2.1}An overview of RDF\xspace validation}{109}{subsection.376}
+\contentsline {subsection}{\numberline {6.2.2}RDF\xspace Validation Constraints}{110}{subsection.377}
+\contentsline {subsection}{\numberline {6.2.3}Features required for Validation}{110}{subsection.379}
+\contentsline {subsubsection}{Reasoning}{112}{section*.380}
+\contentsline {subsubsection}{Scoped Negation as Failure}{113}{section*.384}
+\contentsline {subsubsection}{Predicates for Name Comparison}{114}{section*.387}
+\contentsline {subsubsection}{RIF Built-ins}{115}{section*.390}
+\contentsline {subsection}{\numberline {6.2.4}Validation with N{\oldstylenums 3}Logic\xspace }{116}{subsection.393}
+\contentsline {subsubsection}{Expressing Constraints}{117}{section*.394}
+\contentsline {subsubsection}{Constraint Rules}{118}{section*.407}
+\contentsline {subsubsection}{Generating constraint descriptions}{120}{section*.435}
+\contentsline {subsection}{\numberline {6.2.5}Evaluation}{121}{subsection.465}
+\contentsline {subsubsection}{Accuracy}{121}{section*.466}
+\contentsline {subsubsection}{Performance}{123}{section*.468}
+\contentsline {subsection}{\numberline {6.2.6}Discussion}{123}{subsection.470}
+\contentsline {section}{\numberline {6.3}Conclusion}{125}{section.471}
+\contentsline {chapter}{\numberline {7}Proofs in N3}{129}{chapter.472}
+\contentsline {section}{\numberline {7.1}Simple formulas}{130}{section.473}
+\contentsline {section}{\numberline {7.2}The direct semantics of N3}{133}{section.477}
+\contentsline {section}{\numberline {7.3}A proof calculus for N3}{137}{section.494}
+\contentsline {section}{\numberline {7.4}The proof vocabulary}{139}{section.506}
+\contentsline {section}{\numberline {7.5}Conclusion}{142}{section.543}
+\contentsline {chapter}{\numberline {8}Applications of proofs: Adaptive planning}{145}{chapter.544}
+\contentsline {section}{\numberline {8.1}Hypermedia APIs and their semantic descriptions}{146}{section.545}
+\contentsline {section}{\numberline {8.2}Describing Hypermedia APIs with RESTdesc\xspace }{147}{section.546}
+\contentsline {subsection}{\numberline {8.2.1}Example Use Case}{147}{subsection.547}
+\contentsline {subsection}{\numberline {8.2.2}RESTdesc\xspace Descriptions}{148}{subsection.548}
+\contentsline {section}{\numberline {8.3}Proofs as plans}{153}{section.591}
+\contentsline {subsection}{\numberline {8.3.1}Composition problems}{153}{subsection.592}
+\contentsline {subsection}{\numberline {8.3.2}Pre-proofs versus Post-proofs}{154}{subsection.594}
+\contentsline {subsection}{\numberline {8.3.3}Hypermedia API Operations inside a~Proof}{156}{subsection.656}
+\contentsline {paragraph}{\bfseries Overview}{156}{section*.657}
+\contentsline {paragraph}{\bfseries Extractions and inferences}{156}{section*.658}
+\contentsline {paragraph}{\bfseries Filter rule}{158}{section*.659}
+\contentsline {paragraph}{\bfseries Thumbnail operation}{158}{section*.660}
+\contentsline {paragraph}{\bfseries Upload operation}{158}{section*.661}
+\contentsline {paragraph}{\bfseries From start to end}{158}{section*.662}
+\contentsline {section}{\numberline {8.4}Hypermedia-driven Composition Generation and Execution}{161}{section.664}
+\contentsline {subsection}{\numberline {8.4.1}Goal-oriented Composition Generation}{161}{subsection.665}
+\contentsline {subsection}{\numberline {8.4.2}Hypermedia-driven Execution}{163}{subsection.666}
+\contentsline {section}{\numberline {8.5}Limits of the approach}{166}{section.684}
+\contentsline {subsection}{\numberline {8.5.1}Existential rules}{166}{subsection.685}
+\contentsline {subsection}{\numberline {8.5.2}Choices}{167}{subsection.686}
+\contentsline {subsection}{\numberline {8.5.3}Change}{168}{subsection.687}
+\contentsline {section}{\numberline {8.6}Proofs for Source Selection}{168}{section.688}
+\contentsline {subsection}{\numberline {8.6.1}Use case}{169}{subsection.689}
+\contentsline {subsection}{\numberline {8.6.2}Implementation}{171}{subsection.692}
+\contentsline {subsubsection}{Description of context}{171}{section*.693}
+\contentsline {subsubsection}{Ontology reasoning}{172}{section*.709}
+\contentsline {subsubsection}{Sensor queries}{174}{section*.736}
+\contentsline {subsubsection}{Goal}{175}{section*.773}
+\contentsline {subsubsection}{Making use of proofs}{176}{section*.775}
+\contentsline {subsection}{\numberline {8.6.3}Streams in the Semantic Web}{178}{subsection.828}
+\contentsline {subsection}{\numberline {8.6.4}SENSdesc and RESTdesc}{178}{subsection.829}
+\contentsline {section}{\numberline {8.7}Conclusion}{179}{section.830}
+\contentsline {chapter}{\numberline {9}Conclusions}{181}{chapter.831}
+\contentsline {section}{\numberline {9.1}Review of the research questions}{182}{section.832}
+\contentsline {section}{\numberline {9.2}Open challenges and future directions}{187}{section.833}
+\contentsline {chapter}{Appendices}{189}{section*.834}
+\contentsline {chapter}{\numberline {A}Problems in Cwm}{191}{Appendix.835}
+\contentsline {chapter}{\numberline {B}Attributes and Methods for Evaluation}{193}{Appendix.861}
+\contentsline {section}{\numberline {B.1}Critical Built-in Constructs}{193}{section.862}
+\contentsline {section}{\numberline {B.2}Nested Universals}{195}{section.864}
+\contentsline {chapter}{Bibliography}{199}{chapter*.866}

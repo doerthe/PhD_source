@@ -1,0 +1,221 @@
+\section{N3 Core Logic and other frameworks}\label{relwork} 
+By defining N3 Core Logic and formalising two mappings from \nthree syntax to that formalism we provided two possible definitions of \nthree's semantics. 
+We want to close this chapter by putting our work %this \nthree Core Logic and the mechanism used 
+into context. We first take a look to logics which influenced the definition or are related to \nthree Core logic and then discuss work related to the mapping mechanism we used.
+% 
+% Our related work section consists of three parts: In the first part we discuss sources that we used to determine the semantics of \nthree logic and logical frameworks 
+% which are related to \nthree in general. 
+% Next, we have a broader look into logics that support implicit quantification.
+% The third part discusses
+% our methodology which is very similar to the techniques employed to define the semantics of programming languages.
+% 
+% 
+
+\subsection{\nthree Semantics}
+When defining the semantics of \nthree we took several other logics into accont. The most important ones -- \rdf and FOL -- have already been discussed earlier and
+we therefore do not got into their particular details here. %However, to give a complete picture, we briefly list the most important differen 
+
+\todo{differences to \rdf: lists, false, no grounding first.}
+
+% Here we elaborate, firstly, which sources have been used to determine the semantics of \nthreelogic as presented in this paper, secondly, 
+% the relation of \nthree, \rdf and extensions of \rdf to express rules or citations, 
+% and, thirdly, logics with cited formulas in general.
+% \subsubsection{Determining the meaning of \nthree formulas}
+% To determine the intended meaning of \nthree and formalise it in this paper we made use of several sources: 
+% In 2008  a paper about 
+% \notationthree Logic was published~\cite{N3Logic}. 
+% %\rv{nah, the Web version on Tim's website predates this, and why would a webpage by Tim be less official? https://www.w3.org/DesignIssues/N3Resources}
+% The paper discusses in an informal way the basic concepts of \nthree such as citations of formulas, rules, and the use of variables. Further informal specifications for \nthree 
+% are given by %two sources in the Web:
+% the \wwwc team submission~\cite{Notation3} and a Web page to explain design issues of the Web~\cite{Notation32}.
+% Both Web pages provide 
+% insight in the semantics of \nthree by explaining examples, a formal definition is not given.
+% % \footnote{
+% % In some cases this last source is inconsistent with the other two sources mentioned here. Given that the design issues page is the oldest source, 
+% % we used it in cases where more explanation of the design decisions were needed.} 
+% While the \wwwc team submission is consistent with the paper, the oldest source, the Web page about design issues, sometimes
+% conflicts with the more recent sources.%
+% % The interpretation of some concepts has changed since the design Web page was written and 
+% % conflicts
+% % with the two other sources we used.
+% \footnote{As an example take the concept of equality: in the beginning \nthree followed the unique name assumption which was later discarded and only remained in \nthree's 
+% the built-in \texttt{log:equalTo}. General equality follows the idea of the OWL-concept \texttt{owl:sameAs}.
+% } 
+% Therefore it has only been taken into account when further explanation was needed.
+% %
+% Despite the differences described above, the implementations of the reasoners Cwm~\cite{cwm} and EYE~\cite{eye} give an indication how \nthree can be 
+% understood. 
+% Tests as for example 
+% described in 
+% our previous paper~\cite{arndt_ruleml_2015} were performed on these reasoners. 
+% In case of doubt how an interpretation needs to be or at least is intended to be in a reasoner, questions were sent to the Cwm mailing 
+% list\footnote{\url{https://lists.w3.org/Archives/Public/public-cwm-talk/}}
+% or asked in personal communication.\footnote{The co-author Ruben Verborgh spent the time from July till September 2017 at the Massachusetts Institute of Technology where
+% he worked with Tim Berners-Lee who developed the Cwm reasoner.}\footnote{Co-author Jos De Roo develops the EYE reasoner.}
+
+\subsubsection{\rdf}
+
+
+% 
+% The semantics of the core logic is influenced by the specification of
+% \rdf semantics~\cite{RDFSemantics}. As \notationthree is meant to be an extension of \rdf the direct semantics described in our previous paper~\cite{arndt_ruleml_2015} as well as 
+% the elaboration semantics in the present paper are designed to be compatible with \rdf. 
+% Similarly to \nthree, \rdf does not have a strict distinction between resources and properties. The same \uri can be used in subject and in predicate position.
+% to denominate both, a triple
+% \[
+% \texttt{ :a :a :a.}
+% \]
+% is valid.
+% To interpret a constant the interpretation functions (IS and IL) first map the constant to a corresponding element in the domain of discourse,
+% consisting of the non disjoint sets of resources (IR) and properties (IP).
+% A second mapping ($\text{IEXT}:\text{IP}\rightarrow 2^{\text{IR}\times\text{IR}}$) from the set of properties into the power-set of pairs of resources is then used to determine the meaning of the predicates. 
+%A triple containing a blank node is true if there exists a mapping from this blank node into the domain of discourse such that the triple is true.
+% This approach is similar to our interpretation functions for core logic
+% presented in Section~\ref{core} where we have a predicate and an object function to find the interpretation of a ground formula.
+A difference between both formalisations is present when it comes to the handling of implicitly quantified variables: 
+In \rdf semantics a mapping (A) from the set of blank nodes to the universe of discourse and not to the set of ground terms is used 
+to model the implicit existential quantification expressed by a blank node.
+%Since \nthree allows variables in predicate position, 
+%we ground variables first before using these functions while existentials in \rdf are mapped directly into the set of resources. 
+Another difference
+between the two specifications can be found in the handling of lists: Lists denoted by the \texttt{()}-notation 
+are considered to be first-class citizens of \nthree~\cite{Notation3}. In \rdf this notation 
+is a short cut of the first-rest notation 
+using blank nodes. Therefore, our core logic specifically deals with lists while in \rdf the meaning of the first-rest predicates is covered instead. 
+To support the definitions of \rdf semantics in core logic, rules can be used~\cite[p.6f]{N3Logic}. The predicates \texttt{rdf:first} and \texttt{rdf:rest} are handled as built-in functions in \nthree. 
+
+\subsubsection{Rules for \rdf}
+Next to \nthreelogic there are other proposals to add rules to \rdf. The Rule Interchange Format (RIF)~\cite{rif} is a \wwwc standard which was designed to enable the exchange of rules in the Web.
+Following that purpose, RIF consists of multiple dialects with sometimes 
+conflicting model-theoretic semantics (eg well-founded vs stable semantics) or even with no model-theoretic semantics at all: 
+for the RIF Production Rule Dialect (RIF-PRD)~\cite{rifprd} only operational semantics is defined.
+To put a logic into the context of RIF and enable exchange, RIF provides the RIF Framework for Logic Dialects  
+(RIF-FLD)~\cite{riffld} with some basic semantic definitions which can be extended to fully define the semantics of a rule-based logic.
+The interaction of RIF with \rdf is described in an extra document \cite{rifrdf}. RIF rules act on top of \rdf and incorporate triples by using so-called frames. 
+These frames only act on the structure of
+the triples, the semantics of 
+the existing RIF dialects is separated from \rdf semantics but can be aligned. 
+This separation between the two semantics is also the reason why we did not choose RIF as a formalism to define the semantics of \nthreelogic.
+The idea of \nthreelogic is to naturally extend \rdf by rules and citations. A separation between predicates and constructs of the rule language on the one hand and the 
+well-defined semantics of \rdf on the other hand contradicts that goal. 
+
+Another framework to express rules over \rdf triples is the SPARQL Inference Notation (SPIN)~\cite{spin}. As the name indicates, SPIN is defined on top of the Semantic Web query language SPARQL and
+uses the SPARQL query option CONSTRUCT to express rules. The difference between SPARQL and SPIN is that the latter employs \rdf to express rules. The semantics of SPIN is inherited
+from SPARQL and thereby -- as in RIF -- separated from the semantics of \rdf. In the case of SPIN, this separation is rather problematic: As \rdf does not support the use of SPARQL's query variables,
+SPIN employs blank nodes instead. In \rdf these blank nodes are understood as implicitly existentially quantified on top level while the query variable of a SPARQL CONSTRUCT query rather works as a
+universally quantified variable with its quantifier on top level. Therefore the semantics of SPIN and \rdf documents is not fully compatible while both follow the same structure.
+
+% SPIN no own semantics, inherits semantics from SPARQL which is not compatible with \rdf. Spin itself uses blank nodes to represent query variables.
+% In the SPARQL Inference Notation (SPIN)~\cite{spin}, query variables of SPARQL are represented as blank nodes. Even though, SPIN was designed to represent SPARQL queries in \rdf and should therefore
+% make use of \rdf{}'s semantics, the meaning 
+% of blank nodes in SPIN differs from conventional \rdf since these need in that context to be understood as universally quantified variables quantified, just as in SPARQL, with their quantifier on top level.  
+% 
+
+The Semantic Web Rule Language (SWRL)~\cite{swrl} 
+was developed as an extension for the subset OWL DL of the Web Ontology Language (OWL)~\cite{owlold}
+and is also compatible with its successor OWL 2 \cite{owl} when following its direct semantics \cite{owldsem}.
+Even though this flavour of OWL can be expressed using an \rdf notation it is not fully compatible with \rdf. The direct semantics of OWL ignores, for example, 
+\rdf's blank nodes and does 
+not understand them as existentially quantified. Furthermore, the expressivity of SWRL is limited to a DL-safe variant of Datalog and does therefore not support nested rules.
+For these reasons SWRL was not taken into account when the semantics of our core logic was developed. 
+
+\subsubsection{Grounding function}
+The idea of grounding quantified variables instead of directly mapping them to the domain of discourse using a validation function is inspired by Herbrand semantics~\cite{herbrandLogic}.
+In Herbrand semantics the set of all ground terms forms the domain of discourse. This is different to our approach where we still have a separated domain of discourse. The relation
+between first order logic with its classical Tarskian semantics and Herbrand semantics is further discussed in a companion paper to the source mentioned above \cite{herbrand}.
+Every entailment under the classical Tarskian semantics of first order logic is also true under Herbrand semantics. But there are also differences: since 
+the existential quantifier only refers to ground terms of the language and cannot be assigned to a nameless element of the domain of discourse, 
+it is easy to use negation to construct a counter example for 
+the compactness theorem in
+Herbrand semantics. How the results of Herbrand semantics can be applied to our core logic is subject to further research.
+
+
+\subsubsection{Cited formulas}
+% The citation of \rdf formulas in an \rdf graph as present in \nthreelogic has recently been proposed in another \rdf extension, \rdf{}*~\cite{rdfstarposter}. 
+% \rdf{}* allows users to annotate triples in a similar way as in \nthree -- a syntactic difference is that the symbols '$<<$' and  '$>>$' are 
+% used to cite graphs instead of '$\{$' and '$\}$'-- and to then search for such patterns using the query language SPARQL*, an extension of SPARQL. 
+% The semantics of \rdf{}* and SPARQL* is discussed in an extra paper \cite{rdfstar}. In the case of \rdf{}* cited triples are reduced to \rdf reification.  The problem with this approach is that
+% the semantics of the
+% latter is not clearly defined either (see \cite[Appendix D]{RDFSemantics}). We could therefore not base or align the semantics of our core logic with \rdf{}* in its current form. 
+% Nevertheless, we expect that further research on \rdf{}* will address that problem 
+% and enable \nthreelogic and \rdf{}* to mutually benefit from each other. % and % us to benefit from  align our own definitions with this \todo{finish}
+
+The development of \nthreelogic has furthermore been influenced by the Knowledge Interchange Format (KIF)~\cite{kif} and the related ISO standard Common Logic (CL)~\cite{ICL}
+which are both influenced by McCarthy's Logic of context~\cite{mccarthy}. 
+Both support,
+such as \nthree, quantified variables in predicate position and the citation of formulas. Their mechanisms to handle the former is similar to \rdf: 
+variables get mapped to resources of the domain of discourse. If resources are used as properties a second mapping interprets these properties. Both formalisms support universal and
+existential quantification. A difference between them is, that in KIF the set of variables is disjoint from the set of constants 
+while CL, similar to \nthree for explicit 
+quantification (see Section~\ref{remarkExplicitQuantification}), does not distinguish between variable names and constants. As a consequence, variables cannot occur freely
+in CL formulas. Free variables in KIF are universally bound on top level.
+%
+Similar as it is done in core logic, cited formulas in KIF and in CL are interpreted as single elements of the universe of discourse. 
+For KIF, this is done by mapping them directly to their string representation which in KIF needs to be included in the universe of discourse. In CL, a citation
+is written as a pair of a name and a text (the cited logical formula(s)). This name can then be used in different contexts.  %, similar to the notation of TriG~\cite{TriG} with interpretation 3.3 from the list of possibilities~\cite{TriGsemantics}.
+Both logics also provide a mechanism to relate the quotation to the actual formula they quote. Being out of scope for the work presented here which focusses 
+on implicit quantification, it is also planned to add such a mechanism to our core logic. KIF, CL, but also their predeceasing logic of contexts are the most promising sources 
+for this extension of our formalisation.
+%We also plan to add such a relation to our formalisation of \nthree. 
+%We plan to base our formalisation of this aspect of \nthree on KIF and CL.
+%If such formulas contain variables which are quantified outside the quotation, they get ground by the variable assignments related to that quantifier.
+%A difference to our current version of Core Logic is that they can be
+%A bigger difference between \rdf and \nthree can be found in the handling of lists
+%A difference is, that in our approach, 
+%universal and existential variables are grounded first instead of being directly mapped into the universe of discourse. The reason for that is that, in contrast to \rdf, \nthree 
+%allows variables in predicate position. 
+%By  mapping directly into the possibly uncountable domain of discourse our formalisation could have to deal with the problems 
+%of higher order logic.
+%To not having to deal with higher order logic, we ground thus these variables first to make sure that the set of possible relations 
+%remains countable which would not be the case when doing the former.
+
+
+% does a similar trick: There, one interpretation function maps from the terms into the set of resources (IR) and properties (IP) and a second mapping assigns 
+% a set of resource pairs to all properties. In our case, a resource in the \rdf sense which is not a property, the above mapping $\mathfrak{p}$ would simply map into the empty set.  
+% 
+% 
+% Why did we not use an existing logic as core logic?
+% 
+
+
+% Our related work section is divided in three parts; 
+% we start by explaining relevant material available about N3Logic, followed by an introduction to 
+% \nthree-reasoners and finally a part 
+% explaining other logics supporting implicit quantification.
+
+
+%\subsubsection{Notation3 Reasoners}
+%\nthreelogic has been implemented by several reasoners such as FuXi \cite{fuxi}, EYE \cite{eyepaper} or cwm \cite{cwm}.
+
+% The reasoning engines which support N3Logic such as FuXi, cwm or EYE
+% do not give a model-theoretic definition of the semantics,
+% but as they implement such a definition, they %provide 
+% provide an important input when it comes to the question of how uncertainties in the current informal 
+% definition can be resolved. 
+% FuXi \cite{fuxi} is a forward-chaining production system for Notation3 whose reasoning is based on the RETE algorithm. To ensure decidability, FuXi only supports a subset of Notation3, 
+% \nthree-Datalog. 
+% The forward-chaining cwm \cite{cwm} reasoner 
+% is a general-purpose data processing tool which can be used for querying, checking, transforming 
+% and filtering information.
+% As the first of its kind, this \nthree reasoner was used to test the implementation of most of the language's concepts.  
+% The reasoner therefore supports a major part of the logic.
+% EYE \cite{eye} is a high performance reasoner enhanced with Euler path detection. It supports both
+% backward and 
+% forward 
+% reasoning.  
+% In its coverage of \nthree it is comparable to cwm, 
+%  but it also supports additional concepts not mentioned in the language's specification, such as .
+% As this last aspect, the covered extent of the language---especially regarding implicit quantification---is most important for this paper, 
+% we use the last two reasoners mentioned for our observations.
+%Got the recommendation (but not sure yet whether I will use it) for dynamic predicate logic \cite{dynamiclogic}.
+
+%KIF seems to have citation of formulas, will have to check \cite{kif}.
+%There is an article about the semantics of sequence variables in KIF \cite{skif}.
+
+%Iso Common Logic~\cite{commonlogic}. 
+
+
+
+%Maybe mention somewhere the two semantics of OWL. RDF based semantics is for owl full and includes rdf. Direct semantics has restrictions.
+
+%Paper that maps \rdf to another logic, namely F-Logic \cite{erdf}. Problem: \rdf has a semantics, the mapping is more to show properties of \rdf. I think I won't cite it.

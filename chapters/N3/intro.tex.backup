@@ -1,0 +1,48 @@
+
+
+
+
+
+
+
+
+
+
+%When introducing \nthreelogic in Section~\ref{n3examples} we also
+% In Section~\ref{n3examples}  we already briefly introduced \nthreelogic by discussing several examples and their intended meaning. We furthermore explained 
+% that this \emph{intended meaning} 
+% is problematic:
+The semantics of \nthreelogic is only defined in an informal way by the \wwwc team submission~\cite{Notation3} and a journal paper~\cite{N3Logic}. 
+This leaves room for interpretation and it actually leads to contradicting implementations. 
+In this chapter, we take a closer look to this problem and its possible solutions. % and the related \hyperlink{rq2}{Research Question 2}.
+%We first briefly discuss the semantics of \rdf, the logic \nthree extends, and have a look at possible challenges
+%In order to answer  and test \hyperlink{h2}{Hypothesis 2} we create several test cases .  
+We first collect evidence %for this problem 
+by giving concrete example formulas which, when given to the reasoners Cwm~\cite{cwm} and EYE~\cite{eye}, lead to different results. 
+The discrepancies we encounter are mainly related to 
+implicit quantification: \nthree allows the use of quantified variables whose universal or existential quantifier is not explicitly stated but implicitly assumed.
+% Having understood this difficulty To understand how such a concept can be formalised, we discuss other frameworks which support implicit quantification and their semantics. Here we especially 
+% focus on \rdf, the logic which is extended by \nthree: blank node in \rdf are understood as implicitly existentially quantified.
+The problem can be solved by providing a formalisation which clearly indicates how implicit quantification needs to be interpreted. To better understand how such a formalisation 
+could look like we discuss different logics supporting some kind of implicit quantification, in particular \rdf and other formats related to the Semantic Web, and discuss
+in which aspects they differ 
+from \nthree.
+
+% We encounter similar concepts in other logics and especially in 
+% %Similar concepts can be found in other logics, in particular in 
+% \rdf where blank nodes are understood as implicitly existentially quantified. 
+% % To better understand how implicit quantification can be handled in a formal model a closer look to \rdf semantics and the conclude this section
+% % by discussing implicit quantification in general.
+% In order to find a way to formally describe the semantics of \nthree we take a closer look to \rdf{}'s semantics and implicit quantification 
+% 
+
+
+% To put our observations into context, we then discuss how the concept of implicit quantification is handled in related contexts. In particular we give an overview of 
+% \rdf semantics and 
+% To formalise the difference in the interpretations of implicit quantification, we define a core logic for \nthree which is very close to the original 
+% but only allows explicit quantification. 
+% One part of such implicitly quantified variables are also present in the logic \nthree is based on: \rdf understands blank nodes as existentially quantified variables.
+% To better understand how the semantics of a language can deal with implicit quantification we next take a look into \rdf semantics
+%This chapter is partly based on the following papers: 
+
+%\basedpapers{arndt_ruleml_2015}.

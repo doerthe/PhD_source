@@ -221,98 +221,90 @@ focusing in particular on the improved rules themselves and
 give an outlook to future work in \cref{conc}.
 
 
-\subsection{Related Work}\label{relwork}
+% \subsection{Related Work}\label{relwork}
+% 
+% 
+% Traditionally, reasoning over OWL ontologies was performed by description logic based reasoners using (variants of) the tableaux algorithm.
+% Prominent examples of such reasoners are Pellet \cite{Pellet} and HermiT \cite{hermit}. 
+% Both support---as others of their kind---the full OWL DL profile. The expressiveness of this profile and the complexity of the related reasoning,
+% make these reasoners perform rather slow in comparison with, for example, rule-based reasoners. The OWL 2 profiles \cite{OWLRL} aim to overcome this gap 
+% by defining less expressive
+% but still powerful subsets of OWL DL. One of these profiles is OWL RL, which was designed to enable rule-based reasoners to cope with OWL ontologies. 
+% Various implementations make use of 
+% the OWL 2 RL/\rdf rules as proposed in the specification, among them
+%  OWLim \cite{owlim} and Oracle's RDF Semantic Graph \cite{oracle}. 
+% As most other implementations we are aware of, these reasoners support their own rule format, 
+% and optimizations are done internally using
+% the underlying programming language. 
+% We propose an optimization which can be done in the logic itself by performing an extra reasoning step.
+% We are thereby independent of a specific reasoner.
+% 
+%  
+%  
+% Notation3 Logic (\nthree) was introduced in 2008 by Tim Berners-Lee et al. \cite{N3Logic}.
+% It forms a superset of \rdf and extends the \rdf data model by formulas (graphs), functional predicates, universal variables and logical operators, in particular
+% the implication operator. Rules in \nthree can not only be applied to derive new \rdf triples, it is also possible to write and apply rules with new rules in 
+% their consequence, and thus to derive new rules. It is exactly this property which made us opt for using \nthree instead of other 
+% rule formats like, e.g., SWRL \cite{swrl}.
+% 
+% There are several reasoners supporting \nthree:
+% FuXi \cite{fuxi} is a forward-chaining production system for Notation3 whose reasoning is based on the RETE algorithm. 
+% The forward-chaining cwm \cite{cwm} reasoner 
+% is a general-purpose data processing tool which can be used for querying, checking, transforming 
+% and filtering information.
+% EYE \cite{eyepaper} is a reasoner which is enhanced with Euler path detection. 
+% It supports 
+% backward and 
+% forward 
+% reasoning and also a user-defined mixture of both. 
+% Amongst its 
+% numerous features are the option to skolemize blank nodes
+% and  the possibility to produce and reuse proofs for further reasoning. 
+% The reason why we use EYE in our implementation is its high performance. 
+% Existing benchmarks and results are listed in the above-mentioned paper \cite{eyepaper} and on the EYE website \cite{eye}.
+% 
 
-
-Traditionally, reasoning over OWL ontologies was performed by description logic based reasoners using (variants of) the tableaux algorithm.
-Prominent examples of such reasoners are Pellet \cite{Pellet} and HermiT \cite{hermit}. 
-Both support---as others of their kind---the full OWL DL profile. The expressiveness of this profile and the complexity of the related reasoning,
-make these reasoners perform rather slow in comparison with, for example, rule-based reasoners. The OWL 2 profiles \cite{OWLRL} aim to overcome this gap 
-by defining less expressive
-but still powerful subsets of OWL DL. One of these profiles is OWL RL, which was designed to enable rule-based reasoners to cope with OWL ontologies. 
-Various implementations make use of 
-the OWL 2 RL/\rdf rules as proposed in the specification, among them
- OWLim \cite{owlim} and Oracle's RDF Semantic Graph \cite{oracle}. 
-As most other implementations we are aware of, these reasoners support their own rule format, 
-and optimizations are done internally using
-the underlying programming language. 
-We propose an optimization which can be done in the logic itself by performing an extra reasoning step.
-We are thereby independent of a specific reasoner.
 
  
- 
-Notation3 Logic (\nthree) was introduced in 2008 by Tim Berners-Lee et al. \cite{N3Logic}.
-It forms a superset of \rdf and extends the \rdf data model by formulas (graphs), functional predicates, universal variables and logical operators, in particular
-the implication operator. Rules in \nthree can not only be applied to derive new \rdf triples, it is also possible to write and apply rules with new rules in 
-their consequence, and thus to derive new rules. It is exactly this property which made us opt for using \nthree instead of other 
-rule formats like, e.g., SWRL \cite{swrl}.
 
-There are several reasoners supporting \nthree:
-FuXi \cite{fuxi} is a forward-chaining production system for Notation3 whose reasoning is based on the RETE algorithm. 
-The forward-chaining cwm \cite{cwm} reasoner 
-is a general-purpose data processing tool which can be used for querying, checking, transforming 
-and filtering information.
-EYE \cite{eyepaper} is a reasoner which is enhanced with Euler path detection. 
-It supports 
-backward and 
-forward 
-reasoning and also a user-defined mixture of both. 
-Amongst its 
-numerous features are the option to skolemize blank nodes
-and  the possibility to produce and reuse proofs for further reasoning. 
-The reason why we use EYE in our implementation is its high performance. 
-Existing benchmarks and results are listed in the above-mentioned paper \cite{eyepaper} and on the EYE website \cite{eye}.
-
-
-
- 
-
-\subsection{Use Case}\label{usecase}
-Our use case is a nurse call system in a hospital.
-The system is aware of certain details about personnel and patients represented in an OWL ontology.
-Such information can include: personal skills of a staff member, staff competences, patient information, special patient needs, and/or the 
-personal relationship between staff members and patients. 
-Furthermore, there is dynamic information available, for example, the current location of staff members and their status (busy or free). 
-When a call is made, the nurse
-call system should be able to assign the best staff member to answer that call. The definition of this ``best'' person
-varies between hospitals and can be quite complex. 
-The system additionally controls different devices. If for example staff members enter a room with a patient, 
-a light should be switched on; if they log into the room's terminal, they should have access to the medical lockers in the room. 
-The event-driven reasoning system for this use case has to fulfill certain requirements.
-\begin{description}
-\item[scalability] It should cope with data sets ranging from 1000 to 100,000 relevant triples (i.e., triples necessary to be included for the reasoning to be correct). 
-Especially in bigger hospitals the number of staff members and patients and thereby also the amount of available information about those can be quite big. 
-It is not always possible to divide this knowledge into smaller independent chunks as this data is normally full of mutual dependencies. 
-\item[functional complexity] It should implement deterministic decision trees with varying complexities. The reasons to assign a nurse to 
-a certain patient can be as manifold as the data. Previous work has shown that this complexity is not only theoretically possible but also desired by the 
-parties interested in such a semantic system~\cite{accioont}.
-\item[configuration] It should support the ability to change these decision trees at configuration time. Different hospitals have different 
-requirements and even in one single hospital those requirements 
-can easily change due to e.g., an increase of available information or a simple change in the hospital's organizational concepts or philosophy.
-\item[real-time] It should return a response within 5 seconds to any given event. Especially in such a delicate sector as patient care, seconds can make a difference. 
-Even though a semantic nurse call system will not typically be employed to assign urgent emergency calls  through complex decision trees, 
-a patient should not wait too long till his possibly pressing request is answered.
-\end{description}
-The functional complexity requirement together with the configuration constraint motivate 
-the choice of a reasoning system which supports rules as these can be seen as the most natural way to 
-express decision trees. Even though a numerous amount of OWL DL reasoners support at least one rule format, 
-their reasoning is too slow to meet the scalability and the real-time constraint \cite{ORCA}. \todo{that is the paper used for the first part of this section, so remove reference!}
-Therefore, we chose a rule-based solution. 
- 
+% \subsection{Use Case}\label{usecase}
+% Our use case is a nurse call system in a hospital.
+% The system is aware of certain details about personnel and patients represented in an OWL ontology.
+% Such information can include: personal skills of a staff member, staff competences, patient information, special patient needs, and/or the 
+% personal relationship between staff members and patients. 
+% Furthermore, there is dynamic information available, for example, the current location of staff members and their status (busy or free). 
+% When a call is made, the nurse
+% call system should be able to assign the best staff member to answer that call. The definition of this ``best'' person
+% varies between hospitals and can be quite complex. 
+% The system additionally controls different devices. If for example staff members enter a room with a patient, 
+% a light should be switched on; if they log into the room's terminal, they should have access to the medical lockers in the room. 
+% The event-driven reasoning system for this use case has to fulfill certain requirements.
+% \begin{description}
+% \item[scalability] It should cope with data sets ranging from 1000 to 100,000 relevant triples (i.e., triples necessary to be included for the reasoning to be correct). 
+% Especially in bigger hospitals the number of staff members and patients and thereby also the amount of available information about those can be quite big. 
+% It is not always possible to divide this knowledge into smaller independent chunks as this data is normally full of mutual dependencies. 
+% \item[functional complexity] It should implement deterministic decision trees with varying complexities. The reasons to assign a nurse to 
+% a certain patient can be as manifold as the data. Previous work has shown that this complexity is not only theoretically possible but also desired by the 
+% parties interested in such a semantic system~\cite{accioont}.
+% \item[configuration] It should support the ability to change these decision trees at configuration time. Different hospitals have different 
+% requirements and even in one single hospital those requirements 
+% can easily change due to e.g., an increase of available information or a simple change in the hospital's organizational concepts or philosophy.
+% \item[real-time] It should return a response within 5 seconds to any given event. Especially in such a delicate sector as patient care, seconds can make a difference. 
+% Even though a semantic nurse call system will not typically be employed to assign urgent emergency calls  through complex decision trees, 
+% a patient should not wait too long till his possibly pressing request is answered.
+% \end{description}
+% The functional complexity requirement together with the configuration constraint motivate 
+% the choice of a reasoning system which supports rules as these can be seen as the most natural way to 
+% express decision trees. Even though a numerous amount of OWL DL reasoners support at least one rule format, 
+% their reasoning is too slow to meet the scalability and the real-time constraint \cite{ORCA}. \todo{that is the paper used for the first part of this section, so remove reference!}
+% Therefore, we chose a rule-based solution. 
+%  
 
 \subsection{OWL RL in N3}\label{owlrl}
 \hyphenation{EYE ACCIO}
 
  
- \begin{lstlisting}[
-  float=t,
-  caption={OWL RL rule for \texttt{rdfs:subClassOf} class axiom in N3.},
-  label=lst:subclass]
-§\textcolor{gray}{@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema\#>.}§
-§\textcolor{gray}{@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns\#>.}§
 
-{?C rdfs:subClassOf ?D. ?X a ?C} => {?X a ?D}.
-\end{lstlisting}
 In a first attempt to solve the above-mentioned problem we used a direct translation of OWL 2 RL/\rdf rules as listed on the corresponding website~\cite{OWLRL}. 
 Where possible, we made use of existing N3-translations of these rules as provided by EYE~\cite{EYEowl}. Missing concepts were added. 
 The data was represented using the ACCIO ontology \cite{accioont} which will be further described in section \ref{ont}.

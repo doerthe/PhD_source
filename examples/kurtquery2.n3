@@ -1,0 +1,3 @@
+@prefix : <http://example.org/ex#>.
+
+{:Kurt :knows _:x}=>{:Kurt :knows :someone.}.
